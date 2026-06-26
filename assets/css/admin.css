@@ -78,6 +78,37 @@ body{
     transition:.25s;
 
     min-height:820px;
+    position:relative;
+}
+
+.drag-handle{
+    position:absolute;
+    top:10px;
+    left:10px;
+    z-index:2;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:10px;
+    background:rgba(17,17,17,.7);
+    color:#fff;
+    cursor:grab;
+    font-size:20px;
+    line-height:1;
+    touch-action:none;
+}
+
+.drag-handle:active{
+    cursor:grabbing;
+}
+
+.cast-grid.is-sorting .cast-card{
+    transition:none;
+}
+
+.cast-card.is-dragging{
+    opacity:.55;
+    transform:scale(.98);
 }
 .cast-card img{
     width:100%;

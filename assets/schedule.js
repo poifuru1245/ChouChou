@@ -34,9 +34,20 @@ wrap.innerHTML="";
 const snapshot =
 await getDocs(collection(db,"casts"));
 
+const casts = [];
+
 snapshot.forEach((item)=>{
 
-const cast = item.data();
+casts.push({
+id:item.id,
+...item.data()
+});
+
+});
+
+sortCastsByDisplayOrder(casts);
+
+casts.forEach((cast)=>{
 
 const card =
 document.createElement("div");
@@ -69,7 +80,7 @@ const value =
 card.querySelector(".schedule-input").value;
 
 await updateDoc(
-doc(db,"casts",item.id),
+doc(db,"casts",cast.id),
 {
 schedule:value
 }
@@ -86,3 +97,55 @@ wrap.appendChild(card);
 }
 
 loadSchedule();
+
+function sortCastsByDisplayOrder(casts){
+
+casts.sort((a,b)=>{
+
+const aOrder =
+getNumericDisplayOrder(a);
+
+const bOrder =
+getNumericDisplayOrder(b);
+
+if(
+aOrder !== null &&
+bOrder !== null
+){
+return aOrder - bOrder;
+}
+
+if(aOrder !== null) return -1;
+if(bOrder !== null) return 1;
+
+return String(a.name || "")
+.localeCompare(
+String(b.name || ""),
+"ja"
+);
+
+});
+
+}
+
+function getNumericDisplayOrder(cast){
+
+const order =
+cast?.displayOrder;
+
+if(
+order === undefined ||
+order === null ||
+order === ""
+){
+return null;
+}
+
+const numericOrder =
+Number(order);
+
+return Number.isFinite(numericOrder)
+? numericOrder
+: null;
+
+}

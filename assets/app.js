@@ -239,11 +239,20 @@ async function loadTodayCast() {
 
   try {
     const snapshot = await getDocs(collection(db, "casts"));
+    const casts = [];
 
     wrap.innerHTML = "";
 
     snapshot.forEach((item) => {
-      const cast = item.data();
+      casts.push({
+        id: item.id,
+        ...item.data()
+      });
+    });
+
+    sortCastsByDisplayOrder(casts);
+
+    casts.forEach((cast) => {
 
       if (!cast.schedule) return;
 
@@ -392,6 +401,35 @@ function escapeHtml(value) {
 
 function escapeAttribute(value) {
   return escapeHtml(value).replaceAll("`", "&#096;");
+}
+
+function sortCastsByDisplayOrder(casts) {
+  casts.sort((a, b) => {
+    const aOrder = getNumericDisplayOrder(a);
+    const bOrder = getNumericDisplayOrder(b);
+
+    if (aOrder !== null && bOrder !== null) {
+      return aOrder - bOrder;
+    }
+
+    if (aOrder !== null) return -1;
+    if (bOrder !== null) return 1;
+
+    return String(a.name || "").localeCompare(String(b.name || ""), "ja");
+  });
+}
+
+function getNumericDisplayOrder(cast) {
+  if (
+    cast?.displayOrder === undefined ||
+    cast?.displayOrder === null ||
+    cast?.displayOrder === ""
+  ) {
+    return null;
+  }
+
+  const order = Number(cast?.displayOrder);
+  return Number.isFinite(order) ? order : null;
 }
 
 loadReservations();

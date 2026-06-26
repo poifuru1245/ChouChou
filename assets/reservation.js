@@ -43,6 +43,8 @@ async function loadCasts(){
 
 });
 
+sortCastsByDisplayOrder(castList);
+
 console.log("取得キャスト", castList);
 
 const selects = [
@@ -69,6 +71,58 @@ console.log("select確認", selects);
     });
 
   });
+
+}
+
+function sortCastsByDisplayOrder(casts){
+
+casts.sort((a,b)=>{
+
+const aOrder =
+getNumericDisplayOrder(a);
+
+const bOrder =
+getNumericDisplayOrder(b);
+
+if(
+aOrder !== null &&
+bOrder !== null
+){
+return aOrder - bOrder;
+}
+
+if(aOrder !== null) return -1;
+if(bOrder !== null) return 1;
+
+return String(a.name || "")
+.localeCompare(
+String(b.name || ""),
+"ja"
+);
+
+});
+
+}
+
+function getNumericDisplayOrder(cast){
+
+const order =
+cast?.displayOrder;
+
+if(
+order === undefined ||
+order === null ||
+order === ""
+){
+return null;
+}
+
+const numericOrder =
+Number(order);
+
+return Number.isFinite(numericOrder)
+? numericOrder
+: null;
 
 }
 

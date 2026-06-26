@@ -1,6 +1,6 @@
 // =====================================
 // Chou Chou Cast Manager
-// Version 5.0.0
+// Version 5.1.0
 // =====================================
 
 (async () => {
@@ -40,7 +40,10 @@
   const state = {
     editingId: null,
     currentImage: "",
-    currentImages: []
+    currentImages: [],
+    draggedCard: null,
+    dragPointerId: null,
+    dragStartOrder: []
   };
 
   const elements = {
@@ -93,6 +96,8 @@
         await handleDelete(id, button.dataset.name || "キャスト");
       }
     });
+
+    elements.grid.addEventListener("pointerdown", handleDragStart);
   }
 
   async function loadCasts() {
@@ -110,7 +115,7 @@
         });
       });
 
-      casts.sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "ja"));
+      sortCastsByDisplayOrder(casts);
 
       if (!casts.length) {
         elements.grid.innerHTML = "<p>登録されているキャストはありません。</p>";
@@ -135,11 +140,15 @@
   function createCastCard(cast) {
     const card = document.createElement("div");
     card.className = "cast-card";
+    card.dataset.id = cast.id;
 
     const image = cast.image || "";
     const castJson = encodeURIComponent(JSON.stringify(normalizeCast(cast)));
 
     card.innerHTML = `
+      <button type="button" class="drag-handle" aria-label="並び替え" title="並び替え">
+        ☰
+      </button>
       <img src="${escapeAttribute(image)}" alt="">
       <h3>${escapeHtml(cast.name || "")}</h3>
       <p>${escapeHtml(cast.age || "-")}歳</p>
@@ -166,7 +175,6 @@
     state.editingId = id;
     state.currentImage = cast?.image || "";
     state.currentImages = Array.isArray(cast?.images) ? cast.images : [];
-
     elements.popupTitle.textContent = id ? "キャスト編集" : "キャスト追加";
     elements.name.value = cast?.name || "";
     elements.age.value = cast?.age || "";
@@ -190,7 +198,6 @@
     state.editingId = null;
     state.currentImage = "";
     state.currentImages = [];
-
     elements.name.value = "";
     elements.age.value = "";
     elements.height.value = "";
@@ -237,6 +244,10 @@
         schedule: formData.schedule
       };
 
+      if (!state.editingId) {
+        payload.displayOrder = await getNextDisplayOrder();
+      }
+
       await saveCast(payload);
       await loadCasts();
       closeForm();
@@ -264,6 +275,7 @@
 
     try {
       await deleteDoc(doc(db, COLLECTION_NAME, id));
+      await renumberCasts();
       await loadCasts();
     } catch (error) {
       console.error("キャスト削除失敗", error);
@@ -271,6 +283,173 @@
     } finally {
       setBusy(false);
     }
+  }
+
+  async function getNextDisplayOrder() {
+    const casts = await fetchCasts();
+    const maxOrder = casts.reduce((max, cast) => {
+      const order = getNumericDisplayOrder(cast);
+      return order === null ? max : Math.max(max, order);
+    }, 0);
+
+    return maxOrder + 1;
+  }
+
+  async function fetchCasts() {
+    const snapshot = await getDocs(collection(db, COLLECTION_NAME));
+    const casts = [];
+
+    snapshot.forEach((docSnap) => {
+      casts.push({
+        id: docSnap.id,
+        ...docSnap.data()
+      });
+    });
+
+    return casts;
+  }
+
+  async function renumberCasts(ids = null) {
+    const casts = await fetchCasts();
+    sortCastsByDisplayOrder(casts);
+
+    const orderedIds = ids || casts.map((cast) => cast.id);
+
+    await Promise.all(
+      orderedIds.map((id, index) => {
+        return updateDoc(doc(db, COLLECTION_NAME, id), {
+          displayOrder: index + 1
+        });
+      })
+    );
+  }
+
+  async function saveCurrentOrder() {
+    const orderedIds = [...elements.grid.querySelectorAll(".cast-card")]
+      .map((card) => card.dataset.id)
+      .filter(Boolean);
+
+    if (!orderedIds.length) return;
+
+    setBusy(true);
+
+    try {
+      await renumberCasts(orderedIds);
+      await loadCasts();
+    } catch (error) {
+      console.error("キャスト並び順保存失敗", error);
+      showError("キャストの並び順保存に失敗しました。");
+      await loadCasts();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function handleDragStart(event) {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const handle = target.closest(".drag-handle");
+    if (!handle) return;
+
+    const card = target.closest(".cast-card");
+    if (!card) return;
+
+    event.preventDefault();
+
+    state.draggedCard = card;
+    state.dragPointerId = event.pointerId;
+    state.dragStartOrder = getCurrentCardOrder();
+    card.classList.add("is-dragging");
+    elements.grid.classList.add("is-sorting");
+    handle.setPointerCapture(event.pointerId);
+
+    window.addEventListener("pointermove", handleDragMove);
+    window.addEventListener("pointerup", handleDragEnd);
+    window.addEventListener("pointercancel", handleDragEnd);
+  }
+
+  function handleDragMove(event) {
+    if (!state.draggedCard || state.dragPointerId !== event.pointerId) return;
+
+    event.preventDefault();
+
+    const targetCard = getCardAtPoint(event.clientX, event.clientY);
+
+    if (!targetCard) {
+      moveDraggedCardToGridEdge(event.clientY);
+      return;
+    }
+
+    if (targetCard === state.draggedCard) return;
+
+    const rect = targetCard.getBoundingClientRect();
+    const insertAfter =
+      event.clientY > rect.top + rect.height / 2 ||
+      (event.clientY >= rect.top && event.clientX > rect.left + rect.width / 2);
+
+    elements.grid.insertBefore(
+      state.draggedCard,
+      insertAfter ? targetCard.nextSibling : targetCard
+    );
+  }
+
+  async function handleDragEnd(event) {
+    if (!state.draggedCard || state.dragPointerId !== event.pointerId) return;
+
+    const draggedCard = state.draggedCard;
+
+    draggedCard.classList.remove("is-dragging");
+    elements.grid.classList.remove("is-sorting");
+
+    state.draggedCard = null;
+    state.dragPointerId = null;
+
+    window.removeEventListener("pointermove", handleDragMove);
+    window.removeEventListener("pointerup", handleDragEnd);
+    window.removeEventListener("pointercancel", handleDragEnd);
+
+    const currentOrder = getCurrentCardOrder();
+    const orderChanged = currentOrder.some((id, index) => {
+      return id !== state.dragStartOrder[index];
+    });
+
+    state.dragStartOrder = [];
+
+    if (orderChanged) {
+      await saveCurrentOrder();
+    }
+  }
+
+  function getCardAtPoint(x, y) {
+    const draggedCard = state.draggedCard;
+
+    if (!draggedCard) return null;
+
+    draggedCard.style.visibility = "hidden";
+    const element = document.elementFromPoint(x, y);
+    draggedCard.style.visibility = "";
+
+    return element?.closest?.(".cast-card") || null;
+  }
+
+  function moveDraggedCardToGridEdge(pointerY) {
+    const gridRect = elements.grid.getBoundingClientRect();
+
+    if (pointerY < gridRect.top) {
+      elements.grid.insertBefore(state.draggedCard, elements.grid.firstElementChild);
+      return;
+    }
+
+    if (pointerY > gridRect.bottom) {
+      elements.grid.appendChild(state.draggedCard);
+    }
+  }
+
+  function getCurrentCardOrder() {
+    return [...elements.grid.querySelectorAll(".cast-card")]
+      .map((card) => card.dataset.id)
+      .filter(Boolean);
   }
 
   function collectFormData() {
@@ -383,8 +562,38 @@
       message: cast.message || "",
       image: cast.image || "",
       images: Array.isArray(cast.images) ? cast.images : [],
-      schedule: cast.schedule || ""
+      schedule: cast.schedule || "",
+      displayOrder: getNumericDisplayOrder(cast)
     };
+  }
+
+  function sortCastsByDisplayOrder(casts) {
+    casts.sort((a, b) => {
+      const aOrder = getNumericDisplayOrder(a);
+      const bOrder = getNumericDisplayOrder(b);
+
+      if (aOrder !== null && bOrder !== null) {
+        return aOrder - bOrder;
+      }
+
+      if (aOrder !== null) return -1;
+      if (bOrder !== null) return 1;
+
+      return String(a.name || "").localeCompare(String(b.name || ""), "ja");
+    });
+  }
+
+  function getNumericDisplayOrder(cast) {
+    if (
+      cast?.displayOrder === undefined ||
+      cast?.displayOrder === null ||
+      cast?.displayOrder === ""
+    ) {
+      return null;
+    }
+
+    const order = Number(cast?.displayOrder);
+    return Number.isFinite(order) ? order : null;
   }
 
   function setBusy(isBusy) {

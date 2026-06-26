@@ -65,6 +65,19 @@ console.log("出勤者", todayCasts);
   const snapshot =
     await getDocs(collection(db,"casts"));
 
+  const casts = [];
+
+  snapshot.forEach((docSnap)=>{
+
+    casts.push({
+      id: docSnap.id,
+      ...docSnap.data()
+    });
+
+  });
+
+  sortCastsByDisplayOrder(casts);
+
 console.log("cast.js 起動");
 console.log(document.querySelector(".cast-grid"));
 
@@ -84,9 +97,7 @@ document.querySelector(".cast-grid");
   return;
 }
 
-  snapshot.forEach((docSnap)=>{
-
-    const cast = docSnap.data();
+  casts.forEach((cast)=>{
 
     console.log("判定", cast.name);
 
@@ -143,6 +154,19 @@ async function loadAllCasts(){
 const snapshot =
 await getDocs(collection(db,"casts"));
 
+const casts = [];
+
+snapshot.forEach((docSnap)=>{
+
+casts.push({
+id: docSnap.id,
+...docSnap.data()
+});
+
+});
+
+sortCastsByDisplayOrder(casts);
+
 const list =
 document.querySelector(".all-cast-grid");
 
@@ -150,9 +174,7 @@ if(!list) return;
 
 list.innerHTML = "";
 
-snapshot.forEach((docSnap)=>{
-
-const cast = docSnap.data();
+casts.forEach((cast)=>{
 
 const div =
 document.createElement("div");
@@ -186,3 +208,55 @@ list.appendChild(div);
 }
 
 loadAllCasts();
+
+function sortCastsByDisplayOrder(casts){
+
+casts.sort((a,b)=>{
+
+const aOrder =
+getNumericDisplayOrder(a);
+
+const bOrder =
+getNumericDisplayOrder(b);
+
+if(
+aOrder !== null &&
+bOrder !== null
+){
+return aOrder - bOrder;
+}
+
+if(aOrder !== null) return -1;
+if(bOrder !== null) return 1;
+
+return String(a.name || "")
+.localeCompare(
+String(b.name || ""),
+"ja"
+);
+
+});
+
+}
+
+function getNumericDisplayOrder(cast){
+
+const order =
+cast?.displayOrder;
+
+if(
+order === undefined ||
+order === null ||
+order === ""
+){
+return null;
+}
+
+const numericOrder =
+Number(order);
+
+return Number.isFinite(numericOrder)
+? numericOrder
+: null;
+
+}
