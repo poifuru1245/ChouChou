@@ -1,6 +1,6 @@
 // =====================================
 // Chou Chou Cast Manager
-// Version 5.1.1
+// Version 5.1.2
 // =====================================
 
 (async () => {
@@ -117,6 +117,7 @@
   async function loadCasts() {
     setFormBusy(true);
     elements.grid.innerHTML = "";
+    removeDragHandlesOutsideCastGrid();
 
     try {
       const snapshot = await getDocs(collection(db, COLLECTION_NAME));
@@ -145,6 +146,7 @@
       });
 
       elements.grid.appendChild(fragment);
+      removeDragHandlesOutsideCastGrid();
       state.savedOrder = getCurrentCardOrder();
       setOrderDirty(false);
     } catch (error) {
@@ -202,6 +204,7 @@
     elements.message.value = cast?.message || "";
 
     resetImageInputs();
+    removeDragHandlesOutsideCastGrid();
     elements.popup.style.display = "flex";
     elements.name.focus();
   }
@@ -476,10 +479,10 @@
     if (!(target instanceof HTMLElement)) return;
 
     const handle = target.closest(".drag-handle");
-    if (!handle) return;
+    if (!handle || !elements.grid.contains(handle)) return;
 
     const card = target.closest(".cast-card");
-    if (!card) return;
+    if (!card || !elements.grid.contains(card)) return;
 
     event.preventDefault();
 
@@ -549,7 +552,9 @@
     const element = document.elementFromPoint(x, y);
     draggedCard.style.visibility = "";
 
-    return element?.closest?.(".cast-card") || null;
+    const card = element?.closest?.(".cast-card") || null;
+
+    return card && elements.grid.contains(card) ? card : null;
   }
 
   function moveDraggedCardToGridEdge(pointerY) {
@@ -569,6 +574,14 @@
     return [...elements.grid.querySelectorAll(".cast-card")]
       .map((card) => card.dataset.id)
       .filter(Boolean);
+  }
+
+  function removeDragHandlesOutsideCastGrid() {
+    document.querySelectorAll(".drag-handle").forEach((handle) => {
+      if (!elements.grid.contains(handle)) {
+        handle.remove();
+      }
+    });
   }
 
   function collectFormData() {

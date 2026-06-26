@@ -102,6 +102,10 @@ body{
     gap:20px;
 }
 
+#castGrid > .cast-card{
+    position:relative;
+}
+
 .cast-card{
     background:white;
     border-radius:15px;
@@ -113,10 +117,9 @@ body{
     transition:.25s;
 
     min-height:820px;
-    position:relative;
 }
 
-.drag-handle{
+#castGrid > .cast-card > .drag-handle{
     position:absolute;
     top:10px;
     left:10px;
@@ -133,15 +136,15 @@ body{
     touch-action:none;
 }
 
-.drag-handle:active{
+#castGrid > .cast-card > .drag-handle:active{
     cursor:grabbing;
 }
 
-.cast-grid.is-sorting .cast-card{
+#castGrid.is-sorting > .cast-card{
     transition:none;
 }
 
-.cast-card.is-dragging{
+#castGrid > .cast-card.is-dragging{
     opacity:.55;
     transform:scale(.98);
 }
