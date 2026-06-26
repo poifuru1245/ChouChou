@@ -216,10 +216,18 @@ body{
     padding:0 !important;
 }
 
-.popup-content input{
+.popup-content input,
+.popup-content textarea{
     width:100%;
     padding:12px;
     margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.popup-content textarea{
+    min-height:110px;
+    resize:vertical;
 }
 
 .popup-content > button{

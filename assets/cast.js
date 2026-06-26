@@ -115,8 +115,11 @@ if(!todayCast){
 
     div.className = "cast-card";
 
+const image =
+getMainImage(cast);
+
 div.innerHTML = `
-  <img src="${cast.image}" alt="">
+  <img src="${image}" alt="">
 
   <div class="cast-info">
 
@@ -132,7 +135,7 @@ div.innerHTML = `
 
    <a
 class="reserve-btn"
-href="cast.html?name=${encodeURIComponent(cast.name)}&age=${cast.age}&image=${encodeURIComponent(cast.image)}&height=${encodeURIComponent(cast.height || '')}&hobby=${encodeURIComponent(cast.hobby || '')}&favoriteDrink=${encodeURIComponent(cast.favoriteDrink || '')}&message=${encodeURIComponent(cast.message || '')}">
+href="${createCastDetailUrl(cast)}">
 プロフィール
 </a>
 
@@ -181,8 +184,11 @@ document.createElement("div");
 
 div.className = "cast-card";
 
+const image =
+getMainImage(cast);
+
 div.innerHTML = `
-<img src="${cast.image}" alt="">
+<img src="${image}" alt="">
 
 <div class="cast-info">
 
@@ -194,7 +200,7 @@ ${cast.age}歳
 
 <a
 class="reserve-btn"
-href="cast.html?name=${encodeURIComponent(cast.name)}&age=${cast.age}&image=${encodeURIComponent(cast.image)}&height=${encodeURIComponent(cast.height || '')}&hobby=${encodeURIComponent(cast.hobby || '')}&favoriteDrink=${encodeURIComponent(cast.favoriteDrink || '')}&message=${encodeURIComponent(cast.message || '')}">
+href="${createCastDetailUrl(cast)}">
 プロフィール
 </a>
 
@@ -258,5 +264,61 @@ Number(order);
 return Number.isFinite(numericOrder)
 ? numericOrder
 : null;
+
+}
+
+function getCastImages(cast){
+
+const images =
+Array.isArray(cast?.images)
+? cast.images.filter(Boolean)
+: [];
+
+if(
+images.length === 0 &&
+cast?.image
+){
+return [cast.image];
+}
+
+return images.slice(0,5);
+
+}
+
+function getMainImage(cast){
+
+return cast?.image ||
+getCastImages(cast)[0] ||
+"";
+
+}
+
+function createCastDetailUrl(cast){
+
+const params =
+new URLSearchParams();
+
+if(cast.id){
+params.set("id",cast.id);
+}
+
+params.set("name",cast.name || "");
+params.set("age",cast.age || "");
+params.set("image",getMainImage(cast));
+params.set("height",cast.height || "");
+params.set("birthday",cast.birthday || "");
+params.set("bloodType",cast.bloodType || "");
+params.set("hobby",cast.hobby || "");
+params.set("favoriteDrink",cast.favoriteDrink || "");
+params.set("message",cast.message || "");
+params.set("instagram",cast.instagram || "");
+params.set("x",cast.x || "");
+params.set("tiktok",cast.tiktok || "");
+
+if(Array.isArray(cast.tags)){
+params.set("tags",cast.tags.join(","));
+}
+
+return `cast.html?${params.toString()}`;
 
 }

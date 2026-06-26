@@ -1,6 +1,6 @@
 // =====================================
 // Chou Chou Cast Manager
-// Version 5.1.3
+// Version 5.2.0
 // =====================================
 
 (async () => {
@@ -62,9 +62,15 @@
     name: document.getElementById("castName"),
     age: document.getElementById("castAge"),
     height: document.getElementById("cast-height"),
+    birthday: document.getElementById("cast-birthday"),
+    bloodType: document.getElementById("cast-blood-type"),
     hobby: document.getElementById("cast-hobby"),
     favoriteDrink: document.getElementById("cast-drink"),
-    message: document.getElementById("cast-message")
+    message: document.getElementById("cast-message"),
+    instagram: document.getElementById("cast-instagram"),
+    x: document.getElementById("cast-x"),
+    tiktok: document.getElementById("cast-tiktok"),
+    tags: document.getElementById("cast-tags")
   };
 
   if (!elements.grid || !elements.popup) return;
@@ -162,7 +168,8 @@
     card.className = "cast-card";
     card.dataset.id = cast.id;
 
-    const image = cast.image || "";
+    const images = getCastImages(cast);
+    const image = getMainImage(cast);
     const castJson = encodeURIComponent(JSON.stringify(normalizeCast(cast)));
 
     card.innerHTML = `
@@ -173,9 +180,12 @@
       <h3>${escapeHtml(cast.name || "")}</h3>
       <p>${escapeHtml(cast.age || "-")}歳</p>
       <p>身長：${escapeHtml(cast.height || "-")}</p>
+      <p>誕生日：${escapeHtml(cast.birthday || "-")}</p>
+      <p>血液型：${escapeHtml(cast.bloodType || "-")}</p>
       <p>趣味：${escapeHtml(cast.hobby || "-")}</p>
       <p>好きなお酒：${escapeHtml(cast.favoriteDrink || "-")}</p>
       <p>メッセージ：${escapeHtml(cast.message || "-")}</p>
+      <p>写真：${images.length}枚</p>
       <p>${escapeHtml(cast.schedule || "")}</p>
       <div class="card-buttons">
         <button type="button" class="edit-btn" data-action="edit" data-id="${cast.id}" data-cast="${castJson}">
@@ -193,15 +203,21 @@
   function openForm(id = null, cast = null) {
     clearError();
     state.editingId = id;
-    state.currentImage = cast?.image || "";
-    state.currentImages = Array.isArray(cast?.images) ? cast.images : [];
+    state.currentImages = getCastImages(cast);
+    state.currentImage = getMainImage(cast);
     elements.popupTitle.textContent = id ? "キャスト編集" : "キャスト追加";
     elements.name.value = cast?.name || "";
     elements.age.value = cast?.age || "";
     elements.height.value = cast?.height || "";
+    elements.birthday.value = cast?.birthday || "";
+    elements.bloodType.value = cast?.bloodType || "";
     elements.hobby.value = cast?.hobby || "";
     elements.favoriteDrink.value = cast?.favoriteDrink || "";
     elements.message.value = cast?.message || "";
+    elements.instagram.value = cast?.instagram || "";
+    elements.x.value = cast?.x || "";
+    elements.tiktok.value = cast?.tiktok || "";
+    elements.tags.value = getTags(cast).join(", ");
 
     resetImageInputs();
     removeDragHandlesOutsideCastGrid();
@@ -222,9 +238,15 @@
     elements.name.value = "";
     elements.age.value = "";
     elements.height.value = "";
+    elements.birthday.value = "";
+    elements.bloodType.value = "";
     elements.hobby.value = "";
     elements.favoriteDrink.value = "";
     elements.message.value = "";
+    elements.instagram.value = "";
+    elements.x.value = "";
+    elements.tiktok.value = "";
+    elements.tags.value = "";
 
     resetImageInputs();
     elements.popupTitle.textContent = "キャスト追加";
@@ -245,10 +267,10 @@
       setFormBusy(true);
 
       const uploadedImages = await uploadSelectedImages();
-      const image = uploadedImages[0] || state.currentImage || "";
       const images = uploadedImages.length ? uploadedImages : state.currentImages;
+      const image = uploadedImages[0] || state.currentImage || images[0] || "";
 
-      if (!image) {
+      if (!image && !state.editingId) {
         showError("写真を1枚以上選択してください。");
         return;
       }
@@ -257,11 +279,17 @@
         name: formData.name,
         age: formData.age,
         height: formData.height,
+        birthday: formData.birthday,
+        bloodType: formData.bloodType,
         hobby: formData.hobby,
         favoriteDrink: formData.favoriteDrink,
         message: formData.message,
         image,
         images,
+        instagram: formData.instagram,
+        x: formData.x,
+        tiktok: formData.tiktok,
+        tags: formData.tags,
         schedule: formData.schedule
       };
 
@@ -589,9 +617,15 @@
       name: elements.name.value.trim(),
       age: elements.age.value.trim(),
       height: elements.height.value.trim(),
+      birthday: elements.birthday.value.trim(),
+      bloodType: elements.bloodType.value.trim(),
       hobby: elements.hobby.value.trim(),
       favoriteDrink: elements.favoriteDrink.value.trim(),
       message: elements.message.value.trim(),
+      instagram: elements.instagram.value.trim(),
+      x: elements.x.value.trim(),
+      tiktok: elements.tiktok.value.trim(),
+      tags: parseTags(elements.tags.value),
       schedule: ""
     };
   }
@@ -607,12 +641,20 @@
 
     const age = Number(data.age);
 
-    if (!data.age || !Number.isInteger(age) || age < 18 || age > 99) {
-      return { valid: false, message: "年齢は18〜99の整数で入力してください。" };
+    if (data.age && (!Number.isInteger(age) || age < 0 || age > 99)) {
+      return { valid: false, message: "年齢は0〜99の整数で入力してください。" };
     }
 
     if (data.height && data.height.length > 20) {
       return { valid: false, message: "身長は20文字以内で入力してください。" };
+    }
+
+    if (data.birthday.length > 40) {
+      return { valid: false, message: "誕生日は40文字以内で入力してください。" };
+    }
+
+    if (data.bloodType.length > 20) {
+      return { valid: false, message: "血液型は20文字以内で入力してください。" };
     }
 
     if (data.hobby.length > 80) {
@@ -625,6 +667,18 @@
 
     if (data.message.length > 500) {
       return { valid: false, message: "メッセージは500文字以内で入力してください。" };
+    }
+
+    if (
+      data.instagram.length > 300 ||
+      data.x.length > 300 ||
+      data.tiktok.length > 300
+    ) {
+      return { valid: false, message: "SNS URLは300文字以内で入力してください。" };
+    }
+
+    if (data.tags.length > 20) {
+      return { valid: false, message: "タグは20個以内で入力してください。" };
     }
 
     const invalidFile = getSelectedFiles().find((file) => {
@@ -689,14 +743,56 @@
       name: cast.name || "",
       age: cast.age || "",
       height: cast.height || "",
+      birthday: cast.birthday || "",
+      bloodType: cast.bloodType || "",
       hobby: cast.hobby || "",
       favoriteDrink: cast.favoriteDrink || "",
       message: cast.message || "",
-      image: cast.image || "",
-      images: Array.isArray(cast.images) ? cast.images : [],
+      image: getMainImage(cast),
+      images: getCastImages(cast),
+      instagram: cast.instagram || "",
+      x: cast.x || "",
+      tiktok: cast.tiktok || "",
+      tags: getTags(cast),
       schedule: cast.schedule || "",
       displayOrder: getNumericDisplayOrder(cast)
     };
+  }
+
+  function getCastImages(cast) {
+    const images = Array.isArray(cast?.images)
+      ? cast.images.filter(Boolean)
+      : [];
+
+    if (!images.length && cast?.image) {
+      return [cast.image];
+    }
+
+    return images.slice(0, 5);
+  }
+
+  function getMainImage(cast) {
+    return cast?.image || getCastImages(cast)[0] || "";
+  }
+
+  function parseTags(value) {
+    return value
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean)
+      .slice(0, 20);
+  }
+
+  function getTags(cast) {
+    if (Array.isArray(cast?.tags)) {
+      return cast.tags.filter(Boolean);
+    }
+
+    if (typeof cast?.tags === "string") {
+      return parseTags(cast.tags);
+    }
+
+    return [];
   }
 
   function sortCastsByDisplayOrder(casts) {
