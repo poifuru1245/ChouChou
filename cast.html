@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CAST | Chou Chou</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+
+.cast-detail{
+max-width:900px;
+margin:120px auto;
+padding:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+}
+
+.cast-detail img{
+width:100%;
+border-radius:20px;
+}
+
+.profile-box{
+background:#fff;
+padding:30px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.profile-box h1{
+font-size:32px;
+margin-bottom:10px;
+}
+
+.reserve-btn{
+display:inline-block;
+padding:12px 30px;
+background:#f5bfd2;
+color:#fff;
+text-decoration:none;
+border-radius:999px;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="cast-detail">
+
+<img id="castImage">
+
+<div class="profile-box">
+
+<h1 id="castName"></h1>
+
+<p id="castAge"></p>
+
+<p id="castHeight"></p>
+
+<p id="castHobby"></p>
+
+<p id="castDrink"></p>
+
+<p id="castMessage"></p>
+
+<a
+href="admin/reservation.html"
+class="reserve-btn">
+指名予約する
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(location.search);
+
+document.getElementById("castName").innerText =
+params.get("name") || "";
+
+document.getElementById("castAge").innerText =
+(params.get("age") || "") + "歳";
+
+document.getElementById("castImage").src =
+params.get("image") || "";
+
+document.getElementById("castHeight").innerText =
+"身長：" + (params.get("height") || "");
+
+document.getElementById("castHobby").innerText =
+"趣味：" + (params.get("hobby") || "");
+
+document.getElementById("castDrink").innerText =
+"好きなお酒：" + (params.get("favoriteDrink") || "");
+
+document.getElementById("castMessage").innerText =
+params.get("message") || "";
+
+</script>
+
+</body>
+</html>

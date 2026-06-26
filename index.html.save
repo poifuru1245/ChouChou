@@ -1,0 +1,248 @@
+　<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p2"><span class="s1">&lt;html lang="ja"&gt;</span></p>
+<p class="p2"><span class="s1">&lt;head&gt;</span></p>
+<p class="p2"><span class="s1">&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p2"><span class="s1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;title&gt;Chou Chou Susukino&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">*{</span></p>
+<p class="p2"><span class="s1">margin:0;</span></p>
+<p class="p2"><span class="s1">padding:0;</span></p>
+<p class="p2"><span class="s1">box-sizing:border-box;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">body{</span></p>
+<p class="p2"><span class="s1">font-family:sans-serif;</span></p>
+<p class="p2"><span class="s1">background:#000;</span></p>
+<p class="p2"><span class="s1">color:#fff;</span></p>
+<p class="p2"><span class="s1">overflow-x:hidden;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">/* Language */</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.lang-switch{</span></p>
+<p class="p2"><span class="s1">position:fixed;</span></p>
+<p class="p2"><span class="s1">top:20px;</span></p>
+<p class="p2"><span class="s1">right:20px;</span></p>
+<p class="p2"><span class="s1">z-index:999;</span></p>
+<p class="p2"><span class="s1">display:flex;</span></p>
+<p class="p2"><span class="s1">gap:10px;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.lang-switch button{</span></p>
+<p class="p2"><span class="s1">background:rgba(255,255,255,.1);</span></p>
+<p class="p2"><span class="s1">border:1px solid rgba(255,255,255,.3);</span></p>
+<p class="p2"><span class="s1">color:#fff;</span></p>
+<p class="p2"><span class="s1">padding:10px 15px;</span></p>
+<p class="p2"><span class="s1">cursor:pointer;</span></p>
+<p class="p2"><span class="s1">border-radius:30px;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">/* Hero */</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.hero{</span></p>
+<p class="p2"><span class="s1">height:100vh;</span></p>
+<p class="p2"><span class="s1">display:flex;</span></p>
+<p class="p2"><span class="s1">flex-direction:column;</span></p>
+<p class="p2"><span class="s1">justify-content:center;</span></p>
+<p class="p2"><span class="s1">align-items:center;</span></p>
+<p class="p2"><span class="s1">text-align:center;</span></p>
+<p class="p2"><span class="s1">padding:20px;</span></p>
+<p class="p2"><span class="s1">background:</span></p>
+<p class="p2"><span class="s1">linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.6)),</span></p>
+<p class="p2"><span class="s1">url("https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&amp;w=2000");</span></p>
+<p class="p2"><span class="s1">background-size:cover;</span></p>
+<p class="p2"><span class="s1">background-position:center;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.hero h1{</span></p>
+<p class="p2"><span class="s1">font-size:90px;</span></p>
+<p class="p2"><span class="s1">letter-spacing:10px;</span></p>
+<p class="p2"><span class="s1">margin-bottom:20px;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.hero p{</span></p>
+<p class="p2"><span class="s1">font-size:24px;</span></p>
+<p class="p2"><span class="s1">margin-bottom:40px;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.hero a{</span></p>
+<p class="p2"><span class="s1">display:inline-block;</span></p>
+<p class="p2"><span class="s1">padding:15px 40px;</span></p>
+<p class="p2"><span class="s1">border:1px solid #fff;</span></p>
+<p class="p2"><span class="s1">color:#fff;</span></p>
+<p class="p2"><span class="s1">text-decoration:none;</span></p>
+<p class="p2"><span class="s1">transition:.3s;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.hero a:hover{</span></p>
+<p class="p2"><span class="s1">background:#fff;</span></p>
+<p class="p2"><span class="s1">color:#000;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">/* Section */</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">section{</span></p>
+<p class="p2"><span class="s1">padding:100px 20px;</span></p>
+<p class="p2"><span class="s1">max-width:1200px;</span></p>
+<p class="p2"><span class="s1">margin:auto;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.section-title{</span></p>
+<p class="p2"><span class="s1">font-size:40px;</span></p>
+<p class="p2"><span class="s1">margin-bottom:30px;</span></p>
+<p class="p2"><span class="s1">text-align:center;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.text{</span></p>
+<p class="p2"><span class="s1">max-width:800px;</span></p>
+<p class="p2"><span class="s1">margin:auto;</span></p>
+<p class="p2"><span class="s1">line-height:2;</span></p>
+<p class="p2"><span class="s1">text-align:center;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">/* Footer */</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">footer{</span></p>
+<p class="p2"><span class="s1">padding:30px;</span></p>
+<p class="p2"><span class="s1">text-align:center;</span></p>
+<p class="p2"><span class="s1">border-top:1px solid rgba(255,255,255,.2);</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">@media(max-width:768px){</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.hero h1{</span></p>
+<p class="p2"><span class="s1">font-size:55px;</span></p>
+<p class="p2"><span class="s1">letter-spacing:5px;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">.hero p{</span></p>
+<p class="p2"><span class="s1">font-size:18px;</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;/style&gt;</span></p>
+<p class="p2"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;div class="lang-switch"&gt;</span></p>
+<p class="p2"><span class="s1">&lt;button onclick="setLang('ja')"&gt;JP&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1">&lt;button onclick="setLang('en')"&gt;EN&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1">&lt;button onclick="setLang('zh')"&gt;中文&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;section class="hero"&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;h1 id="logo"&gt;CHOU CHOU&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;p id="catch"&gt;</span></p>
+<p class="p2"><span class="s1">甘くとろける夢の時間</span></p>
+<p class="p2"><span class="s1">&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;a href="#concept" id="btn"&gt;</span></p>
+<p class="p2"><span class="s1">MORE</span></p>
+<p class="p2"><span class="s1">&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;/section&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;section id="concept"&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;h2 class="section-title" id="conceptTitle"&gt;</span></p>
+<p class="p2"><span class="s1">CONCEPT</span></p>
+<p class="p2"><span class="s1">&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;p class="text" id="conceptText"&gt;</span></p>
+<p class="p2"><span class="s1">すすきので新しい夜の楽しみ方を。</span></p>
+<p class="p2"><span class="s1">洗練された空間と最高のおもてなしをご提供します。</span></p>
+<p class="p2"><span class="s1">&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;/section&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;footer&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;p&gt;CHOU CHOU SUSUKINO&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;/footer&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">const langData = {</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">ja:{</span></p>
+<p class="p2"><span class="s1">catch:"甘くとろける夢の時間",</span></p>
+<p class="p2"><span class="s1">btn:"MORE",</span></p>
+<p class="p2"><span class="s1">conceptTitle:"CONCEPT",</span></p>
+<p class="p2"><span class="s1">conceptText:"すすきので新しい夜の楽しみ方を。洗練された空間と最高のおもてなしをご提供します。"</span></p>
+<p class="p2"><span class="s1">},</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">en:{</span></p>
+<p class="p2"><span class="s1">catch:"A Sweet and Melting Dream Time",</span></p>
+<p class="p2"><span class="s1">btn:"MORE",</span></p>
+<p class="p2"><span class="s1">conceptTitle:"CONCEPT",</span></p>
+<p class="p2"><span class="s1">conceptText:"Experience a new nightlife in Susukino with elegant space and premium hospitality."</span></p>
+<p class="p2"><span class="s1">},</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">zh:{</span></p>
+<p class="p2"><span class="s1">catch:"甜蜜梦幻般的时光",</span></p>
+<p class="p2"><span class="s1">btn:"查看更多",</span></p>
+<p class="p2"><span class="s1">conceptTitle:"理念",</span></p>
+<p class="p2"><span class="s1">conceptText:"在薄野体验全新的夜生活，为您提供高品质空间与极致服务。"</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">};</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">function setLang(lang){</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">document.getElementById("catch").innerText =</span></p>
+<p class="p2"><span class="s1">langData[lang].catch;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">document.getElementById("btn").innerText =</span></p>
+<p class="p2"><span class="s1">langData[lang].btn;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">document.getElementById("conceptTitle").innerText =</span></p>
+<p class="p2"><span class="s1">langData[lang].conceptTitle;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">document.getElementById("conceptText").innerText =</span></p>
+<p class="p2"><span class="s1">langData[lang].conceptText;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">const browserLang=navigator.language;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">if(browserLang.startsWith("zh")){</span></p>
+<p class="p2"><span class="s1">setLang("zh");</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p2"><span class="s1">else if(browserLang.startsWith("en")){</span></p>
+<p class="p2"><span class="s1">setLang("en");</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p2"><span class="s1">else{</span></p>
+<p class="p2"><span class="s1">setLang("ja");</span></p>
+<p class="p2"><span class="s1">}</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p2"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>

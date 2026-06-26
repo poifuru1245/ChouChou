@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>キャスト管理</title>
+
+<link rel="stylesheet" href="../assets/css/admin.css">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<div class="sidebar">
+
+<h2>CHOU CHOU</h2>
+
+<a href="dashboard.html">ダッシュボード</a>
+<a href="cast.html">キャスト管理</a>
+<a href="schedule.html">出勤管理</a>
+<a href="#">お知らせ</a>
+<a href="#">ギャラリー</a>
+
+</div>
+
+<div class="main">
+
+<h1>キャスト管理</h1>
+
+<button class="add-btn" id="openForm">
+    ＋ キャスト追加
+</button>
+
+<div class="cast-grid" id="castGrid">
+
+</div>
+
+<div id="castForm" class="popup">
+
+   <div class="popup-content">
+
+    <button id="closeX" class="close-x">
+    ×
+</button>
+
+    <h2>キャスト追加</h2>
+
+    <input
+        type="text"
+        id="castName"
+        placeholder="名前"
+    >
+
+    <input
+        type="number"
+        id="castAge"
+        placeholder="年齢"
+    >
+
+    <input
+  type="text"
+  id="cast-height"
+  placeholder="身長（例:160cm）"
+>
+
+<input
+  type="text"
+  id="cast-hobby"
+  placeholder="趣味"
+>
+
+<input
+  type="text"
+  id="cast-drink"
+  placeholder="好きなお酒"
+>
+
+<textarea
+  id="cast-message"
+  placeholder="メッセージ"
+></textarea>
+
+    <label>写真</label>
+
+    <label>写真①</label>
+<input type="file" id="castImage1">
+
+<label>写真②</label>
+<input type="file" id="castImage2">
+
+<label>写真③</label>
+<input type="file" id="castImage3">
+
+<label>写真④</label>
+<input type="file" id="castImage4">
+
+<label>写真⑤</label>
+<input type="file" id="castImage5">
+    >
+<div class="form-buttons">
+
+    <button id="closeForm">
+        キャンセル
+    </button>
+
+    <button id="saveCast">
+        保存
+    </button>
+
+</div>
+
+    </div>
+
+</div>
+<script type="module" src="../assets/js/firebase.js"></script>
+<script type="module" src="../assets/app.js"></script>
+<script src="../assets/cast-manager.js"></script>
+
+</body>
+</html>

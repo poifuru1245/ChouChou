@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WEB予約 | Chou Chou</title>
+
+<link rel="stylesheet" href="./assets/css/style.css">
+
+<style>
+.reservation-wrap{
+max-width:600px;
+margin:50px auto;
+padding:20px;
+}
+
+.reservation-form{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.reservation-form input,
+.reservation-form select,
+.reservation-form textarea{
+width:100%;
+padding:15px;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+.reserve-submit{
+background:#f4a6c1;
+color:#fff;
+border:none;
+padding:15px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<section class="reservation-wrap">
+
+<h1>WEB予約</h1>
+
+<div class="reservation-form">
+
+<input
+id="name"
+type="text"
+placeholder="お名前"
+>
+
+<input
+id="phone"
+type="tel"
+placeholder="電話番号"
+>
+
+<input
+id="date"
+type="date"
+>
+
+<select id="time">
+<option>19:00</option>
+<option>20:00</option>
+<option>21:00</option>
+<option>22:00</option>
+<option>23:00</option>
+</select>
+
+<select id="people">
+<option value="1">1名</option>
+<option value="2">2名</option>
+<option value="3">3名</option>
+<option value="4">4名</option>
+</select>
+
+<label>指名キャスト選択</label>
+
+<div id="castArea">
+
+<select id="cast1">
+<option value="">指名なし</option>
+</select>
+
+<select id="cast2" style="display:none;">
+<option value="">指名なし</option>
+</select>
+
+<select id="cast3" style="display:none;">
+<option value="">指名なし</option>
+</select>
+
+</div>
+
+<textarea
+id="request"
+placeholder="ご要望"
+></textarea>
+
+<button
+id="reserveBtn"
+class="reserve-submit">
+予約する
+</button>
+
+</div>
+
+</section>
+
+<script type="module" src="./assets/reservation.js"></script>
+
+</body>
+</html>
