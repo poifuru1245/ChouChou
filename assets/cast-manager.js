@@ -1,6 +1,6 @@
 // =====================================
 // Chou Chou Cast Manager
-// Version 5.1.0
+// Version 5.1.1
 // =====================================
 
 (async () => {
@@ -18,7 +18,8 @@
     addDoc,
     updateDoc,
     deleteDoc,
-    doc
+    doc,
+    writeBatch
   } = firestore;
 
   const {
@@ -43,7 +44,11 @@
     currentImages: [],
     draggedCard: null,
     dragPointerId: null,
-    dragStartOrder: []
+    dragStartOrder: [],
+    savedOrder: [],
+    isOrderDirty: false,
+    isOrderSaving: false,
+    statusTimer: null
   };
 
   const elements = {
@@ -64,6 +69,7 @@
 
   if (!elements.grid || !elements.popup) return;
 
+  setupOrderControls();
   bindEvents();
   await loadCasts();
 
@@ -72,6 +78,7 @@
     elements.closeButton?.addEventListener("click", closeForm);
     elements.closeX?.addEventListener("click", closeForm);
     elements.saveButton?.addEventListener("click", handleSave);
+    elements.orderSaveButton?.addEventListener("click", saveCurrentOrder);
 
     elements.popup.addEventListener("click", (event) => {
       if (event.target === elements.popup) closeForm();
@@ -98,10 +105,17 @@
     });
 
     elements.grid.addEventListener("pointerdown", handleDragStart);
+
+    window.addEventListener("beforeunload", (event) => {
+      if (!state.isOrderDirty) return;
+
+      event.preventDefault();
+      event.returnValue = "";
+    });
   }
 
   async function loadCasts() {
-    setBusy(true);
+    setFormBusy(true);
     elements.grid.innerHTML = "";
 
     try {
@@ -119,6 +133,8 @@
 
       if (!casts.length) {
         elements.grid.innerHTML = "<p>登録されているキャストはありません。</p>";
+        state.savedOrder = [];
+        setOrderDirty(false);
         return;
       }
 
@@ -129,11 +145,13 @@
       });
 
       elements.grid.appendChild(fragment);
+      state.savedOrder = getCurrentCardOrder();
+      setOrderDirty(false);
     } catch (error) {
       console.error("キャスト読み込み失敗", error);
       showError("キャスト情報の読み込みに失敗しました。");
     } finally {
-      setBusy(false);
+      setFormBusy(false);
     }
   }
 
@@ -221,7 +239,7 @@
         return;
       }
 
-      setBusy(true);
+      setFormBusy(true);
 
       const uploadedImages = await uploadSelectedImages();
       const image = uploadedImages[0] || state.currentImage || "";
@@ -255,7 +273,7 @@
       console.error("キャスト保存失敗", error);
       showError("キャスト情報の保存に失敗しました。入力内容を確認して再度お試しください。");
     } finally {
-      setBusy(false);
+      setFormBusy(false);
     }
   }
 
@@ -271,7 +289,7 @@
   async function handleDelete(id, name) {
     if (!confirm(`${name}を削除しますか？`)) return;
 
-    setBusy(true);
+    setFormBusy(true);
 
     try {
       await deleteDoc(doc(db, COLLECTION_NAME, id));
@@ -281,7 +299,7 @@
       console.error("キャスト削除失敗", error);
       showError("キャスト情報の削除に失敗しました。");
     } finally {
-      setBusy(false);
+      setFormBusy(false);
     }
   }
 
@@ -314,35 +332,143 @@
     sortCastsByDisplayOrder(casts);
 
     const orderedIds = ids || casts.map((cast) => cast.id);
+    await updateDisplayOrders(orderedIds, casts);
+  }
 
-    await Promise.all(
-      orderedIds.map((id, index) => {
-        return updateDoc(doc(db, COLLECTION_NAME, id), {
-          displayOrder: index + 1
-        });
-      })
-    );
+  async function updateDisplayOrders(orderedIds, casts = null) {
+    const sourceCasts = casts || await fetchCasts();
+    const castById = new Map(sourceCasts.map((cast) => [cast.id, cast]));
+    const batch = writeBatch(db);
+    let hasChanges = false;
+
+    orderedIds.forEach((id, index) => {
+      const nextOrder = index + 1;
+      const currentOrder = getNumericDisplayOrder(castById.get(id));
+
+      if (currentOrder === nextOrder) return;
+
+      hasChanges = true;
+      batch.update(doc(db, COLLECTION_NAME, id), {
+        displayOrder: nextOrder
+      });
+    });
+
+    if (hasChanges) {
+      await batch.commit();
+    }
+
+    return hasChanges;
   }
 
   async function saveCurrentOrder() {
-    const orderedIds = [...elements.grid.querySelectorAll(".cast-card")]
-      .map((card) => card.dataset.id)
-      .filter(Boolean);
+    if (!state.isOrderDirty || state.isOrderSaving) return;
 
-    if (!orderedIds.length) return;
+    const orderedIds = getCurrentCardOrder();
 
-    setBusy(true);
+    if (!hasOrderChanged(orderedIds, state.savedOrder)) {
+      setOrderDirty(false);
+      return;
+    }
+
+    setOrderSaving(true);
+    setOrderStatus("");
 
     try {
-      await renumberCasts(orderedIds);
-      await loadCasts();
+      await updateDisplayOrders(orderedIds);
+
+      state.savedOrder = [...orderedIds];
+      setOrderDirty(false);
+      showTemporaryOrderStatus("保存しました");
     } catch (error) {
       console.error("キャスト並び順保存失敗", error);
-      showError("キャストの並び順保存に失敗しました。");
-      await loadCasts();
+      restoreSavedOrder();
+      setOrderStatus("保存に失敗しました", "error");
+      state.isOrderDirty = false;
+
+      if (elements.orderSaveButton) {
+        elements.orderSaveButton.disabled = true;
+      }
     } finally {
-      setBusy(false);
+      setOrderSaving(false);
     }
+  }
+
+  function setupOrderControls() {
+    const controls = document.createElement("div");
+    controls.className = "order-controls";
+    controls.innerHTML = `
+      <button type="button" id="saveOrder" class="order-save-btn" disabled>
+        並び順を保存
+      </button>
+      <span id="orderStatus" class="order-status"></span>
+    `;
+
+    elements.openButton?.insertAdjacentElement("afterend", controls);
+    elements.orderSaveButton = document.getElementById("saveOrder");
+    elements.orderStatus = document.getElementById("orderStatus");
+  }
+
+  function setOrderDirty(isDirty) {
+    state.isOrderDirty = isDirty;
+
+    if (elements.orderSaveButton) {
+      elements.orderSaveButton.disabled = !isDirty || state.isOrderSaving;
+    }
+
+    if (isDirty) {
+      setOrderStatus("並び順が変更されています");
+    } else if (elements.orderStatus?.textContent === "並び順が変更されています") {
+      setOrderStatus("");
+    }
+  }
+
+  function setOrderSaving(isSaving) {
+    state.isOrderSaving = isSaving;
+
+    if (elements.orderSaveButton) {
+      elements.orderSaveButton.disabled = isSaving || !state.isOrderDirty;
+      elements.orderSaveButton.textContent = isSaving ? "保存中..." : "並び順を保存";
+    }
+  }
+
+  function setOrderStatus(message, type = "") {
+    if (!elements.orderStatus) return;
+
+    if (state.statusTimer) {
+      clearTimeout(state.statusTimer);
+      state.statusTimer = null;
+    }
+
+    elements.orderStatus.textContent = message;
+    elements.orderStatus.dataset.type = type;
+  }
+
+  function showTemporaryOrderStatus(message) {
+    setOrderStatus(message, "success");
+
+    state.statusTimer = setTimeout(() => {
+      setOrderStatus("");
+      state.statusTimer = null;
+    }, 2000);
+  }
+
+  function restoreSavedOrder() {
+    const cardsById = new Map(
+      [...elements.grid.querySelectorAll(".cast-card")].map((card) => [card.dataset.id, card])
+    );
+
+    state.savedOrder.forEach((id) => {
+      const card = cardsById.get(id);
+      if (card) elements.grid.appendChild(card);
+    });
+  }
+
+  function hasOrderChanged(nextOrder, currentOrder) {
+    if (nextOrder.length !== currentOrder.length) return true;
+
+    return nextOrder.some((id, index) => {
+      return id !== currentOrder[index];
+    });
   }
 
   function handleDragStart(event) {
@@ -410,15 +536,8 @@
     window.removeEventListener("pointercancel", handleDragEnd);
 
     const currentOrder = getCurrentCardOrder();
-    const orderChanged = currentOrder.some((id, index) => {
-      return id !== state.dragStartOrder[index];
-    });
-
     state.dragStartOrder = [];
-
-    if (orderChanged) {
-      await saveCurrentOrder();
-    }
+    setOrderDirty(hasOrderChanged(currentOrder, state.savedOrder));
   }
 
   function getCardAtPoint(x, y) {
@@ -596,7 +715,7 @@
     return Number.isFinite(order) ? order : null;
   }
 
-  function setBusy(isBusy) {
+  function setFormBusy(isBusy) {
     if (elements.saveButton) {
       elements.saveButton.disabled = isBusy;
       elements.saveButton.textContent = isBusy ? "保存中..." : "保存";
