@@ -1,6 +1,8 @@
-import { initializeApp }
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  initializeApp,
+  getApp,
+  getApps
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
   getFirestore,
@@ -9,17 +11,11 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
-  doc,
-  query,
-  orderBy
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  doc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
+  getStorage
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
@@ -32,684 +28,312 @@ const firebaseConfig = {
   measurementId: "G-PR6J8WFEWL"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
+export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 
 let currentFilter = "today";
-
 let searchKeyword = "";
+let ranking = {};
 
-console.log("検索:", searchKeyword);
+const rankingList = document.getElementById("rankingList");
 
-let editingId = null;
-let currentImage = "";
+async function loadReservations() {
+  const reservationList = document.getElementById("reservationList");
 
-const popup = document.getElementById("castForm");
+  if (!reservationList) return;
 
-async function saveCastToFirebase(data){
+  reservationList.innerHTML = "";
+  ranking = {};
 
-  await addDoc(
-    collection(db,"casts"),
-    {
-      name:data.name,
-      age:data.age,
-      height: data.height || "",
-hobby: data.hobby || "",
-favoriteDrink: data.favoriteDrink || "",
-message: data.message || "",
-      image:data.image,
-      schedule:data.schedule || ""
-    }
-  );
+  try {
+    const snapshot = await getDocs(collection(db, "reservations"));
 
-}
+    let pending = 0;
+    let confirmed = 0;
+    let visited = 0;
+    let canceled = 0;
+    const today = new Date().toLocaleDateString("sv-SE");
 
-async function loadCasts() {
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
 
-  const grid = document.querySelector(".cast-grid");
+      [data.cast1, data.cast2, data.cast3].forEach((cast) => {
+        if (!cast || cast === "なし") return;
+        ranking[cast] = (ranking[cast] || 0) + 1;
+      });
 
-  if(!grid) return;
+      if (!matchesReservationFilters(data, today)) return;
 
-  grid.innerHTML = "";
+      const status = data.status || "予約中";
 
-  const snapshot = await getDocs(
-    collection(db,"casts")
-  );
+      if (status === "予約中") pending++;
+      if (status === "確定") confirmed++;
+      if (status === "来店済") visited++;
+      if (status === "キャンセル") canceled++;
 
-  snapshot.forEach(async (item) => {
-    console.log(item.data());
-
-    const cast = item.data();
-
-    // const stats =
-// await getCastStats(cast.name);
-
-const castId = item.id;
-
-    const card = document.createElement("div");
-
-    card.className = "cast-card";
-
-   card.innerHTML = `
-<img src="${cast.image}" alt="">
-<h3>${cast.name}</h3>
-<p>${cast.age}歳</p>
-
-<p>身長：${cast.height || "-"}</p>
-
-<p>趣味：${cast.hobby || "-"}</p>
-
-<p>好きなお酒：${cast.favoriteDrink || "-"}</p>
-
-<p>メッセージ：${cast.message || "-"}</p>
-
-<p>${cast.schedule || ""}</p>
-
-<div class="card-buttons">
-
-<button class="edit-btn">
-編集
-</button>
-
-<button class="delete-btn">
-削除
-</button>
-
-</div>
-`;
-
-const editBtn = card.querySelector(".edit-btn");
-const deleteBtn = card.querySelector(".delete-btn");
-
-editBtn.addEventListener("click", () => {
-
-editingId = item.id;
-
-currentImage = cast.image;
-
-document.getElementById("castName").value =
-cast.name;
-
-document.getElementById("castAge").value =
-cast.age;
-
-document.getElementById("cast-height").value =
-cast.height || "";
-
-document.getElementById("cast-hobby").value =
-cast.hobby || "";
-
-document.getElementById("cast-drink").value =
-cast.favoriteDrink || "";
-
-document.getElementById("cast-message").value =
-cast.message || "";
-
-document.getElementById("castForm").style.display =
-
-  "flex";
-
-});
-
-
-deleteBtn.addEventListener("click", async () => {
-
-  console.log("削除開始");
-  console.log("castId=", castId);
-
-  if(!confirm(`${cast.name}を削除しますか？`)){
-    return;
-  }
-
-  try{
-
-    await deleteDoc(
-      doc(db,"casts",castId)
-    );
-
-    console.log("削除成功");
-
-    await loadCasts();
-
-  }catch(error){
-
-    console.error("削除失敗", error);
-
-  }
-
-});
-
-    grid.appendChild(card);
-
-  });
-
-}
-
-loadCasts();
-document.addEventListener("DOMContentLoaded", () => {
-
-  const btn = document.getElementById("openForm");
-const popup = document.getElementById("castForm");
-const closeBtn = document.getElementById("closeForm");
-
-const closeX = document.getElementById("closeX");
-
-if(closeX && popup){
-
-    closeX.addEventListener("click", () => {
-
-        popup.style.display = "none";
-
+      reservationList.insertAdjacentHTML(
+        "beforeend",
+        createReservationCard(docSnap.id, data, status)
+      );
     });
 
+    setText("countPending", `${pending}件`);
+    setText("countConfirmed", `${confirmed}件`);
+    setText("countVisited", `${visited}件`);
+    setText("countCanceled", `${canceled}件`);
+    setText("reservationCount", `${snapshot.size}件`);
+
+    renderReservationRanking();
+  } catch (error) {
+    console.error("予約読み込み失敗", error);
+    reservationList.innerHTML = "予約情報の読み込みに失敗しました。";
+  }
 }
 
-if(btn && popup){
+function matchesReservationFilters(data, today) {
+  if (searchKeyword) {
+    const target = `${data.name || ""}${data.phone || ""}`.toLowerCase();
 
-  btn.addEventListener("click", () => {
-    popup.style.display = "flex";
-  });
-
-}
-
-if(closeBtn && popup){
-
-  closeBtn.addEventListener("click", () => {
-    popup.style.display = "none";
-  });
-
-}
-
-if(popup){
-
-  popup.addEventListener("click", (e) => {
-
-    if(e.target === popup){
-      popup.style.display = "none";
+    if (!target.includes(searchKeyword)) {
+      return false;
     }
-
-  });
-
-}
-
-const saveBtn = document.getElementById("saveCast");
-
-if(saveBtn){
-
-
-   saveBtn.addEventListener("click", async () => { 
-console.log("保存ボタン押された");
-        const name = document.getElementById("castName").value;
-        const age = document.getElementById("castAge").value;
- const height =
-document.getElementById("cast-height").value;
-
-const hobby =
-document.getElementById("cast-hobby").value;
-
-const favoriteDrink =
-document.getElementById("cast-drink").value;
-
-const message =
-document.getElementById("cast-message").value;
-        console.log("name=", name);
-console.log("age=", age);
-
-console.log(document.getElementById("castName"));
-console.log(document.getElementById("castAge"));
-
-        const time = "";
-
- let image = currentImage;
-
-const imageFiles = [];
-
-for(let i=1;i<=5;i++){
-
-    const file =
-    document.getElementById(`castImage${i}`).files[0];
-
-    imageFiles.push(file);
-
-}
-
-if(imageFiles[0]){
-
-  const storageRef = ref(
-    storage,
-    "casts/" + Date.now() + "_" + imageFiles[0].name
-  );
-
-  await uploadBytes(
-    storageRef,
-    imageFiles[0]
-  );
-
-  image = await getDownloadURL(
-    storageRef
-  );
-}
-
-
-
-        const grid = document.querySelector(".cast-grid");
-
-        const card = document.createElement("div");
-
-        card.className = "cast-card";
-
-        card.innerHTML = `
-            <img src="${image}">
-            <h3>${name}</h3>
-            <p>${age}歳</p>
-            <p>${time}</p>
-        `;
-
-        if(editingId){
-
-  await updateDoc(
-    doc(db,"casts",editingId),
-    {
-    name: name,
-    age: age,
-    image: image,
-    schedule: time,
-
-    height: height,
-    hobby: hobby,
-    favoriteDrink: favoriteDrink,
-    message: message
-}
-  );
-
-  editingId = null;
-
-}else{
-
-  await saveCastToFirebase({
-
-  name: name,
-  age: age,
-  image: image,
-  schedule: time,
-
-  height: height,
-  hobby: hobby,
-  favoriteDrink: favoriteDrink,
-  message: message
-
-});
-
-}
-
-await loadCasts();
-
-document.getElementById("castForm").style.display =
-"none";
-
-
-        document.getElementById("castForm").style.display="none";
-
-    });
-
-    }
-
-    });
-
-    async function loadReservations(){
-
- const reservationList =
-document.getElementById("reservationList");
-
-if(!reservationList) return;
-
-reservationList.innerHTML = "";
-
-  const snapshot = await getDocs(
-    collection(db,"reservations")
-  );
-
-  let pending = 0;
-let confirmed = 0;
-let visited = 0;
-let canceled = 0;
-
-snapshot.forEach((doc)=>{
-
-  const data = doc.data();
-
-  [data.cast1, data.cast2, data.cast3]
-.forEach(cast => {
-
-  if(!cast || cast === "なし") return;
-
-  ranking[cast] =
-  (ranking[cast] || 0) + 1;
-
-});
-
-  if(searchKeyword){
-
-  const target =
-  (
-    (data.name || "") +
-    (data.phone || "")
-  ).toLowerCase();
-
-  if(
-    !target.includes(searchKeyword)
-  ){
-    return;
   }
 
+  return currentFilter !== "today" || data.date === today;
 }
 
-  console.log("予約日", data.date);
+function createReservationCard(id, data, status) {
+  const statusColor = getStatusColor(status);
 
-  console.log("filter:", currentFilter);
-
-  const today =
-new Date().toISOString().split("T")[0];
-
-if(
-  currentFilter === "today" &&
-  data.date !== today
-){
-  return;
-}
-  const status = data.status || "予約中";
-
-  if(status === "予約中") pending++;
-  if(status === "確定") confirmed++;
-  if(status === "来店済") visited++;
-  if(status === "キャンセル") canceled++;
-
-});
-
-document.getElementById("countPending").textContent =
-pending + "件";
-
-document.getElementById("countConfirmed").textContent =
-confirmed + "件";
-
-document.getElementById("countVisited").textContent =
-visited + "件";
-
-document.getElementById("countCanceled").textContent =
-canceled + "件";
-
-  const reservationCount =
-document.getElementById("reservationCount");
-
-if(reservationCount){
-  reservationCount.textContent =
-  snapshot.size + "件";
+  return `
+    <div class="reservation-card">
+      <h3>${escapeHtml(data.name || "")}</h3>
+      <p>電話番号：${escapeHtml(data.phone || "")}</p>
+      <p>日付：${escapeHtml(data.date || "")}</p>
+      <p>時間：${escapeHtml(data.time || "")}</p>
+      <p>人数：${escapeHtml(data.people || "")}名</p>
+      <p>
+        状態：
+        <span style="color:${statusColor};font-weight:bold;">
+          ${escapeHtml(status)}
+        </span>
+      </p>
+      <p>指名①：${escapeHtml(data.cast1 || "なし")}</p>
+      <p>指名②：${escapeHtml(data.cast2 || "なし")}</p>
+      <p>指名③：${escapeHtml(data.cast3 || "なし")}</p>
+      <p>要望：${escapeHtml(data.request || "")}</p>
+      <div class="reservation-actions">
+        <button class="confirm-btn" data-id="${id}">確定</button>
+        <button class="visit-btn" data-id="${id}">来店済</button>
+        <button class="cancel-btn" data-id="${id}">キャンセル</button>
+        <button class="delete-btn" data-id="${id}">削除</button>
+      </div>
+    </div>
+  `;
 }
 
-snapshot.forEach((doc)=>{
+function getStatusColor(status) {
+  if (status === "確定") return "#2ecc71";
+  if (status === "来店済") return "#3498db";
+  if (status === "キャンセル") return "#e74c3c";
+  return "#f1c40f";
+}
 
-  const data = doc.data();
+function renderReservationRanking() {
+  if (!rankingList) return;
 
-  console.log("予約データ", data);
+  const sorted = Object.entries(ranking)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10);
 
-});
+  rankingList.innerHTML = sorted.length ? "" : "指名データなし";
+}
 
-  const sorted =
-  Object.entries(ranking)
-  .sort((a,b)=>b[1]-a[1])
-  .slice(0,10);
+async function loadRanking() {
+  if (!rankingList) return;
 
   rankingList.innerHTML = "";
 
-  if(sorted.length === 0){
+  try {
+    const snapshot = await getDocs(collection(db, "casts"));
+    const casts = [];
 
-    rankingList.innerHTML =
-    "指名データなし";
+    snapshot.forEach((docSnap) => {
+      casts.push({
+        id: docSnap.id,
+        ...docSnap.data()
+      });
+    });
 
-  }else{
+    casts
+      .sort((a, b) => Number(b.nominate || 0) - Number(a.nominate || 0))
+      .slice(0, 10)
+      .forEach((cast, index) => {
+        const medal = ["🥇", "🥈", "🥉"][index] || "";
 
-   /*
-sorted.forEach((item,index)=>{
-
-  rankingList.innerHTML += `
-    <div>
-      ${index + 1}位
-      ${item[0]}
-      (${item[1]}件)
-    </div>
-  `;
-
-});
-*/
-
+        rankingList.insertAdjacentHTML(
+          "beforeend",
+          `
+            <div class="ranking-card">
+              <img
+                src="${escapeAttribute(cast.image || "")}"
+                style="
+                  width:80px;
+                  height:80px;
+                  border-radius:50%;
+                  object-fit:cover;
+                "
+                alt=""
+              >
+              <h3>${medal} ${index + 1}位 ${escapeHtml(cast.name || "")}</h3>
+              <p>本指名：${escapeHtml(cast.nominate || 0)}本</p>
+            </div>
+          `
+        );
+      });
+  } catch (error) {
+    console.error("ランキング読み込み失敗", error);
+    rankingList.innerHTML = "ランキングの読み込みに失敗しました。";
   }
-
-const today =
-new Date()
-.toLocaleDateString("sv-SE");
-
-  snapshot.forEach((doc)=>{
-
-    const data = doc.data();
-
-    if(
- currentFilter === "today"
- && data.date !== today
-){
-  return;
 }
 
-    const status = data.status || "予約中";
+async function loadNews() {
+  const newsList = document.getElementById("newsList");
 
-let statusColor = "#f1c40f";
+  if (!newsList) return;
 
-if(status === "確定"){
-  statusColor = "#2ecc71";
-}
+  newsList.innerHTML = "";
 
-if(status === "来店済"){
-  statusColor = "#3498db";
-}
+  try {
+    const snapshot = await getDocs(collection(db, "news"));
 
-if(status === "キャンセル"){
-  statusColor = "#e74c3c";
-}
+    snapshot.forEach((docItem) => {
+      const data = docItem.data();
 
-    reservationList.innerHTML += `
-      <div class="reservation-card">
-
-        <h3>${data.name}</h3>
-
-        <p>電話番号：${data.phone}</p>
-
-        <p>日付：${data.date}</p>
-
-        <p>時間：${data.time}</p>
-
-        <p>人数：${data.people}名</p>
-
-<p>
-状態：
-<span style="color:${statusColor};font-weight:bold;">
-${status}
-</span>
-</p>
-
-        <p>指名①：${data.cast1 || "なし"}</p>
-        <p>指名②：${data.cast2 || "なし"}</p>
-        <p>指名③：${data.cast3 || "なし"}</p>
-
-        <p>要望：${data.request || ""}</p>
-
-
-        <div class="reservation-actions">
-
-  <button
-class="confirm-btn"
-data-id="${doc.id}">
-確定
-</button>
-
-<button
-class="visit-btn"
-data-id="${doc.id}">
-来店済
-</button>
-
-<button
-class="cancel-btn"
-data-id="${doc.id}">
-キャンセル
-</button>
-
-  <button
-    class="delete-btn"
-    data-id="${doc.id}"
-  >
-    削除
-  </button>
-
-</div>
-
-      </div>
-    `;
-
-  });
-
+      newsList.insertAdjacentHTML(
+        "beforeend",
+        `
+          <div style="
+            border-top:1px solid #eee;
+            margin-top:10px;
+            padding-top:10px;
+          ">
+            <strong>${escapeHtml(data.title || "")}</strong>
+            <p>${escapeHtml(data.text || "")}</p>
+            <button class="delete-news" data-id="${docItem.id}">削除</button>
+          </div>
+        `
+      );
+    });
+  } catch (error) {
+    console.error("お知らせ読み込み失敗", error);
+    newsList.innerHTML = "お知らせの読み込みに失敗しました。";
   }
+}
 
-console.log("予約読み込み開始");
+async function loadTodayCast() {
+  const wrap = document.getElementById("todayCastList");
 
-async function getCastStats(castName){
+  if (!wrap) return;
 
-  const snapshot = await getDocs(
-    collection(db,"reservations")
-  );
+  try {
+    const snapshot = await getDocs(collection(db, "casts"));
 
-  let nominate = 0;
-  let reserve = 0;
-  let visit = 0;
+    wrap.innerHTML = "";
 
-  snapshot.forEach((doc)=>{
+    snapshot.forEach((item) => {
+      const cast = item.data();
 
-    const data = doc.data();
+      if (!cast.schedule) return;
 
-    if(
-      data.cast1 === castName ||
-      data.cast2 === castName ||
-      data.cast3 === castName
-    ){
-      nominate++;
+      wrap.insertAdjacentHTML(
+        "beforeend",
+        `
+          <div style="
+            padding:10px;
+            margin-bottom:10px;
+            background:#f8f8f8;
+            border-radius:10px;
+          ">
+            <b>${escapeHtml(cast.name || "")}</b><br>
+            ${escapeHtml(cast.schedule || "")}
+          </div>
+        `
+      );
+    });
 
-      if(data.status !== "キャンセル"){
-        reserve++;
-      }
-
-      if(data.status === "来店済"){
-        visit++;
-      }
+    if (!wrap.innerHTML) {
+      wrap.innerHTML = "出勤情報なし";
     }
+  } catch (error) {
+    console.error("本日の出勤読み込み失敗", error);
+    wrap.innerHTML = "出勤情報の読み込みに失敗しました。";
+  }
+}
 
-  });
+document.addEventListener("click", async (event) => {
+  const target = event.target;
 
-  return {
-    nominate,
-    reserve,
-    visit
+  if (!(target instanceof HTMLElement)) return;
+
+  if (target.classList.contains("delete-news")) {
+    try {
+      await deleteDoc(doc(db, "news", target.dataset.id));
+      await loadNews();
+    } catch (error) {
+      console.error("お知らせ削除失敗", error);
+      alert("お知らせの削除に失敗しました。");
+    }
+  }
+
+  if (target.classList.contains("delete-btn")) {
+    if (!document.getElementById("reservationList")) return;
+
+    const id = target.dataset.id;
+
+    if (!id || !confirm("削除しますか？")) return;
+
+    try {
+      await deleteDoc(doc(db, "reservations", id));
+      await loadReservations();
+    } catch (error) {
+      console.error("予約削除失敗", error);
+      alert("予約の削除に失敗しました。");
+    }
+  }
+});
+
+document.addEventListener("click", async (event) => {
+  const target = event.target;
+
+  if (!(target instanceof HTMLElement)) return;
+  if (!document.getElementById("reservationList")) return;
+
+  const id = target.dataset.id;
+  if (!id) return;
+
+  const statusMap = {
+    "confirm-btn": "確定",
+    "visit-btn": "来店済",
+    "cancel-btn": "キャンセル"
   };
 
-}
-
-loadReservations();
-
-let ranking = {};
-
-document.addEventListener("click", async(e)=>{
-
-if(
-e.target.classList.contains("delete-news")
-){
-
-  await deleteDoc(
-    doc(
-      db,
-      "news",
-      e.target.dataset.id
-    )
+  const statusClass = Object.keys(statusMap).find((className) =>
+    target.classList.contains(className)
   );
 
-  loadNews();
+  if (!statusClass) return;
 
-}
-
-  if(
-    e.target.classList.contains("delete-btn")
-  ){
-
-    const id =
-    e.target.dataset.id;
-
-    if(confirm("削除しますか？")){
-
-      await deleteDoc(
-        doc(db,"reservations",id)
-      );
-
-      loadReservations();
-
-    }
-
+  try {
+    await updateDoc(doc(db, "reservations", id), {
+      status: statusMap[statusClass]
+    });
+    await loadReservations();
+  } catch (error) {
+    console.error("予約ステータス更新失敗", error);
+    alert("予約ステータスの更新に失敗しました。");
   }
-
-});
-
-document.addEventListener("click", async(e)=>{
-
-  const id = e.target.dataset.id;
-
-  if(!id) return;
-
-  if(e.target.classList.contains("confirm-btn")){
-
-   await updateDoc(
-  doc(db,"reservations",id),
-  {
-    status:"確定"
-  }
-);
-
-await loadReservations();
-
-  }
-
-  if(e.target.classList.contains("visit-btn")){
-
-  await updateDoc(
-    doc(db,"reservations",id),
-    {
-      status:"来店済"
-    }
-  );
-
-  await loadReservations();
-
-}
-
-if(e.target.classList.contains("cancel-btn")){
-
-  await updateDoc(
-    doc(db,"reservations",id),
-    {
-      status:"キャンセル"
-    }
-  );
-
-  await loadReservations();
-
-}
-
-
 });
 
 document.getElementById("todayBtn")?.addEventListener("click", () => {
@@ -722,193 +346,55 @@ document.getElementById("allBtn")?.addEventListener("click", () => {
   loadReservations();
 });
 
-document
-.getElementById("searchReservation")
-?.addEventListener("input",(e)=>{
-
-  searchKeyword =
-  e.target.value.toLowerCase();
-
+document.getElementById("searchReservation")?.addEventListener("input", (event) => {
+  searchKeyword = event.target.value.toLowerCase();
   loadReservations();
-
 });
 
-const rankingList =
-document.getElementById("rankingList");
+document.getElementById("saveNews")?.addEventListener("click", async () => {
+  const titleInput = document.getElementById("newsTitle");
+  const textInput = document.getElementById("newsText");
+  const title = titleInput.value.trim();
+  const text = textInput.value.trim();
 
-  loadRanking();
+  if (!title || !text) return;
 
-async function loadRanking(){
-
-  if(!rankingList) return;
-
-  rankingList.innerHTML = "";
-
-  const snapshot = await getDocs(
-    collection(db,"casts")
-  );
-
-  let casts = [];
-
-  snapshot.forEach((doc)=>{
-
-    casts.push({
-      id:doc.id,
-      ...doc.data()
-    });
-
-  });
-
-  casts.sort((a,b)=>{
-
-    const aCount =
-    Number(a.nominate || 0);
-
-    const bCount =
-    Number(b.nominate || 0);
-
-    return bCount - aCount;
-
-  });
-
-  casts.slice(0,10).forEach((cast,index)=>{
-
-    let medal = "";
-
-    if(index === 0) medal = "🥇";
-    if(index === 1) medal = "🥈";
-    if(index === 2) medal = "🥉";
-
-    rankingList.innerHTML += `
-      <div class="ranking-card">
-
-        <img
-          src="${cast.image}"
-          style="
-            width:80px;
-            height:80px;
-            border-radius:50%;
-            object-fit:cover;
-          "
-        >
-
-        <h3>
-          ${medal}
-          ${index+1}位
-          ${cast.name}
-        </h3>
-
-        <p>
-          本指名：
-          ${cast.nominate || 0}本
-        </p>
-
-      </div>
-    `;
-
-  });
-
-}
-
-async function loadNews(){
-
-  const newsList =
-  document.getElementById("newsList");
-
-  if(!newsList) return;
-
-  newsList.innerHTML = "";
-
-  const snapshot = await getDocs(
-    collection(db,"news")
-  );
-
-  snapshot.forEach((docItem)=>{
-
-    const data = docItem.data();
-
-    newsList.innerHTML += `
-      <div style="
-      border-top:1px solid #eee;
-      margin-top:10px;
-      padding-top:10px;
-      ">
-        <strong>${data.title}</strong>
-        <p>${data.text}</p>
-
-        <button
-          class="delete-news"
-          data-id="${docItem.id}">
-          削除
-        </button>
-      </div>
-    `;
-  });
-
-}
-
-document
-.getElementById("saveNews")
-?.addEventListener("click", async()=>{
-
-  const title =
-  document.getElementById("newsTitle").value;
-
-  const text =
-  document.getElementById("newsText").value;
-
-  if(!title || !text) return;
-
-  await addDoc(
-    collection(db,"news"),
-    {
+  try {
+    await addDoc(collection(db, "news"), {
       title,
       text,
-      createdAt:new Date()
-    }
-  );
+      createdAt: new Date()
+    });
 
-  document.getElementById("newsTitle").value = "";
-  document.getElementById("newsText").value = "";
+    titleInput.value = "";
+    textInput.value = "";
 
-  loadNews();
-
+    await loadNews();
+  } catch (error) {
+    console.error("お知らせ保存失敗", error);
+    alert("お知らせの保存に失敗しました。");
+  }
 });
 
-loadNews();
-
-async function loadTodayCast(){
-
-  const wrap =
-  document.getElementById("todayCastList");
-
-  if(!wrap) return;
-
-  const snapshot =
-  await getDocs(collection(db,"casts"));
-
-  wrap.innerHTML = "";
-
-  snapshot.forEach((item)=>{
-
-    const cast = item.data();
-
-    if(!cast.schedule) return;
-
-    wrap.innerHTML += `
-      <div style="
-      padding:10px;
-      margin-bottom:10px;
-      background:#f8f8f8;
-      border-radius:10px;
-      ">
-        <b>${cast.name}</b><br>
-        ${cast.schedule}
-      </div>
-    `;
-
-  });
-
+function setText(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value;
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function escapeAttribute(value) {
+  return escapeHtml(value).replaceAll("`", "&#096;");
+}
+
+loadReservations();
+loadRanking();
+loadNews();
 loadTodayCast();
