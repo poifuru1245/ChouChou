@@ -37,7 +37,7 @@
                 <a href="#concept">CONCEPT</a>
                 <a href="#cast">CAST</a>
                 <a href="#system">SYSTEM</a>
-                <a href="#gallery">GALLERY</a>
+                <a href="gallery.html">GALLERY</a>
                 <a href="#access">ACCESS</a>
             </nav>
 
@@ -172,10 +172,12 @@
         <h2>店内ギャラリー</h2>
     </div>
 
-    <div class="gallery-placeholder">
+    <div class="public-gallery-grid" id="homeGalleryGrid">
+        <p class="gallery-empty">読み込み中...</p>
+    </div>
 
-        店内写真準備中
-
+    <div class="gallery-more">
+        <a href="gallery.html" class="reserve-btn">もっと見る</a>
     </div>
 
 </section>
@@ -202,8 +204,20 @@
     </div>
 
 </section>
-    <script type="module" src="assets/app.js"></script>
+<div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+  <button type="button" class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="閉じる">
+    ×
+  </button>
+  <button type="button" class="gallery-lightbox-backdrop" id="galleryLightboxBackdrop" aria-label="閉じる"></button>
+  <div class="gallery-lightbox-content">
+    <img id="galleryLightboxImage" src="" alt="">
+    <p id="galleryLightboxTitle"></p>
+  </div>
+</div>
+
+<script type="module" src="assets/app.js"></script>
 <script type="module" src="assets/cast.js"></script>
+<script type="module" src="assets/gallery.js"></script>
 
 </body>
 

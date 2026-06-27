@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery | Chou Chou</title>
+<meta name="description" content="すすきのキャバクラ Chou Chou の店内ギャラリー">
+
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Chou Chou</a>
+    <nav class="nav">
+      <a href="index.html#concept">CONCEPT</a>
+      <a href="index.html#cast">CAST</a>
+      <a href="index.html#system">SYSTEM</a>
+      <a href="gallery.html">GALLERY</a>
+      <a href="index.html#access">ACCESS</a>
+    </nav>
+    <a href="reservation.html" class="reserve-btn">WEB予約</a>
+  </div>
+</header>
+
+<main class="gallery-page">
+
+  <section class="gallery public-gallery-section">
+    <div class="section-title">
+      <span>Gallery</span>
+      <h1>店内ギャラリー</h1>
+    </div>
+
+    <div class="public-gallery-grid" id="publicGalleryGrid">
+      <p class="gallery-empty">読み込み中...</p>
+    </div>
+  </section>
+
+</main>
+
+<div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+  <button type="button" class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="閉じる">
+    ×
+  </button>
+  <button type="button" class="gallery-lightbox-backdrop" id="galleryLightboxBackdrop" aria-label="閉じる"></button>
+  <div class="gallery-lightbox-content">
+    <img id="galleryLightboxImage" src="" alt="">
+    <p id="galleryLightboxTitle"></p>
+  </div>
+</div>
+
+<script type="module" src="assets/app.js"></script>
+<script type="module" src="assets/gallery.js"></script>
+
+</body>
+</html>

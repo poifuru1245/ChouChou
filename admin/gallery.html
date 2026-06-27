@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ギャラリー管理</title>
+
+<link rel="stylesheet" href="../assets/css/admin.css">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<div class="sidebar">
+
+<h2>CHOU CHOU</h2>
+
+<a href="dashboard.html">ダッシュボード</a>
+<a href="cast.html">キャスト管理</a>
+<a href="schedule.html">出勤管理</a>
+<a href="#">お知らせ</a>
+<a href="gallery.html">ギャラリー</a>
+<a href="login.html">ログアウト</a>
+
+</div>
+
+<div class="main">
+
+<h1>ギャラリー管理</h1>
+
+<div class="gallery-admin-panel">
+
+  <div class="gallery-upload-form">
+    <input type="text" id="galleryTitle" placeholder="タイトル（任意）">
+    <input type="file" id="galleryImages" accept="image/*" multiple>
+    <button type="button" class="add-btn" id="uploadGallery">
+      画像アップロード
+    </button>
+  </div>
+
+  <p id="galleryMessage" class="gallery-admin-message"></p>
+
+</div>
+
+<div class="order-controls gallery-order-controls">
+  <button type="button" id="saveGalleryOrder" class="order-save-btn" disabled>
+    並び順を保存
+  </button>
+  <span id="galleryOrderStatus" class="order-status"></span>
+</div>
+
+<div class="gallery-admin-grid" id="galleryGrid">
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module" src="../assets/app.js"></script>
+<script src="../assets/gallery-manager.js"></script>
+
+</body>
+</html>
