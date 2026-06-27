@@ -1,6 +1,6 @@
 // =====================================
 // Chou Chou Cast Manager
-// Version 5.2.0
+// Version 5.2.1
 // =====================================
 
 (async () => {
@@ -37,6 +37,21 @@
     "castImage4",
     "castImage5"
   ];
+  const DEFAULT_TAGS = [
+    "かわいい",
+    "綺麗",
+    "清楚",
+    "ギャル",
+    "高身長",
+    "小柄",
+    "お酒好き",
+    "癒し系",
+    "明るい",
+    "聞き上手",
+    "新人",
+    "人気",
+    "レア出勤"
+  ];
 
   const state = {
     editingId: null,
@@ -70,12 +85,14 @@
     instagram: document.getElementById("cast-instagram"),
     x: document.getElementById("cast-x"),
     tiktok: document.getElementById("cast-tiktok"),
-    tags: document.getElementById("cast-tags")
+    tags: document.getElementById("cast-tags"),
+    tagOptions: document.getElementById("castTagOptions")
   };
 
   if (!elements.grid || !elements.popup) return;
 
   setupOrderControls();
+  setupTagOptions();
   bindEvents();
   await loadCasts();
 
@@ -85,6 +102,13 @@
     elements.closeX?.addEventListener("click", closeForm);
     elements.saveButton?.addEventListener("click", handleSave);
     elements.orderSaveButton?.addEventListener("click", saveCurrentOrder);
+    elements.tags?.addEventListener("input", syncTagOptionsFromInput);
+
+    IMAGE_INPUT_IDS.forEach((id, index) => {
+      document.getElementById(id)?.addEventListener("change", () => {
+        renderImagePreviewSlot(index);
+      });
+    });
 
     elements.popup.addEventListener("click", (event) => {
       if (event.target === elements.popup) closeForm();
@@ -168,15 +192,17 @@
     card.className = "cast-card";
     card.dataset.id = cast.id;
 
-    const images = getCastImages(cast);
     const image = getMainImage(cast);
     const castJson = encodeURIComponent(JSON.stringify(normalizeCast(cast)));
+    const imageMarkup = image
+      ? `<img src="${escapeAttribute(image)}" alt="">`
+      : `<div class="cast-card-no-image">NO IMAGE</div>`;
 
     card.innerHTML = `
       <button type="button" class="drag-handle" aria-label="並び替え" title="並び替え">
         ☰
       </button>
-      <img src="${escapeAttribute(image)}" alt="">
+      ${imageMarkup}
       <h3>${escapeHtml(cast.name || "")}</h3>
       <p>${escapeHtml(cast.age || "-")}歳</p>
       <p>身長：${escapeHtml(cast.height || "-")}</p>
@@ -217,9 +243,10 @@
     elements.instagram.value = cast?.instagram || "";
     elements.x.value = cast?.x || "";
     elements.tiktok.value = cast?.tiktok || "";
-    elements.tags.value = getTags(cast).join(", ");
+    setSelectedTags(getTags(cast));
 
     resetImageInputs();
+    renderImagePreviews();
     removeDragHandlesOutsideCastGrid();
     elements.popup.style.display = "flex";
     elements.name.focus();
@@ -247,8 +274,10 @@
     elements.x.value = "";
     elements.tiktok.value = "";
     elements.tags.value = "";
+    setSelectedTags([]);
 
     resetImageInputs();
+    renderImagePreviews();
     elements.popupTitle.textContent = "キャスト追加";
   }
 
@@ -266,14 +295,8 @@
 
       setFormBusy(true);
 
-      const uploadedImages = await uploadSelectedImages();
-      const images = uploadedImages.length ? uploadedImages : state.currentImages;
-      const image = uploadedImages[0] || state.currentImage || images[0] || "";
-
-      if (!image && !state.editingId) {
-        showError("写真を1枚以上選択してください。");
-        return;
-      }
+      const images = await uploadImageSlots();
+      const image = images[0] || "";
 
       const payload = {
         name: formData.name,
@@ -625,7 +648,7 @@
       instagram: elements.instagram.value.trim(),
       x: elements.x.value.trim(),
       tiktok: elements.tiktok.value.trim(),
-      tags: parseTags(elements.tags.value),
+      tags: collectTags(),
       schedule: ""
     };
   }
@@ -695,18 +718,18 @@
     return { valid: true, message: "" };
   }
 
-  async function uploadSelectedImages() {
-    const files = getSelectedFiles();
-
-    if (!files.length) return [];
-
+  async function uploadImageSlots() {
+    const currentImages = [...state.currentImages].slice(0, 5);
+    const files = getImageInputFiles();
     const uploads = files.map(async (file, index) => {
+      if (!file) return currentImages[index] || "";
+
       const storageRef = ref(storage, createStoragePath(file, index));
       await uploadBytes(storageRef, file);
       return getDownloadURL(storageRef);
     });
 
-    return Promise.all(uploads);
+    return (await Promise.all(uploads)).filter(Boolean).slice(0, 5);
   }
 
   function createStoragePath(file, index) {
@@ -717,9 +740,12 @@
   }
 
   function getSelectedFiles() {
+    return getImageInputFiles().filter(Boolean);
+  }
+
+  function getImageInputFiles() {
     return IMAGE_INPUT_IDS
-      .map((id) => document.getElementById(id)?.files?.[0])
-      .filter(Boolean);
+      .map((id) => document.getElementById(id)?.files?.[0] || null);
   }
 
   function resetImageInputs() {
@@ -727,6 +753,41 @@
       const input = document.getElementById(id);
       if (input) input.value = "";
     });
+  }
+
+  function renderImagePreviews() {
+    IMAGE_INPUT_IDS.forEach((id, index) => {
+      renderImagePreviewSlot(index);
+    });
+  }
+
+  function renderImagePreviewSlot(index) {
+    const inputId = IMAGE_INPUT_IDS[index];
+    const preview = document.querySelector(`[data-preview-for="${inputId}"]`);
+
+    if (!preview) return;
+
+    const file = document.getElementById(inputId)?.files?.[0] || null;
+    const currentImage = state.currentImages[index] || "";
+
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      preview.innerHTML = `
+        <img src="${escapeAttribute(previewUrl)}" alt="">
+        <span>選択中：${escapeHtml(file.name)}</span>
+      `;
+      return;
+    }
+
+    if (currentImage) {
+      preview.innerHTML = `
+        <img src="${escapeAttribute(currentImage)}" alt="">
+        <span>現在の写真${index + 1}</span>
+      `;
+      return;
+    }
+
+    preview.innerHTML = "<span>未設定</span>";
   }
 
   function getCastFromButton(button) {
@@ -781,6 +842,70 @@
       .map((tag) => tag.trim())
       .filter(Boolean)
       .slice(0, 20);
+  }
+
+  function setupTagOptions() {
+    if (!elements.tagOptions) return;
+
+    elements.tagOptions.innerHTML = "";
+
+    DEFAULT_TAGS.forEach((tag) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "tag-option";
+      button.dataset.tag = tag;
+      button.textContent = tag;
+      button.addEventListener("click", () => {
+        button.classList.toggle("is-selected");
+        syncTagsInputFromOptions();
+      });
+      elements.tagOptions.appendChild(button);
+    });
+  }
+
+  function setSelectedTags(tags) {
+    const normalizedTags = normalizeTags(tags);
+
+    if (elements.tags) {
+      elements.tags.value = normalizedTags.join(", ");
+    }
+
+    syncTagOptionsFromInput();
+  }
+
+  function syncTagsInputFromOptions() {
+    const selectedDefaultTags = getSelectedDefaultTags();
+    const customTags = parseTags(elements.tags?.value || "")
+      .filter((tag) => !DEFAULT_TAGS.includes(tag));
+
+    if (elements.tags) {
+      elements.tags.value = normalizeTags([...selectedDefaultTags, ...customTags]).join(", ");
+    }
+  }
+
+  function syncTagOptionsFromInput() {
+    const inputTags = parseTags(elements.tags?.value || "");
+
+    elements.tagOptions?.querySelectorAll(".tag-option").forEach((button) => {
+      button.classList.toggle("is-selected", inputTags.includes(button.dataset.tag));
+    });
+  }
+
+  function collectTags() {
+    return normalizeTags([
+      ...parseTags(elements.tags?.value || ""),
+      ...getSelectedDefaultTags()
+    ]).slice(0, 20);
+  }
+
+  function getSelectedDefaultTags() {
+    return [...elements.tagOptions?.querySelectorAll(".tag-option.is-selected") || []]
+      .map((button) => button.dataset.tag)
+      .filter(Boolean);
+  }
+
+  function normalizeTags(tags) {
+    return [...new Set(tags.map((tag) => String(tag).trim()).filter(Boolean))].slice(0, 20);
   }
 
   function getTags(cast) {

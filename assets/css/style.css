@@ -463,7 +463,6 @@ margin:auto;
 }
 
 .all-cast-grid{
-    border:5px solid red !important;
     min-height:500px !important;
 }
 
@@ -471,7 +470,6 @@ margin:auto;
     display:block !important;
     visibility:visible !important;
     opacity:1 !important;
-    border:3px solid blue !important;
 }
 
 .cast-grid{
@@ -479,6 +477,19 @@ margin:auto;
     grid-template-columns:repeat(auto-fit,minmax(280px,350px));
     justify-content:center;
     gap:30px;
+}
+
+.cast-card-no-image{
+  width:100%;
+  height:320px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffe3ef;
+  color:#d78ab0;
+  border-radius:20px;
+  font-weight:700;
+  letter-spacing:0;
 }
 
 /* Cast Detail */
@@ -511,6 +522,25 @@ margin:auto;
     border-radius:18px;
     border:1px solid rgba(212,175,55,.38);
     background:#221c1d;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.cast-main-image.is-empty{
+    display:flex;
+    background:#221c1d;
+}
+
+.cast-main-no-image{
+    width:100%;
+    aspect-ratio:4/5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:18px;
+    border:1px solid rgba(212,175,55,.38);
+    background:#221c1d;
+    color:#d4af37;
+    font-weight:700;
     box-shadow:0 20px 50px rgba(0,0,0,.35);
 }
 
@@ -625,6 +655,69 @@ margin:auto;
 }
 
 @media(max-width:768px){
+    .header-inner{
+        padding:10px 14px;
+        gap:10px;
+        flex-wrap:wrap;
+    }
+
+    .logo{
+        flex:1 1 auto;
+        min-width:0;
+        font-size:28px;
+        line-height:1;
+    }
+
+    .header .reserve-btn{
+        flex:0 0 auto;
+        padding:9px 14px;
+        font-size:13px;
+        line-height:1;
+        white-space:nowrap;
+    }
+
+    .cast-grid,
+    .all-cast-grid{
+        grid-template-columns:minmax(0,1fr) !important;
+        gap:18px !important;
+    }
+
+    .cast-card{
+        border-radius:16px;
+        padding-bottom:12px;
+    }
+
+    .cast-card img,
+    .cast-card-no-image{
+        height:220px;
+        border-radius:16px;
+    }
+
+    .cast-info{
+        padding:12px 14px;
+    }
+
+    .cast-info h3{
+        font-size:21px;
+        margin-bottom:4px;
+    }
+
+    .cast-card p,
+    .cast-age,
+    .cast-time{
+        margin-bottom:8px;
+    }
+
+    .cast-time{
+        font-size:16px;
+        margin:8px 0 10px;
+    }
+
+    .cast-card .reserve-btn{
+        padding:10px 18px;
+        font-size:14px;
+    }
+
     .cast-detail{
         grid-template-columns:1fr;
         padding:72px 16px 40px;

@@ -86,7 +86,18 @@ function renderCast(cast) {
   const imageElement = document.getElementById("castImage");
 
   if (imageElement) {
-    imageElement.src = mainImage;
+    if (mainImage) {
+      imageElement.src = mainImage;
+      imageElement.classList.remove("is-empty");
+      imageElement.hidden = false;
+      removeNoImagePlaceholder();
+    } else {
+      imageElement.removeAttribute("src");
+      imageElement.classList.add("is-empty");
+      imageElement.hidden = true;
+      renderNoImagePlaceholder(imageElement);
+    }
+
     imageElement.alt = cast.name || "Cast";
   }
 
@@ -101,6 +112,13 @@ function renderThumbnails(images, name) {
   if (!wrap) return;
 
   wrap.innerHTML = "";
+
+  if (!images.length) {
+    wrap.hidden = true;
+    return;
+  }
+
+  wrap.hidden = false;
 
   images.forEach((image, index) => {
     const button = document.createElement("button");
@@ -120,6 +138,20 @@ function renderThumbnails(images, name) {
 
     wrap.appendChild(button);
   });
+}
+
+function renderNoImagePlaceholder(imageElement) {
+  if (document.getElementById("castImagePlaceholder")) return;
+
+  const placeholder = document.createElement("div");
+  placeholder.id = "castImagePlaceholder";
+  placeholder.className = "cast-main-no-image";
+  placeholder.textContent = "NO IMAGE";
+  imageElement.insertAdjacentElement("afterend", placeholder);
+}
+
+function removeNoImagePlaceholder() {
+  document.getElementById("castImagePlaceholder")?.remove();
 }
 
 function renderTags(tags) {

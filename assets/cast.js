@@ -117,16 +117,20 @@ if(!todayCast){
 
 const image =
 getMainImage(cast);
+const imageMarkup =
+image
+? `<img src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
+: `<div class="cast-card-no-image">NO IMAGE</div>`;
 
 div.innerHTML = `
-  <img src="${image}" alt="">
+  ${imageMarkup}
 
   <div class="cast-info">
 
-    <h3>${cast.name}</h3>
+    <h3>${escapeHtml(cast.name || "")}</h3>
 
     <p class="cast-age">
-      ${cast.age}歳
+      ${formatAge(cast.age)}
     </p>
 
     <p class="cast-time">
@@ -186,16 +190,20 @@ div.className = "cast-card";
 
 const image =
 getMainImage(cast);
+const imageMarkup =
+image
+? `<img src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
+: `<div class="cast-card-no-image">NO IMAGE</div>`;
 
 div.innerHTML = `
-<img src="${image}" alt="">
+${imageMarkup}
 
 <div class="cast-info">
 
-<h3>${cast.name}</h3>
+<h3>${escapeHtml(cast.name || "")}</h3>
 
 <p class="cast-age">
-${cast.age}歳
+${formatAge(cast.age)}
 </p>
 
 <a
@@ -320,5 +328,31 @@ params.set("tags",cast.tags.join(","));
 }
 
 return `cast.html?${params.toString()}`;
+
+}
+
+function formatAge(age){
+
+return age
+? `${age}歳`
+: "年齢未設定";
+
+}
+
+function escapeHtml(value){
+
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+function escapeAttribute(value){
+
+return escapeHtml(value)
+.replaceAll("`","&#096;");
 
 }
