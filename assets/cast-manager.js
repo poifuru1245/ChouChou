@@ -172,7 +172,12 @@
       const fragment = document.createDocumentFragment();
 
       casts.forEach((cast) => {
-        fragment.appendChild(createCastCard(cast));
+        try {
+          fragment.appendChild(createCastCard(cast));
+        } catch (error) {
+          console.error("キャストカード生成失敗", cast?.id, error);
+          fragment.appendChild(createFallbackCastCard(cast));
+        }
       });
 
       elements.grid.appendChild(fragment);
@@ -192,6 +197,7 @@
     card.className = "cast-card";
     card.dataset.id = cast.id;
 
+    const images = getCastImages(cast);
     const image = getMainImage(cast);
     const castJson = encodeURIComponent(JSON.stringify(normalizeCast(cast)));
     const imageMarkup = image
@@ -224,6 +230,51 @@
     `;
 
     return card;
+  }
+
+  function createFallbackCastCard(cast = {}) {
+    const card = document.createElement("div");
+    card.className = "cast-card";
+
+    if (cast.id) {
+      card.dataset.id = cast.id;
+    }
+
+    card.innerHTML = `
+      <button type="button" class="drag-handle" aria-label="並び替え" title="並び替え">
+        ☰
+      </button>
+      <div class="cast-card-no-image">NO IMAGE</div>
+      <h3>${escapeHtml(cast.name || "名称未設定")}</h3>
+      <p>写真：0枚</p>
+      <p>このキャスト情報の一部を表示できませんでした。</p>
+      <div class="card-buttons">
+        ${cast.id ? `
+          <button type="button" class="edit-btn" data-action="edit" data-id="${cast.id}" data-cast="${safeEncodeCast(cast)}">
+            編集
+          </button>
+          <button type="button" class="delete-btn" data-action="delete" data-id="${cast.id}" data-name="${escapeAttribute(cast.name || "")}">
+            削除
+          </button>
+        ` : ""}
+      </div>
+    `;
+
+    return card;
+  }
+
+  function safeEncodeCast(cast) {
+    try {
+      return encodeURIComponent(JSON.stringify(normalizeCast(cast)));
+    } catch (error) {
+      console.error("キャストデータフォールバック生成失敗", cast?.id, error);
+      return encodeURIComponent(JSON.stringify({
+        name: cast?.name || "",
+        image: cast?.image || "",
+        images: [],
+        tags: []
+      }));
+    }
   }
 
   function openForm(id = null, cast = null) {
