@@ -138,7 +138,7 @@ div.innerHTML = `
     </p>
 
     <p class="cast-time">
-      ${escapeHtml(formatSchedule(cast, todayCast.time))}
+      出勤：${escapeHtml(formatSchedule(cast, todayCast.time))}
     </p>
 
    <a
@@ -215,7 +215,7 @@ ${imageMarkup}
 </p>
 
 <p class="cast-time">
-${escapeHtml(formatSchedule(cast))}
+出勤：${escapeHtml(formatSchedule(cast))}
 </p>
 
 <a
@@ -361,7 +361,7 @@ function formatSchedule(cast, time = ""){
 
 return time ||
 cast?.schedule ||
-"出勤未定";
+"未定";
 
 }
 

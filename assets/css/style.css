@@ -703,6 +703,15 @@ margin:auto;
         font-size:16px;
         font-weight:700;
         letter-spacing:0;
+        line-height:1;
+        text-align:center;
+        white-space:nowrap;
+        transform:none !important;
+        writing-mode:horizontal-tb !important;
+        text-orientation:mixed !important;
+        text-indent:0 !important;
+        font-style:normal;
+        font-family:"Noto Serif JP",serif;
     }
 
     .cast-grid,
@@ -792,5 +801,133 @@ margin:auto;
 
     .profile-grid{
         grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page){
+        padding-bottom:104px !important;
+    }
+
+    body:not(.cast-detail-page) .hero .hero-buttons .hero-btn.line{
+        position:fixed !important;
+        inset:auto 16px 16px 16px !important;
+        z-index:2000 !important;
+        width:auto !important;
+        max-width:none !important;
+        min-width:0 !important;
+        height:56px !important;
+        min-height:56px !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        padding:0 20px !important;
+        border-radius:999px !important;
+        background:#ff7fb8 !important;
+        color:#fff !important;
+        text-align:center !important;
+        white-space:nowrap !important;
+        line-height:1 !important;
+        letter-spacing:0 !important;
+        text-indent:0 !important;
+        text-transform:none !important;
+        text-decoration:none !important;
+        transform:none !important;
+        rotate:none !important;
+        scale:1 !important;
+        translate:none !important;
+        writing-mode:horizontal-tb !important;
+        text-orientation:mixed !important;
+        font-style:normal !important;
+        font-family:"Noto Serif JP",serif !important;
+        font-size:16px !important;
+        font-weight:700 !important;
+        box-shadow:0 12px 28px rgba(232,143,179,.38) !important;
+    }
+
+    body:not(.cast-detail-page) .cast-grid,
+    body:not(.cast-detail-page) .all-cast-grid{
+        display:grid !important;
+        grid-template-columns:minmax(0,1fr) !important;
+        gap:14px !important;
+        width:100% !important;
+        max-width:100% !important;
+        padding:0 !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-grid > .cast-card,
+    body:not(.cast-detail-page) .all-cast-grid > .cast-card,
+    body:not(.cast-detail-page) .cast-grid > .cast-card{
+        display:flex !important;
+        flex-direction:row !important;
+        align-items:stretch !important;
+        min-height:0 !important;
+        height:auto !important;
+        width:100% !important;
+        padding:0 !important;
+        border-radius:16px !important;
+        overflow:hidden !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .cast-grid > .cast-card > img,
+    body:not(.cast-detail-page) .all-cast-grid > .cast-card > img,
+    body:not(.cast-detail-page) .cast-grid > .cast-card > .cast-card-no-image,
+    body:not(.cast-detail-page) .all-cast-grid > .cast-card > .cast-card-no-image{
+        flex:0 0 40% !important;
+        width:40% !important;
+        max-width:40% !important;
+        min-width:40% !important;
+        height:164px !important;
+        min-height:164px !important;
+        aspect-ratio:auto !important;
+        object-fit:cover !important;
+        border-radius:16px 0 0 16px !important;
+    }
+
+    body:not(.cast-detail-page) .cast-grid > .cast-card > .cast-info,
+    body:not(.cast-detail-page) .all-cast-grid > .cast-card > .cast-info{
+        flex:1 1 auto !important;
+        min-width:0 !important;
+        padding:12px 14px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .cast-card .cast-info h3{
+        margin:0 0 6px !important;
+        font-size:20px !important;
+        line-height:1.2 !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .cast-card .cast-info p{
+        margin:0 0 4px !important;
+        padding:0 !important;
+        color:#8c6876 !important;
+        font-size:13px !important;
+        line-height:1.35 !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .cast-card .cast-info .cast-time{
+        color:#d88fb1 !important;
+        font-size:14px !important;
+        font-weight:700 !important;
+        margin-bottom:9px !important;
+    }
+
+    body:not(.cast-detail-page) .cast-card .cast-info .reserve-btn{
+        align-self:flex-start !important;
+        display:inline-flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        min-height:32px !important;
+        padding:8px 14px !important;
+        font-size:13px !important;
+        line-height:1 !important;
+        white-space:nowrap !important;
     }
 }
