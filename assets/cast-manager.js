@@ -57,6 +57,11 @@
     editingId: null,
     currentImage: "",
     currentImages: [],
+    allCasts: [],
+    searchQuery: "",
+    selectedFilterTags: new Set(),
+    selectedCastIds: new Set(),
+    sortMode: "displayOrder",
     draggedCard: null,
     dragPointerId: null,
     dragStartOrder: [],
@@ -91,6 +96,7 @@
 
   if (!elements.grid || !elements.popup) return;
 
+  setupDashboardControls();
   setupOrderControls();
   setupTagOptions();
   bindEvents();
@@ -103,6 +109,18 @@
     elements.saveButton?.addEventListener("click", handleSave);
     elements.orderSaveButton?.addEventListener("click", saveCurrentOrder);
     elements.tags?.addEventListener("input", syncTagOptionsFromInput);
+    elements.searchInput?.addEventListener("input", handleSearchInput);
+    elements.searchInput?.addEventListener("search", handleSearchInput);
+    elements.sortSelect?.addEventListener("change", () => {
+      state.sortMode = elements.sortSelect.value || "displayOrder";
+      renderDashboard();
+    });
+    elements.selectAll?.addEventListener("change", () => {
+      toggleSelectAllVisible(elements.selectAll.checked);
+    });
+    elements.bulkPublish?.addEventListener("click", () => bulkUpdatePublished(true));
+    elements.bulkPrivate?.addEventListener("click", () => bulkUpdatePublished(false));
+    elements.bulkDelete?.addEventListener("click", bulkDeleteSelected);
 
     IMAGE_INPUT_IDS.forEach((id, index) => {
       document.getElementById(id)?.addEventListener("change", () => {
@@ -134,6 +152,14 @@
       }
     });
 
+    elements.grid.addEventListener("change", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      if (!target.matches(".cast-select-checkbox")) return;
+
+      updateSelectedCast(target.dataset.id, target.checked);
+    });
+
     elements.grid.addEventListener("pointerdown", handleDragStart);
 
     window.addEventListener("beforeunload", (event) => {
@@ -161,28 +187,11 @@
       });
 
       sortCastsByDisplayOrder(casts);
+      state.allCasts = casts;
 
-      if (!casts.length) {
-        elements.grid.innerHTML = "<p>登録されているキャストはありません。</p>";
-        state.savedOrder = [];
-        setOrderDirty(false);
-        return;
-      }
-
-      const fragment = document.createDocumentFragment();
-
-      casts.forEach((cast) => {
-        try {
-          fragment.appendChild(createCastCard(cast));
-        } catch (error) {
-          console.error("キャストカード生成失敗", cast?.id, error);
-          fragment.appendChild(createFallbackCastCard(cast));
-        }
-      });
-
-      elements.grid.appendChild(fragment);
+      renderDashboard();
       removeDragHandlesOutsideCastGrid();
-      state.savedOrder = getCurrentCardOrder();
+      state.savedOrder = state.allCasts.map((cast) => cast.id).filter(Boolean);
       setOrderDirty(false);
     } catch (error) {
       console.error("キャスト読み込み失敗", error);
@@ -199,6 +208,8 @@
 
     const images = getCastImages(cast);
     const image = getMainImage(cast);
+    const tags = getTags(cast);
+    const isPublished = isCastPublished(cast);
     const castJson = encodeURIComponent(JSON.stringify(normalizeCast(cast)));
     const imageMarkup = image
       ? `<img src="${escapeAttribute(image)}" alt="">`
@@ -208,17 +219,29 @@
       <button type="button" class="drag-handle" aria-label="並び替え" title="並び替え">
         ☰
       </button>
+      <label class="cast-select">
+        <input type="checkbox" class="cast-select-checkbox" data-id="${cast.id}" ${state.selectedCastIds.has(cast.id) ? "checked" : ""}>
+        <span>選択</span>
+      </label>
       ${imageMarkup}
-      <h3>${escapeHtml(cast.name || "")}</h3>
-      <p>${escapeHtml(cast.age || "-")}歳</p>
-      <p>身長：${escapeHtml(cast.height || "-")}</p>
-      <p>誕生日：${escapeHtml(cast.birthday || "-")}</p>
-      <p>血液型：${escapeHtml(cast.bloodType || "-")}</p>
-      <p>趣味：${escapeHtml(cast.hobby || "-")}</p>
-      <p>好きなお酒：${escapeHtml(cast.favoriteDrink || "-")}</p>
-      <p>メッセージ：${escapeHtml(cast.message || "-")}</p>
-      <p>写真：${images.length}枚</p>
-      <p>${escapeHtml(cast.schedule || "")}</p>
+      <div class="cast-card-body">
+        <div class="cast-card-heading">
+          <h3>${escapeHtml(cast.name || "")}</h3>
+          <span class="cast-status-badge ${isPublished ? "is-public" : "is-private"}">
+            ${isPublished ? "● 公開" : "○ 非公開"}
+          </span>
+        </div>
+        ${cast.nickname ? `<p class="cast-nickname">${escapeHtml(cast.nickname)}</p>` : ""}
+        <div class="cast-card-meta">
+          <span>年齢：${escapeHtml(cast.age || "-")}</span>
+          <span>身長：${escapeHtml(cast.height || "-")}</span>
+          <span>写真：${images.length}枚</span>
+        </div>
+        <div class="cast-card-tags">
+          ${tags.length ? tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("") : "<span>タグなし</span>"}
+        </div>
+        <p class="cast-card-message">メッセージ：${escapeHtml(cast.message || "-")}</p>
+      </div>
       <div class="card-buttons">
         <button type="button" class="edit-btn" data-action="edit" data-id="${cast.id}" data-cast="${castJson}">
           編集
@@ -244,10 +267,21 @@
       <button type="button" class="drag-handle" aria-label="並び替え" title="並び替え">
         ☰
       </button>
+      <label class="cast-select">
+        <input type="checkbox" class="cast-select-checkbox" data-id="${escapeAttribute(cast.id || "")}" ${cast.id && state.selectedCastIds.has(cast.id) ? "checked" : ""}>
+        <span>選択</span>
+      </label>
       <div class="cast-card-no-image">NO IMAGE</div>
-      <h3>${escapeHtml(cast.name || "名称未設定")}</h3>
-      <p>写真：0枚</p>
-      <p>このキャスト情報の一部を表示できませんでした。</p>
+      <div class="cast-card-body">
+        <div class="cast-card-heading">
+          <h3>${escapeHtml(cast.name || "名称未設定")}</h3>
+          <span class="cast-status-badge ${isCastPublished(cast) ? "is-public" : "is-private"}">
+            ${isCastPublished(cast) ? "● 公開" : "○ 非公開"}
+          </span>
+        </div>
+        <p>写真：0枚</p>
+        <p>このキャスト情報の一部を表示できませんでした。</p>
+      </div>
       <div class="card-buttons">
         ${cast.id ? `
           <button type="button" class="edit-btn" data-action="edit" data-id="${cast.id}" data-cast="${safeEncodeCast(cast)}">
@@ -369,6 +403,7 @@
 
       if (!state.editingId) {
         payload.displayOrder = await getNextDisplayOrder();
+        payload.isPublished = true;
       }
 
       await saveCast(payload);
@@ -466,7 +501,7 @@
   }
 
   async function saveCurrentOrder() {
-    if (!state.isOrderDirty || state.isOrderSaving) return;
+    if (!state.isOrderDirty || state.isOrderSaving || !isOrderEditable()) return;
 
     const orderedIds = getCurrentCardOrder();
 
@@ -481,6 +516,7 @@
     try {
       await updateDisplayOrders(orderedIds);
 
+      applyDisplayOrderToState(orderedIds);
       state.savedOrder = [...orderedIds];
       setOrderDirty(false);
       showTemporaryOrderStatus("保存しました");
@@ -495,6 +531,376 @@
       }
     } finally {
       setOrderSaving(false);
+    }
+  }
+
+  function setupDashboardControls() {
+    const dashboard = document.createElement("div");
+    dashboard.className = "cast-admin-pro";
+    dashboard.innerHTML = `
+      <div class="cast-stats" aria-label="キャスト統計">
+        <div class="cast-stat-card">
+          <span class="cast-stat-label">公開中キャスト</span>
+          <strong id="publicCastCount">0</strong>
+        </div>
+        <div class="cast-stat-card">
+          <span class="cast-stat-label">非公開キャスト</span>
+          <strong id="privateCastCount">0</strong>
+        </div>
+        <div class="cast-stat-card">
+          <span class="cast-stat-label">合計キャスト</span>
+          <strong id="totalCastCount">0</strong>
+        </div>
+      </div>
+
+      <div class="cast-admin-toolbar">
+        <label class="cast-search">
+          <span>検索</span>
+          <input type="search" id="castSearchInput" placeholder="名前・ニックネーム・タグで検索">
+        </label>
+        <label class="cast-sort">
+          <span>並び順</span>
+          <select id="castSortSelect">
+            <option value="displayOrder">表示順</option>
+            <option value="name">名前順</option>
+            <option value="age">年齢順</option>
+            <option value="createdAt">登録順</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="cast-filter-chips" id="castFilterChips" aria-label="タグフィルター"></div>
+
+      <div class="cast-bulk-toolbar">
+        <label class="cast-select-all">
+          <input type="checkbox" id="castSelectAll">
+          <span>Select All</span>
+        </label>
+        <div class="cast-bulk-actions">
+          <button type="button" id="bulkPublish" disabled>公開</button>
+          <button type="button" id="bulkPrivate" disabled>非公開</button>
+          <button type="button" id="bulkDelete" disabled>削除</button>
+        </div>
+        <span id="bulkStatus" class="bulk-status">0件選択中</span>
+      </div>
+    `;
+
+    elements.openButton?.insertAdjacentElement("beforebegin", dashboard);
+    elements.searchInput = document.getElementById("castSearchInput");
+    elements.sortSelect = document.getElementById("castSortSelect");
+    elements.filterChips = document.getElementById("castFilterChips");
+    elements.publicCount = document.getElementById("publicCastCount");
+    elements.privateCount = document.getElementById("privateCastCount");
+    elements.totalCount = document.getElementById("totalCastCount");
+    elements.selectAll = document.getElementById("castSelectAll");
+    elements.bulkPublish = document.getElementById("bulkPublish");
+    elements.bulkPrivate = document.getElementById("bulkPrivate");
+    elements.bulkDelete = document.getElementById("bulkDelete");
+    elements.bulkStatus = document.getElementById("bulkStatus");
+
+    renderFilterChips();
+  }
+
+  function renderDashboard() {
+    pruneSelectedIds();
+    renderStats();
+    renderFilterChips();
+    renderCasts();
+    updateBulkControls();
+    updateOrderControlsForView();
+  }
+
+  function handleSearchInput() {
+    state.searchQuery = elements.searchInput?.value.trim().toLowerCase() || "";
+    renderDashboard();
+  }
+
+  function renderStats() {
+    const publicCount = state.allCasts.filter(isCastPublished).length;
+    const totalCount = state.allCasts.length;
+    const privateCount = totalCount - publicCount;
+
+    if (elements.publicCount) elements.publicCount.textContent = String(publicCount);
+    if (elements.privateCount) elements.privateCount.textContent = String(privateCount);
+    if (elements.totalCount) elements.totalCount.textContent = String(totalCount);
+  }
+
+  function renderFilterChips() {
+    if (!elements.filterChips) return;
+
+    const tags = getAvailableFilterTags();
+    const chips = ["All", ...tags];
+
+    elements.filterChips.innerHTML = chips.map((tag) => {
+      const isAll = tag === "All";
+      const selected = isAll
+        ? state.selectedFilterTags.size === 0
+        : state.selectedFilterTags.has(tag);
+
+      return `
+        <button type="button" class="cast-filter-chip ${selected ? "is-selected" : ""}" data-tag="${escapeAttribute(tag)}">
+          ${escapeHtml(isAll ? "All" : tag)}
+        </button>
+      `;
+    }).join("");
+
+    elements.filterChips.querySelectorAll(".cast-filter-chip").forEach((button) => {
+      button.addEventListener("click", () => {
+        const tag = button.dataset.tag || "";
+
+        if (tag === "All") {
+          state.selectedFilterTags.clear();
+        } else if (state.selectedFilterTags.has(tag)) {
+          state.selectedFilterTags.delete(tag);
+        } else {
+          state.selectedFilterTags.add(tag);
+        }
+
+        renderDashboard();
+      });
+    });
+  }
+
+  function renderCasts() {
+    const casts = getVisibleCasts();
+    elements.grid.innerHTML = "";
+
+    if (!state.allCasts.length) {
+      elements.grid.innerHTML = `
+        <div class="cast-empty-state">
+          <span aria-hidden="true">♡</span>
+          <strong>登録されているキャストはありません。</strong>
+        </div>
+      `;
+      state.savedOrder = [];
+      setOrderDirty(false);
+      return;
+    }
+
+    if (!casts.length) {
+      elements.grid.innerHTML = `
+        <div class="cast-empty-state">
+          <span aria-hidden="true">⌕</span>
+          <strong>No matching cast</strong>
+          <p>検索条件に合うキャストが見つかりません。</p>
+        </div>
+      `;
+      setOrderDirty(false);
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+
+    casts.forEach((cast) => {
+      try {
+        fragment.appendChild(createCastCard(cast));
+      } catch (error) {
+        console.error("キャストカード生成失敗", cast?.id, error);
+        fragment.appendChild(createFallbackCastCard(cast));
+      }
+    });
+
+    elements.grid.appendChild(fragment);
+    removeDragHandlesOutsideCastGrid();
+  }
+
+  function getVisibleCasts() {
+    const filtered = state.allCasts.filter((cast) => {
+      return matchesSearch(cast) && matchesTagFilters(cast);
+    });
+
+    return sortCastsForView(filtered);
+  }
+
+  function matchesSearch(cast) {
+    if (!state.searchQuery) return true;
+
+    const haystack = [
+      cast.name,
+      cast.nickname,
+      ...getTags(cast)
+    ].join(" ").toLowerCase();
+
+    return haystack.includes(state.searchQuery);
+  }
+
+  function matchesTagFilters(cast) {
+    if (!state.selectedFilterTags.size) return true;
+
+    const tags = getTags(cast);
+    return [...state.selectedFilterTags].every((tag) => tags.includes(tag));
+  }
+
+  function sortCastsForView(casts) {
+    const sorted = [...casts];
+
+    if (state.sortMode === "name") {
+      sorted.sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "ja"));
+      return sorted;
+    }
+
+    if (state.sortMode === "age") {
+      sorted.sort((a, b) => compareOptionalNumber(a.age, b.age));
+      return sorted;
+    }
+
+    if (state.sortMode === "createdAt") {
+      sorted.sort((a, b) => compareCreatedAt(a, b));
+      return sorted;
+    }
+
+    sortCastsByDisplayOrder(sorted);
+    return sorted;
+  }
+
+  function getAvailableFilterTags() {
+    const tags = new Set(DEFAULT_TAGS);
+
+    state.allCasts.forEach((cast) => {
+      getTags(cast).forEach((tag) => tags.add(tag));
+    });
+
+    return [...tags].filter(Boolean).sort((a, b) => {
+      const aDefault = DEFAULT_TAGS.indexOf(a);
+      const bDefault = DEFAULT_TAGS.indexOf(b);
+
+      if (aDefault !== -1 || bDefault !== -1) {
+        if (aDefault === -1) return 1;
+        if (bDefault === -1) return -1;
+        return aDefault - bDefault;
+      }
+
+      return a.localeCompare(b, "ja");
+    });
+  }
+
+  function toggleSelectAllVisible(checked) {
+    getVisibleCasts().forEach((cast) => {
+      updateSelectedCast(cast.id, checked, false);
+    });
+
+    renderCasts();
+    updateBulkControls();
+  }
+
+  function updateSelectedCast(id, checked, updateControls = true) {
+    if (!id) return;
+
+    if (checked) {
+      state.selectedCastIds.add(id);
+    } else {
+      state.selectedCastIds.delete(id);
+    }
+
+    if (updateControls) updateBulkControls();
+  }
+
+  function updateBulkControls() {
+    const selectedCount = state.selectedCastIds.size;
+    const visibleIds = getVisibleCasts().map((cast) => cast.id).filter(Boolean);
+    const allVisibleSelected =
+      visibleIds.length > 0 && visibleIds.every((id) => state.selectedCastIds.has(id));
+
+    if (elements.selectAll) {
+      elements.selectAll.checked = allVisibleSelected;
+      elements.selectAll.indeterminate =
+        !allVisibleSelected && visibleIds.some((id) => state.selectedCastIds.has(id));
+    }
+
+    [elements.bulkPublish, elements.bulkPrivate, elements.bulkDelete].forEach((button) => {
+      if (button) button.disabled = selectedCount === 0;
+    });
+
+    if (elements.bulkStatus) {
+      elements.bulkStatus.textContent = `${selectedCount}件選択中`;
+    }
+  }
+
+  async function bulkUpdatePublished(isPublished) {
+    const ids = [...state.selectedCastIds];
+    if (!ids.length) return;
+
+    setBulkBusy(true);
+
+    try {
+      const batch = writeBatch(db);
+      ids.forEach((id) => {
+        batch.update(doc(db, COLLECTION_NAME, id), { isPublished });
+      });
+      await batch.commit();
+
+      state.allCasts = state.allCasts.map((cast) => {
+        return ids.includes(cast.id) ? { ...cast, isPublished } : cast;
+      });
+      state.selectedCastIds.clear();
+      renderDashboard();
+    } catch (error) {
+      console.error("一括公開設定失敗", error);
+      showError("一括更新に失敗しました。");
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+
+  async function bulkDeleteSelected() {
+    const ids = [...state.selectedCastIds];
+    if (!ids.length) return;
+    if (!confirm(`${ids.length}件のキャストを削除しますか？`)) return;
+
+    setBulkBusy(true);
+
+    try {
+      const batch = writeBatch(db);
+      ids.forEach((id) => {
+        batch.delete(doc(db, COLLECTION_NAME, id));
+      });
+      await batch.commit();
+
+      state.selectedCastIds.clear();
+      await renumberCasts();
+      await loadCasts();
+    } catch (error) {
+      console.error("一括削除失敗", error);
+      showError("一括削除に失敗しました。");
+    } finally {
+      setBulkBusy(false);
+    }
+  }
+
+  function setBulkBusy(isBusy) {
+    [elements.bulkPublish, elements.bulkPrivate, elements.bulkDelete].forEach((button) => {
+      if (button) button.disabled = isBusy || state.selectedCastIds.size === 0;
+    });
+  }
+
+  function pruneSelectedIds() {
+    const validIds = new Set(state.allCasts.map((cast) => cast.id));
+
+    [...state.selectedCastIds].forEach((id) => {
+      if (!validIds.has(id)) state.selectedCastIds.delete(id);
+    });
+  }
+
+  function isOrderEditable() {
+    return (
+      state.sortMode === "displayOrder" &&
+      !state.searchQuery &&
+      state.selectedFilterTags.size === 0
+    );
+  }
+
+  function updateOrderControlsForView() {
+    const editable = isOrderEditable();
+
+    if (elements.orderSaveButton) {
+      elements.orderSaveButton.disabled = !editable || !state.isOrderDirty || state.isOrderSaving;
+      elements.orderSaveButton.title = editable
+        ? ""
+        : "検索・フィルター・並び替え中は表示順を保存できません。";
+    }
+
+    if (!editable && state.isOrderDirty) {
+      setOrderDirty(false);
     }
   }
 
@@ -576,7 +982,24 @@
     });
   }
 
+  function applyDisplayOrderToState(orderedIds) {
+    const orderById = new Map(
+      orderedIds.map((id, index) => [id, index + 1])
+    );
+
+    state.allCasts = state.allCasts.map((cast) => {
+      if (!orderById.has(cast.id)) return cast;
+
+      return {
+        ...cast,
+        displayOrder: orderById.get(cast.id)
+      };
+    });
+  }
+
   function handleDragStart(event) {
+    if (!isOrderEditable()) return;
+
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
@@ -867,7 +1290,9 @@
       tiktok: cast.tiktok || "",
       tags: getTags(cast),
       schedule: cast.schedule || "",
-      displayOrder: getNumericDisplayOrder(cast)
+      displayOrder: getNumericDisplayOrder(cast),
+      isPublished: isCastPublished(cast),
+      nickname: cast.nickname || ""
     };
   }
 
@@ -998,6 +1423,51 @@
 
     const order = Number(cast?.displayOrder);
     return Number.isFinite(order) ? order : null;
+  }
+
+  function isCastPublished(cast) {
+    return cast?.isPublished !== false;
+  }
+
+  function compareOptionalNumber(a, b) {
+    const aNumber = Number(a);
+    const bNumber = Number(b);
+    const aValid = Number.isFinite(aNumber);
+    const bValid = Number.isFinite(bNumber);
+
+    if (aValid && bValid) return aNumber - bNumber;
+    if (aValid) return -1;
+    if (bValid) return 1;
+
+    return 0;
+  }
+
+  function compareCreatedAt(a, b) {
+    const aTime = getTimestampValue(a?.createdAt);
+    const bTime = getTimestampValue(b?.createdAt);
+
+    if (aTime !== null && bTime !== null) return bTime - aTime;
+    if (aTime !== null) return -1;
+    if (bTime !== null) return 1;
+
+    return String(a.name || "").localeCompare(String(b.name || ""), "ja");
+  }
+
+  function getTimestampValue(value) {
+    if (!value) return null;
+
+    if (typeof value.toMillis === "function") {
+      return value.toMillis();
+    }
+
+    if (value.seconds !== undefined) {
+      return Number(value.seconds) * 1000;
+    }
+
+    const date = new Date(value);
+    const time = date.getTime();
+
+    return Number.isFinite(time) ? time : null;
   }
 
   function setFormBusy(isBusy) {
