@@ -8,7 +8,6 @@ import {
   getFirestore,
   collection,
   getDocs,
-  addDoc,
   updateDoc,
   deleteDoc,
   doc
@@ -198,40 +197,6 @@ async function loadRanking() {
   }
 }
 
-async function loadNews() {
-  const newsList = document.getElementById("newsList");
-
-  if (!newsList) return;
-
-  newsList.innerHTML = "";
-
-  try {
-    const snapshot = await getDocs(collection(db, "news"));
-
-    snapshot.forEach((docItem) => {
-      const data = docItem.data();
-
-      newsList.insertAdjacentHTML(
-        "beforeend",
-        `
-          <div style="
-            border-top:1px solid #eee;
-            margin-top:10px;
-            padding-top:10px;
-          ">
-            <strong>${escapeHtml(data.title || "")}</strong>
-            <p>${escapeHtml(data.text || "")}</p>
-            <button class="delete-news" data-id="${docItem.id}">削除</button>
-          </div>
-        `
-      );
-    });
-  } catch (error) {
-    console.error("お知らせ読み込み失敗", error);
-    newsList.innerHTML = "お知らせの読み込みに失敗しました。";
-  }
-}
-
 async function loadTodayCast() {
   const wrap = document.getElementById("todayCastList");
 
@@ -285,16 +250,6 @@ document.addEventListener("click", async (event) => {
   const target = event.target;
 
   if (!(target instanceof HTMLElement)) return;
-
-  if (target.classList.contains("delete-news")) {
-    try {
-      await deleteDoc(doc(db, "news", target.dataset.id));
-      await loadNews();
-    } catch (error) {
-      console.error("お知らせ削除失敗", error);
-      alert("お知らせの削除に失敗しました。");
-    }
-  }
 
   if (target.classList.contains("delete-btn")) {
     if (!document.getElementById("reservationList")) return;
@@ -360,31 +315,6 @@ document.getElementById("searchReservation")?.addEventListener("input", (event) 
   loadReservations();
 });
 
-document.getElementById("saveNews")?.addEventListener("click", async () => {
-  const titleInput = document.getElementById("newsTitle");
-  const textInput = document.getElementById("newsText");
-  const title = titleInput.value.trim();
-  const text = textInput.value.trim();
-
-  if (!title || !text) return;
-
-  try {
-    await addDoc(collection(db, "news"), {
-      title,
-      text,
-      createdAt: new Date()
-    });
-
-    titleInput.value = "";
-    textInput.value = "";
-
-    await loadNews();
-  } catch (error) {
-    console.error("お知らせ保存失敗", error);
-    alert("お知らせの保存に失敗しました。");
-  }
-});
-
 function setText(id, value) {
   const element = document.getElementById(id);
   if (element) element.textContent = value;
@@ -434,5 +364,4 @@ function getNumericDisplayOrder(cast) {
 
 loadReservations();
 loadRanking();
-loadNews();
 loadTodayCast();

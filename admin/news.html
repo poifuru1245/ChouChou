@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お知らせ管理</title>
+
+<link rel="stylesheet" href="../assets/css/admin.css">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<div class="sidebar">
+
+<h2>CHOU CHOU</h2>
+
+<a href="dashboard.html">ダッシュボード</a>
+<a href="cast.html">キャスト管理</a>
+<a href="schedule.html">出勤管理</a>
+<a href="news.html">お知らせ</a>
+<a href="gallery.html">ギャラリー</a>
+<a href="login.html">ログアウト</a>
+
+</div>
+
+<div class="main">
+
+<h1>お知らせ管理</h1>
+
+<div class="news-admin-panel">
+
+  <div class="news-form-grid">
+    <input type="text" id="newsTitle" placeholder="タイトル">
+    <select id="newsCategory">
+      <option value="">カテゴリ（任意）</option>
+      <option>お知らせ</option>
+      <option>イベント</option>
+      <option>求人</option>
+      <option>重要</option>
+      <option>キャンペーン</option>
+    </select>
+    <input type="url" id="newsLinkUrl" placeholder="リンクURL（任意）">
+    <input type="file" id="newsImage" accept="image/*">
+  </div>
+
+  <textarea id="newsBody" placeholder="本文（任意）"></textarea>
+
+  <div class="news-admin-switches">
+    <label>
+      <input type="checkbox" id="newsPublished" checked>
+      公開する
+    </label>
+    <label>
+      <input type="checkbox" id="newsPinned">
+      固定表示
+    </label>
+  </div>
+
+  <div class="form-buttons news-form-buttons">
+    <button type="button" id="resetNewsForm">リセット</button>
+    <button type="button" id="saveNewsPost">保存</button>
+  </div>
+
+  <p id="newsFormMessage" class="news-admin-message"></p>
+
+</div>
+
+<div class="order-controls news-order-controls">
+  <button type="button" id="saveNewsOrder" class="order-save-btn" disabled>
+    並び順を保存
+  </button>
+  <span id="newsOrderStatus" class="order-status"></span>
+</div>
+
+<div class="news-admin-grid" id="newsGrid"></div>
+
+</div>
+
+</div>
+
+<script type="module" src="../assets/app.js"></script>
+<script src="../assets/news-manager.js"></script>
+
+</body>
+</html>
