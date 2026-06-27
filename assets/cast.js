@@ -130,11 +130,15 @@ div.innerHTML = `
     <h3>${escapeHtml(cast.name || "")}</h3>
 
     <p class="cast-age">
-      ${formatAge(cast.age)}
+      年齢：${formatAge(cast.age)}
+    </p>
+
+    <p class="cast-height">
+      身長：${formatHeight(cast.height)}
     </p>
 
     <p class="cast-time">
-      ${cast.schedule || "20:00〜LAST"}
+      ${escapeHtml(formatSchedule(cast, todayCast.time))}
     </p>
 
    <a
@@ -203,7 +207,15 @@ ${imageMarkup}
 <h3>${escapeHtml(cast.name || "")}</h3>
 
 <p class="cast-age">
-${formatAge(cast.age)}
+年齢：${formatAge(cast.age)}
+</p>
+
+<p class="cast-height">
+身長：${formatHeight(cast.height)}
+</p>
+
+<p class="cast-time">
+${escapeHtml(formatSchedule(cast))}
 </p>
 
 <a
@@ -335,7 +347,21 @@ function formatAge(age){
 
 return age
 ? `${age}歳`
-: "年齢未設定";
+: "-";
+
+}
+
+function formatHeight(height){
+
+return height || "-";
+
+}
+
+function formatSchedule(cast, time = ""){
+
+return time ||
+cast?.schedule ||
+"出勤未定";
 
 }
 

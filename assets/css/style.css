@@ -655,6 +655,10 @@ margin:auto;
 }
 
 @media(max-width:768px){
+    body:not(.cast-detail-page){
+        padding-bottom:96px;
+    }
+
     .header-inner{
         padding:10px 14px;
         gap:10px;
@@ -676,46 +680,100 @@ margin:auto;
         white-space:nowrap;
     }
 
+    .hero-buttons{
+        gap:12px;
+    }
+
+    .hero-btn.line{
+        position:fixed;
+        left:16px;
+        right:16px;
+        bottom:16px;
+        z-index:1200;
+        width:auto;
+        max-width:none;
+        height:56px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:0 20px;
+        border-radius:999px;
+        background:#ff7fb8;
+        box-shadow:0 12px 28px rgba(232,143,179,.38);
+        font-size:16px;
+        font-weight:700;
+        letter-spacing:0;
+    }
+
     .cast-grid,
     .all-cast-grid{
         grid-template-columns:minmax(0,1fr) !important;
         gap:18px !important;
     }
 
-    .cast-card{
+    .today-cast .cast-card,
+    .all-cast-grid .cast-card{
+        display:grid !important;
+        grid-template-columns:112px minmax(0,1fr);
+        min-height:0;
         border-radius:16px;
-        padding-bottom:12px;
+        padding-bottom:0;
+        text-align:left;
+        align-items:stretch;
     }
 
-    .cast-card img,
-    .cast-card-no-image{
-        height:220px;
-        border-radius:16px;
+    .today-cast .cast-card img,
+    .all-cast-grid .cast-card img,
+    .today-cast .cast-card-no-image,
+    .all-cast-grid .cast-card-no-image{
+        width:112px;
+        height:148px;
+        border-radius:16px 0 0 16px;
     }
 
-    .cast-info{
+    .today-cast .cast-info,
+    .all-cast-grid .cast-info{
+        min-width:0;
         padding:12px 14px;
+        text-align:left;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
     }
 
-    .cast-info h3{
-        font-size:21px;
+    .today-cast .cast-info h3,
+    .all-cast-grid .cast-info h3{
+        font-size:20px;
+        line-height:1.2;
         margin-bottom:4px;
+        text-align:left;
     }
 
-    .cast-card p,
+    .today-cast .cast-card p,
+    .all-cast-grid .cast-card p,
     .cast-age,
+    .cast-height,
     .cast-time{
-        margin-bottom:8px;
+        text-align:left;
+        margin:0 0 4px;
+        color:#8c6876;
+        font-size:13px;
+        line-height:1.35;
     }
 
     .cast-time{
-        font-size:16px;
-        margin:8px 0 10px;
-    }
-
-    .cast-card .reserve-btn{
-        padding:10px 18px;
+        color:#d88fb1;
         font-size:14px;
+        font-weight:700;
+        margin:2px 0 8px;
+    }
+
+    .today-cast .cast-card .reserve-btn,
+    .all-cast-grid .cast-card .reserve-btn{
+        align-self:flex-start;
+        padding:8px 14px;
+        font-size:13px;
+        line-height:1;
     }
 
     .cast-detail{
