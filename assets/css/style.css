@@ -931,3 +931,138 @@ margin:auto;
         white-space:nowrap !important;
     }
 }
+
+/* Ver5.2.5 final override: real mobile selectors must win */
+@media(max-width:768px){
+    body:not(.cast-detail-page){
+        padding-bottom:calc(112px + env(safe-area-inset-bottom)) !important;
+    }
+
+    body:not(.cast-detail-page) a.fixed-line-reservation,
+    body:not(.cast-detail-page) a.hero-btn.line{
+        position:fixed !important;
+        left:16px !important;
+        right:16px !important;
+        bottom:calc(16px + env(safe-area-inset-bottom)) !important;
+        z-index:9999 !important;
+        width:auto !important;
+        max-width:none !important;
+        height:56px !important;
+        min-height:56px !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        padding:0 18px !important;
+        margin:0 !important;
+        border-radius:999px !important;
+        background:#ff7fb8 !important;
+        color:#fff !important;
+        font-family:"Noto Serif JP",sans-serif !important;
+        font-size:16px !important;
+        font-weight:700 !important;
+        font-style:normal !important;
+        line-height:1 !important;
+        letter-spacing:0 !important;
+        text-align:center !important;
+        text-indent:0 !important;
+        text-decoration:none !important;
+        text-transform:none !important;
+        white-space:nowrap !important;
+        transform:none !important;
+        rotate:none !important;
+        scale:1 !important;
+        translate:none !important;
+        writing-mode:horizontal-tb !important;
+        text-orientation:mixed !important;
+        box-shadow:0 12px 28px rgba(232,143,179,.38) !important;
+    }
+
+    body:not(.cast-detail-page) .cast-grid,
+    body:not(.cast-detail-page) .all-cast-grid{
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        gap:14px !important;
+        width:100% !important;
+        max-width:100% !important;
+        margin:0 auto !important;
+        padding:0 !important;
+        justify-content:stretch !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-card{
+        display:flex !important;
+        flex-direction:row !important;
+        align-items:stretch !important;
+        width:100% !important;
+        min-width:0 !important;
+        min-height:0 !important;
+        height:auto !important;
+        padding:0 !important;
+        border-radius:16px !important;
+        overflow:hidden !important;
+        background:#fff !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-card > .public-cast-image{
+        flex:0 0 40% !important;
+        width:40% !important;
+        max-width:40% !important;
+        min-width:40% !important;
+        height:164px !important;
+        min-height:164px !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        object-fit:cover !important;
+        border-radius:16px 0 0 16px !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-card > .public-cast-info{
+        flex:1 1 auto !important;
+        min-width:0 !important;
+        padding:12px 14px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-info h3{
+        margin:0 0 6px !important;
+        padding:0 !important;
+        color:#6d4a58 !important;
+        font-size:20px !important;
+        line-height:1.2 !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-info p{
+        margin:0 0 4px !important;
+        padding:0 !important;
+        color:#8c6876 !important;
+        font-size:13px !important;
+        line-height:1.35 !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-info .cast-time{
+        color:#d88fb1 !important;
+        font-size:14px !important;
+        font-weight:700 !important;
+        margin-bottom:9px !important;
+    }
+
+    body:not(.cast-detail-page) .public-profile-link{
+        align-self:flex-start !important;
+        display:inline-flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        min-height:32px !important;
+        padding:8px 14px !important;
+        border-radius:999px !important;
+        font-size:13px !important;
+        line-height:1 !important;
+        white-space:nowrap !important;
+    }
+}

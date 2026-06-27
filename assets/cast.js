@@ -113,19 +113,19 @@ if(!todayCast){
     const div =
       document.createElement("div");
 
-    div.className = "cast-card";
+    div.className = "cast-card public-cast-card";
 
 const image =
 getMainImage(cast);
 const imageMarkup =
 image
-? `<img src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
-: `<div class="cast-card-no-image">NO IMAGE</div>`;
+? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
+: `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
 
 div.innerHTML = `
   ${imageMarkup}
 
-  <div class="cast-info">
+  <div class="cast-info public-cast-info">
 
     <h3>${escapeHtml(cast.name || "")}</h3>
 
@@ -142,7 +142,7 @@ div.innerHTML = `
     </p>
 
    <a
-class="reserve-btn"
+class="reserve-btn public-profile-link"
 href="${createCastDetailUrl(cast)}">
 プロフィール
 </a>
@@ -190,19 +190,19 @@ casts.forEach((cast)=>{
 const div =
 document.createElement("div");
 
-div.className = "cast-card";
+div.className = "cast-card public-cast-card";
 
 const image =
 getMainImage(cast);
 const imageMarkup =
 image
-? `<img src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
-: `<div class="cast-card-no-image">NO IMAGE</div>`;
+? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
+: `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
 
 div.innerHTML = `
 ${imageMarkup}
 
-<div class="cast-info">
+<div class="cast-info public-cast-info">
 
 <h3>${escapeHtml(cast.name || "")}</h3>
 
@@ -219,7 +219,7 @@ ${imageMarkup}
 </p>
 
 <a
-class="reserve-btn"
+class="reserve-btn public-profile-link"
 href="${createCastDetailUrl(cast)}">
 プロフィール
 </a>
