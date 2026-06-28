@@ -136,11 +136,11 @@ function renderBadges(cast) {
 function getCastBadges(cast) {
   const badges = [];
 
-  if (cast?.isNew === true) {
+  if (isBadgeEnabled(cast?.isNew)) {
     badges.push(["premium-cast-badge-new", "new"]);
   }
 
-  if (cast?.isRecommended === true) {
+  if (isBadgeEnabled(cast?.isRecommended)) {
     badges.push(["premium-cast-badge-recommended", "recommended"]);
   }
 
@@ -176,6 +176,10 @@ function createRecommendedBadgeImage(className = "premium-cast-badge-recommended
       <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badge-osusume.png" alt="${safeLabel}" loading="lazy">
     </span>
   `;
+}
+
+function isBadgeEnabled(value) {
+  return value === true || String(value).toLowerCase() === "true";
 }
 
 function renderThumbnails(images, name) {

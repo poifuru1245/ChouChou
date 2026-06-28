@@ -29,6 +29,11 @@ const db = getFirestore(app);
 
 async function loadCasts() {
 
+const list =
+document.querySelector(".cast-grid");
+
+if(!list) return;
+
 const scheduleSnapshot =
 await getDocs(
   collection(db,"schedules")
@@ -79,10 +84,7 @@ console.log("出勤者", todayCasts);
   sortCastsByDisplayOrder(casts);
 
 console.log("cast.js 起動");
-console.log(document.querySelector(".cast-grid"));
-
-  const list =
-document.querySelector(".cast-grid");
+console.log(list);
 
   list.innerHTML = "";
 
@@ -170,6 +172,11 @@ loadCasts();
 
 async function loadAllCasts(){
 
+const list =
+document.querySelector(".all-cast-grid");
+
+if(!list) return;
+
 const snapshot =
 await getDocs(collection(db,"casts"));
 
@@ -185,11 +192,6 @@ id: docSnap.id,
 });
 
 sortCastsByDisplayOrder(casts);
-
-const list =
-document.querySelector(".all-cast-grid");
-
-if(!list) return;
 
 list.innerHTML = "";
 
@@ -350,8 +352,8 @@ params.set("message",cast.message || "");
 params.set("instagram",cast.instagram || "");
 params.set("x",cast.x || "");
 params.set("tiktok",cast.tiktok || "");
-params.set("isNew",cast.isNew === true ? "true" : "");
-params.set("isRecommended",cast.isRecommended === true ? "true" : "");
+params.set("isNew",isBadgeEnabled(cast.isNew) ? "true" : "");
+params.set("isRecommended",isBadgeEnabled(cast.isRecommended) ? "true" : "");
 params.set("badgeText",cast.badgeText || "");
 
 if(Array.isArray(cast.tags)){
@@ -388,11 +390,11 @@ function createCastBadgeMarkup(cast){
 
 const badges = [];
 
-if(cast?.isNew === true){
+if(isBadgeEnabled(cast?.isNew)){
 badges.push(createNewBadgeImage());
 }
 
-if(cast?.isRecommended === true){
+if(isBadgeEnabled(cast?.isRecommended)){
 badges.push(createRecommendedBadgeImage());
 }
 
@@ -425,6 +427,13 @@ return `
   <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badge-osusume.png" alt="${label}" loading="lazy">
 </span>
 `;
+
+}
+
+function isBadgeEnabled(value){
+
+return value === true ||
+String(value).toLowerCase() === "true";
 
 }
 

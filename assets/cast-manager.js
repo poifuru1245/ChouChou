@@ -1484,7 +1484,7 @@
   }
 
   function isBadgeEnabled(value) {
-    return value === true;
+    return value === true || String(value).toLowerCase() === "true";
   }
 
   function compareOptionalNumber(a, b) {

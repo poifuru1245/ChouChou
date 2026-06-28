@@ -6,45 +6,41 @@
 
 <title>CAST | Chou Chou</title>
 
-<link rel="stylesheet" href="assets/css/style.css?v=5.7.3">
+<link rel="stylesheet" href="assets/css/style.css?v=5.7.4">
 
 </head>
 
-<body class="cast-detail-page">
+<body>
 
-<main class="cast-detail">
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">Chou Chou</a>
 
-  <section class="cast-gallery" aria-label="キャスト写真">
-    <img id="castImage" class="cast-main-image" alt="">
-    <div id="castThumbnails" class="cast-thumbnails"></div>
-  </section>
+    <nav class="nav">
+      <a href="index.html#concept">CONCEPT</a>
+      <a href="cast.html">CAST</a>
+      <a href="index.html#system">SYSTEM</a>
+      <a href="news.html">NEWS</a>
+      <a href="gallery.html">GALLERY</a>
+      <a href="index.html#access">ACCESS</a>
+    </nav>
 
-  <section class="profile-box">
-    <p class="profile-label">Cast Profile</p>
-    <h1 id="castName"></h1>
+    <a href="reservation.html" class="reserve-btn">WEB予約</a>
+  </div>
+</header>
 
-    <div class="profile-grid">
-      <p id="castAge"></p>
-      <p id="castHeight"></p>
-      <p id="castBirthday"></p>
-      <p id="castBloodType"></p>
-      <p id="castHobby"></p>
-      <p id="castDrink"></p>
+<main>
+  <section id="cast-list" class="cast-list">
+    <div class="section-title">
+      <span>Cast List</span>
+      <h2>キャスト一覧</h2>
     </div>
 
-    <p id="castMessage" class="profile-message"></p>
-
-    <div id="castTags" class="cast-tags"></div>
-    <div id="castSns" class="cast-sns"></div>
-
-    <a href="reservation.html" class="reserve-btn">
-      指名予約する
-    </a>
+    <div class="all-cast-grid"></div>
   </section>
-
 </main>
 
-<script type="module" src="assets/cast-detail.js"></script>
+<script type="module" src="assets/cast.js"></script>
 
 </body>
 </html>
