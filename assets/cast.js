@@ -142,13 +142,17 @@ div.innerHTML = `
       ${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatHeight(cast.height))}
     </p>
 
+    <p class="cast-time public-cast-schedule">
+      出勤：${escapeHtml(formatSchedule(cast, todayCast.time))}
+    </p>
+
     ${tagsMarkup}
 
    <a
-class="public-favorite-link"
+class="reserve-btn public-profile-link"
 href="${detailUrl}"
 aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
-♥
+プロフィール
 </a>
 
   </div>
@@ -223,13 +227,17 @@ ${badgeMarkup}
 ${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatHeight(cast.height))}
 </p>
 
+<p class="cast-time public-cast-schedule">
+出勤：${escapeHtml(formatSchedule(cast))}
+</p>
+
 ${tagsMarkup}
 
 <a
-class="public-favorite-link"
+class="reserve-btn public-profile-link"
 href="${detailUrl}"
 aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
-♥
+プロフィール
 </a>
 
 </div>
@@ -350,7 +358,7 @@ if(Array.isArray(cast.tags)){
 params.set("tags",cast.tags.join(","));
 }
 
-return `cast.html?${params.toString()}`;
+return `cast-detail.html?${params.toString()}`;
 
 }
 

@@ -2007,9 +2007,9 @@ body:not(.cast-detail-page) .public-cast-info{
     gap:8px !important;
     width:100% !important;
     min-width:0 !important;
-    min-height:138px !important;
+    min-height:0 !important;
     margin:0 !important;
-    padding:15px 15px 48px !important;
+    padding:15px !important;
     background:#fff !important;
     box-sizing:border-box !important;
     text-align:left !important;
@@ -2037,12 +2037,23 @@ body:not(.cast-detail-page) .public-cast-profile-line{
     text-align:left !important;
 }
 
+body:not(.cast-detail-page) .public-cast-schedule{
+    margin:0 !important;
+    padding:0 !important;
+    color:#8e5f76 !important;
+    font-size:13px !important;
+    font-weight:700 !important;
+    line-height:1.4 !important;
+    letter-spacing:0 !important;
+    text-align:left !important;
+}
+
 body:not(.cast-detail-page) .public-cast-tags{
     display:flex !important;
     flex-wrap:wrap !important;
     gap:6px !important;
     min-height:24px !important;
-    margin:2px 42px 0 0 !important;
+    margin:2px 0 0 !important;
     padding:0 !important;
 }
 
@@ -2062,24 +2073,27 @@ body:not(.cast-detail-page) .public-cast-tags span{
     white-space:nowrap !important;
 }
 
-body:not(.cast-detail-page) .public-favorite-link{
-    position:absolute !important;
-    right:14px !important;
-    bottom:14px !important;
+body:not(.cast-detail-page) .public-profile-link{
+    position:static !important;
     display:inline-flex !important;
     align-items:center !important;
     justify-content:center !important;
-    width:38px !important;
-    height:38px !important;
-    border:1px solid rgba(232,154,191,.82) !important;
-    border-radius:50% !important;
-    background:linear-gradient(145deg,#fff,#ffe9f3) !important;
-    color:#d85a9b !important;
-    font-size:19px !important;
-    font-weight:800 !important;
+    align-self:flex-start !important;
+    width:auto !important;
+    min-width:118px !important;
+    min-height:38px !important;
+    margin-top:6px !important;
+    padding:9px 18px !important;
+    border:0 !important;
+    border-radius:999px !important;
+    background:linear-gradient(135deg,#e9a8c8,#d85a9b) !important;
+    color:#fff !important;
+    font-size:13px !important;
+    font-weight:700 !important;
     line-height:1 !important;
     text-decoration:none !important;
-    box-shadow:0 9px 18px rgba(216,90,155,.2) !important;
+    box-shadow:0 8px 18px rgba(216,90,155,.22) !important;
+    pointer-events:auto !important;
 }
 
 .public-cast-badges,
@@ -2089,7 +2103,7 @@ body:not(.cast-detail-page) .public-favorite-link{
     display:flex !important;
     flex-wrap:nowrap !important;
     align-items:flex-start !important;
-    gap:0 !important;
+    gap:6px !important;
     pointer-events:none !important;
 }
 
@@ -2099,7 +2113,7 @@ body:not(.cast-detail-page) .public-favorite-link{
     left:10px !important;
     right:auto !important;
     z-index:5 !important;
-    width:calc(100% - 20px) !important;
+    width:auto !important;
     max-width:calc(100% - 20px) !important;
 }
 
@@ -2109,15 +2123,16 @@ body:not(.cast-detail-page) .public-favorite-link{
     align-items:center !important;
     justify-content:center !important;
     flex:0 0 auto !important;
-    min-width:62px !important;
-    min-height:58px !important;
-    padding:9px 10px !important;
+    width:56px !important;
+    min-width:56px !important;
+    min-height:52px !important;
+    padding:8px 8px !important;
     box-sizing:border-box !important;
     overflow:hidden !important;
     border:3px solid #f7df8a !important;
-    border-radius:18px !important;
+    border-radius:16px !important;
     color:#fff !important;
-    font-size:13px !important;
+    font-size:12px !important;
     font-weight:900 !important;
     line-height:1.05 !important;
     letter-spacing:0 !important;
@@ -2143,21 +2158,21 @@ body:not(.cast-detail-page) .public-favorite-link{
 }
 
 .premium-cast-badge strong{
-    font-size:15px !important;
+    font-size:13px !important;
 }
 
 .premium-cast-badge small{
-    margin-top:5px !important;
-    font-size:12px !important;
+    margin-top:3px !important;
+    font-size:10px !important;
     font-weight:800 !important;
 }
 
 .premium-cast-badge::before{
     content:"" !important;
     position:absolute !important;
-    inset:4px 7px auto !important;
-    height:42% !important;
-    border-radius:14px !important;
+    inset:4px 6px auto !important;
+    height:40% !important;
+    border-radius:12px !important;
     background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(255,255,255,.1)) !important;
     z-index:0 !important;
 }
@@ -2166,14 +2181,14 @@ body:not(.cast-detail-page) .public-favorite-link{
     content:"" !important;
     position:absolute !important;
     inset:0 !important;
-    border-radius:15px !important;
+    border-radius:13px !important;
     border:1px solid rgba(255,255,255,.45) !important;
     z-index:0 !important;
 }
 
 .premium-cast-badge-new{
-    width:18% !important;
-    max-width:82px !important;
+    width:56px !important;
+    max-width:56px !important;
     flex-direction:column !important;
     background:
         radial-gradient(circle at 30% 18%,rgba(255,255,255,.58),rgba(255,255,255,0) 32%),
@@ -2182,23 +2197,23 @@ body:not(.cast-detail-page) .public-favorite-link{
 }
 
 .premium-cast-badge-recommended{
-    width:24% !important;
-    max-width:104px !important;
-    min-width:74px !important;
-    min-height:50px !important;
+    width:64px !important;
+    max-width:64px !important;
+    min-width:64px !important;
+    min-height:46px !important;
     margin-top:0 !important;
     border-color:#fff2a8 !important;
     background:
         radial-gradient(circle at 32% 18%,rgba(255,255,255,.62),rgba(255,255,255,0) 34%),
         linear-gradient(145deg,#fff2a0 0%,#e5ba3b 42%,#b87a12 100%) !important;
     color:#fff !important;
-    font-size:13px !important;
+    font-size:12px !important;
     text-shadow:0 2px 4px rgba(92,53,0,.58), 0 0 8px rgba(255,255,255,.24) !important;
 }
 
 .premium-cast-badge-new + .premium-cast-badge-recommended{
-    margin-left:-12px !important;
-    margin-top:8px !important;
+    margin-left:-8px !important;
+    margin-top:6px !important;
 }
 
 .cast-gallery{
@@ -2270,8 +2285,8 @@ body:not(.cast-detail-page) .public-favorite-link{
 
     body:not(.cast-detail-page) .public-cast-info{
         gap:6px !important;
-        min-height:124px !important;
-        padding:11px 10px 44px !important;
+        min-height:0 !important;
+        padding:11px 10px !important;
     }
 
     body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public-cast-info,
@@ -2292,9 +2307,14 @@ body:not(.cast-detail-page) .public-favorite-link{
         font-size:12px !important;
     }
 
+    body:not(.cast-detail-page) .public-cast-schedule{
+        font-size:11px !important;
+        line-height:1.35 !important;
+    }
+
     body:not(.cast-detail-page) .public-cast-tags{
         gap:5px !important;
-        margin-right:32px !important;
+        margin-right:0 !important;
     }
 
     body:not(.cast-detail-page) .public-cast-tags span{
@@ -2303,12 +2323,12 @@ body:not(.cast-detail-page) .public-favorite-link{
         font-size:10px !important;
     }
 
-    body:not(.cast-detail-page) .public-favorite-link{
-        right:10px !important;
-        bottom:10px !important;
-        width:32px !important;
-        height:32px !important;
-        font-size:16px !important;
+    body:not(.cast-detail-page) .public-profile-link{
+        min-width:96px !important;
+        min-height:34px !important;
+        margin-top:5px !important;
+        padding:8px 13px !important;
+        font-size:11px !important;
     }
 
     body:not(.cast-detail-page) .public-cast-badges{
@@ -2316,38 +2336,40 @@ body:not(.cast-detail-page) .public-favorite-link{
         left:8px !important;
         max-width:calc(100% - 16px) !important;
         flex-direction:row !important;
-        gap:0 !important;
-        width:calc(100% - 16px) !important;
+        gap:5px !important;
+        width:auto !important;
     }
 
     .premium-cast-badge{
-        min-width:50px !important;
-        min-height:46px !important;
+        width:42px !important;
+        min-width:42px !important;
+        min-height:40px !important;
         border-width:2px !important;
-        border-radius:14px !important;
-        padding:6px 7px !important;
-        font-size:10px !important;
+        border-radius:12px !important;
+        padding:5px 5px !important;
+        font-size:9px !important;
     }
 
     .premium-cast-badge strong{
-        font-size:11px !important;
+        font-size:10px !important;
     }
 
     .premium-cast-badge small{
-        margin-top:3px !important;
-        font-size:9px !important;
+        margin-top:2px !important;
+        font-size:8px !important;
     }
 
     .premium-cast-badge-recommended{
-        min-width:56px !important;
-        min-height:40px !important;
+        width:48px !important;
+        min-width:48px !important;
+        min-height:34px !important;
         margin-top:0 !important;
-        font-size:9px !important;
+        font-size:8px !important;
     }
 
     .premium-cast-badge-new + .premium-cast-badge-recommended{
-        margin-left:-9px !important;
-        margin-top:6px !important;
+        margin-left:-6px !important;
+        margin-top:5px !important;
     }
 
     .cast-detail-image-badges{
