@@ -137,22 +137,32 @@ function getCastBadges(cast) {
   const badges = [];
 
   if (cast?.isNew === true) {
-    badges.push(["is-new", "NEW / 新人"]);
+    badges.push(["premium-cast-badge-new", "new"]);
   }
 
   if (cast?.isRecommended === true) {
-    badges.push(["is-recommended", "おすすめ"]);
+    badges.push(["premium-cast-badge-recommended", "recommended"]);
   }
 
   if (cast?.badgeText) {
-    badges.push(["is-custom", cast.badgeText]);
+    badges.push(["premium-cast-badge-recommended", cast.badgeText]);
   }
 
   return badges;
 }
 
 function createBadgeHtml([className, label]) {
-  return `<span class="cast-detail-badge ${className}">${escapeAttribute(label)}</span>`;
+  if (label === "new") {
+    return `
+      <span class="premium-cast-badge ${className}">
+        <strong>NEW</strong>
+        <small>新人</small>
+      </span>
+    `;
+  }
+
+  const badgeLabel = label === "recommended" ? "おすすめ" : label;
+  return `<span class="premium-cast-badge ${className}">${escapeAttribute(badgeLabel)}</span>`;
 }
 
 function renderThumbnails(images, name) {

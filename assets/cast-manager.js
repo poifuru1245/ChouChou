@@ -226,7 +226,10 @@
         <input type="checkbox" class="cast-select-checkbox" data-id="${cast.id}" ${state.selectedCastIds.has(cast.id) ? "checked" : ""}>
         <span>選択</span>
       </label>
-      ${imageMarkup}
+      <div class="admin-cast-image-wrap">
+        ${imageMarkup}
+        ${badgeMarkup}
+      </div>
       <div class="cast-card-body">
         <div class="cast-card-heading">
           <h3>${escapeHtml(cast.name || "")}</h3>
@@ -240,7 +243,6 @@
           <span>身長：${escapeHtml(cast.height || "-")}</span>
           <span>写真：${images.length}枚</span>
         </div>
-        ${badgeMarkup}
         <div class="cast-card-tags">
           ${tags.length ? tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("") : "<span>タグなし</span>"}
         </div>
@@ -275,7 +277,10 @@
         <input type="checkbox" class="cast-select-checkbox" data-id="${escapeAttribute(cast.id || "")}" ${cast.id && state.selectedCastIds.has(cast.id) ? "checked" : ""}>
         <span>選択</span>
       </label>
-      <div class="cast-card-no-image">NO IMAGE</div>
+      <div class="admin-cast-image-wrap">
+        <div class="cast-card-no-image">NO IMAGE</div>
+        ${createAdminBadgeMarkup(cast)}
+      </div>
       <div class="cast-card-body">
         <div class="cast-card-heading">
           <h3>${escapeHtml(cast.name || "名称未設定")}</h3>
@@ -283,7 +288,6 @@
             ${isCastPublished(cast) ? "● 公開" : "○ 非公開"}
           </span>
         </div>
-        ${createAdminBadgeMarkup(cast)}
         <p>写真：0枚</p>
         <p>このキャスト情報の一部を表示できませんでした。</p>
       </div>
@@ -1451,11 +1455,20 @@
     const badges = [];
 
     if (isBadgeEnabled(cast?.isNew)) {
-      badges.push('<span class="admin-cast-badge is-new">新人</span>');
+      badges.push(`
+        <span class="premium-cast-badge premium-cast-badge-new">
+          <strong>NEW</strong>
+          <small>新人</small>
+        </span>
+      `);
     }
 
     if (isBadgeEnabled(cast?.isRecommended)) {
-      badges.push('<span class="admin-cast-badge is-recommended">おすすめ</span>');
+      badges.push(`
+        <span class="premium-cast-badge premium-cast-badge-recommended">
+          おすすめ
+        </span>
+      `);
     }
 
     if (!badges.length) return "";

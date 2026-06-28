@@ -123,31 +123,32 @@ image
 : `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
 const badgeMarkup =
 createCastBadgeMarkup(cast);
+const tagsMarkup =
+createPublicTagMarkup(cast);
+const detailUrl =
+createCastDetailUrl(cast);
 
 div.innerHTML = `
-  ${imageMarkup}
-  ${badgeMarkup}
+  <div class="public-cast-photo">
+    ${imageMarkup}
+    ${badgeMarkup}
+  </div>
 
   <div class="cast-info public-cast-info">
 
     <h3>${escapeHtml(cast.name || "")}</h3>
 
-    <p class="cast-age">
-      年齢：${formatAge(cast.age)}
+    <p class="public-cast-profile-line">
+      ${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatHeight(cast.height))}
     </p>
 
-    <p class="cast-height">
-      身長：${formatHeight(cast.height)}
-    </p>
-
-    <p class="cast-time">
-      出勤：${escapeHtml(formatSchedule(cast, todayCast.time))}
-    </p>
+    ${tagsMarkup}
 
    <a
-class="reserve-btn public-profile-link"
-href="${createCastDetailUrl(cast)}">
-プロフィール
+class="public-favorite-link"
+href="${detailUrl}"
+aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
+♥
 </a>
 
   </div>
@@ -203,31 +204,32 @@ image
 : `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
 const badgeMarkup =
 createCastBadgeMarkup(cast);
+const tagsMarkup =
+createPublicTagMarkup(cast);
+const detailUrl =
+createCastDetailUrl(cast);
 
 div.innerHTML = `
+<div class="public-cast-photo">
 ${imageMarkup}
 ${badgeMarkup}
+</div>
 
 <div class="cast-info public-cast-info">
 
 <h3>${escapeHtml(cast.name || "")}</h3>
 
-<p class="cast-age">
-年齢：${formatAge(cast.age)}
+<p class="public-cast-profile-line">
+${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatHeight(cast.height))}
 </p>
 
-<p class="cast-height">
-身長：${formatHeight(cast.height)}
-</p>
-
-<p class="cast-time">
-出勤：${escapeHtml(formatSchedule(cast))}
-</p>
+${tagsMarkup}
 
 <a
-class="reserve-btn public-profile-link"
-href="${createCastDetailUrl(cast)}">
-プロフィール
+class="public-favorite-link"
+href="${detailUrl}"
+aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
+♥
 </a>
 
 </div>
@@ -379,11 +381,20 @@ function createCastBadgeMarkup(cast){
 const badges = [];
 
 if(cast?.isNew === true){
-badges.push('<span class="public-cast-badge is-new">NEW / 新人</span>');
+badges.push(`
+<span class="premium-cast-badge premium-cast-badge-new">
+  <strong>NEW</strong>
+  <small>新人</small>
+</span>
+`);
 }
 
 if(cast?.isRecommended === true){
-badges.push('<span class="public-cast-badge is-recommended">おすすめ</span>');
+badges.push(`
+<span class="premium-cast-badge premium-cast-badge-recommended">
+  おすすめ
+</span>
+`);
 }
 
 if(!badges.length){
@@ -393,6 +404,42 @@ return "";
 return `
 <div class="public-cast-badges">
 ${badges.join("")}
+</div>
+`;
+
+}
+
+function getTags(cast){
+
+if(Array.isArray(cast?.tags)){
+return cast.tags
+.map((tag)=>String(tag).trim())
+.filter(Boolean);
+}
+
+if(typeof cast?.tags === "string"){
+return cast.tags
+.split(",")
+.map((tag)=>tag.trim())
+.filter(Boolean);
+}
+
+return [];
+
+}
+
+function createPublicTagMarkup(cast){
+
+const tags =
+getTags(cast).slice(0,4);
+
+if(!tags.length){
+return '<div class="public-cast-tags" aria-label="タグ"></div>';
+}
+
+return `
+<div class="public-cast-tags" aria-label="タグ">
+${tags.map((tag)=>`<span>${escapeHtml(tag)}</span>`).join("")}
 </div>
 `;
 
