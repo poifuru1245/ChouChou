@@ -2089,17 +2089,18 @@ body:not(.cast-detail-page) .public-favorite-link{
     display:flex !important;
     flex-wrap:nowrap !important;
     align-items:flex-start !important;
-    gap:8px !important;
+    gap:0 !important;
     pointer-events:none !important;
 }
 
 .public-cast-badges{
     position:absolute !important;
-    top:12px !important;
-    left:12px !important;
+    top:10px !important;
+    left:10px !important;
     right:auto !important;
     z-index:5 !important;
-    max-width:calc(100% - 24px) !important;
+    width:calc(100% - 20px) !important;
+    max-width:calc(100% - 20px) !important;
 }
 
 .premium-cast-badge{
@@ -2108,21 +2109,26 @@ body:not(.cast-detail-page) .public-favorite-link{
     align-items:center !important;
     justify-content:center !important;
     flex:0 0 auto !important;
-    min-width:54px !important;
-    min-height:48px !important;
-    padding:7px 9px !important;
+    min-width:62px !important;
+    min-height:58px !important;
+    padding:9px 10px !important;
     box-sizing:border-box !important;
     overflow:hidden !important;
-    border:2px solid #d7b75c !important;
+    border:3px solid #f7df8a !important;
+    border-radius:18px !important;
     color:#fff !important;
-    font-size:12px !important;
+    font-size:13px !important;
     font-weight:900 !important;
     line-height:1.05 !important;
     letter-spacing:0 !important;
     text-align:center !important;
     text-decoration:none !important;
-    text-shadow:0 1px 2px rgba(87,22,52,.34) !important;
-    filter:drop-shadow(0 7px 10px rgba(116,58,85,.26)) !important;
+    text-shadow:0 2px 4px rgba(72,28,38,.46), 0 0 8px rgba(255,255,255,.22) !important;
+    box-shadow:
+        0 12px 22px rgba(85,35,55,.34),
+        inset 0 1px 0 rgba(255,255,255,.7),
+        inset 0 -4px 8px rgba(82,28,42,.18) !important;
+    filter:none !important;
 }
 
 .premium-cast-badge strong,
@@ -2137,42 +2143,62 @@ body:not(.cast-detail-page) .public-favorite-link{
 }
 
 .premium-cast-badge strong{
-    font-size:13px !important;
+    font-size:15px !important;
 }
 
 .premium-cast-badge small{
-    margin-top:3px !important;
-    font-size:10px !important;
+    margin-top:5px !important;
+    font-size:12px !important;
     font-weight:800 !important;
 }
 
 .premium-cast-badge::before{
     content:"" !important;
     position:absolute !important;
-    inset:4px 8px auto !important;
-    height:34% !important;
-    border-radius:999px !important;
-    background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,0)) !important;
+    inset:4px 7px auto !important;
+    height:42% !important;
+    border-radius:14px !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(255,255,255,.1)) !important;
+    z-index:0 !important;
+}
+
+.premium-cast-badge::after{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    border-radius:15px !important;
+    border:1px solid rgba(255,255,255,.45) !important;
     z-index:0 !important;
 }
 
 .premium-cast-badge-new{
+    width:18% !important;
+    max-width:82px !important;
     flex-direction:column !important;
-    border-radius:15px 15px 20px 20px !important;
-    background:linear-gradient(145deg,#ff9dcc 0%,#ee5da4 48%,#bd1f72 100%) !important;
-    clip-path:polygon(8% 0,92% 0,100% 72%,50% 100%,0 72%) !important;
+    background:
+        radial-gradient(circle at 30% 18%,rgba(255,255,255,.58),rgba(255,255,255,0) 32%),
+        linear-gradient(145deg,#ffb4d7 0%,#f05ca8 48%,#bd1f72 100%) !important;
+    clip-path:none !important;
 }
 
 .premium-cast-badge-recommended{
-    min-width:68px !important;
-    min-height:36px !important;
-    border-color:#fff0a8 !important;
-    border-radius:999px !important;
-    background:linear-gradient(145deg,#fff3a7 0%,#d6aa36 42%,#9c6c13 100%) !important;
-    color:#5b3500 !important;
-    font-size:12px !important;
-    text-shadow:0 1px 0 rgba(255,255,255,.42) !important;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.65), inset 0 -2px 4px rgba(95,55,0,.2) !important;
+    width:24% !important;
+    max-width:104px !important;
+    min-width:74px !important;
+    min-height:50px !important;
+    margin-top:0 !important;
+    border-color:#fff2a8 !important;
+    background:
+        radial-gradient(circle at 32% 18%,rgba(255,255,255,.62),rgba(255,255,255,0) 34%),
+        linear-gradient(145deg,#fff2a0 0%,#e5ba3b 42%,#b87a12 100%) !important;
+    color:#fff !important;
+    font-size:13px !important;
+    text-shadow:0 2px 4px rgba(92,53,0,.58), 0 0 8px rgba(255,255,255,.24) !important;
+}
+
+.premium-cast-badge-new + .premium-cast-badge-recommended{
+    margin-left:-12px !important;
+    margin-top:8px !important;
 }
 
 .cast-gallery{
@@ -2184,6 +2210,7 @@ body:not(.cast-detail-page) .public-favorite-link{
     top:16px !important;
     left:16px !important;
     z-index:6 !important;
+    width:calc(100% - 32px) !important;
     max-width:calc(100% - 32px) !important;
 }
 
@@ -2289,34 +2316,44 @@ body:not(.cast-detail-page) .public-favorite-link{
         left:8px !important;
         max-width:calc(100% - 16px) !important;
         flex-direction:row !important;
-        gap:5px !important;
+        gap:0 !important;
+        width:calc(100% - 16px) !important;
     }
 
     .premium-cast-badge{
-        min-width:42px !important;
-        min-height:38px !important;
-        padding:5px 7px !important;
+        min-width:50px !important;
+        min-height:46px !important;
+        border-width:2px !important;
+        border-radius:14px !important;
+        padding:6px 7px !important;
         font-size:10px !important;
     }
 
     .premium-cast-badge strong{
-        font-size:10px !important;
+        font-size:11px !important;
     }
 
     .premium-cast-badge small{
-        margin-top:2px !important;
-        font-size:8px !important;
+        margin-top:3px !important;
+        font-size:9px !important;
     }
 
     .premium-cast-badge-recommended{
-        min-width:52px !important;
-        min-height:30px !important;
+        min-width:56px !important;
+        min-height:40px !important;
+        margin-top:0 !important;
         font-size:9px !important;
+    }
+
+    .premium-cast-badge-new + .premium-cast-badge-recommended{
+        margin-left:-9px !important;
+        margin-top:6px !important;
     }
 
     .cast-detail-image-badges{
         top:12px !important;
         left:12px !important;
-        gap:6px !important;
+        gap:0 !important;
+        width:calc(100% - 24px) !important;
     }
 }

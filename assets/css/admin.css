@@ -1183,13 +1183,14 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 
 .admin-cast-badges{
     position:absolute;
-    top:12px;
-    left:12px;
+    top:10px;
+    left:10px;
     z-index:4;
     display:flex;
     flex-wrap:nowrap;
     align-items:flex-start;
-    gap:8px;
+    gap:0;
+    width:calc(100% - 20px);
     pointer-events:none;
 }
 
@@ -1200,21 +1201,26 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     align-items:center;
     justify-content:center;
     flex:0 0 auto;
-    min-width:54px;
-    min-height:48px;
-    padding:7px 9px;
+    min-width:62px;
+    min-height:58px;
+    padding:9px 10px;
     box-sizing:border-box;
     overflow:hidden;
-    border:2px solid #d7b75c;
+    border:3px solid #f7df8a;
+    border-radius:18px;
     color:#fff;
-    font-size:12px;
+    font-size:13px;
     font-weight:900;
     line-height:1.05;
     letter-spacing:0;
     text-align:center;
     text-decoration:none;
-    text-shadow:0 1px 2px rgba(87,22,52,.34);
-    filter:drop-shadow(0 7px 10px rgba(116,58,85,.22));
+    text-shadow:0 2px 4px rgba(72,28,38,.46), 0 0 8px rgba(255,255,255,.22);
+    box-shadow:
+        0 12px 22px rgba(85,35,55,.34),
+        inset 0 1px 0 rgba(255,255,255,.7),
+        inset 0 -4px 8px rgba(82,28,42,.18);
+    filter:none;
 }
 
 .premium-cast-badge strong,
@@ -1232,13 +1238,13 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 
 .premium-cast-badge strong,
 .badge-preview strong{
-    font-size:13px;
+    font-size:15px;
 }
 
 .premium-cast-badge small,
 .badge-preview small{
-    margin-top:3px;
-    font-size:10px;
+    margin-top:5px;
+    font-size:12px;
     font-weight:800;
 }
 
@@ -1246,32 +1252,53 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 .badge-preview::before{
     content:"";
     position:absolute;
-    inset:4px 8px auto;
-    height:34%;
-    border-radius:999px;
-    background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,0));
+    inset:4px 7px auto;
+    height:42%;
+    border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(255,255,255,.1));
+    z-index:0;
+}
+
+.premium-cast-badge::after,
+.badge-preview::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,.45);
     z-index:0;
 }
 
 .premium-cast-badge-new,
 .badge-preview-new{
+    width:18%;
+    max-width:82px;
     flex-direction:column;
-    border-radius:15px 15px 20px 20px;
-    background:linear-gradient(145deg,#ff9dcc 0%,#ee5da4 48%,#bd1f72 100%);
-    clip-path:polygon(8% 0,92% 0,100% 72%,50% 100%,0 72%);
+    background:
+        radial-gradient(circle at 30% 18%,rgba(255,255,255,.58),rgba(255,255,255,0) 32%),
+        linear-gradient(145deg,#ffb4d7 0%,#f05ca8 48%,#bd1f72 100%);
+    clip-path:none;
 }
 
 .premium-cast-badge-recommended,
 .badge-preview-recommended{
-    min-width:68px;
-    min-height:36px;
+    width:24%;
+    max-width:104px;
+    min-width:74px;
+    min-height:50px;
+    margin-top:0;
     border-color:#fff0a8;
-    border-radius:999px;
-    background:linear-gradient(145deg,#fff3a7 0%,#d6aa36 42%,#9c6c13 100%);
-    color:#5b3500;
-    font-size:12px;
-    text-shadow:0 1px 0 rgba(255,255,255,.42);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.65), inset 0 -2px 4px rgba(95,55,0,.2);
+    background:
+        radial-gradient(circle at 32% 18%,rgba(255,255,255,.62),rgba(255,255,255,0) 34%),
+        linear-gradient(145deg,#fff2a0 0%,#e5ba3b 42%,#b87a12 100%);
+    color:#fff;
+    font-size:13px;
+    text-shadow:0 2px 4px rgba(92,53,0,.58), 0 0 8px rgba(255,255,255,.24);
+}
+
+.premium-cast-badge-new + .premium-cast-badge-recommended{
+    margin-left:-12px;
+    margin-top:8px;
 }
 
 .cast-badge-options{
@@ -1311,16 +1338,19 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     }
 
     .admin-cast-badges{
-        top:10px;
-        left:10px;
-        gap:6px;
+        top:8px;
+        left:8px;
+        gap:0;
+        width:calc(100% - 16px);
     }
 
     .premium-cast-badge,
     .badge-preview{
-        min-width:46px;
-        min-height:40px;
-        padding:5px 7px;
+        min-width:50px;
+        min-height:46px;
+        border-width:2px;
+        border-radius:14px;
+        padding:6px 7px;
         font-size:10px;
     }
 
@@ -1331,14 +1361,21 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 
     .premium-cast-badge small,
     .badge-preview small{
-        font-size:8px;
+        margin-top:3px;
+        font-size:9px;
     }
 
     .premium-cast-badge-recommended,
     .badge-preview-recommended{
-        min-width:58px;
-        min-height:32px;
+        min-width:56px;
+        min-height:40px;
+        margin-top:0;
         font-size:10px;
+    }
+
+    .premium-cast-badge-new + .premium-cast-badge-recommended{
+        margin-left:-9px;
+        margin-top:6px;
     }
 
     .cast-badge-toggle{
