@@ -66,7 +66,10 @@ function getCastFromParams() {
     instagram: params.get("instagram") || "",
     x: params.get("x") || "",
     tiktok: params.get("tiktok") || "",
-    tags: parseTags(params.get("tags") || "")
+    tags: parseTags(params.get("tags") || ""),
+    isNew: params.get("isNew") === "true",
+    isRecommended: params.get("isRecommended") === "true",
+    badgeText: params.get("badgeText") || ""
   };
 }
 
@@ -102,8 +105,54 @@ function renderCast(cast) {
   }
 
   renderThumbnails(images, cast.name || "Cast");
+  renderBadges(cast);
   renderTags(getTags(cast));
   renderSns(cast);
+}
+
+function renderBadges(cast) {
+  const gallery = document.querySelector(".cast-gallery");
+  const nameElement = document.getElementById("castName");
+  const badges = getCastBadges(cast);
+
+  document.querySelectorAll(".cast-detail-badges").forEach((element) => {
+    element.remove();
+  });
+
+  if (!badges.length) return;
+
+  const imageBadges = document.createElement("div");
+  imageBadges.className = "cast-detail-badges cast-detail-image-badges";
+  imageBadges.innerHTML = badges.map(createBadgeHtml).join("");
+
+  const profileBadges = document.createElement("div");
+  profileBadges.className = "cast-detail-badges cast-detail-profile-badges";
+  profileBadges.innerHTML = badges.map(createBadgeHtml).join("");
+
+  gallery?.insertAdjacentElement("afterbegin", imageBadges);
+  nameElement?.insertAdjacentElement("afterend", profileBadges);
+}
+
+function getCastBadges(cast) {
+  const badges = [];
+
+  if (cast?.isNew === true) {
+    badges.push(["is-new", "NEW / 新人"]);
+  }
+
+  if (cast?.isRecommended === true) {
+    badges.push(["is-recommended", "おすすめ"]);
+  }
+
+  if (cast?.badgeText) {
+    badges.push(["is-custom", cast.badgeText]);
+  }
+
+  return badges;
+}
+
+function createBadgeHtml([className, label]) {
+  return `<span class="cast-detail-badge ${className}">${escapeAttribute(label)}</span>`;
 }
 
 function renderThumbnails(images, name) {

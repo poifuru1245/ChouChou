@@ -121,9 +121,12 @@ const imageMarkup =
 image
 ? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
 : `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
+const badgeMarkup =
+createCastBadgeMarkup(cast);
 
 div.innerHTML = `
   ${imageMarkup}
+  ${badgeMarkup}
 
   <div class="cast-info public-cast-info">
 
@@ -198,9 +201,12 @@ const imageMarkup =
 image
 ? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
 : `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
+const badgeMarkup =
+createCastBadgeMarkup(cast);
 
 div.innerHTML = `
 ${imageMarkup}
+${badgeMarkup}
 
 <div class="cast-info public-cast-info">
 
@@ -334,6 +340,9 @@ params.set("message",cast.message || "");
 params.set("instagram",cast.instagram || "");
 params.set("x",cast.x || "");
 params.set("tiktok",cast.tiktok || "");
+params.set("isNew",cast.isNew === true ? "true" : "");
+params.set("isRecommended",cast.isRecommended === true ? "true" : "");
+params.set("badgeText",cast.badgeText || "");
 
 if(Array.isArray(cast.tags)){
 params.set("tags",cast.tags.join(","));
@@ -362,6 +371,30 @@ function formatSchedule(cast, time = ""){
 return time ||
 cast?.schedule ||
 "未定";
+
+}
+
+function createCastBadgeMarkup(cast){
+
+const badges = [];
+
+if(cast?.isNew === true){
+badges.push('<span class="public-cast-badge is-new">NEW / 新人</span>');
+}
+
+if(cast?.isRecommended === true){
+badges.push('<span class="public-cast-badge is-recommended">おすすめ</span>');
+}
+
+if(!badges.length){
+return "";
+}
+
+return `
+<div class="public-cast-badges">
+${badges.join("")}
+</div>
+`;
 
 }
 

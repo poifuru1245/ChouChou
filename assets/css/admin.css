@@ -264,6 +264,33 @@ body{
     color:#fff;
 }
 
+.cast-badge-options{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin:-5px 0 18px;
+    padding:14px;
+    border:1px solid #efd1df;
+    border-radius:14px;
+    background:#fff8fb;
+}
+
+.cast-badge-toggle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#80576a;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.cast-badge-toggle input{
+    width:18px;
+    height:18px;
+    accent-color:#e9a8c8;
+    margin:0;
+}
+
 .image-slot-preview{
     min-height:42px;
     margin:-8px 0 15px;
@@ -974,6 +1001,35 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     color:#a36b86;
     font-size:12px;
     padding:5px 8px;
+}
+
+.admin-cast-badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.admin-cast-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:999px;
+    padding:6px 10px;
+    font-size:12px;
+    font-weight:bold;
+    line-height:1;
+}
+
+.admin-cast-badge.is-new{
+    background:#fff1f7;
+    color:#d85a9b;
+    border:1px solid #f2bdd6;
+}
+
+.admin-cast-badge.is-recommended{
+    background:#fff8df;
+    color:#9b7515;
+    border:1px solid #e4c565;
 }
 
 .cast-card-message{

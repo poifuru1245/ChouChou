@@ -91,6 +91,8 @@
     x: document.getElementById("cast-x"),
     tiktok: document.getElementById("cast-tiktok"),
     tags: document.getElementById("cast-tags"),
+    isNew: document.getElementById("cast-is-new"),
+    isRecommended: document.getElementById("cast-is-recommended"),
     tagOptions: document.getElementById("castTagOptions")
   };
 
@@ -209,6 +211,7 @@
     const images = getCastImages(cast);
     const image = getMainImage(cast);
     const tags = getTags(cast);
+    const badgeMarkup = createAdminBadgeMarkup(cast);
     const isPublished = isCastPublished(cast);
     const castJson = encodeURIComponent(JSON.stringify(normalizeCast(cast)));
     const imageMarkup = image
@@ -237,6 +240,7 @@
           <span>身長：${escapeHtml(cast.height || "-")}</span>
           <span>写真：${images.length}枚</span>
         </div>
+        ${badgeMarkup}
         <div class="cast-card-tags">
           ${tags.length ? tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("") : "<span>タグなし</span>"}
         </div>
@@ -279,6 +283,7 @@
             ${isCastPublished(cast) ? "● 公開" : "○ 非公開"}
           </span>
         </div>
+        ${createAdminBadgeMarkup(cast)}
         <p>写真：0枚</p>
         <p>このキャスト情報の一部を表示できませんでした。</p>
       </div>
@@ -328,6 +333,10 @@
     elements.instagram.value = cast?.instagram || "";
     elements.x.value = cast?.x || "";
     elements.tiktok.value = cast?.tiktok || "";
+    if (elements.isNew) elements.isNew.checked = isBadgeEnabled(cast?.isNew);
+    if (elements.isRecommended) {
+      elements.isRecommended.checked = isBadgeEnabled(cast?.isRecommended);
+    }
     setSelectedTags(getTags(cast));
 
     resetImageInputs();
@@ -359,6 +368,8 @@
     elements.x.value = "";
     elements.tiktok.value = "";
     elements.tags.value = "";
+    if (elements.isNew) elements.isNew.checked = false;
+    if (elements.isRecommended) elements.isRecommended.checked = false;
     setSelectedTags([]);
 
     resetImageInputs();
@@ -398,6 +409,8 @@
         x: formData.x,
         tiktok: formData.tiktok,
         tags: formData.tags,
+        isNew: formData.isNew,
+        isRecommended: formData.isRecommended,
         schedule: formData.schedule
       };
 
@@ -1123,6 +1136,8 @@
       x: elements.x.value.trim(),
       tiktok: elements.tiktok.value.trim(),
       tags: collectTags(),
+      isNew: Boolean(elements.isNew?.checked),
+      isRecommended: Boolean(elements.isRecommended?.checked),
       schedule: ""
     };
   }
@@ -1292,6 +1307,9 @@
       schedule: cast.schedule || "",
       displayOrder: getNumericDisplayOrder(cast),
       isPublished: isCastPublished(cast),
+      isNew: isBadgeEnabled(cast.isNew),
+      isRecommended: isBadgeEnabled(cast.isRecommended),
+      badgeText: cast.badgeText || "",
       nickname: cast.nickname || ""
     };
   }
@@ -1427,6 +1445,26 @@
 
   function isCastPublished(cast) {
     return cast?.isPublished !== false;
+  }
+
+  function createAdminBadgeMarkup(cast) {
+    const badges = [];
+
+    if (isBadgeEnabled(cast?.isNew)) {
+      badges.push('<span class="admin-cast-badge is-new">新人</span>');
+    }
+
+    if (isBadgeEnabled(cast?.isRecommended)) {
+      badges.push('<span class="admin-cast-badge is-recommended">おすすめ</span>');
+    }
+
+    if (!badges.length) return "";
+
+    return `<div class="admin-cast-badges">${badges.join("")}</div>`;
+  }
+
+  function isBadgeEnabled(value) {
+    return value === true;
   }
 
   function compareOptionalNumber(a, b) {
