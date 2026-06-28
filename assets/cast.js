@@ -26,8 +26,6 @@ getApps().length
  : initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-const BADGE_NEW_IMAGE_PATH = "assets/img/badges/badge-new.png";
-const BADGE_RECOMMENDED_IMAGE_PATH = "assets/img/badges/badge-osusume.png";
 
 async function loadCasts() {
 
@@ -416,7 +414,7 @@ function createNewBadgeImage(){
 
 return `
 <span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
-  <img class="premium-cast-badge-img premium-cast-badge-img-new" src="${BADGE_NEW_IMAGE_PATH}" alt="NEW 新人" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
+  <img class="premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/badge-new.png" alt="NEW 新人" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
 </span>
 `;
 
@@ -426,7 +424,7 @@ function createRecommendedBadgeImage(label = "おすすめ"){
 
 return `
 <span class="premium-cast-badge premium-cast-badge-recommended" aria-label="${label}">
-  <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="${BADGE_RECOMMENDED_IMAGE_PATH}" alt="${label}" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
+  <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/badge-osusume.png" alt="${label}" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
 </span>
 `;
 

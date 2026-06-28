@@ -29,8 +29,6 @@
   } = storageApi;
 
   const COLLECTION_NAME = "casts";
-  const BADGE_NEW_IMAGE_PATH = "../assets/img/badges/badge-new.png";
-  const BADGE_RECOMMENDED_IMAGE_PATH = "../assets/img/badges/badge-osusume.png";
   const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
   const IMAGE_INPUT_IDS = [
     "castImage1",
@@ -1472,7 +1470,7 @@
   function createNewBadgeImage() {
     return `
       <span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
-        <img class="premium-cast-badge-img premium-cast-badge-img-new" src="${BADGE_NEW_IMAGE_PATH}" alt="NEW 新人" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
+        <img class="premium-cast-badge-img premium-cast-badge-img-new" src="../assets/img/badges/badge-new.png" alt="NEW 新人" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
       </span>
     `;
   }
@@ -1480,7 +1478,7 @@
   function createRecommendedBadgeImage() {
     return `
       <span class="premium-cast-badge premium-cast-badge-recommended" aria-label="おすすめ">
-        <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="${BADGE_RECOMMENDED_IMAGE_PATH}" alt="おすすめ" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
+        <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="../assets/img/badges/badge-osusume.png" alt="おすすめ" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
       </span>
     `;
   }
