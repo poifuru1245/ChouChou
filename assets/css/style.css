@@ -2129,14 +2129,14 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge,
     align-items:center !important;
     justify-content:center !important;
     flex:0 0 auto !important;
-    width:64px !important;
-    min-width:64px !important;
-    min-height:50px !important;
-    padding:8px 8px !important;
+    width:56px !important;
+    min-width:56px !important;
+    min-height:52px !important;
+    padding:7px 6px 9px !important;
     box-sizing:border-box !important;
     overflow:hidden !important;
-    border:2px solid #ffe18a !important;
-    border-radius:12px !important;
+    border:2px solid rgba(255,232,170,.96) !important;
+    border-radius:10px !important;
     color:#fff !important;
     font-size:12px !important;
     font-weight:900 !important;
@@ -2149,11 +2149,11 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge,
         0 0 9px rgba(255,255,255,.28),
         0 0 14px rgba(255,220,142,.22) !important;
     box-shadow:
-        0 12px 22px rgba(85,35,55,.38),
-        0 0 14px rgba(255,215,116,.28),
+        0 10px 18px rgba(85,35,55,.36),
+        0 0 12px rgba(255,215,116,.24),
         inset 0 1px 1px rgba(255,255,255,.9),
         inset 0 0 0 1px rgba(255,255,255,.22),
-        inset 0 -6px 10px rgba(82,28,42,.22) !important;
+        inset 0 -5px 9px rgba(82,28,42,.2) !important;
     filter:none !important;
 }
 
@@ -2186,7 +2186,7 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge::before,
 .cast-detail-badges .premium-cast-badge::before{
     content:"" !important;
     position:absolute !important;
-    inset:3px 5px auto !important;
+    inset:3px 4px auto !important;
     height:42% !important;
     border-radius:9px !important;
     background:
@@ -2199,32 +2199,58 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge::before,
 
 body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new,
 .cast-detail-badges .premium-cast-badge-new{
-    width:64px !important;
-    max-width:64px !important;
+    width:56px !important;
+    max-width:56px !important;
+    min-height:58px !important;
+    padding-bottom:13px !important;
     flex-direction:column !important;
+    border-color:rgba(255,239,192,.96) !important;
+    border-radius:10px 10px 6px 6px !important;
     background:
         radial-gradient(circle at 28% 16%,rgba(255,255,255,.78),rgba(255,255,255,0) 30%),
-        linear-gradient(145deg,#ffb4da 0%,#ff5faf 38%,#e01283 67%,#a7065d 100%) !important;
+        linear-gradient(180deg,#ffb7dc 0%,#ff65b4 35%,#e50f84 68%,#a90461 100%) !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new::after,
+.cast-detail-badges .premium-cast-badge-new::after{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    bottom:-2px !important;
+    width:16px !important;
+    height:16px !important;
+    background:linear-gradient(135deg,#b70768 0%,#e81787 100%) !important;
+    border-right:2px solid rgba(255,239,192,.96) !important;
+    border-bottom:2px solid rgba(255,239,192,.96) !important;
+    transform:translateX(-50%) rotate(45deg) !important;
+    z-index:0 !important;
 }
 
 body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-recommended,
 .cast-detail-badges .premium-cast-badge-recommended{
-    width:64px !important;
-    max-width:64px !important;
-    min-width:64px !important;
-    min-height:50px !important;
+    width:58px !important;
+    max-width:58px !important;
+    min-width:58px !important;
+    min-height:46px !important;
+    padding:7px 6px !important;
     margin-top:0 !important;
     border-color:#9a690b !important;
-    border-radius:12px !important;
+    border-radius:14px !important;
     background:
         radial-gradient(circle at 30% 15%,rgba(255,255,255,.82),rgba(255,255,255,0) 32%),
-        linear-gradient(145deg,#fff1a7 0%,#f5cf59 28%,#d89b18 62%,#8b5705 100%) !important;
+        linear-gradient(180deg,#fff4ac 0%,#f4c742 36%,#c88710 70%,#7b4d05 100%) !important;
     color:#fff !important;
     font-size:11px !important;
     text-shadow:
         0 2px 4px rgba(92,53,0,.72),
         0 0 9px rgba(255,255,255,.28),
         0 0 14px rgba(255,235,156,.28) !important;
+    box-shadow:
+        0 10px 18px rgba(86,50,0,.32),
+        0 0 12px rgba(255,214,92,.28),
+        inset 0 1px 1px rgba(255,255,255,.92),
+        inset 0 0 0 1px rgba(255,255,255,.24),
+        inset 0 -5px 9px rgba(92,53,0,.24) !important;
 }
 
 @keyframes premiumBadgeShine{
@@ -2370,11 +2396,11 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new + .premi
 
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge,
     .cast-detail-badges .premium-cast-badge{
-        width:50px !important;
-        min-width:50px !important;
-        min-height:40px !important;
+        width:44px !important;
+        min-width:44px !important;
+        min-height:38px !important;
         border-width:2px !important;
-        border-radius:12px !important;
+        border-radius:10px !important;
         padding:5px 5px !important;
         font-size:9px !important;
     }
@@ -2392,11 +2418,25 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new + .premi
 
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-recommended,
     .cast-detail-badges .premium-cast-badge-recommended{
-        width:50px !important;
-        min-width:50px !important;
-        min-height:40px !important;
+        width:46px !important;
+        min-width:46px !important;
+        min-height:36px !important;
         margin-top:0 !important;
         font-size:9px !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new,
+    .cast-detail-badges .premium-cast-badge-new{
+        width:44px !important;
+        max-width:44px !important;
+        min-height:46px !important;
+        padding-bottom:10px !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new::after,
+    .cast-detail-badges .premium-cast-badge-new::after{
+        width:12px !important;
+        height:12px !important;
     }
 
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new + .premium-cast-badge-recommended,
