@@ -2270,10 +2270,14 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-img,
 
 /* Final cast badge placement adjustment */
 body:not(.cast-detail-page) .public-cast-badges{
-    left:4px !important;
-    top:12px !important;
+    position:absolute !important;
+    left:10px !important;
+    top:10px !important;
     flex-direction:column !important;
     gap:6px !important;
     align-items:flex-start !important;
     width:auto !important;
+    max-width:calc(100% - 20px) !important;
+    z-index:30 !important;
+    pointer-events:none !important;
 }

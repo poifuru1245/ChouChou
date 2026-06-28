@@ -1331,12 +1331,16 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 /* Final admin cast badge placement adjustment */
 .admin-cast-badges,
 .cast-admin-badges{
+    position:absolute !important;
     left:18px !important;
     top:58px !important;
     flex-direction:column !important;
     gap:5px !important;
     align-items:flex-start !important;
     width:auto !important;
+    max-width:70px !important;
+    z-index:12 !important;
+    pointer-events:none !important;
 }
 
 .admin-cast-badges .premium-cast-badge-img,

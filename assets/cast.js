@@ -403,7 +403,7 @@ return "";
 }
 
 return `
-<div class="public-cast-badges cast-badge-layer">
+<div class="public-cast-badges">
 ${badges.join("")}
 </div>
 `;

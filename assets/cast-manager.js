@@ -1464,7 +1464,7 @@
 
     if (!badges.length) return "";
 
-    return `<div class="admin-cast-badges cast-badge-layer">${badges.join("")}</div>`;
+    return `<div class="admin-cast-badges">${badges.join("")}</div>`;
   }
 
   function createNewBadgeImage() {
