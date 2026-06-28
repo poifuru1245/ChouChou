@@ -2159,8 +2159,8 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new + .premi
     margin-top:0 !important;
 }
 
-body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg,
-.cast-detail-badges .premium-cast-badge-svg{
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img,
+.cast-detail-badges .premium-cast-badge-img{
     display:block !important;
     width:auto !important;
     height:auto !important;
@@ -2168,13 +2168,13 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg,
     transition:filter .2s ease, transform .2s ease !important;
 }
 
-body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-new,
-.cast-detail-badges .premium-cast-badge-svg-new{
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-new,
+.cast-detail-badges .premium-cast-badge-img-new{
     width:62px !important;
 }
 
-body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-recommended,
-.cast-detail-badges .premium-cast-badge-svg-recommended{
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-recommended,
+.cast-detail-badges .premium-cast-badge-img-recommended{
     width:72px !important;
 }
 
@@ -2191,9 +2191,9 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge,
     transform:translateY(0) scale(1.05) !important;
 }
 
-body:not(.cast-detail-page) .public-cast-card:hover .premium-cast-badge-svg,
-body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-svg,
-.cast-detail-badges .premium-cast-badge:hover .premium-cast-badge-svg{
+body:not(.cast-detail-page) .public-cast-card:hover .premium-cast-badge-img,
+body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-img,
+.cast-detail-badges .premium-cast-badge:hover .premium-cast-badge-img{
     filter:drop-shadow(0 0 7px rgba(255,238,190,.36)) !important;
 }
 
@@ -2334,13 +2334,13 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-svg,
         padding:0 !important;
     }
 
-    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-new,
-    .cast-detail-badges .premium-cast-badge-svg-new{
+    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-new,
+    .cast-detail-badges .premium-cast-badge-img-new{
         width:46px !important;
     }
 
-    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-recommended,
-    .cast-detail-badges .premium-cast-badge-svg-recommended{
+    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-recommended,
+    .cast-detail-badges .premium-cast-badge-img-recommended{
         width:54px !important;
     }
 
