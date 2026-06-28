@@ -2170,12 +2170,12 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg,
 
 body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-new,
 .cast-detail-badges .premium-cast-badge-svg-new{
-    width:70px !important;
+    width:62px !important;
 }
 
 body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-recommended,
 .cast-detail-badges .premium-cast-badge-svg-recommended{
-    width:80px !important;
+    width:72px !important;
 }
 
 @keyframes premiumBadgeEnter{
@@ -2188,13 +2188,13 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-recommen
 body:not(.cast-detail-page) .public-cast-card:hover .premium-cast-badge,
 body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge,
 .cast-detail-badges .premium-cast-badge:hover{
-    transform:translateY(0) scale(1.08) !important;
+    transform:translateY(0) scale(1.05) !important;
 }
 
 body:not(.cast-detail-page) .public-cast-card:hover .premium-cast-badge-svg,
 body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-svg,
 .cast-detail-badges .premium-cast-badge:hover .premium-cast-badge-svg{
-    filter:drop-shadow(0 0 8px rgba(255,235,170,.55)) !important;
+    filter:drop-shadow(0 0 7px rgba(255,238,190,.36)) !important;
 }
 
 .cast-gallery{
@@ -2336,12 +2336,12 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-svg,
 
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-new,
     .cast-detail-badges .premium-cast-badge-svg-new{
-        width:50px !important;
+        width:46px !important;
     }
 
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-svg-recommended,
     .cast-detail-badges .premium-cast-badge-svg-recommended{
-        width:58px !important;
+        width:54px !important;
     }
 
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new + .premium-cast-badge-recommended,

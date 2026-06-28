@@ -1243,12 +1243,12 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 
 .admin-cast-badges .premium-cast-badge-svg-new,
 .badge-preview .premium-cast-badge-svg-new{
-    width:70px;
+    width:62px;
 }
 
 .admin-cast-badges .premium-cast-badge-svg-recommended,
 .badge-preview .premium-cast-badge-svg-recommended{
-    width:80px;
+    width:72px;
 }
 
 @keyframes adminPremiumBadgeEnter{
@@ -1261,13 +1261,13 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 .admin-cast-card:hover .premium-cast-badge,
 .cast-card:hover .premium-cast-badge,
 .cast-badge-toggle:hover .badge-preview{
-    transform:translateY(0) scale(1.08);
+    transform:translateY(0) scale(1.05);
 }
 
 .admin-cast-card:hover .premium-cast-badge-svg,
 .cast-card:hover .premium-cast-badge-svg,
 .cast-badge-toggle:hover .badge-preview .premium-cast-badge-svg{
-    filter:drop-shadow(0 0 8px rgba(255,235,170,.55));
+    filter:drop-shadow(0 0 7px rgba(255,238,190,.36));
 }
 
 .cast-badge-options{
@@ -1324,12 +1324,12 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 
     .admin-cast-badges .premium-cast-badge-svg-new,
     .badge-preview .premium-cast-badge-svg-new{
-        width:50px;
+        width:46px;
     }
 
     .admin-cast-badges .premium-cast-badge-svg-recommended,
     .badge-preview .premium-cast-badge-svg-recommended{
-        width:58px;
+        width:54px;
     }
 
     .admin-cast-badges .premium-cast-badge-new + .premium-cast-badge-recommended{
