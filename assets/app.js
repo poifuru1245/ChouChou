@@ -36,6 +36,7 @@ let searchKeyword = "";
 let ranking = {};
 
 const rankingList = document.getElementById("rankingList");
+const hasPublicCastList = Boolean(document.querySelector(".cast-grid, .all-cast-grid"));
 
 async function loadReservations() {
   const reservationList = document.getElementById("reservationList");
@@ -363,5 +364,8 @@ function getNumericDisplayOrder(cast) {
 }
 
 loadReservations();
-loadRanking();
-loadTodayCast();
+
+if (!hasPublicCastList) {
+  loadRanking();
+  loadTodayCast();
+}
