@@ -126,7 +126,7 @@ function renderBadges(cast) {
   imageBadges.innerHTML = badges.map(createBadgeHtml).join("");
 
   const profileBadges = document.createElement("div");
-  profileBadges.className = "cast-detail-badges cast-detail-profile-badges cast-badge-layer";
+  profileBadges.className = "cast-detail-badges cast-detail-profile-badges";
   profileBadges.innerHTML = badges.map(createBadgeHtml).join("");
 
   gallery?.insertAdjacentElement("afterbegin", imageBadges);
