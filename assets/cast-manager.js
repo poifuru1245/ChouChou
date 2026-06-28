@@ -29,8 +29,8 @@
   } = storageApi;
 
   const COLLECTION_NAME = "casts";
-  const BADGE_NEW_IMAGE_PATH = "/assets/img/badges/badge-new.png";
-  const BADGE_RECOMMENDED_IMAGE_PATH = "/assets/img/badges/badge-osusume.png";
+  const BADGE_NEW_IMAGE_PATH = "../assets/img/badges/badge-new.png";
+  const BADGE_RECOMMENDED_IMAGE_PATH = "../assets/img/badges/badge-osusume.png";
   const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
   const IMAGE_INPUT_IDS = [
     "castImage1",

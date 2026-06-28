@@ -1190,6 +1190,9 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     box-shadow:none;
     filter:none;
     text-decoration:none;
+    line-height:0;
+    font-size:0;
+    color:transparent;
 }
 
 .admin-cast-badges .premium-cast-badge::before,
@@ -1209,18 +1212,23 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     display:block;
     width:auto;
     height:auto;
+    object-fit:contain;
     overflow:visible;
     transition:filter .2s ease, transform .2s ease;
+    color:transparent;
+    font-size:0;
 }
 
 .admin-cast-badges .premium-cast-badge-img-new,
 .badge-preview .premium-cast-badge-img-new{
     width:48px;
+    height:56px;
 }
 
 .admin-cast-badges .premium-cast-badge-img-recommended,
 .badge-preview .premium-cast-badge-img-recommended{
     width:56px;
+    height:36px;
 }
 
 @keyframes adminPremiumBadgeEnter{
@@ -1297,11 +1305,13 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     .admin-cast-badges .premium-cast-badge-img-new,
     .badge-preview .premium-cast-badge-img-new{
         width:42px;
+        height:49px;
     }
 
     .admin-cast-badges .premium-cast-badge-img-recommended,
     .badge-preview .premium-cast-badge-img-recommended{
         width:50px;
+        height:33px;
     }
 
     .admin-cast-badges .premium-cast-badge-new + .premium-cast-badge-recommended{

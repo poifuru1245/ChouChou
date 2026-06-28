@@ -2044,6 +2044,9 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge,
     box-shadow:none !important;
     filter:none !important;
     text-decoration:none !important;
+    line-height:0 !important;
+    font-size:0 !important;
+    color:transparent !important;
 }
 
 body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge::before,
@@ -2064,18 +2067,23 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img,
     display:block !important;
     width:auto !important;
     height:auto !important;
+    object-fit:contain !important;
     overflow:visible !important;
     transition:filter .2s ease, transform .2s ease !important;
+    color:transparent !important;
+    font-size:0 !important;
 }
 
 body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-new,
 .cast-detail-badges .premium-cast-badge-img-new{
     width:62px !important;
+    height:73px !important;
 }
 
 body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-recommended,
 .cast-detail-badges .premium-cast-badge-img-recommended{
     width:72px !important;
+    height:47px !important;
 }
 
 @keyframes premiumBadgeEnter{
@@ -2237,11 +2245,13 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-img,
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-new,
     .cast-detail-badges .premium-cast-badge-img-new{
         width:46px !important;
+        height:54px !important;
     }
 
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-recommended,
     .cast-detail-badges .premium-cast-badge-img-recommended{
         width:54px !important;
+        height:35px !important;
     }
 
     body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new + .premium-cast-badge-recommended,

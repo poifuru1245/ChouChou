@@ -22,8 +22,8 @@ const firebaseConfig = {
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const params = new URLSearchParams(location.search);
-const BADGE_NEW_IMAGE_PATH = "/assets/img/badges/badge-new.png";
-const BADGE_RECOMMENDED_IMAGE_PATH = "/assets/img/badges/badge-osusume.png";
+const BADGE_NEW_IMAGE_PATH = "assets/img/badges/badge-new.png";
+const BADGE_RECOMMENDED_IMAGE_PATH = "assets/img/badges/badge-osusume.png";
 
 loadCastDetail();
 
