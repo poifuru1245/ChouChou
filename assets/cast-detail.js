@@ -22,6 +22,8 @@ const firebaseConfig = {
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const params = new URLSearchParams(location.search);
+const BADGE_NEW_IMAGE_PATH = "/assets/img/badges/badge-new.png";
+const BADGE_RECOMMENDED_IMAGE_PATH = "/assets/img/badges/badge-osusume.png";
 
 loadCastDetail();
 
@@ -163,7 +165,7 @@ function createBadgeHtml([className, label]) {
 function createNewBadgeImage(className = "premium-cast-badge-new") {
   return `
     <span class="premium-cast-badge ${className}" aria-label="NEW 新人">
-      <img class="premium-cast-badge-img premium-cast-badge-img-new" src="/assets/img/badge-new.png" alt="NEW 新人" loading="lazy">
+      <img class="premium-cast-badge-img premium-cast-badge-img-new" src="${BADGE_NEW_IMAGE_PATH}" alt="NEW 新人" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
     </span>
   `;
 }
@@ -173,7 +175,7 @@ function createRecommendedBadgeImage(className = "premium-cast-badge-recommended
 
   return `
     <span class="premium-cast-badge ${className}" aria-label="${safeLabel}">
-      <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="/assets/img/badge-osusume.png" alt="${safeLabel}" loading="lazy">
+      <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="${BADGE_RECOMMENDED_IMAGE_PATH}" alt="${safeLabel}" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
     </span>
   `;
 }

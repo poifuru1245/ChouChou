@@ -1279,11 +1279,11 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     }
 
     .admin-cast-badges{
-        top:5px;
-        left:5px;
+        top:8px;
+        left:60px;
         gap:6px;
         width:auto;
-        max-width:calc(100% - 10px);
+        max-width:calc(100% - 76px);
     }
 
     .admin-cast-badges .premium-cast-badge,
