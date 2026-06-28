@@ -433,7 +433,10 @@ return `
 function isBadgeEnabled(value){
 
 return value === true ||
-String(value).toLowerCase() === "true";
+value === "true" ||
+value === 1 ||
+value === "1" ||
+value === "on";
 
 }
 
