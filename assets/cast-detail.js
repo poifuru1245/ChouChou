@@ -163,7 +163,7 @@ function createBadgeHtml([className, label]) {
 function createNewBadgeImage(className = "premium-cast-badge-new") {
   return `
     <span class="premium-cast-badge ${className}" aria-label="NEW 新人">
-      <img class="premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badge-new.png" alt="NEW 新人" loading="lazy">
+      <img class="premium-cast-badge-img premium-cast-badge-img-new" src="/assets/img/badge-new.png" alt="NEW 新人" loading="lazy">
     </span>
   `;
 }
@@ -173,7 +173,7 @@ function createRecommendedBadgeImage(className = "premium-cast-badge-recommended
 
   return `
     <span class="premium-cast-badge ${className}" aria-label="${safeLabel}">
-      <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badge-osusume.png" alt="${safeLabel}" loading="lazy">
+      <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="/assets/img/badge-osusume.png" alt="${safeLabel}" loading="lazy">
     </span>
   `;
 }

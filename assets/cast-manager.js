@@ -1470,7 +1470,7 @@
   function createNewBadgeImage() {
     return `
       <span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
-        <img class="premium-cast-badge-img premium-cast-badge-img-new" src="../assets/img/badge-new.png" alt="NEW 新人" loading="lazy">
+        <img class="premium-cast-badge-img premium-cast-badge-img-new" src="/assets/img/badge-new.png" alt="NEW 新人" loading="lazy">
       </span>
     `;
   }
@@ -1478,7 +1478,7 @@
   function createRecommendedBadgeImage() {
     return `
       <span class="premium-cast-badge premium-cast-badge-recommended" aria-label="おすすめ">
-        <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="../assets/img/badge-osusume.png" alt="おすすめ" loading="lazy">
+        <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="/assets/img/badge-osusume.png" alt="おすすめ" loading="lazy">
       </span>
     `;
   }
