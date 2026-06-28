@@ -122,11 +122,11 @@ function renderBadges(cast) {
   if (!badges.length) return;
 
   const imageBadges = document.createElement("div");
-  imageBadges.className = "cast-detail-badges cast-detail-image-badges";
+  imageBadges.className = "cast-detail-badges cast-detail-image-badges cast-badge-layer";
   imageBadges.innerHTML = badges.map(createBadgeHtml).join("");
 
   const profileBadges = document.createElement("div");
-  profileBadges.className = "cast-detail-badges cast-detail-profile-badges";
+  profileBadges.className = "cast-detail-badges cast-detail-profile-badges cast-badge-layer";
   profileBadges.innerHTML = badges.map(createBadgeHtml).join("");
 
   gallery?.insertAdjacentElement("afterbegin", imageBadges);

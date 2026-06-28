@@ -1183,33 +1183,33 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 
 .admin-cast-badges{
     position:absolute;
-    top:10px;
-    left:10px;
+    top:12px;
+    left:12px;
     z-index:4;
     display:flex;
     flex-wrap:nowrap;
     align-items:flex-start;
-    gap:6px;
+    gap:8px;
     width:auto;
-    max-width:calc(100% - 20px);
+    max-width:calc(100% - 24px);
     pointer-events:none;
 }
 
-.premium-cast-badge,
+.admin-cast-badges .premium-cast-badge,
 .badge-preview{
     position:relative;
     display:inline-flex;
     align-items:center;
     justify-content:center;
     flex:0 0 auto;
-    width:56px;
-    min-width:56px;
-    min-height:52px;
-    padding:8px 8px;
+    width:62px;
+    min-width:62px;
+    min-height:54px;
+    padding:8px 7px 10px;
     box-sizing:border-box;
     overflow:hidden;
     border:3px solid #f7df8a;
-    border-radius:16px;
+    border-radius:15px 15px 19px 19px;
     color:#fff;
     font-size:12px;
     font-weight:900;
@@ -1225,8 +1225,8 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     filter:none;
 }
 
-.premium-cast-badge strong,
-.premium-cast-badge small,
+.admin-cast-badges .premium-cast-badge strong,
+.admin-cast-badges .premium-cast-badge small,
 .badge-preview strong,
 .badge-preview small{
     position:relative;
@@ -1238,19 +1238,19 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     letter-spacing:0;
 }
 
-.premium-cast-badge strong,
+.admin-cast-badges .premium-cast-badge strong,
 .badge-preview strong{
     font-size:13px;
 }
 
-.premium-cast-badge small,
+.admin-cast-badges .premium-cast-badge small,
 .badge-preview small{
     margin-top:3px;
     font-size:10px;
     font-weight:800;
 }
 
-.premium-cast-badge::before,
+.admin-cast-badges .premium-cast-badge::before,
 .badge-preview::before{
     content:"";
     position:absolute;
@@ -1261,46 +1261,48 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     z-index:0;
 }
 
-.premium-cast-badge::after,
+.admin-cast-badges .premium-cast-badge::after,
 .badge-preview::after{
     content:"";
     position:absolute;
     inset:0;
-    border-radius:13px;
+    border-radius:12px 12px 16px 16px;
     border:1px solid rgba(255,255,255,.45);
     z-index:0;
 }
 
-.premium-cast-badge-new,
+.admin-cast-badges .premium-cast-badge-new,
 .badge-preview-new{
-    width:56px;
-    max-width:56px;
+    width:62px;
+    max-width:62px;
     flex-direction:column;
     background:
         radial-gradient(circle at 30% 18%,rgba(255,255,255,.58),rgba(255,255,255,0) 32%),
-        linear-gradient(145deg,#ffb4d7 0%,#f05ca8 48%,#bd1f72 100%);
-    clip-path:none;
+        linear-gradient(145deg,#ff9ccd 0%,#ed4299 48%,#b9106a 100%);
+    clip-path:polygon(7% 0,93% 0,100% 76%,64% 76%,50% 100%,36% 76%,0 76%);
 }
 
-.premium-cast-badge-recommended,
+.admin-cast-badges .premium-cast-badge-recommended,
 .badge-preview-recommended{
     width:64px;
     max-width:64px;
     min-width:64px;
-    min-height:46px;
+    min-height:50px;
     margin-top:0;
-    border-color:#fff0a8;
+    border-color:#8c5a08;
+    border-radius:17px 17px 21px 21px;
     background:
         radial-gradient(circle at 32% 18%,rgba(255,255,255,.62),rgba(255,255,255,0) 34%),
-        linear-gradient(145deg,#fff2a0 0%,#e5ba3b 42%,#b87a12 100%);
+        linear-gradient(145deg,#ffe98d 0%,#d9a51f 48%,#8c5a08 100%);
     color:#fff;
     font-size:12px;
     text-shadow:0 2px 4px rgba(92,53,0,.58), 0 0 8px rgba(255,255,255,.24);
+    clip-path:polygon(6% 0,94% 0,100% 80%,50% 100%,0 80%);
 }
 
-.premium-cast-badge-new + .premium-cast-badge-recommended{
-    margin-left:-8px;
-    margin-top:6px;
+.admin-cast-badges .premium-cast-badge-new + .premium-cast-badge-recommended{
+    margin-left:0;
+    margin-top:0;
 }
 
 .cast-badge-options{
@@ -1342,45 +1344,45 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     .admin-cast-badges{
         top:8px;
         left:8px;
-        gap:5px;
+        gap:6px;
         width:auto;
         max-width:calc(100% - 16px);
     }
 
-    .premium-cast-badge,
+    .admin-cast-badges .premium-cast-badge,
     .badge-preview{
-        width:42px;
-        min-width:42px;
-        min-height:40px;
+        width:48px;
+        min-width:48px;
+        min-height:42px;
         border-width:2px;
         border-radius:12px;
-        padding:5px 5px;
+        padding:5px 5px 8px;
         font-size:9px;
     }
 
-    .premium-cast-badge strong,
+    .admin-cast-badges .premium-cast-badge strong,
     .badge-preview strong{
         font-size:10px;
     }
 
-    .premium-cast-badge small,
+    .admin-cast-badges .premium-cast-badge small,
     .badge-preview small{
         margin-top:2px;
         font-size:8px;
     }
 
-    .premium-cast-badge-recommended,
+    .admin-cast-badges .premium-cast-badge-recommended,
     .badge-preview-recommended{
-        width:48px;
-        min-width:48px;
-        min-height:34px;
+        width:52px;
+        min-width:52px;
+        min-height:40px;
         margin-top:0;
         font-size:8px;
     }
 
-    .premium-cast-badge-new + .premium-cast-badge-recommended{
-        margin-left:-6px;
-        margin-top:5px;
+    .admin-cast-badges .premium-cast-badge-new + .premium-cast-badge-recommended{
+        margin-left:0;
+        margin-top:0;
     }
 
     .cast-badge-toggle{

@@ -410,7 +410,7 @@ return "";
 }
 
 return `
-<div class="public-cast-badges">
+<div class="public-cast-badges cast-badge-layer">
 ${badges.join("")}
 </div>
 `;
