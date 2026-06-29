@@ -2338,18 +2338,20 @@ body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
 body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges,
 body:not(.cast-detail-page) .public-cast-badges{
     position:absolute !important;
-    top:8px !important;
-    left:8px !important;
+    top:6px !important;
+    left:4px !important;
     right:auto !important;
     bottom:auto !important;
     z-index:9999 !important;
     display:flex !important;
     flex-direction:column !important;
     align-items:flex-start !important;
-    gap:2px !important;
+    justify-content:flex-start !important;
+    gap:0 !important;
     width:auto !important;
-    max-width:calc(100% - 16px) !important;
+    max-width:calc(100% - 8px) !important;
     pointer-events:none !important;
+    transform:none !important;
 }
 
 body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge,
@@ -2359,50 +2361,59 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge{
     width:auto !important;
     height:auto !important;
     margin:0 !important;
+    margin-left:0 !important;
+    margin-top:0 !important;
     padding:0 !important;
+    align-self:flex-start !important;
+    transform:none !important;
 }
 
 body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img,
 body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img,
 body:not(.cast-detail-page) .public-cast-badges img{
     display:block !important;
-    width:80px !important;
+    width:90px !important;
     height:auto !important;
     max-width:none !important;
+    margin:0 !important;
+    margin-left:0 !important;
+    padding:0 !important;
+    align-self:flex-start !important;
     object-fit:contain !important;
+    transform:none !important;
 }
 
 body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
 body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new,
 body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
-    width:72px !important;
+    width:82px !important;
 }
 
 body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
 body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended,
 body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
-    width:80px !important;
+    width:90px !important;
 }
 
 @media(max-width:768px){
     body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
     body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges,
     body:not(.cast-detail-page) .public-cast-badges{
-        top:6px !important;
-        left:6px !important;
-        gap:2px !important;
-        max-width:calc(100% - 12px) !important;
+        top:5px !important;
+        left:3px !important;
+        gap:0 !important;
+        max-width:calc(100% - 6px) !important;
     }
 
     body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
     body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new,
     body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
-        width:56px !important;
+        width:64px !important;
     }
 
     body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
     body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended,
     body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
-        width:64px !important;
+        width:72px !important;
     }
 }
