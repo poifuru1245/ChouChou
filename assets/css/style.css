@@ -2203,6 +2203,24 @@ body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-re
     height:auto !important;
 }
 
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img,
+body:not(.cast-detail-page) .public-cast-badges img{
+    height:auto !important;
+}
+
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
+    width:58px !important;
+}
+
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+    width:66px !important;
+}
+
 .today-cast .no-cast{
     display:flex !important;
     align-items:center !important;
@@ -2300,5 +2318,17 @@ body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-re
     body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended{
         width:44px !important;
         height:auto !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
+        width:44px !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+        width:50px !important;
     }
 }

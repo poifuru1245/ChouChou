@@ -82,7 +82,8 @@
     name: document.getElementById("castName"),
     age: document.getElementById("castAge"),
     height: document.getElementById("cast-height"),
-    birthday: document.getElementById("cast-birthday"),
+    birthdayMonth: document.getElementById("cast-birthday-month"),
+    birthdayDay: document.getElementById("cast-birthday-day"),
     bloodType: document.getElementById("cast-blood-type"),
     hobby: document.getElementById("cast-hobby"),
     favoriteDrink: document.getElementById("cast-drink"),
@@ -329,7 +330,7 @@
     elements.name.value = cast?.name || "";
     elements.age.value = cast?.age || "";
     elements.height.value = cast?.height || "";
-    elements.birthday.value = cast?.birthday || "";
+    setBirthdaySelects(cast?.birthday || "");
     elements.bloodType.value = cast?.bloodType || "";
     elements.hobby.value = cast?.hobby || "";
     elements.favoriteDrink.value = cast?.favoriteDrink || "";
@@ -363,7 +364,7 @@
     elements.name.value = "";
     elements.age.value = "";
     elements.height.value = "";
-    elements.birthday.value = "";
+    setBirthdaySelects("");
     elements.bloodType.value = "";
     elements.hobby.value = "";
     elements.favoriteDrink.value = "";
@@ -1131,7 +1132,9 @@
       name: elements.name.value.trim(),
       age: elements.age.value.trim(),
       height: elements.height.value.trim(),
-      birthday: elements.birthday.value.trim(),
+      birthday: collectBirthday(),
+      birthdayMonth: elements.birthdayMonth?.value || "",
+      birthdayDay: elements.birthdayDay?.value || "",
       bloodType: elements.bloodType.value.trim(),
       hobby: elements.hobby.value.trim(),
       favoriteDrink: elements.favoriteDrink.value.trim(),
@@ -1144,6 +1147,31 @@
       isRecommended: Boolean(elements.isRecommended?.checked),
       schedule: ""
     };
+  }
+
+  function collectBirthday() {
+    const month = elements.birthdayMonth?.value || "";
+    const day = elements.birthdayDay?.value || "";
+
+    if (!month && !day) {
+      return "";
+    }
+
+    return `${month}月${day}日`;
+  }
+
+  function setBirthdaySelects(value) {
+    const match = String(value || "").match(/^(\d{1,2})月(\d{1,2})日$/);
+    const month = match ? String(Number(match[1])) : "";
+    const day = match ? String(Number(match[2])) : "";
+
+    if (elements.birthdayMonth) {
+      elements.birthdayMonth.value = month;
+    }
+
+    if (elements.birthdayDay) {
+      elements.birthdayDay.value = day;
+    }
   }
 
   function validateCast(data) {
@@ -1163,6 +1191,10 @@
 
     if (data.height && data.height.length > 20) {
       return { valid: false, message: "身長は20文字以内で入力してください。" };
+    }
+
+    if ((data.birthdayMonth && !data.birthdayDay) || (!data.birthdayMonth && data.birthdayDay)) {
+      return { valid: false, message: "誕生日は月と日を両方選択してください。" };
     }
 
     if (data.birthday.length > 40) {
