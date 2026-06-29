@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>キャスト管理</title>
 
-<link rel="stylesheet" href="../assets/css/admin.css?v=5.7.7">
+<link rel="stylesheet" href="../assets/css/admin.css?v=6.0.1">
 
 </head>
 
@@ -54,29 +54,137 @@
         placeholder="名前"
     >
 
-    <input
-        type="number"
-        id="castAge"
-        placeholder="年齢"
-    >
+    <select id="castAge" aria-label="年齢">
+      <option value="">年齢 未入力</option>
+      <option value="18">18歳</option>
+      <option value="19">19歳</option>
+      <option value="20">20歳</option>
+      <option value="21">21歳</option>
+      <option value="22">22歳</option>
+      <option value="23">23歳</option>
+      <option value="24">24歳</option>
+      <option value="25">25歳</option>
+      <option value="26">26歳</option>
+      <option value="27">27歳</option>
+      <option value="28">28歳</option>
+      <option value="29">29歳</option>
+      <option value="30">30歳</option>
+      <option value="31">31歳</option>
+      <option value="32">32歳</option>
+      <option value="33">33歳</option>
+      <option value="34">34歳</option>
+      <option value="35">35歳</option>
+      <option value="36">36歳</option>
+      <option value="37">37歳</option>
+      <option value="38">38歳</option>
+      <option value="39">39歳</option>
+      <option value="40">40歳</option>
+    </select>
 
-    <input
-  type="text"
-  id="cast-height"
-  placeholder="身長（例:160cm）"
->
+    <select id="cast-height" aria-label="身長">
+      <option value="">身長 未入力</option>
+      <option value="140cm">140cm</option>
+      <option value="141cm">141cm</option>
+      <option value="142cm">142cm</option>
+      <option value="143cm">143cm</option>
+      <option value="144cm">144cm</option>
+      <option value="145cm">145cm</option>
+      <option value="146cm">146cm</option>
+      <option value="147cm">147cm</option>
+      <option value="148cm">148cm</option>
+      <option value="149cm">149cm</option>
+      <option value="150cm">150cm</option>
+      <option value="151cm">151cm</option>
+      <option value="152cm">152cm</option>
+      <option value="153cm">153cm</option>
+      <option value="154cm">154cm</option>
+      <option value="155cm">155cm</option>
+      <option value="156cm">156cm</option>
+      <option value="157cm">157cm</option>
+      <option value="158cm">158cm</option>
+      <option value="159cm">159cm</option>
+      <option value="160cm">160cm</option>
+      <option value="161cm">161cm</option>
+      <option value="162cm">162cm</option>
+      <option value="163cm">163cm</option>
+      <option value="164cm">164cm</option>
+      <option value="165cm">165cm</option>
+      <option value="166cm">166cm</option>
+      <option value="167cm">167cm</option>
+      <option value="168cm">168cm</option>
+      <option value="169cm">169cm</option>
+      <option value="170cm">170cm</option>
+      <option value="171cm">171cm</option>
+      <option value="172cm">172cm</option>
+      <option value="173cm">173cm</option>
+      <option value="174cm">174cm</option>
+      <option value="175cm">175cm</option>
+      <option value="176cm">176cm</option>
+      <option value="177cm">177cm</option>
+      <option value="178cm">178cm</option>
+      <option value="179cm">179cm</option>
+      <option value="180cm">180cm</option>
+    </select>
 
-<input
-  type="text"
-  id="cast-birthday"
-  placeholder="誕生日（例: 3月14日）"
->
+<div class="birthday-selects" aria-label="誕生日">
+  <select id="cast-birthday-month" aria-label="誕生日 月">
+    <option value="">誕生月 未入力</option>
+    <option value="1">1月</option>
+    <option value="2">2月</option>
+    <option value="3">3月</option>
+    <option value="4">4月</option>
+    <option value="5">5月</option>
+    <option value="6">6月</option>
+    <option value="7">7月</option>
+    <option value="8">8月</option>
+    <option value="9">9月</option>
+    <option value="10">10月</option>
+    <option value="11">11月</option>
+    <option value="12">12月</option>
+  </select>
+  <select id="cast-birthday-day" aria-label="誕生日 日">
+    <option value="">誕生日 未入力</option>
+    <option value="1">1日</option>
+    <option value="2">2日</option>
+    <option value="3">3日</option>
+    <option value="4">4日</option>
+    <option value="5">5日</option>
+    <option value="6">6日</option>
+    <option value="7">7日</option>
+    <option value="8">8日</option>
+    <option value="9">9日</option>
+    <option value="10">10日</option>
+    <option value="11">11日</option>
+    <option value="12">12日</option>
+    <option value="13">13日</option>
+    <option value="14">14日</option>
+    <option value="15">15日</option>
+    <option value="16">16日</option>
+    <option value="17">17日</option>
+    <option value="18">18日</option>
+    <option value="19">19日</option>
+    <option value="20">20日</option>
+    <option value="21">21日</option>
+    <option value="22">22日</option>
+    <option value="23">23日</option>
+    <option value="24">24日</option>
+    <option value="25">25日</option>
+    <option value="26">26日</option>
+    <option value="27">27日</option>
+    <option value="28">28日</option>
+    <option value="29">29日</option>
+    <option value="30">30日</option>
+    <option value="31">31日</option>
+  </select>
+</div>
 
-<input
-  type="text"
-  id="cast-blood-type"
-  placeholder="血液型"
->
+<select id="cast-blood-type" aria-label="血液型">
+  <option value="">血液型 未入力</option>
+  <option value="A型">A型</option>
+  <option value="B型">B型</option>
+  <option value="O型">O型</option>
+  <option value="AB型">AB型</option>
+</select>
 
 <input
   type="text"
@@ -180,7 +288,7 @@
 </div>
 <script type="module" src="../assets/js/firebase.js"></script>
 <script type="module" src="../assets/app.js"></script>
-<script src="../assets/cast-manager.js?v=5.7.8"></script>
+<script src="../assets/cast-manager.js?v=6.0.1"></script>
 
 </body>
 </html>

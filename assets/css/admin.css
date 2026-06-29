@@ -195,7 +195,10 @@ body{
 
 #castForm .drag-handle,
 #castForm .sort-handle,
-#castForm .cast-drag-handle{
+#castForm .cast-drag-handle,
+#castForm .admin-cast-badges,
+#castForm .cast-admin-badges,
+#castForm .public-cast-badges{
     display:none !important;
 }
 
@@ -229,12 +232,26 @@ body{
 }
 
 .popup-content input,
+.popup-content select,
 .popup-content textarea{
     width:100%;
     padding:12px;
     margin-bottom:15px;
     border:1px solid #ddd;
     border-radius:8px;
+    background:#fff;
+    color:#70475b;
+}
+
+.birthday-selects{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.birthday-selects select{
+    margin-bottom:0;
 }
 
 .popup-content textarea{
@@ -1230,9 +1247,13 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     height:36px;
 }
 
-.admin-cast-badges .premium-cast-badge-img-new,
+.admin-cast-badges .premium-cast-badge-img-new{
+    width:60px;
+    height:auto;
+}
+
 .admin-cast-badges .premium-cast-badge-img-recommended{
-    width:58px;
+    width:64px;
     height:auto;
 }
 

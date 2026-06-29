@@ -82,7 +82,8 @@
     name: document.getElementById("castName"),
     age: document.getElementById("castAge"),
     height: document.getElementById("cast-height"),
-    birthday: document.getElementById("cast-birthday"),
+    birthdayMonth: document.getElementById("cast-birthday-month"),
+    birthdayDay: document.getElementById("cast-birthday-day"),
     bloodType: document.getElementById("cast-blood-type"),
     hobby: document.getElementById("cast-hobby"),
     favoriteDrink: document.getElementById("cast-drink"),
@@ -327,10 +328,10 @@
     state.currentImage = getMainImage(cast);
     elements.popupTitle.textContent = id ? "キャスト編集" : "キャスト追加";
     elements.name.value = cast?.name || "";
-    elements.age.value = cast?.age || "";
-    elements.height.value = cast?.height || "";
-    elements.birthday.value = cast?.birthday || "";
-    elements.bloodType.value = cast?.bloodType || "";
+    setSelectValue(elements.age, cast?.age || "");
+    setSelectValue(elements.height, normalizeHeightValue(cast?.height || ""));
+    setBirthdaySelects(cast?.birthday || "");
+    setSelectValue(elements.bloodType, cast?.bloodType || "");
     elements.hobby.value = cast?.hobby || "";
     elements.favoriteDrink.value = cast?.favoriteDrink || "";
     elements.message.value = cast?.message || "";
@@ -361,10 +362,10 @@
     state.currentImage = "";
     state.currentImages = [];
     elements.name.value = "";
-    elements.age.value = "";
-    elements.height.value = "";
-    elements.birthday.value = "";
-    elements.bloodType.value = "";
+    setSelectValue(elements.age, "");
+    setSelectValue(elements.height, "");
+    setBirthdaySelects("");
+    setSelectValue(elements.bloodType, "");
     elements.hobby.value = "";
     elements.favoriteDrink.value = "";
     elements.message.value = "";
@@ -1131,7 +1132,9 @@
       name: elements.name.value.trim(),
       age: elements.age.value.trim(),
       height: elements.height.value.trim(),
-      birthday: elements.birthday.value.trim(),
+      birthday: collectBirthday(),
+      birthdayMonth: elements.birthdayMonth?.value || "",
+      birthdayDay: elements.birthdayDay?.value || "",
       bloodType: elements.bloodType.value.trim(),
       hobby: elements.hobby.value.trim(),
       favoriteDrink: elements.favoriteDrink.value.trim(),
@@ -1146,6 +1149,50 @@
     };
   }
 
+  function collectBirthday() {
+    const month = elements.birthdayMonth?.value || "";
+    const day = elements.birthdayDay?.value || "";
+
+    if (!month && !day) return "";
+    if (!month || !day) return "";
+
+    return `${month}月${day}日`;
+  }
+
+  function setBirthdaySelects(value = "") {
+    const match = String(value).match(/(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
+    const month = match ? match[1] : "";
+    const day = match ? match[2] : "";
+
+    if (elements.birthdayMonth) {
+      elements.birthdayMonth.value = month;
+    }
+
+    if (elements.birthdayDay) {
+      elements.birthdayDay.value = day;
+    }
+  }
+
+  function setSelectValue(select, value) {
+    if (!select) return;
+
+    const normalizedValue = String(value || "");
+    const hasOption = Array.from(select.options).some((option) => {
+      return option.value === normalizedValue;
+    });
+
+    select.value = hasOption ? normalizedValue : "";
+  }
+
+  function normalizeHeightValue(value) {
+    const normalizedValue = String(value || "").trim();
+
+    if (!normalizedValue) return "";
+    if (/^\d{3}$/.test(normalizedValue)) return `${normalizedValue}cm`;
+
+    return normalizedValue;
+  }
+
   function validateCast(data) {
     if (!data.name) {
       return { valid: false, message: "名前を入力してください。" };
@@ -1157,12 +1204,18 @@
 
     const age = Number(data.age);
 
-    if (data.age && (!Number.isInteger(age) || age < 0 || age > 99)) {
-      return { valid: false, message: "年齢は0〜99の整数で入力してください。" };
+    if (data.age && (!Number.isInteger(age) || age < 18 || age > 40)) {
+      return { valid: false, message: "年齢は18〜40歳から選択してください。" };
     }
 
-    if (data.height && data.height.length > 20) {
-      return { valid: false, message: "身長は20文字以内で入力してください。" };
+    const height = Number(String(data.height).replace("cm", ""));
+
+    if (data.height && (!Number.isInteger(height) || height < 140 || height > 180)) {
+      return { valid: false, message: "身長は140cm〜180cmから選択してください。" };
+    }
+
+    if ((data.birthdayMonth && !data.birthdayDay) || (!data.birthdayMonth && data.birthdayDay)) {
+      return { valid: false, message: "誕生日は月と日を両方選択してください。" };
     }
 
     if (data.birthday.length > 40) {
