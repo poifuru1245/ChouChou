@@ -198,7 +198,8 @@ body{
 #castForm .cast-drag-handle,
 #castForm .admin-cast-badges,
 #castForm .cast-admin-badges,
-#castForm .public-cast-badges{
+#castForm .public-cast-badges,
+#castForm .cast-badge-layer{
     display:none !important;
 }
 
@@ -233,6 +234,7 @@ body{
 
 .popup-content input,
 .popup-content select,
+.popup-content .cast-profile-select,
 .popup-content textarea{
     width:100%;
     padding:12px;
@@ -1171,7 +1173,7 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 
 .admin-cast-badges{
     position:absolute;
-    top:58px;
+    top:56px;
     left:18px;
     z-index:12;
     display:flex;
@@ -1248,12 +1250,12 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
 
 .admin-cast-badges .premium-cast-badge-img-new{
-    width:60px;
+    width:56px;
     height:auto;
 }
 
 .admin-cast-badges .premium-cast-badge-img-recommended{
-    width:64px;
+    width:56px;
     height:auto;
 }
 

@@ -614,6 +614,8 @@ section{
 .no-cast{
   grid-column:1/-1;
   width:100%;
+  justify-self:center;
+  align-self:center;
   text-align:center;
   padding:40px;
   font-size:18px;
@@ -1601,13 +1603,13 @@ body:not(.cast-detail-page) .public-profile-link{
 
 .public-cast-badges .premium-cast-badge-img-new,
 .cast-detail-badges .premium-cast-badge-img-new{
-    width:58px !important;
+    width:48px !important;
     height:auto !important;
 }
 
 .public-cast-badges .premium-cast-badge-img-recommended,
 .cast-detail-badges .premium-cast-badge-img-recommended{
-    width:66px !important;
+    width:48px !important;
     height:auto !important;
 }
 
@@ -1659,6 +1661,8 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-img,
 
     body:not(.cast-detail-page) .public-cast-card{
         border-radius:17px !important;
+        display:flex !important;
+        flex-direction:column !important;
     }
 
     body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card,
@@ -1670,6 +1674,8 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-img,
     }
 
     body:not(.cast-detail-page) .public-cast-photo{
+        display:block !important;
+        width:100% !important;
         aspect-ratio:4/5 !important;
     }
 
@@ -1741,13 +1747,13 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-img,
 
     .public-cast-badges .premium-cast-badge-img-new,
     .cast-detail-badges .premium-cast-badge-img-new{
-        width:42px !important;
+        width:44px !important;
         height:auto !important;
     }
 
     .public-cast-badges .premium-cast-badge-img-recommended,
     .cast-detail-badges .premium-cast-badge-img-recommended{
-        width:48px !important;
+        width:44px !important;
         height:auto !important;
     }
 }

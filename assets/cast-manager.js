@@ -328,7 +328,7 @@
     state.currentImage = getMainImage(cast);
     elements.popupTitle.textContent = id ? "キャスト編集" : "キャスト追加";
     elements.name.value = cast?.name || "";
-    setSelectValue(elements.age, cast?.age || "");
+    setSelectValue(elements.age, normalizeAgeValue(cast?.age || ""));
     setSelectValue(elements.height, normalizeHeightValue(cast?.height || ""));
     setBirthdaySelects(cast?.birthday || "");
     setSelectValue(elements.bloodType, cast?.bloodType || "");
@@ -1193,6 +1193,10 @@
     return normalizedValue;
   }
 
+  function normalizeAgeValue(value) {
+    return String(value || "").replace("歳", "").trim();
+  }
+
   function validateCast(data) {
     if (!data.name) {
       return { valid: false, message: "名前を入力してください。" };
@@ -1537,7 +1541,9 @@
   }
 
   function isBadgeEnabled(value) {
-    return value === true || String(value).toLowerCase() === "true";
+    return value === true ||
+      value === 1 ||
+      ["true", "1", "on"].includes(String(value).toLowerCase());
   }
 
   function compareOptionalNumber(a, b) {

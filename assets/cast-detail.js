@@ -124,7 +124,8 @@ function renderBadges(cast) {
   if (!badges.length) return;
 
   const imageBadges = document.createElement("div");
-  imageBadges.className = "cast-detail-badges cast-detail-image-badges cast-badge-layer";
+  imageBadges.className = "cast-detail-badges cast-detail-image-badges";
+  imageBadges.dataset.badgeLayout = "detail-image";
   imageBadges.innerHTML = badges.map(createBadgeHtml).join("");
 
   const profileBadges = document.createElement("div");
@@ -181,7 +182,9 @@ function createRecommendedBadgeImage(className = "premium-cast-badge-recommended
 }
 
 function isBadgeEnabled(value) {
-  return value === true || String(value).toLowerCase() === "true";
+  return value === true ||
+    value === 1 ||
+    ["true", "1", "on"].includes(String(value).toLowerCase());
 }
 
 function renderThumbnails(images, name) {

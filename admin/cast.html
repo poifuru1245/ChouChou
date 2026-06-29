@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>キャスト管理</title>
 
-<link rel="stylesheet" href="../assets/css/admin.css?v=6.0.1">
+<link rel="stylesheet" href="../assets/css/admin.css?v=6.0.2">
 
 </head>
 
@@ -54,7 +54,7 @@
         placeholder="名前"
     >
 
-    <select id="castAge" aria-label="年齢">
+    <select id="castAge" class="cast-profile-select" aria-label="年齢">
       <option value="">年齢 未入力</option>
       <option value="18">18歳</option>
       <option value="19">19歳</option>
@@ -81,7 +81,7 @@
       <option value="40">40歳</option>
     </select>
 
-    <select id="cast-height" aria-label="身長">
+    <select id="cast-height" class="cast-profile-select" aria-label="身長">
       <option value="">身長 未入力</option>
       <option value="140cm">140cm</option>
       <option value="141cm">141cm</option>
@@ -127,7 +127,7 @@
     </select>
 
 <div class="birthday-selects" aria-label="誕生日">
-  <select id="cast-birthday-month" aria-label="誕生日 月">
+  <select id="cast-birthday-month" class="cast-profile-select" aria-label="誕生日 月">
     <option value="">誕生月 未入力</option>
     <option value="1">1月</option>
     <option value="2">2月</option>
@@ -142,7 +142,7 @@
     <option value="11">11月</option>
     <option value="12">12月</option>
   </select>
-  <select id="cast-birthday-day" aria-label="誕生日 日">
+  <select id="cast-birthday-day" class="cast-profile-select" aria-label="誕生日 日">
     <option value="">誕生日 未入力</option>
     <option value="1">1日</option>
     <option value="2">2日</option>
@@ -178,7 +178,7 @@
   </select>
 </div>
 
-<select id="cast-blood-type" aria-label="血液型">
+<select id="cast-blood-type" class="cast-profile-select" aria-label="血液型">
   <option value="">血液型 未入力</option>
   <option value="A型">A型</option>
   <option value="B型">B型</option>
@@ -288,7 +288,7 @@
 </div>
 <script type="module" src="../assets/js/firebase.js"></script>
 <script type="module" src="../assets/app.js"></script>
-<script src="../assets/cast-manager.js?v=6.0.1"></script>
+<script src="../assets/cast-manager.js?v=6.0.2"></script>
 
 </body>
 </html>
