@@ -2332,3 +2332,77 @@ body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recom
         width:50px !important;
     }
 }
+
+/* Final badge position and size */
+body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .public-cast-badges{
+    position:absolute !important;
+    top:8px !important;
+    left:8px !important;
+    right:auto !important;
+    bottom:auto !important;
+    z-index:9999 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:2px !important;
+    width:auto !important;
+    max-width:calc(100% - 16px) !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge,
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge{
+    display:block !important;
+    width:auto !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+}
+
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img,
+body:not(.cast-detail-page) .public-cast-badges img{
+    display:block !important;
+    width:80px !important;
+    height:auto !important;
+    max-width:none !important;
+    object-fit:contain !important;
+}
+
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
+    width:72px !important;
+}
+
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+    width:80px !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges,
+    body:not(.cast-detail-page) .public-cast-badges{
+        top:6px !important;
+        left:6px !important;
+        gap:2px !important;
+        max-width:calc(100% - 12px) !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
+        width:56px !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+        width:64px !important;
+    }
+}
