@@ -2174,3 +2174,131 @@ body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-recommen
     }
 }
 
+/* Ver6.0.1: styles for the actual cast-card elements in use */
+body:not(.cast-detail-page) .today-cast .cast-card,
+body:not(.cast-detail-page) .all-cast-grid .cast-card{
+    position:relative !important;
+}
+
+body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges{
+    position:absolute !important;
+    top:12px !important;
+    left:12px !important;
+    z-index:30 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:6px !important;
+    width:auto !important;
+    max-width:calc(100% - 24px) !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended{
+    width:48px !important;
+    height:auto !important;
+}
+
+.today-cast .no-cast{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-height:180px !important;
+    text-align:center !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .today-cast .cast-card,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:stretch !important;
+        text-align:center !important;
+        min-height:0 !important;
+        padding-bottom:0 !important;
+        border-radius:17px !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .public-cast-photo,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-photo,
+    body:not(.cast-detail-page) .today-cast .cast-card .public-cast-image,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-image,
+    body:not(.cast-detail-page) .today-cast .cast-card img,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card img,
+    body:not(.cast-detail-page) .today-cast .cast-card-no-image,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card-no-image{
+        width:100% !important;
+        max-width:none !important;
+        min-width:0 !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .public-cast-photo,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-photo{
+        position:relative !important;
+        display:block !important;
+        aspect-ratio:4/5 !important;
+        flex:none !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .public-cast-image,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-image,
+    body:not(.cast-detail-page) .today-cast .cast-card img,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card img,
+    body:not(.cast-detail-page) .today-cast .cast-card-no-image,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card-no-image{
+        height:100% !important;
+        border-radius:17px 17px 0 0 !important;
+        object-fit:cover !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .cast-info,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .cast-info,
+    body:not(.cast-detail-page) .today-cast .cast-card .public-cast-info,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-info{
+        width:100% !important;
+        max-width:none !important;
+        min-width:0 !important;
+        box-sizing:border-box !important;
+        padding:11px 10px !important;
+        text-align:center !important;
+        align-items:center !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card h3,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card h3,
+    body:not(.cast-detail-page) .today-cast .cast-card p,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card p{
+        text-align:center !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .reserve-btn,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .reserve-btn,
+    body:not(.cast-detail-page) .today-cast .cast-card .public-profile-link,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-profile-link{
+        width:100% !important;
+        min-width:0 !important;
+        box-sizing:border-box !important;
+        align-self:stretch !important;
+        justify-content:center !important;
+        text-align:center !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges{
+        top:8px !important;
+        left:8px !important;
+        max-width:calc(100% - 16px) !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended{
+        width:44px !important;
+        height:auto !important;
+    }
+}
