@@ -67,8 +67,8 @@ function getCastFromParams() {
     x: params.get("x") || "",
     tiktok: params.get("tiktok") || "",
     tags: parseTags(params.get("tags") || ""),
-    isNew: params.get("isNew") === "true",
-    isRecommended: params.get("isRecommended") === "true",
+    isNew: isBadgeEnabled(params.get("isNew")),
+    isRecommended: isBadgeEnabled(params.get("isRecommended")),
     badgeText: params.get("badgeText") || ""
   };
 }
@@ -136,11 +136,11 @@ function renderBadges(cast) {
 function getCastBadges(cast) {
   const badges = [];
 
-  if (cast?.isNew === true) {
+  if (isBadgeEnabled(cast?.isNew)) {
     badges.push(["premium-cast-badge-new", "new"]);
   }
 
-  if (cast?.isRecommended === true) {
+  if (isBadgeEnabled(cast?.isRecommended)) {
     badges.push(["premium-cast-badge-recommended", "recommended"]);
   }
 
@@ -163,7 +163,7 @@ function createBadgeHtml([className, label]) {
 function createNewBadgeImage(className = "premium-cast-badge-new") {
   return `
     <span class="premium-cast-badge ${className}" aria-label="NEW 新人">
-      <img class="premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/new-badge.png" alt="NEW 新人" loading="lazy">
+      <img class="premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/badge-new.png" alt="NEW 新人" loading="lazy">
     </span>
   `;
 }
@@ -173,7 +173,7 @@ function createRecommendedBadgeImage(className = "premium-cast-badge-recommended
 
   return `
     <span class="premium-cast-badge ${className}" aria-label="${safeLabel}">
-      <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/recommend-badge.png" alt="${safeLabel}" loading="lazy">
+      <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/badge-osusume.png" alt="${safeLabel}" loading="lazy">
     </span>
   `;
 }

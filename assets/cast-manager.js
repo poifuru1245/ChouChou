@@ -1470,7 +1470,7 @@
   function createNewBadgeImage() {
     return `
       <span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
-        <img class="premium-cast-badge-img premium-cast-badge-img-new" src="../assets/img/badges/new-badge.png" alt="NEW 新人" loading="lazy">
+        <img class="premium-cast-badge-img premium-cast-badge-img-new" src="../assets/img/badges/badge-new.png" alt="NEW 新人" loading="lazy">
       </span>
     `;
   }
@@ -1478,13 +1478,18 @@
   function createRecommendedBadgeImage() {
     return `
       <span class="premium-cast-badge premium-cast-badge-recommended" aria-label="おすすめ">
-        <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="../assets/img/badges/recommend-badge.png" alt="おすすめ" loading="lazy">
+        <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="../assets/img/badges/badge-osusume.png" alt="おすすめ" loading="lazy">
       </span>
     `;
   }
 
   function isBadgeEnabled(value) {
-    return value === true;
+    return value === true ||
+      value === "true" ||
+      value === 1 ||
+      value === "1" ||
+      value === "on" ||
+      value === "yes";
   }
 
   function compareOptionalNumber(a, b) {

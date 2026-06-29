@@ -350,8 +350,8 @@ params.set("message",cast.message || "");
 params.set("instagram",cast.instagram || "");
 params.set("x",cast.x || "");
 params.set("tiktok",cast.tiktok || "");
-params.set("isNew",cast.isNew === true ? "true" : "");
-params.set("isRecommended",cast.isRecommended === true ? "true" : "");
+params.set("isNew",isBadgeEnabled(cast.isNew) ? "true" : "");
+params.set("isRecommended",isBadgeEnabled(cast.isRecommended) ? "true" : "");
 params.set("badgeText",cast.badgeText || "");
 
 if(Array.isArray(cast.tags)){
@@ -388,11 +388,11 @@ function createCastBadgeMarkup(cast){
 
 const badges = [];
 
-if(cast?.isNew === true){
+if(isBadgeEnabled(cast?.isNew)){
 badges.push(createNewBadgeImage());
 }
 
-if(cast?.isRecommended === true){
+if(isBadgeEnabled(cast?.isRecommended)){
 badges.push(createRecommendedBadgeImage());
 }
 
@@ -408,12 +408,26 @@ ${badges.join("")}
 
 }
 
+
+function isBadgeEnabled(value){
+
+return value === true ||
+value === "true" ||
+value === 1 ||
+value === "1" ||
+value === "on" ||
+value === "yes";
+
+}
+
 function createNewBadgeImage(){
 
 return `
 <span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
-  <img class="premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/new-badge.png" alt="NEW 新人" loading="lazy">
-</span>
+ <img class="premium-cast-badge-img premium-cast-badge-img-new"
+src="assets/img/badges/badge-new.png"
+alt="NEW 新人"
+loading="lazy">
 `;
 
 }
@@ -422,8 +436,10 @@ function createRecommendedBadgeImage(label = "おすすめ"){
 
 return `
 <span class="premium-cast-badge premium-cast-badge-recommended" aria-label="${label}">
-  <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/recommend-badge.png" alt="${label}" loading="lazy">
-</span>
+  <img class="premium-cast-badge-img premium-cast-badge-img-recommended"
+src="assets/img/badges/badge-osusume.png"
+alt="${label}"
+loading="lazy">
 `;
 
 }
