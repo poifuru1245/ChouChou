@@ -2508,6 +2508,20 @@ body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recom
 body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
 body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended{
     width:100px !important;
+    transform:translateX(-4px) !important;
+}
+
+.today-empty,
+.today-cast-empty,
+.no-schedule,
+.no-cast,
+.today-cast .no-cast{
+    width:100% !important;
+    text-align:center !important;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    grid-column:1/-1 !important;
 }
 
 @media(max-width:768px){
@@ -2534,7 +2548,7 @@ body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-re
     body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new,
     body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-new,
     body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-new{
-        width:70px !important;
+        width:58px !important;
     }
 
     body:not(.cast-detail-page) .premium-cast-badge-img-recommended,
@@ -2542,6 +2556,7 @@ body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-re
     body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended,
     body:not(.cast-detail-page) .today-cast .cast-card .premium-cast-badge-img-recommended,
     body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-recommended{
-        width:78px !important;
+        width:66px !important;
+        transform:translateX(-3px) !important;
     }
 }
