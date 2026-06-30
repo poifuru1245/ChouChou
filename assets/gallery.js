@@ -47,14 +47,17 @@ async function loadGallery() {
 
 function renderGallery(items) {
   elements.grids.forEach((grid) => {
-    if (!items.length) {
+    const limit = Number(grid.dataset.limit || 0);
+    const visibleItems = limit > 0 ? items.slice(0, limit) : items;
+
+    if (!visibleItems.length) {
       grid.innerHTML = `<p class="gallery-empty">店内写真準備中</p>`;
       return;
     }
 
     const fragment = document.createDocumentFragment();
 
-    items.forEach((item) => {
+    visibleItems.forEach((item) => {
       if (!item.imageUrl) return;
       fragment.appendChild(createGalleryItem(item));
     });
