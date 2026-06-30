@@ -89,6 +89,9 @@ document.querySelector(".cast-grid");
   const limit =
 getListLimit(list);
 
+  const isScheduleList =
+list?.dataset?.view === "schedule";
+
   list.innerHTML = "";
 
   if(todayCasts.length === 0){
@@ -142,6 +145,30 @@ createPublicTagMarkup(cast);
 const detailUrl =
 createCastDetailUrl(cast);
 
+if(isScheduleList){
+
+div.className = "today-schedule-item";
+
+div.innerHTML = `
+  <div class="today-schedule-photo">
+    ${imageMarkup}
+  </div>
+
+  <div class="today-schedule-info">
+    <h3>${escapeHtml(cast.name || "")}</h3>
+
+    <p>
+      ${escapeHtml(formatAge(cast.age))}
+    </p>
+
+    <p class="cast-time public-cast-schedule">
+      ${escapeHtml(formatSchedule(cast, todayCast.time))}
+    </p>
+  </div>
+`;
+
+}else{
+
 div.innerHTML = `
   <div class="public-cast-photo">
     ${imageMarkup}
@@ -171,6 +198,8 @@ aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール
 
   </div>
 `;
+
+}
 
 console.log("追加", cast.name);
 
@@ -242,6 +271,12 @@ const tagsMarkup =
 createPublicTagMarkup(cast);
 const detailUrl =
 createCastDetailUrl(cast);
+const isLimitedList =
+limit !== null;
+const detailLabel =
+isLimitedList
+? "詳細"
+: "プロフィール";
 
 div.innerHTML = `
 <div class="public-cast-photo">
@@ -254,7 +289,7 @@ ${badgeMarkup}
 <h3>${escapeHtml(cast.name || "")}</h3>
 
 <p class="public-cast-profile-line">
-${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatHeight(cast.height))}
+${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatCup(cast))} / ${escapeHtml(formatHeight(cast.height))}
 </p>
 
 <p class="cast-time public-cast-schedule">
@@ -267,7 +302,7 @@ ${tagsMarkup}
 class="reserve-btn public-profile-link"
 href="${detailUrl}"
 aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
-プロフィール
+${detailLabel}
 </a>
 
 </div>
@@ -415,6 +450,21 @@ return age
 function formatHeight(height){
 
 return height || "-";
+
+}
+
+function formatCup(cast){
+
+const cup =
+cast?.cup ||
+cast?.cupSize ||
+cast?.bust ||
+cast?.bustCup ||
+"";
+
+return cup
+? `${cup}カップ`.replace("カップカップ","カップ")
+: "-";
 
 }
 

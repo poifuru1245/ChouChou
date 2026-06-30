@@ -1085,6 +1085,435 @@ margin:auto;
     }
 }
 
+/* Ver5.2 final homepage badge override */
+body:not(.cast-detail-page) .princess-home .public-cast-badges,
+body:not(.cast-detail-page) .princess-home .public-cast-badges.cast-badge-layer,
+body:not(.cast-detail-page) .princess-home .today-cast .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .public-cast-badges{
+    top:5px !important;
+    left:5px !important;
+    right:auto !important;
+    gap:1px !important;
+}
+
+body:not(.cast-detail-page) .princess-home .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home .public-cast-badges .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .princess-home .public-cast-badges img,
+body:not(.cast-detail-page) .princess-home .today-cast .cast-card .premium-cast-badge-img,
+body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-cast-badge-img{
+    width:30px !important;
+    min-width:30px !important;
+    max-width:30px !important;
+    height:auto !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .public-cast-badges .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home .public-cast-badges img,
+    body:not(.cast-detail-page) .princess-home .today-cast .cast-card .premium-cast-badge-img,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-cast-badge-img{
+        width:26px !important;
+        min-width:26px !important;
+        max-width:26px !important;
+    }
+}
+
+/* Ver5.2 Premium Princess homepage renewal */
+body:not(.cast-detail-page){
+    background:
+        radial-gradient(circle at 18% 9%, rgba(255,255,255,.92) 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 18%, rgba(242,156,195,.38) 0 2px, transparent 4px),
+        linear-gradient(180deg,#fff7fb 0%,#ffe8f2 48%,#fffafd 100%) !important;
+}
+
+body:not(.cast-detail-page) .premium-hero{
+    min-height:88vh !important;
+    padding:138px 24px 76px !important;
+    align-items:center !important;
+    background:
+        radial-gradient(circle at 12% 22%, rgba(255,255,255,.9) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 18%, rgba(255,255,255,.82) 0 2px, transparent 4px),
+        radial-gradient(circle at 86% 74%, rgba(255,195,224,.42), transparent 30%),
+        linear-gradient(135deg,#fff 0%,#ffe4f0 46%,#fff8fc 100%) !important;
+}
+
+body:not(.cast-detail-page) .premium-hero::before{
+    inset:22px !important;
+    border-radius:38px !important;
+    background:
+        radial-gradient(circle at 50% 0, rgba(255,255,255,.96) 0 7px, transparent 8px) 0 0/28px 15px repeat-x,
+        radial-gradient(circle at 50% 100%, rgba(255,255,255,.96) 0 7px, transparent 8px) 0 100%/28px 15px repeat-x,
+        linear-gradient(90deg,rgba(255,255,255,.28),transparent,rgba(255,255,255,.28)) !important;
+}
+
+body:not(.cast-detail-page) .premium-hero::after{
+    width:210px !important;
+    height:46px !important;
+    top:104px !important;
+    background:
+        radial-gradient(circle at 48% 100%, #fff 0 8px, transparent 9px),
+        linear-gradient(90deg,#d94d95,#fff2f8,#d94d95) !important;
+}
+
+body:not(.cast-detail-page) .premium-hero-inner{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr) !important;
+    grid-template-areas:
+        "copy visual"
+        "buttons buttons" !important;
+    gap:34px 42px !important;
+    width:min(1180px,100%) !important;
+    max-width:1180px !important;
+    padding:46px !important;
+    border:1px solid rgba(225,107,166,.28) !important;
+    border-radius:34px !important;
+    background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(255,239,247,.76)) !important;
+    box-shadow:0 28px 70px rgba(160,62,112,.16),0 0 0 10px rgba(255,255,255,.32) inset !important;
+}
+
+.premium-hero-copy{
+    grid-area:copy !important;
+    align-self:center !important;
+    text-align:left !important;
+}
+
+body:not(.cast-detail-page) .premium-hero .hero-catch{
+    margin:0 0 20px !important;
+}
+
+body:not(.cast-detail-page) .premium-hero .hero-logo{
+    width:min(520px,100%) !important;
+}
+
+body:not(.cast-detail-page) .premium-hero .hero-sub{
+    margin:22px 0 0 !important;
+    max-width:560px !important;
+    font-size:21px !important;
+}
+
+.premium-hero-visual{
+    grid-area:visual !important;
+    position:relative !important;
+    align-self:center !important;
+}
+
+.premium-hero-visual::before,
+.premium-hero-visual::after{
+    content:"" !important;
+    position:absolute !important;
+    pointer-events:none !important;
+}
+
+.premium-hero-visual::before{
+    width:92px !important;
+    height:92px !important;
+    top:-18px !important;
+    right:-14px !important;
+    transform:rotate(45deg) !important;
+    border-radius:18px !important;
+    background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(244,128,184,.45)) !important;
+    box-shadow:0 16px 30px rgba(194,61,128,.14) !important;
+}
+
+.premium-hero-visual::after{
+    width:160px !important;
+    height:34px !important;
+    left:50% !important;
+    bottom:-12px !important;
+    transform:translateX(-50%) !important;
+    border-radius:999px !important;
+    background:linear-gradient(90deg,#d94d95,#fff,#d94d95) !important;
+}
+
+.premium-hero-photo{
+    position:relative !important;
+    aspect-ratio:4/5 !important;
+    overflow:hidden !important;
+    border:10px solid rgba(255,255,255,.92) !important;
+    border-radius:30px !important;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.3),transparent 42%),
+        radial-gradient(circle at 50% 30%,rgba(255,255,255,.8),transparent 28%),
+        linear-gradient(135deg,#ffd7e8,#f7a6cb 52%,#fff7fb) !important;
+    box-shadow:0 24px 50px rgba(157,62,111,.24) !important;
+}
+
+.premium-hero-photo img{
+    width:78% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    margin:auto !important;
+    display:block !important;
+    filter:drop-shadow(0 18px 24px rgba(132,47,91,.18)) !important;
+}
+
+.premium-hero-buttons{
+    grid-area:buttons !important;
+    display:flex !important;
+    justify-content:center !important;
+    gap:14px !important;
+    flex-wrap:wrap !important;
+    margin:0 !important;
+}
+
+.premium-hero-buttons .reserve-btn,
+.premium-hero-buttons .btn,
+.premium-hero-buttons .hero-btn{
+    min-width:180px !important;
+}
+
+.btn,
+.hero-btn,
+.reserve-btn{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-height:46px !important;
+    padding:12px 26px !important;
+    border:2px solid rgba(255,255,255,.94) !important;
+    border-radius:999px !important;
+    background:linear-gradient(135deg,#ff9ac5 0%,#e95d9f 52%,#bc3c82 100%) !important;
+    color:#fff !important;
+    text-decoration:none !important;
+    font-weight:700 !important;
+    letter-spacing:0 !important;
+    box-shadow:0 14px 28px rgba(188,60,130,.24),0 2px 0 rgba(255,255,255,.42) inset !important;
+    transition:transform .25s ease,filter .25s ease,box-shadow .25s ease !important;
+}
+
+.btn:hover,
+.hero-btn:hover,
+.reserve-btn:hover{
+    filter:brightness(1.06) !important;
+    transform:translateY(-2px) !important;
+    box-shadow:0 18px 34px rgba(188,60,130,.3),0 2px 0 rgba(255,255,255,.46) inset !important;
+}
+
+.princess-home{
+    width:min(1320px,calc(100% - 40px)) !important;
+    margin:-44px auto 86px !important;
+}
+
+.princess-card{
+    border:1px solid rgba(220,96,154,.34) !important;
+    border-radius:24px !important;
+    background:
+        radial-gradient(circle at 94% 8%, rgba(255,255,255,.95) 0 2px, transparent 4px),
+        radial-gradient(circle at 8% 86%, rgba(244,142,190,.22), transparent 28%),
+        linear-gradient(145deg,#fff 0%,#fff4fa 54%,#ffe7f2 100%) !important;
+    box-shadow:0 20px 48px rgba(151,54,103,.14),0 1px 0 rgba(255,255,255,.9) inset !important;
+}
+
+.princess-card::after{
+    width:112px !important;
+    height:25px !important;
+    background:linear-gradient(90deg,#c7458b,#fff3f9,#c7458b) !important;
+}
+
+.princess-card .section-title h2{
+    color:#6f314f !important;
+}
+
+.princess-card-grid-top{
+    grid-template-columns:minmax(0,1.18fr) minmax(0,.9fr) minmax(0,1.08fr) !important;
+}
+
+.princess-card-grid-middle{
+    grid-template-columns:minmax(250px,.8fr) minmax(0,1.2fr) minmax(300px,1fr) !important;
+}
+
+.today-schedule-list{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:12px !important;
+    margin:0 !important;
+}
+
+.today-schedule-item{
+    display:grid !important;
+    grid-template-columns:82px minmax(0,1fr) !important;
+    align-items:center !important;
+    gap:14px !important;
+    padding:10px !important;
+    border:1px solid rgba(220,96,154,.24) !important;
+    border-radius:18px !important;
+    background:rgba(255,255,255,.72) !important;
+    box-shadow:0 10px 22px rgba(151,54,103,.08) !important;
+}
+
+.today-schedule-photo{
+    width:82px !important;
+    aspect-ratio:1/1 !important;
+    overflow:hidden !important;
+    border-radius:14px !important;
+    background:#fff !important;
+}
+
+.today-schedule-photo img,
+.today-schedule-photo .cast-card-no-image{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+}
+
+.today-schedule-info h3{
+    margin:0 0 5px !important;
+    color:#74334f !important;
+    font-size:17px !important;
+}
+
+.today-schedule-info p{
+    margin:0 !important;
+    color:#8a5970 !important;
+    font-size:13px !important;
+    line-height:1.55 !important;
+}
+
+.princess-home .all-cast-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:13px !important;
+}
+
+.princess-home .all-cast-grid .cast-card{
+    display:flex !important;
+    flex-direction:column !important;
+}
+
+.princess-home .all-cast-grid .public-cast-photo{
+    aspect-ratio:4/5 !important;
+    overflow:hidden !important;
+}
+
+.princess-home .all-cast-grid .public-cast-image,
+.princess-home .all-cast-grid .cast-card-no-image{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+}
+
+.princess-home .public-cast-profile-line,
+.princess-home .public-cast-schedule{
+    font-size:13px !important;
+    line-height:1.55 !important;
+}
+
+body:not(.cast-detail-page) .princess-home .public-cast-badges,
+body:not(.cast-detail-page) .princess-home .public-cast-badges.cast-badge-layer,
+body:not(.cast-detail-page) .princess-home .cast-card .public-cast-badges{
+    top:5px !important;
+    left:5px !important;
+    gap:1px !important;
+}
+
+body:not(.cast-detail-page) .princess-home .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .princess-home .public-cast-badges img{
+    width:30px !important;
+    min-width:30px !important;
+    max-width:30px !important;
+    height:auto !important;
+}
+
+.princess-home .no-cast,
+.princess-home .today-cast-empty,
+.princess-home .no-schedule{
+    min-height:260px !important;
+    align-self:stretch !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .premium-hero{
+        min-height:auto !important;
+        padding:116px 14px 64px !important;
+    }
+
+    body:not(.cast-detail-page) .premium-hero-inner{
+        grid-template-columns:1fr !important;
+        grid-template-areas:
+            "copy"
+            "visual"
+            "buttons" !important;
+        gap:24px !important;
+        padding:28px 18px !important;
+        border-radius:26px !important;
+    }
+
+    .premium-hero-copy{
+        text-align:center !important;
+    }
+
+    body:not(.cast-detail-page) .premium-hero .hero-sub{
+        margin:18px auto 0 !important;
+        font-size:15px !important;
+    }
+
+    .premium-hero-photo{
+        max-width:300px !important;
+        margin:0 auto !important;
+        border-width:8px !important;
+    }
+
+    .premium-hero-buttons{
+        gap:10px !important;
+    }
+
+    .premium-hero-buttons .reserve-btn,
+    .premium-hero-buttons .btn,
+    .premium-hero-buttons .hero-btn{
+        width:100% !important;
+        min-width:0 !important;
+    }
+
+    .princess-home{
+        width:calc(100% - 24px) !important;
+        margin:-26px auto 58px !important;
+    }
+
+    .princess-card-grid-top,
+    .princess-card-grid-middle,
+    .princess-card-grid-bottom{
+        grid-template-columns:1fr !important;
+        gap:18px !important;
+    }
+
+    .princess-card{
+        border-radius:20px !important;
+        padding:24px 16px !important;
+    }
+
+    .princess-home .all-cast-grid{
+        grid-template-columns:1fr !important;
+    }
+
+    .today-schedule-item{
+        grid-template-columns:72px minmax(0,1fr) !important;
+        gap:12px !important;
+    }
+
+    .today-schedule-photo{
+        width:72px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home .public-cast-badges img{
+        width:26px !important;
+        min-width:26px !important;
+        max-width:26px !important;
+    }
+}
+
 @media(max-width:768px){
     body:not(.cast-detail-page){
         padding-bottom:104px !important;
@@ -3135,5 +3564,45 @@ body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-ca
         min-width:32px !important;
         max-width:32px !important;
         height:auto !important;
+    }
+}
+
+/* Ver5.2 final homepage badge override */
+body:not(.cast-detail-page) .princess-home .public-cast-badges,
+body:not(.cast-detail-page) .princess-home .public-cast-badges.cast-badge-layer,
+body:not(.cast-detail-page) .princess-home .today-cast .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .public-cast-badges{
+    top:5px !important;
+    left:5px !important;
+    right:auto !important;
+    gap:1px !important;
+}
+
+body:not(.cast-detail-page) .princess-home .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home .public-cast-badges .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .princess-home .public-cast-badges img,
+body:not(.cast-detail-page) .princess-home .today-cast .cast-card .premium-cast-badge-img,
+body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-cast-badge-img{
+    width:30px !important;
+    min-width:30px !important;
+    max-width:30px !important;
+    height:auto !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .public-cast-badges .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home .public-cast-badges img,
+    body:not(.cast-detail-page) .princess-home .today-cast .cast-card .premium-cast-badge-img,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-cast-badge-img{
+        width:26px !important;
+        min-width:26px !important;
+        max-width:26px !important;
     }
 }
