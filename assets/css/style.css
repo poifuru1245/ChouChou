@@ -1085,6 +1085,243 @@ margin:auto;
     }
 }
 
+/* Reference PDF alignment: header and contact band */
+body:not(.cast-detail-page) .header{
+    background:rgba(255,255,255,.96) !important;
+    border-bottom:1px solid rgba(238,151,191,.42) !important;
+    box-shadow:0 8px 22px rgba(170,55,113,.08) !important;
+}
+
+body:not(.cast-detail-page) .header-inner{
+    max-width:1320px !important;
+    padding:14px 28px !important;
+    gap:22px !important;
+}
+
+body:not(.cast-detail-page) .logo{
+    position:relative !important;
+    color:#ee72ad !important;
+    font-size:34px !important;
+    line-height:1 !important;
+    text-shadow:0 4px 12px rgba(238,114,173,.18) !important;
+}
+
+body:not(.cast-detail-page) .logo::after{
+    content:"シュシュ" !important;
+    display:block !important;
+    margin-top:3px !important;
+    color:#ba477e !important;
+    font-size:11px !important;
+    text-align:center !important;
+    letter-spacing:0 !important;
+}
+
+body:not(.cast-detail-page) .nav{
+    flex:1 !important;
+    justify-content:center !important;
+    gap:22px !important;
+}
+
+body:not(.cast-detail-page) .nav a{
+    position:relative !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    gap:3px !important;
+    color:#8c435f !important;
+    font-size:13px !important;
+    line-height:1.1 !important;
+    white-space:nowrap !important;
+}
+
+body:not(.cast-detail-page) .nav a small{
+    color:#f277b3 !important;
+    font-size:9px !important;
+    font-family:"Cormorant Garamond",serif !important;
+    letter-spacing:0 !important;
+    text-transform:uppercase !important;
+}
+
+body:not(.cast-detail-page) .nav a::after{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    bottom:-9px !important;
+    width:5px !important;
+    height:5px !important;
+    transform:translateX(-50%) rotate(45deg) !important;
+    background:#f69bc5 !important;
+    opacity:.7 !important;
+}
+
+.language-switch{
+    display:flex !important;
+    align-items:center !important;
+    gap:10px !important;
+}
+
+.language-switch button{
+    min-width:50px !important;
+    height:34px !important;
+    border:1px solid rgba(227,91,157,.32) !important;
+    border-radius:7px !important;
+    background:linear-gradient(135deg,#fff,#fff2f8) !important;
+    color:#cf4e8c !important;
+    font-weight:700 !important;
+    font-size:12px !important;
+    box-shadow:0 8px 18px rgba(166,54,111,.08) !important;
+}
+
+.language-switch button:first-child{
+    background:linear-gradient(135deg,#ffaad0,#e75b9d) !important;
+    color:#fff !important;
+}
+
+.luxury-contact-band{
+    display:grid !important;
+    grid-template-columns:minmax(260px,.86fr) minmax(0,1.4fr) !important;
+    gap:28px !important;
+    align-items:center !important;
+    margin:30px calc(50% - 50vw) 0 !important;
+    padding:42px max(30px,calc((100vw - 1280px) / 2)) 32px !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:
+        radial-gradient(circle at 12% 24%, rgba(255,255,255,.72) 0 2px, transparent 4px),
+        radial-gradient(circle at 86% 28%, rgba(255,255,255,.82) 0 2px, transparent 4px),
+        linear-gradient(135deg,#ff9cc7 0%,#f06aaa 46%,#ee8abd 100%) !important;
+    box-shadow:0 -18px 50px rgba(160,54,109,.18) !important;
+    color:#fff !important;
+    overflow:hidden !important;
+}
+
+.luxury-contact-band::before{
+    content:"" !important;
+    position:absolute !important;
+    top:0 !important;
+    left:0 !important;
+    right:0 !important;
+    height:24px !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:
+        radial-gradient(circle at 50% 0, rgba(255,255,255,.95) 0 7px, transparent 8px) 0 0/24px 13px repeat-x !important;
+}
+
+.luxury-contact-band::after{
+    content:"Chou Chou" !important;
+    position:absolute !important;
+    left:50% !important;
+    bottom:16px !important;
+    transform:translateX(-50%) !important;
+    width:auto !important;
+    height:auto !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    color:rgba(255,255,255,.9) !important;
+    font-family:"Cormorant Garamond",serif !important;
+    font-size:34px !important;
+    pointer-events:none !important;
+}
+
+.luxury-contact-copy{
+    position:relative !important;
+    z-index:2 !important;
+}
+
+.luxury-contact-copy span{
+    color:#fff !important;
+    font-family:"Cormorant Garamond",serif !important;
+    font-size:32px !important;
+    font-weight:700 !important;
+}
+
+.luxury-contact-copy h2{
+    margin:4px 0 14px !important;
+    color:#fff !important;
+    font-size:18px !important;
+}
+
+.luxury-contact-copy p{
+    max-width:360px !important;
+    margin:0 !important;
+    color:rgba(255,255,255,.92) !important;
+    line-height:1.8 !important;
+    font-size:14px !important;
+}
+
+.luxury-contact-actions{
+    position:relative !important;
+    z-index:2 !important;
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:18px !important;
+}
+
+.luxury-contact-btn{
+    min-height:78px !important;
+    flex-direction:column !important;
+    gap:4px !important;
+    border-radius:12px !important;
+    background:linear-gradient(135deg,#fff,#fff3f8) !important;
+    color:#c94688 !important;
+    box-shadow:0 16px 30px rgba(121,37,83,.18),0 0 0 1px rgba(255,255,255,.85) inset !important;
+}
+
+.luxury-contact-btn b{
+    color:#c94688 !important;
+    font-size:18px !important;
+}
+
+.luxury-contact-btn small{
+    color:#d884aa !important;
+    font-size:12px !important;
+}
+
+.luxury-contact-logo{
+    display:none !important;
+}
+
+@media(max-width:1180px){
+    body:not(.cast-detail-page) .nav{
+        display:none !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .header-inner{
+        padding:12px 14px !important;
+    }
+
+    .language-switch{
+        gap:6px !important;
+    }
+
+    .language-switch button{
+        min-width:38px !important;
+        height:30px !important;
+        font-size:11px !important;
+    }
+
+    .luxury-contact-band{
+        grid-template-columns:1fr !important;
+        margin:22px calc(50% - 50vw) 0 !important;
+        padding:36px 18px 58px !important;
+        text-align:center !important;
+    }
+
+    .luxury-contact-copy p{
+        margin:0 auto !important;
+    }
+
+    .luxury-contact-actions{
+        grid-template-columns:1fr !important;
+        gap:12px !important;
+    }
+}
+
 /* Ver5.2 Premium Princess homepage fix */
 body:not(.cast-detail-page) .premium-hero{
     min-height:76vh !important;
