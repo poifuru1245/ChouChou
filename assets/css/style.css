@@ -4904,6 +4904,84 @@ body:not(.cast-detail-page) .hero.hero-princess-image::after{
     }
 }
 
+/* Completely hide hero slideshow pagination dots */
+.swiper-pagination,
+.swiper-pagination-bullet,
+.slick-dots,
+.slick-dots li,
+.slick-dots li button,
+.hero-dots,
+.hero-dots *,
+.slider-dots,
+.slider-dots *,
+.slide-dots,
+.slide-dots *,
+.hero-pagination,
+.hero-pagination *,
+.carousel-dots,
+.carousel-dots *,
+.pagination,
+.pagination *{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    background:none !important;
+    background-image:none !important;
+}
+
+.swiper-pagination::before,
+.swiper-pagination::after,
+.swiper-pagination-bullet::before,
+.swiper-pagination-bullet::after,
+.slick-dots::before,
+.slick-dots::after,
+.slick-dots li button::before,
+.slick-dots li button::after,
+.hero-dots::before,
+.hero-dots::after,
+.slider-dots::before,
+.slider-dots::after,
+.slide-dots::before,
+.slide-dots::after,
+.hero-pagination::before,
+.hero-pagination::after,
+.carousel-dots::before,
+.carousel-dots::after,
+.pagination::before,
+.pagination::after{
+    content:none !important;
+    display:none !important;
+    background:none !important;
+    background-image:none !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-princess-image::after{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    bottom:7.2% !important;
+    z-index:4 !important;
+    width:142px !important;
+    height:34px !important;
+    transform:translateX(-50%) !important;
+    display:block !important;
+    pointer-events:none !important;
+    border:0 !important;
+    border-radius:999px !important;
+    background:linear-gradient(90deg,rgba(247,159,201,.96),rgba(255,216,234,.98),rgba(247,159,201,.96)) !important;
+    background-image:linear-gradient(90deg,rgba(247,159,201,.96),rgba(255,216,234,.98),rgba(247,159,201,.96)) !important;
+    box-shadow:0 0 18px rgba(255,214,232,.72) !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero.hero-princess-image::after{
+        bottom:7% !important;
+        width:118px !important;
+        height:30px !important;
+    }
+}
+
 /* Restore generated luxury interior hero image */
 body:not(.cast-detail-page) .hero.hero-princess-image{
     background-image:
@@ -4919,4 +4997,87 @@ body:not(.cast-detail-page) .hero.hero-princess-image{
         background-position:center top !important;
         background-size:auto 100% !important;
     }
+}
+
+/* Final override: remove every hero slideshow pagination dot */
+body:not(.cast-detail-page) .swiper-pagination,
+body:not(.cast-detail-page) .swiper-pagination-bullet,
+body:not(.cast-detail-page) .slick-dots,
+body:not(.cast-detail-page) .slick-dots li,
+body:not(.cast-detail-page) .slick-dots li button,
+body:not(.cast-detail-page) .hero-dots,
+body:not(.cast-detail-page) .hero-dots *,
+body:not(.cast-detail-page) .slider-dots,
+body:not(.cast-detail-page) .slider-dots *,
+body:not(.cast-detail-page) .slide-dots,
+body:not(.cast-detail-page) .slide-dots *,
+body:not(.cast-detail-page) .hero-pagination,
+body:not(.cast-detail-page) .hero-pagination *,
+body:not(.cast-detail-page) .carousel-dots,
+body:not(.cast-detail-page) .carousel-dots *,
+body:not(.cast-detail-page) .premium-hero-dots,
+body:not(.cast-detail-page) .premium-hero-dots *,
+body:not(.cast-detail-page) .hero-princess-image .premium-hero-dots,
+body:not(.cast-detail-page) .hero-princess-image .premium-hero-dots *,
+body:not(.cast-detail-page) .pagination,
+body:not(.cast-detail-page) .pagination *{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    width:0 !important;
+    height:0 !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    padding:0 !important;
+    margin:0 !important;
+    border:0 !important;
+    background:none !important;
+    background-image:none !important;
+    box-shadow:none !important;
+}
+
+body:not(.cast-detail-page) .swiper-pagination::before,
+body:not(.cast-detail-page) .swiper-pagination::after,
+body:not(.cast-detail-page) .swiper-pagination-bullet::before,
+body:not(.cast-detail-page) .swiper-pagination-bullet::after,
+body:not(.cast-detail-page) .slick-dots::before,
+body:not(.cast-detail-page) .slick-dots::after,
+body:not(.cast-detail-page) .slick-dots li button::before,
+body:not(.cast-detail-page) .slick-dots li button::after,
+body:not(.cast-detail-page) .hero-dots::before,
+body:not(.cast-detail-page) .hero-dots::after,
+body:not(.cast-detail-page) .slider-dots::before,
+body:not(.cast-detail-page) .slider-dots::after,
+body:not(.cast-detail-page) .slide-dots::before,
+body:not(.cast-detail-page) .slide-dots::after,
+body:not(.cast-detail-page) .hero-pagination::before,
+body:not(.cast-detail-page) .hero-pagination::after,
+body:not(.cast-detail-page) .carousel-dots::before,
+body:not(.cast-detail-page) .carousel-dots::after,
+body:not(.cast-detail-page) .premium-hero-dots::before,
+body:not(.cast-detail-page) .premium-hero-dots::after,
+body:not(.cast-detail-page) .premium-hero-dots *::before,
+body:not(.cast-detail-page) .premium-hero-dots *::after,
+body:not(.cast-detail-page) .pagination::before,
+body:not(.cast-detail-page) .pagination::after{
+    content:none !important;
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    background:none !important;
+    background-image:none !important;
+    box-shadow:none !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-princess-image::after{
+    content:none !important;
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    width:0 !important;
+    height:0 !important;
+    background:none !important;
+    background-image:none !important;
+    box-shadow:none !important;
 }
