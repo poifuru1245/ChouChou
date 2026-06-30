@@ -5081,3 +5081,239 @@ body:not(.cast-detail-page) .hero.hero-princess-image::after{
     background-image:none !important;
     box-shadow:none !important;
 }
+
+/* Ver5.2 Cast List Card Fix */
+body:not(.cast-detail-page) .princess-home .princess-card-grid-middle{
+    grid-template-columns:minmax(210px,.68fr) minmax(620px,1.9fr) minmax(260px,.92fr) !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list.cast-list.princess-card{
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid{
+    width:100% !important;
+    max-width:100% !important;
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:18px !important;
+    align-items:stretch !important;
+    justify-content:center !important;
+    margin:0 !important;
+    overflow:visible !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid > .cast-card.public-cast-card{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    border-radius:18px !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-photo{
+    width:100% !important;
+    aspect-ratio:4/5 !important;
+    min-height:0 !important;
+    max-height:260px !important;
+    position:relative !important;
+    overflow:hidden !important;
+    flex:0 0 auto !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-image,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card-no-image{
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    display:block !important;
+    object-fit:cover !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info{
+    width:100% !important;
+    min-width:0 !important;
+    flex:1 1 auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    gap:8px !important;
+    padding:14px 12px 16px !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info h3{
+    width:100% !important;
+    margin:0 !important;
+    font-size:clamp(18px,1.7vw,22px) !important;
+    line-height:1.25 !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-profile-line,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-schedule{
+    width:100% !important;
+    margin:0 !important;
+    font-size:13px !important;
+    line-height:1.55 !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-tags{
+    width:100% !important;
+    justify-content:center !important;
+    gap:5px !important;
+    margin:2px 0 0 !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-profile-link,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .reserve-btn{
+    width:min(100%,150px) !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    min-height:38px !important;
+    margin:8px auto 0 !important;
+    padding:9px 18px !important;
+    align-self:center !important;
+    white-space:nowrap !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges.cast-badge-layer,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges{
+    position:absolute !important;
+    top:4px !important;
+    left:4px !important;
+    right:auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    gap:2px !important;
+    transform:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    z-index:6 !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge{
+    display:block !important;
+    width:34px !important;
+    min-width:34px !important;
+    max-width:34px !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img,
+body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img{
+    display:block !important;
+    width:34px !important;
+    min-width:34px !important;
+    max-width:34px !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    transform:none !important;
+}
+
+@media(max-width:1020px){
+    body:not(.cast-detail-page) .princess-home .princess-card-grid-middle{
+        grid-template-columns:1fr 1fr !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list.cast-list.princess-card{
+        grid-column:1/-1 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid{
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+        gap:14px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info{
+        padding:13px 10px 15px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info h3{
+        font-size:18px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-profile-line,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-schedule{
+        font-size:12px !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:12px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-photo{
+        aspect-ratio:4/5 !important;
+        max-height:none !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info{
+        gap:6px !important;
+        padding:11px 8px 13px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info h3{
+        font-size:16px !important;
+        line-height:1.25 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-profile-line,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-schedule{
+        font-size:11px !important;
+        line-height:1.45 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-profile-link,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card .reserve-btn{
+        width:100% !important;
+        min-height:36px !important;
+        margin-top:6px !important;
+        padding:8px 10px !important;
+        font-size:13px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges.cast-badge-layer,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges{
+        top:3px !important;
+        left:3px !important;
+        gap:1px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img,
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img{
+        width:28px !important;
+        min-width:28px !important;
+        max-width:28px !important;
+    }
+}
+
+@media(max-width:430px){
+    body:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid{
+        grid-template-columns:1fr !important;
+    }
+}
