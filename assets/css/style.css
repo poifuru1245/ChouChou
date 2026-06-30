@@ -4665,3 +4665,12 @@ body:not(.cast-detail-page) .hero-princess-image .premium-hero-dots{
         margin-bottom:40px !important;
     }
 }
+
+/* Hide all top slider pagination dots */
+.swiper-pagination,
+.slick-dots,
+.hero-dots,
+.carousel-dots,
+.slider-dots{
+    display:none !important;
+}
