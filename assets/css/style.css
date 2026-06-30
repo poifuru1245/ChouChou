@@ -1097,7 +1097,7 @@ body:not(.cast-detail-page) .hero.hero-princess-image{
     overflow:hidden !important;
     background-image:
         linear-gradient(rgba(255,218,235,.08),rgba(255,218,235,.08)),
-        url("../images/hero-princess.jpg") !important;
+        url("../images/hero-princess.jpg?v=5.2.7") !important;
     background-size:cover !important;
     background-position:center top !important;
     background-repeat:no-repeat !important;
@@ -4986,7 +4986,7 @@ body:not(.cast-detail-page) .hero.hero-princess-image::after{
 body:not(.cast-detail-page) .hero.hero-princess-image{
     background-image:
         linear-gradient(rgba(255,218,235,.04),rgba(255,218,235,.04)),
-        url("../images/hero-princess.jpg") !important;
+        url("../images/hero-princess.jpg?v=5.2.7") !important;
     background-repeat:no-repeat !important;
     background-position:center top !important;
     background-size:cover !important;
