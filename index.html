@@ -9,7 +9,7 @@
 
     <meta name="description" content="甘くとろける夢の時間。すすきのキャバクラ Chou Chou">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=5.1.0">
+    <link rel="stylesheet" href="assets/css/style.css?v=5.1.1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -98,7 +98,11 @@
 
         </div>
 
-	           <div class="cast-grid"></div>
+	           <div class="cast-grid" data-limit="4"></div>
+
+        <div class="princess-card-action">
+            <a href="schedule.html" class="reserve-btn">出勤一覧を見る</a>
+        </div>
 
 	    </section>
 
@@ -179,7 +183,11 @@
         <h2>キャスト一覧</h2>
       </div>
 
-      <div class="all-cast-grid"></div>
+      <div class="all-cast-grid" data-limit="4"></div>
+
+      <div class="princess-card-action">
+        <a href="cast.html" class="reserve-btn">キャスト一覧を見る</a>
+      </div>
 
     </section>
 
@@ -265,6 +273,24 @@
 
       </div>
 
+      <section id="contact" class="contact princess-card princess-contact-card">
+
+        <div class="section-title">
+            <span>Contact</span>
+            <h2>お問い合わせ</h2>
+        </div>
+
+        <div class="princess-info-list">
+            <p><b>RESERVE</b><span>ご予約・お問い合わせはWEBフォームより承ります。</span></p>
+            <p><b>LOCATION</b><span>すすきので過ごす特別な夜を、Chou Chouで。</span></p>
+        </div>
+
+        <div class="princess-card-action">
+            <a href="reservation.html" class="reserve-btn">予約・お問い合わせ</a>
+        </div>
+
+      </section>
+
     </main>
 <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
   <button type="button" class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="閉じる">
@@ -278,7 +304,7 @@
 </div>
 
 <script type="module" src="assets/app.js"></script>
-<script type="module" src="assets/cast.js"></script>
+<script type="module" src="assets/cast.js?v=5.1.1"></script>
 <script type="module" src="assets/js/news.js"></script>
 <script type="module" src="assets/gallery.js"></script>
 

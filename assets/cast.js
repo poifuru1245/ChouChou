@@ -84,6 +84,11 @@ console.log(document.querySelector(".cast-grid"));
   const list =
 document.querySelector(".cast-grid");
 
+  if(!list) return;
+
+  const limit =
+getListLimit(list);
+
   list.innerHTML = "";
 
   if(todayCasts.length === 0){
@@ -97,7 +102,16 @@ document.querySelector(".cast-grid");
   return;
 }
 
+  let renderedCount = 0;
+
   casts.forEach((cast)=>{
+
+    if(
+limit !== null &&
+renderedCount >= limit
+){
+return;
+}
 
     console.log("判定", cast.name);
 
@@ -161,8 +175,19 @@ aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール
 console.log("追加", cast.name);
 
     list.appendChild(div);
+    renderedCount += 1;
 
   });
+
+  if(renderedCount === 0){
+
+  list.innerHTML = `
+    <p class="no-cast today-cast-empty">
+      本日の出勤情報はありません
+    </p>
+  `;
+
+  }
 
 }
 
@@ -191,9 +216,14 @@ document.querySelector(".all-cast-grid");
 
 if(!list) return;
 
+const limit =
+getListLimit(list);
+
 list.innerHTML = "";
 
-casts.forEach((cast)=>{
+casts
+.slice(0, limit ?? casts.length)
+.forEach((cast)=>{
 
 const div =
 document.createElement("div");
@@ -246,6 +276,18 @@ aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール
 list.appendChild(div);
 
 });
+
+}
+
+function getListLimit(list){
+
+const value =
+Number(list?.dataset?.limit);
+
+return Number.isInteger(value) &&
+value > 0
+? value
+: null;
 
 }
 

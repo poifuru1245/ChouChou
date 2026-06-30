@@ -2826,3 +2826,314 @@ body:not(.cast-detail-page) .hero-sub{
         overflow:visible !important;
     }
 }
+
+/* Ver5.1 Princess Pink homepage layout refinements */
+html,
+body{
+    max-width:100% !important;
+    overflow-x:hidden !important;
+}
+
+.reserve-btn{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-height:44px !important;
+    max-width:100% !important;
+    padding:12px 24px !important;
+    border:2px solid rgba(255,255,255,.92) !important;
+    border-radius:999px !important;
+    background:linear-gradient(135deg,#f58ab8 0%,#e35b9d 52%,#bf3f83 100%) !important;
+    color:#fff !important;
+    text-decoration:none !important;
+    font-weight:700 !important;
+    letter-spacing:0 !important;
+    box-shadow:0 12px 24px rgba(196,63,128,.22),0 2px 0 rgba(255,255,255,.4) inset !important;
+}
+
+.reserve-btn:hover{
+    filter:brightness(1.04) !important;
+    transform:translateY(-1px) !important;
+}
+
+.princess-card-grid-top{
+    grid-template-columns:minmax(0,1.05fr) minmax(0,1fr) minmax(0,1.28fr) !important;
+    align-items:stretch !important;
+}
+
+.princess-card-grid-middle{
+    grid-template-columns:minmax(260px,.95fr) minmax(0,1.12fr) minmax(300px,1.3fr) !important;
+    align-items:stretch !important;
+}
+
+.princess-card-grid-bottom{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    align-items:stretch !important;
+}
+
+.princess-card{
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:flex-start !important;
+    min-height:340px !important;
+}
+
+.today-cast.princess-card,
+.news.princess-card{
+    min-height:420px !important;
+}
+
+.concept.princess-card,
+.gallery.princess-card{
+    min-height:500px !important;
+}
+
+.system.princess-card{
+    min-height:470px !important;
+}
+
+.access.princess-card,
+.instagram.princess-card,
+.recruit.princess-card{
+    min-height:330px !important;
+}
+
+.princess-contact-card{
+    width:100% !important;
+    min-height:0 !important;
+    margin-top:22px !important;
+    text-align:center !important;
+}
+
+.princess-contact-card .princess-info-list{
+    max-width:760px !important;
+    margin:0 auto !important;
+}
+
+.princess-card-action,
+.news-more,
+.gallery-more{
+    display:flex !important;
+    justify-content:center !important;
+    margin-top:auto !important;
+    padding-top:22px !important;
+}
+
+.princess-home .cast-grid,
+.princess-home .all-cast-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    align-content:start !important;
+}
+
+.princess-home .all-cast-grid{
+    max-height:none !important;
+    overflow:visible !important;
+}
+
+.princess-home .cast-card{
+    min-height:0 !important;
+    border:1px solid rgba(228,124,173,.28) !important;
+    border-radius:16px !important;
+    background:#fffafd !important;
+    box-shadow:0 12px 26px rgba(167,70,116,.1) !important;
+    overflow:hidden !important;
+}
+
+.princess-home .public-cast-photo{
+    position:relative !important;
+}
+
+.princess-home .public-cast-badges,
+.princess-home .public-cast-badges.cast-badge-layer,
+.princess-home .cast-card .public-cast-badges{
+    top:6px !important;
+    left:6px !important;
+    right:auto !important;
+    gap:2px !important;
+    align-items:flex-start !important;
+}
+
+.princess-home .premium-cast-badge,
+.princess-home .public-cast-badges .premium-cast-badge{
+    display:block !important;
+    width:40px !important;
+    height:auto !important;
+}
+
+.princess-home .premium-cast-badge-img,
+.princess-home .premium-cast-badge-img-new,
+.princess-home .premium-cast-badge-img-recommended,
+.princess-home .public-cast-badges img{
+    display:block !important;
+    width:40px !important;
+    height:auto !important;
+    max-width:40px !important;
+}
+
+.princess-home .no-cast,
+.princess-home .today-empty,
+.princess-home .today-cast-empty,
+.princess-home .no-schedule{
+    width:100% !important;
+    min-height:220px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    grid-column:1/-1 !important;
+    margin:0 !important;
+    text-align:center !important;
+    color:#9a5a76 !important;
+    background:linear-gradient(135deg,#fff7fb,#fff) !important;
+    border:1px dashed rgba(228,124,173,.4) !important;
+    border-radius:18px !important;
+}
+
+.princess-card .section-title::before,
+.princess-card .section-title::after{
+    content:"✦" !important;
+    display:inline-block !important;
+    margin:0 8px !important;
+    color:#ef9bc1 !important;
+    font-size:14px !important;
+}
+
+@media(max-width:1020px){
+    .princess-card-grid-top,
+    .princess-card-grid-middle,
+    .princess-card-grid-bottom{
+        grid-template-columns:1fr 1fr !important;
+    }
+
+    .concept.princess-card,
+    .gallery.princess-card,
+    .princess-contact-card{
+        grid-column:1/-1 !important;
+    }
+}
+
+@media(max-width:768px){
+    .reserve-btn{
+        width:100% !important;
+        min-height:42px !important;
+        padding:11px 16px !important;
+        font-size:14px !important;
+        white-space:normal !important;
+    }
+
+    .princess-card-grid-top,
+    .princess-card-grid-middle,
+    .princess-card-grid-bottom{
+        grid-template-columns:1fr !important;
+    }
+
+    .princess-card,
+    .today-cast.princess-card,
+    .news.princess-card,
+    .concept.princess-card,
+    .gallery.princess-card,
+    .system.princess-card,
+    .access.princess-card,
+    .instagram.princess-card,
+    .recruit.princess-card{
+        min-height:0 !important;
+    }
+
+    .concept.princess-card,
+    .gallery.princess-card,
+    .princess-contact-card{
+        grid-column:auto !important;
+    }
+
+    .princess-home .cast-grid,
+    .princess-home .all-cast-grid,
+    .princess-home .public-gallery-grid{
+        grid-template-columns:1fr !important;
+    }
+
+    .princess-home .public-cast-badges,
+    .princess-home .public-cast-badges.cast-badge-layer,
+    .princess-home .cast-card .public-cast-badges{
+        top:5px !important;
+        left:5px !important;
+        gap:2px !important;
+    }
+
+    .princess-home .premium-cast-badge,
+    .princess-home .public-cast-badges .premium-cast-badge{
+        width:32px !important;
+    }
+
+    .princess-home .premium-cast-badge-img,
+    .princess-home .premium-cast-badge-img-new,
+    .princess-home .premium-cast-badge-img-recommended,
+    .princess-home .public-cast-badges img{
+        width:32px !important;
+        max-width:32px !important;
+    }
+
+    .princess-home .no-cast,
+    .princess-home .today-empty,
+    .princess-home .today-cast-empty,
+    .princess-home .no-schedule{
+        min-height:150px !important;
+        padding:18px !important;
+    }
+}
+
+/* Ver5.1 homepage-only cast badge final size */
+body:not(.cast-detail-page) .princess-home .today-cast .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .princess-home .public-cast-badges{
+    top:6px !important;
+    left:6px !important;
+    right:auto !important;
+    gap:2px !important;
+}
+
+body:not(.cast-detail-page) .princess-home .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home .public-cast-badges .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home .today-cast .cast-card .premium-cast-badge,
+body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-cast-badge{
+    width:40px !important;
+    min-width:40px !important;
+    max-width:40px !important;
+    height:auto !important;
+}
+
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .princess-home .public-cast-badges img,
+body:not(.cast-detail-page) .princess-home .today-cast .cast-card .premium-cast-badge-img,
+body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-cast-badge-img{
+    width:40px !important;
+    min-width:40px !important;
+    max-width:40px !important;
+    height:auto !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home .today-cast .cast-card .public-cast-badges,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .public-cast-badges,
+    body:not(.cast-detail-page) .princess-home .public-cast-badges{
+        top:5px !important;
+        left:5px !important;
+        gap:2px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .public-cast-badges .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .today-cast .cast-card .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home .public-cast-badges img,
+    body:not(.cast-detail-page) .princess-home .today-cast .cast-card .premium-cast-badge-img,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-cast-badge-img{
+        width:32px !important;
+        min-width:32px !important;
+        max-width:32px !important;
+        height:auto !important;
+    }
+}
