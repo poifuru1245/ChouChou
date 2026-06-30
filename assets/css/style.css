@@ -1420,6 +1420,314 @@ body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-ca
     }
 }
 
+/* Ver5.2 Princess Luxury full top renewal */
+body:not(.cast-detail-page){
+    background:
+        radial-gradient(circle at 10% 12%, rgba(255,255,255,.95) 0 2px, transparent 3px),
+        radial-gradient(circle at 92% 18%, rgba(255,179,214,.5) 0 2px, transparent 4px),
+        radial-gradient(circle at 18% 82%, rgba(255,255,255,.85) 0 1px, transparent 3px),
+        linear-gradient(180deg,#fffafc 0%,#ffe5f1 44%,#fff8fc 100%) !important;
+}
+
+body:not(.cast-detail-page) .luxury-hero{
+    position:relative !important;
+    min-height:78vh !important;
+    padding:124px 24px 66px !important;
+    background:
+        linear-gradient(rgba(255,255,255,.2),rgba(255,255,255,.16)),
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,.92) 0 2px, transparent 4px),
+        radial-gradient(circle at 76% 18%, rgba(255,203,228,.62), transparent 28%),
+        linear-gradient(135deg,#fff 0%,#ffdcea 44%,#fff7fc 100%) !important;
+}
+
+body:not(.cast-detail-page) .luxury-hero::before{
+    inset:16px !important;
+    border-radius:36px !important;
+    border:1px solid rgba(255,255,255,.92) !important;
+    outline:1px solid rgba(198,62,132,.24) !important;
+    outline-offset:-9px !important;
+    background:
+        radial-gradient(circle at 50% 0, rgba(255,255,255,.98) 0 7px, transparent 8px) 0 0/24px 14px repeat-x,
+        radial-gradient(circle at 50% 100%, rgba(255,255,255,.98) 0 7px, transparent 8px) 0 100%/24px 14px repeat-x,
+        linear-gradient(90deg,rgba(255,255,255,.4),transparent 28%,transparent 72%,rgba(255,255,255,.4)) !important;
+}
+
+.luxury-sparkles{
+    position:absolute !important;
+    inset:0 !important;
+    pointer-events:none !important;
+    z-index:1 !important;
+    background:
+        radial-gradient(circle at 22% 32%, rgba(255,255,255,.95) 0 2px, transparent 3px),
+        radial-gradient(circle at 38% 18%, rgba(255,255,255,.75) 0 1px, transparent 3px),
+        radial-gradient(circle at 70% 28%, rgba(255,255,255,.92) 0 2px, transparent 4px),
+        radial-gradient(circle at 86% 62%, rgba(255,255,255,.76) 0 1px, transparent 3px),
+        radial-gradient(circle at 14% 72%, rgba(255,208,231,.72) 0 2px, transparent 4px) !important;
+    animation:luxurySparkle 5.8s ease-in-out infinite alternate !important;
+}
+
+@keyframes luxurySparkle{
+    from{opacity:.55; transform:translateY(0);}
+    to{opacity:1; transform:translateY(-6px);}
+}
+
+body:not(.cast-detail-page) .luxury-hero .premium-hero-inner{
+    position:relative !important;
+    z-index:2 !important;
+    grid-template-columns:minmax(320px,.82fr) minmax(540px,1.18fr) !important;
+    gap:34px !important;
+    width:min(1240px,100%) !important;
+    padding:38px !important;
+    border:1px solid rgba(205,70,138,.3) !important;
+    border-radius:34px !important;
+    background:
+        radial-gradient(circle at 8% 10%, rgba(255,255,255,.92), transparent 24%),
+        linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,236,246,.76)) !important;
+    box-shadow:0 30px 76px rgba(146,45,99,.2),0 0 0 10px rgba(255,255,255,.3) inset !important;
+}
+
+.luxury-hero-kicker{
+    display:inline-flex !important;
+    margin:0 0 13px !important;
+    padding:7px 16px !important;
+    border:1px solid rgba(217,87,151,.26) !important;
+    border-radius:999px !important;
+    background:rgba(255,255,255,.72) !important;
+    color:#b83f7f !important;
+    font-size:13px !important;
+    line-height:1 !important;
+    letter-spacing:0 !important;
+    box-shadow:0 10px 22px rgba(170,55,113,.1) !important;
+}
+
+body:not(.cast-detail-page) .luxury-hero .hero-catch{
+    font-size:16px !important;
+    color:#a93270 !important;
+}
+
+body:not(.cast-detail-page) .luxury-hero .hero-logo{
+    width:min(440px,100%) !important;
+}
+
+body:not(.cast-detail-page) .luxury-hero .hero-sub{
+    font-size:18px !important;
+    color:#704156 !important;
+    line-height:1.75 !important;
+}
+
+.luxury-hero-note{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    gap:8px !important;
+    margin-top:20px !important;
+}
+
+.luxury-hero-note span{
+    padding:8px 12px !important;
+    border:1px solid rgba(212,75,142,.22) !important;
+    border-radius:999px !important;
+    background:linear-gradient(135deg,#fff,#ffe8f3) !important;
+    color:#8d3d62 !important;
+    font-size:12px !important;
+    box-shadow:0 8px 18px rgba(152,54,105,.08) !important;
+}
+
+.premium-hero-slideshow{
+    aspect-ratio:16/8.4 !important;
+    min-height:340px !important;
+    border-radius:30px !important;
+    border:9px solid rgba(255,255,255,.96) !important;
+    box-shadow:0 24px 54px rgba(128,42,91,.26),0 0 0 1px rgba(211,72,141,.18) !important;
+}
+
+.premium-hero-slideshow::before,
+.premium-hero-slideshow::after{
+    height:26px !important;
+    background:
+        radial-gradient(circle at 50% 0, rgba(255,255,255,1) 0 7px, transparent 8px) 0 0/22px 13px repeat-x,
+        linear-gradient(90deg,rgba(255,255,255,.88),rgba(255,221,238,.86),rgba(255,255,255,.88)) !important;
+}
+
+.premium-hero-slide{
+    filter:saturate(1.08) !important;
+}
+
+.premium-hero-slide span{
+    position:absolute !important;
+    left:22px !important;
+    bottom:26px !important;
+    z-index:5 !important;
+    padding:8px 14px !important;
+    border:1px solid rgba(255,255,255,.75) !important;
+    border-radius:999px !important;
+    background:rgba(255,255,255,.68) !important;
+    color:#793552 !important;
+    font-size:13px !important;
+    box-shadow:0 10px 20px rgba(128,42,91,.16) !important;
+}
+
+.premium-hero-dots{
+    position:absolute !important;
+    right:22px !important;
+    bottom:31px !important;
+    z-index:6 !important;
+    display:flex !important;
+    gap:7px !important;
+}
+
+.premium-hero-dots i{
+    width:8px !important;
+    height:8px !important;
+    border-radius:50% !important;
+    background:#fff !important;
+    box-shadow:0 0 0 1px rgba(190,57,124,.25),0 0 12px rgba(255,255,255,.9) !important;
+}
+
+.luxury-home{
+    width:min(1280px,calc(100% - 42px)) !important;
+    margin:-36px auto 88px !important;
+}
+
+.luxury-home .princess-card{
+    border:1px solid rgba(204,71,138,.3) !important;
+    border-radius:24px !important;
+    background:
+        radial-gradient(circle at 92% 10%, rgba(255,255,255,.95) 0 2px, transparent 4px),
+        radial-gradient(circle at 8% 90%, rgba(255,184,219,.24), transparent 28%),
+        linear-gradient(145deg,#fff 0%,#fff4fa 54%,#ffe8f3 100%) !important;
+    box-shadow:0 20px 46px rgba(139,43,91,.13),0 1px 0 rgba(255,255,255,.92) inset !important;
+}
+
+.luxury-home .princess-card::before{
+    border-color:rgba(204,71,138,.18) !important;
+}
+
+.luxury-home .princess-card::after{
+    width:104px !important;
+    height:23px !important;
+    background:linear-gradient(90deg,#bd3e83,#fff,#bd3e83) !important;
+}
+
+.luxury-home .section-title{
+    position:relative !important;
+}
+
+.luxury-home .section-title span{
+    color:#bd3e83 !important;
+}
+
+.luxury-home .section-title h2{
+    color:#663046 !important;
+}
+
+.luxury-home .section-title h2::after{
+    content:"" !important;
+    display:block !important;
+    width:54px !important;
+    height:1px !important;
+    margin:10px auto 0 !important;
+    background:linear-gradient(90deg,transparent,#c94e8d,transparent) !important;
+}
+
+.luxury-home .today-cast.princess-card,
+.luxury-home .news.princess-card{
+    min-height:390px !important;
+}
+
+.luxury-home .cast-list.princess-card{
+    min-height:395px !important;
+}
+
+.luxury-home .concept.princess-card,
+.luxury-home .gallery.princess-card{
+    min-height:455px !important;
+}
+
+.luxury-home .public-news-card,
+.luxury-home .today-schedule-item,
+.luxury-home .all-cast-grid .cast-card{
+    background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(255,244,250,.72)) !important;
+    border:1px solid rgba(205,70,138,.2) !important;
+}
+
+.luxury-home .all-cast-grid{
+    gap:10px !important;
+}
+
+.luxury-home .all-cast-grid .public-cast-info h3{
+    font-size:16px !important;
+}
+
+.luxury-home .public-cast-profile-line,
+.luxury-home .public-cast-schedule{
+    font-size:12px !important;
+}
+
+.luxury-home .public-gallery-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:10px !important;
+}
+
+.luxury-home .public-gallery-item{
+    overflow:hidden !important;
+    border:1px solid rgba(205,70,138,.22) !important;
+    border-radius:16px !important;
+}
+
+.luxury-home .reserve-btn,
+.luxury-home .btn,
+.luxury-home .hero-btn{
+    background:linear-gradient(135deg,#ffa0ca 0%,#e8589a 48%,#af3677 100%) !important;
+    box-shadow:0 13px 28px rgba(174,54,119,.24),0 2px 0 rgba(255,255,255,.44) inset !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .luxury-hero{
+        padding:104px 12px 54px !important;
+    }
+
+    body:not(.cast-detail-page) .luxury-hero .premium-hero-inner{
+        grid-template-columns:1fr !important;
+        padding:22px 14px !important;
+        gap:20px !important;
+    }
+
+    .premium-hero-slideshow{
+        aspect-ratio:16/10 !important;
+        min-height:0 !important;
+        border-width:7px !important;
+        border-radius:22px !important;
+    }
+
+    .premium-hero-slide span{
+        left:14px !important;
+        bottom:20px !important;
+        font-size:11px !important;
+    }
+
+    .premium-hero-dots{
+        right:14px !important;
+        bottom:24px !important;
+    }
+
+    .luxury-home{
+        width:calc(100% - 24px) !important;
+        margin:-24px auto 58px !important;
+    }
+
+    .luxury-home .princess-card{
+        padding:23px 15px !important;
+    }
+
+    .luxury-home .public-gallery-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    }
+
+    .luxury-home .all-cast-grid .cast-card{
+        grid-template-columns:108px minmax(0,1fr) !important;
+    }
+}
+
 /* Ver5.2 premium fix final badge size */
 body:not(.cast-detail-page) .princess-home .premium-cast-badge,
 body:not(.cast-detail-page) .princess-home .public-cast-badges .premium-cast-badge,
