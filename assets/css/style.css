@@ -5547,3 +5547,1048 @@ body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.pr
         transform:none !important;
     }
 }
+
+/* Ver5.2 actual DOM mobile fix */
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero.premium-hero.luxury-hero.hero-princess-image,
+    body:not(.cast-detail-page) section.hero.hero-princess-image{
+        width:100% !important;
+        height:auto !important;
+        min-height:0 !important;
+        max-height:none !important;
+        aspect-ratio:1717/916 !important;
+        margin:64px 0 32px !important;
+        padding:0 !important;
+        background-size:contain !important;
+        background-position:center top !important;
+        background-repeat:no-repeat !important;
+        overflow:hidden !important;
+    }
+
+    body:not(.cast-detail-page) .hero.premium-hero.luxury-hero.hero-princess-image > .hero-link,
+    body:not(.cast-detail-page) section.hero.hero-princess-image > .hero-link{
+        position:absolute !important;
+        top:auto !important;
+        bottom:13% !important;
+        height:14% !important;
+        z-index:5 !important;
+        display:block !important;
+        background:transparent !important;
+        border:0 !important;
+        padding:0 !important;
+        margin:0 !important;
+    }
+
+    body:not(.cast-detail-page) .hero.premium-hero.luxury-hero.hero-princess-image > .hero-link.web{
+        left:16% !important;
+        width:22% !important;
+    }
+
+    body:not(.cast-detail-page) .hero.premium-hero.luxury-hero.hero-princess-image > .hero-link.line{
+        left:39% !important;
+        width:22% !important;
+    }
+
+    body:not(.cast-detail-page) .hero.premium-hero.luxury-hero.hero-princess-image > .hero-link.recruit{
+        left:62% !important;
+        width:22% !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid{
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        gap:14px !important;
+        width:100% !important;
+        max-width:100% !important;
+        overflow:visible !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid > .cast-card.public-cast-card,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card{
+        display:flex !important;
+        flex-direction:row !important;
+        align-items:stretch !important;
+        width:100% !important;
+        max-width:360px !important;
+        min-height:0 !important;
+        margin:0 auto !important;
+        overflow:hidden !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .public-cast-photo{
+        width:40% !important;
+        flex:0 0 40% !important;
+        min-width:0 !important;
+        height:auto !important;
+        min-height:154px !important;
+        max-height:none !important;
+        aspect-ratio:auto !important;
+        position:relative !important;
+        overflow:hidden !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .public-cast-photo > .public-cast-image,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .public-cast-photo > img,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .public-cast-photo > .cast-card-no-image{
+        width:100% !important;
+        height:100% !important;
+        min-height:154px !important;
+        display:block !important;
+        object-fit:cover !important;
+        object-position:center top !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .cast-info.public-cast-info,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .public-cast-info{
+        width:60% !important;
+        flex:0 0 60% !important;
+        min-width:0 !important;
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:flex-start !important;
+        justify-content:center !important;
+        gap:5px !important;
+        padding:12px 10px !important;
+        text-align:left !important;
+        overflow:visible !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info h3{
+        width:100% !important;
+        margin:0 !important;
+        font-size:17px !important;
+        line-height:1.25 !important;
+        text-align:left !important;
+        white-space:normal !important;
+        overflow-wrap:anywhere !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-profile-line,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-schedule{
+        width:100% !important;
+        margin:0 !important;
+        font-size:12px !important;
+        line-height:1.45 !important;
+        text-align:left !important;
+        white-space:normal !important;
+        overflow-wrap:anywhere !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-tags{
+        display:none !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-profile-link,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card .reserve-btn{
+        width:min(100%,128px) !important;
+        min-width:0 !important;
+        max-width:100% !important;
+        min-height:34px !important;
+        margin:6px 0 0 !important;
+        padding:8px 12px !important;
+        align-self:flex-start !important;
+        justify-content:center !important;
+        font-size:13px !important;
+        white-space:nowrap !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges.cast-badge-layer,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges{
+        position:absolute !important;
+        top:2px !important;
+        left:2px !important;
+        right:auto !important;
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:flex-start !important;
+        justify-content:flex-start !important;
+        gap:1px !important;
+        width:auto !important;
+        height:auto !important;
+        z-index:6 !important;
+        transform:none !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge{
+        display:block !important;
+        width:auto !important;
+        min-width:0 !important;
+        max-width:none !important;
+        height:auto !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home #cast-list img[alt*="NEW"]{
+        display:block !important;
+        width:46px !important;
+        min-width:46px !important;
+        max-width:46px !important;
+        height:31px !important;
+        min-height:31px !important;
+        max-height:31px !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home #cast-list img[alt*="おすすめ"]{
+        display:block !important;
+        width:50px !important;
+        min-width:50px !important;
+        max-width:50px !important;
+        height:33px !important;
+        min-height:33px !important;
+        max-height:33px !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+}
+
+/* Ver6.1 Princess luxury brush up */
+body:not(.cast-detail-page) .hero.hero-princess-image{
+    background-image:
+        linear-gradient(rgba(255,218,235,.02),rgba(255,218,235,.02)),
+        url("../images/hero-princess.jpg?v=6.1.3") !important;
+    background-position:center top !important;
+    background-repeat:no-repeat !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-princess-image::before,
+body:not(.cast-detail-page) .hero.hero-princess-image::after,
+body:not(.cast-detail-page) .premium-hero-arrow,
+body:not(.cast-detail-page) .hero-arrow,
+body:not(.cast-detail-page) .swiper-button-prev,
+body:not(.cast-detail-page) .swiper-button-next{
+    content:none !important;
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .language-switch button.is-active{
+    color:#fff !important;
+    background:linear-gradient(135deg,#f06fae,#c83275) !important;
+    border-color:#fff !important;
+    box-shadow:0 8px 18px rgba(201,50,117,.22) !important;
+}
+
+@media(min-width:769px){
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges.cast-badge-layer,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .public-cast-badges{
+        position:absolute !important;
+        top:1px !important;
+        left:1px !important;
+        right:auto !important;
+        gap:2px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:flex-start !important;
+        justify-content:flex-start !important;
+        transform:none !important;
+        margin:0 !important;
+        padding:0 !important;
+        max-width:calc(100% - 2px) !important;
+        overflow:hidden !important;
+        z-index:8 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .premium-cast-badge{
+        display:block !important;
+        width:auto !important;
+        min-width:0 !important;
+        max-width:none !important;
+        height:auto !important;
+        margin:0 !important;
+        padding:0 !important;
+        transform:none !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .premium-cast-badge-img-new{
+        display:block !important;
+        width:62px !important;
+        min-width:62px !important;
+        max-width:62px !important;
+        height:auto !important;
+        margin:0 !important;
+        padding:0 !important;
+        transform:none !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home .all-cast-grid .premium-cast-badge-img-recommended{
+        display:block !important;
+        width:68px !important;
+        min-width:68px !important;
+        max-width:68px !important;
+        height:auto !important;
+        margin:0 !important;
+        padding:0 !important;
+        transform:none !important;
+    }
+}
+
+body:not(.cast-detail-page) #system.princess-card{
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,241,248,.94)),
+        radial-gradient(circle at 20% 8%,rgba(255,255,255,.9),transparent 34%) !important;
+    border:1px solid rgba(196,147,66,.68) !important;
+    box-shadow:0 20px 44px rgba(158,75,113,.15), inset 0 0 0 1px rgba(255,255,255,.88) !important;
+}
+
+body:not(.cast-detail-page) #system .section-title h2{
+    font-size:clamp(28px,3vw,42px) !important;
+    color:#8b315c !important;
+}
+
+body:not(.cast-detail-page) .luxury-system-menu{
+    display:grid !important;
+    gap:14px !important;
+    margin:8px 0 20px !important;
+    padding:18px !important;
+    border-radius:22px !important;
+    background:rgba(255,255,255,.78) !important;
+    border:1px solid rgba(213,172,91,.58) !important;
+}
+
+body:not(.cast-detail-page) .luxury-system-menu .system-row{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) auto !important;
+    align-items:center !important;
+    gap:18px !important;
+    padding:14px 0 !important;
+    border-bottom:1px solid rgba(213,172,91,.26) !important;
+    color:#74425b !important;
+    font-size:15px !important;
+    letter-spacing:.04em !important;
+}
+
+body:not(.cast-detail-page) .luxury-system-menu .system-row:last-child{
+    border-bottom:0 !important;
+}
+
+body:not(.cast-detail-page) .luxury-system-menu strong{
+    justify-self:end !important;
+    color:#b58125 !important;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+    font-size:24px !important;
+    font-weight:700 !important;
+    white-space:nowrap !important;
+}
+
+body:not(.cast-detail-page) #concept.princess-card{
+    min-height:420px !important;
+    background:
+        linear-gradient(rgba(255,247,251,.74),rgba(255,247,251,.78)),
+        url("../images/hero-princess.jpg?v=6.1.3") center/cover no-repeat !important;
+    position:relative !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) #concept.princess-card::before{
+    content:"";
+    position:absolute;
+    inset:16px;
+    border:1px solid rgba(255,255,255,.75);
+    border-radius:24px;
+    pointer-events:none;
+}
+
+body:not(.cast-detail-page) #concept .section-title,
+body:not(.cast-detail-page) #concept .concept-luxury-panel{
+    position:relative !important;
+    z-index:1 !important;
+}
+
+body:not(.cast-detail-page) #concept .section-title h2{
+    color:#d04487 !important;
+}
+
+body:not(.cast-detail-page) .concept-luxury-panel{
+    padding:22px !important;
+    border-radius:24px !important;
+    background:rgba(255,255,255,.76) !important;
+    border:1px solid rgba(255,255,255,.86) !important;
+    box-shadow:0 14px 30px rgba(142,56,98,.12) !important;
+    backdrop-filter:blur(4px) !important;
+}
+
+body:not(.cast-detail-page) .concept-luxury-panel p{
+    margin:0 !important;
+    color:#70425b !important;
+    font-size:15px !important;
+    line-height:2 !important;
+}
+
+body:not(.cast-detail-page) .luxury-access-box{
+    display:grid !important;
+    gap:18px !important;
+}
+
+body:not(.cast-detail-page) .access-map{
+    overflow:hidden !important;
+    border-radius:22px !important;
+    border:1px solid rgba(228,155,193,.5) !important;
+    box-shadow:0 14px 26px rgba(151,54,103,.12) !important;
+    background:#fff !important;
+}
+
+body:not(.cast-detail-page) .access-map iframe{
+    display:block !important;
+    width:100% !important;
+    height:240px !important;
+    border:0 !important;
+}
+
+body:not(.cast-detail-page) .access-details{
+    display:grid !important;
+    gap:10px !important;
+}
+
+body:not(.cast-detail-page) .access-details p{
+    display:grid !important;
+    grid-template-columns:84px minmax(0,1fr) !important;
+    gap:12px !important;
+    align-items:start !important;
+    margin:0 !important;
+    padding:12px 14px !important;
+    border-radius:16px !important;
+    background:rgba(255,255,255,.76) !important;
+    border:1px solid rgba(231,160,195,.28) !important;
+    color:#71445b !important;
+}
+
+body:not(.cast-detail-page) .access-details b{
+    color:#c13f80 !important;
+}
+
+body:not(.cast-detail-page) .recruit-tags{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    gap:9px !important;
+    margin:10px 0 18px !important;
+}
+
+body:not(.cast-detail-page) .recruit-tags span{
+    display:inline-flex !important;
+    align-items:center !important;
+    min-height:36px !important;
+    padding:8px 13px !important;
+    border-radius:999px !important;
+    background:linear-gradient(135deg,#fff,#ffe8f3) !important;
+    border:1px solid rgba(220,91,150,.34) !important;
+    color:#8a315e !important;
+    font-size:13px !important;
+    box-shadow:0 8px 16px rgba(180,65,120,.09) !important;
+}
+
+body:not(.cast-detail-page) .luxury-contact-actions{
+    align-items:stretch !important;
+}
+
+body:not(.cast-detail-page) .luxury-contact-btn{
+    display:grid !important;
+    grid-template-columns:auto minmax(0,1fr) !important;
+    grid-template-rows:auto auto !important;
+    column-gap:12px !important;
+    align-items:center !important;
+    min-height:82px !important;
+    padding:16px 20px !important;
+    border-radius:24px !important;
+    border:2px solid rgba(255,255,255,.92) !important;
+    background:linear-gradient(135deg,#ff98c8,#e64f98 56%,#c9367e) !important;
+    box-shadow:0 15px 28px rgba(190,55,117,.24), inset 0 0 0 1px rgba(255,255,255,.35) !important;
+}
+
+body:not(.cast-detail-page) .luxury-contact-btn:hover{
+    transform:translateY(-3px) !important;
+    box-shadow:0 20px 34px rgba(190,55,117,.3), inset 0 0 0 1px rgba(255,255,255,.42) !important;
+}
+
+body:not(.cast-detail-page) .luxury-contact-btn .contact-icon{
+    grid-row:1/3 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:48px !important;
+    height:48px !important;
+    border-radius:50% !important;
+    background:rgba(255,255,255,.92) !important;
+    color:#c9367e !important;
+    font-size:11px !important;
+    font-weight:700 !important;
+    letter-spacing:.06em !important;
+}
+
+body:not(.cast-detail-page) .luxury-contact-btn b,
+body:not(.cast-detail-page) .luxury-contact-btn small{
+    text-align:left !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero.hero-princess-image{
+        background-size:contain !important;
+        background-position:center top !important;
+    }
+
+    body:not(.cast-detail-page) .luxury-system-menu{
+        padding:14px !important;
+    }
+
+    body:not(.cast-detail-page) .luxury-system-menu .system-row{
+        gap:12px !important;
+        font-size:14px !important;
+    }
+
+    body:not(.cast-detail-page) .luxury-system-menu strong{
+        font-size:21px !important;
+    }
+
+    body:not(.cast-detail-page) #concept.princess-card{
+        min-height:0 !important;
+    }
+
+    body:not(.cast-detail-page) .access-map iframe{
+        height:220px !important;
+    }
+
+    body:not(.cast-detail-page) .access-details p{
+        grid-template-columns:1fr !important;
+        gap:5px !important;
+    }
+
+    body:not(.cast-detail-page) .luxury-contact-btn{
+        width:100% !important;
+        min-height:76px !important;
+    }
+}
+
+/* Ver6 image-based homepage final layout */
+body:not(.cast-detail-page) .hero.hero-princess-image.hero-ver6,
+body:not(.cast-detail-page) .hero.hero-ver6{
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    aspect-ratio:1677/938 !important;
+    padding:0 !important;
+    margin:0 0 56px !important;
+    background-image:url("../images/hero-ver6.png?v=6.2.0") !important;
+    background-size:contain !important;
+    background-position:center top !important;
+    background-repeat:no-repeat !important;
+    background-color:#ffe3ef !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6::before,
+body:not(.cast-detail-page) .hero.hero-ver6::after,
+body:not(.cast-detail-page) .hero.hero-ver6 .swiper-button-prev,
+body:not(.cast-detail-page) .hero.hero-ver6 .swiper-button-next,
+body:not(.cast-detail-page) .hero.hero-ver6 .hero-arrow,
+body:not(.cast-detail-page) .hero.hero-ver6 .premium-hero-arrow{
+    content:none !important;
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link{
+    position:absolute !important;
+    top:72% !important;
+    bottom:auto !important;
+    height:18% !important;
+    z-index:8 !important;
+    display:block !important;
+    background:transparent !important;
+    border:0 !important;
+    box-shadow:none !important;
+    padding:0 !important;
+    margin:0 !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link.web{
+    left:18% !important;
+    width:21% !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link.line{
+    left:40% !important;
+    width:21% !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link.recruit{
+    left:62% !important;
+    width:21% !important;
+}
+
+body:not(.cast-detail-page) .princess-card-grid{
+    align-items:stretch !important;
+    gap:24px !important;
+}
+
+body:not(.cast-detail-page) .princess-home .princess-card-grid-middle{
+    grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr) !important;
+}
+
+body:not(.cast-detail-page) .princess-card-grid-top > .princess-card{
+    min-height:560px !important;
+    height:560px !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-list{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+    width:100% !important;
+    max-width:100% !important;
+    overflow:auto !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-item{
+    display:grid !important;
+    grid-template-columns:88px minmax(0,1fr) !important;
+    width:100% !important;
+    min-width:0 !important;
+    align-items:center !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-info{
+    min-width:0 !important;
+    width:100% !important;
+    writing-mode:horizontal-tb !important;
+    text-orientation:mixed !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-info h3,
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-info p{
+    white-space:normal !important;
+    word-break:keep-all !important;
+    overflow-wrap:anywhere !important;
+    writing-mode:horizontal-tb !important;
+    text-orientation:mixed !important;
+}
+
+body:not(.cast-detail-page) .princess-card-grid-middle > .princess-card{
+    min-height:760px !important;
+    height:760px !important;
+}
+
+body:not(.cast-detail-page) .princess-card-grid-bottom > .princess-card{
+    min-height:560px !important;
+    height:560px !important;
+}
+
+body:not(.cast-detail-page) #concept.princess-card,
+body:not(.cast-detail-page) #system.princess-card,
+body:not(.cast-detail-page) #recruit.princess-card{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    padding:14px !important;
+    background:linear-gradient(180deg,#fff8fb,#ffe8f3) !important;
+    border:1px solid rgba(235,148,190,.48) !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) #concept.princess-card::before,
+body:not(.cast-detail-page) #system.princess-card::before,
+body:not(.cast-detail-page) #recruit.princess-card::before,
+body:not(.cast-detail-page) #concept.princess-card::after,
+body:not(.cast-detail-page) #system.princess-card::after,
+body:not(.cast-detail-page) #recruit.princess-card::after{
+    content:none !important;
+    display:none !important;
+}
+
+body:not(.cast-detail-page) .ver6-card-image{
+    display:block !important;
+    width:auto !important;
+    max-width:100% !important;
+    height:auto !important;
+    max-height:100% !important;
+    margin:auto !important;
+    border:0 !important;
+    border-radius:18px !important;
+    box-shadow:0 14px 26px rgba(174,67,124,.13) !important;
+}
+
+body:not(.cast-detail-page) .ver6-image-link{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    height:100% !important;
+    text-decoration:none !important;
+}
+
+body:not(.cast-detail-page) #system .section-title,
+body:not(.cast-detail-page) #system .luxury-system-menu,
+body:not(.cast-detail-page) #system .princess-card-action,
+body:not(.cast-detail-page) #concept .section-title,
+body:not(.cast-detail-page) #concept .concept-content,
+body:not(.cast-detail-page) #recruit .section-title,
+body:not(.cast-detail-page) #recruit .recruit-tags,
+body:not(.cast-detail-page) #recruit .princess-card-action{
+    display:none !important;
+}
+
+body:not(.cast-detail-page) #access .luxury-access-box{
+    height:100% !important;
+    grid-template-rows:minmax(0,1fr) auto !important;
+    gap:14px !important;
+}
+
+body:not(.cast-detail-page) #access .access-map{
+    min-height:0 !important;
+}
+
+body:not(.cast-detail-page) #access .access-map iframe{
+    width:100% !important;
+    height:100% !important;
+    min-height:280px !important;
+    border:0 !important;
+}
+
+body:not(.cast-detail-page) #access .access-details p{
+    grid-template-columns:92px minmax(0,1fr) !important;
+}
+
+body:not(.cast-detail-page) .premium-cast-badge,
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge,
+body:not(.cast-detail-page) .premium-cast-badge::before,
+body:not(.cast-detail-page) .premium-cast-badge::after,
+body:not(.cast-detail-page) .premium-cast-badge-img,
+body:not(.cast-detail-page) .public-cast-badges img{
+    background:transparent !important;
+    background-color:transparent !important;
+    background-image:none !important;
+    border:0 !important;
+    box-shadow:none !important;
+    filter:none !important;
+}
+
+body:not(.cast-detail-page) .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+    margin-left:-10px !important;
+}
+
+body:not(.cast-detail-page) #contact.ver6-contact-image-section{
+    position:relative !important;
+    width:100% !important;
+    max-width:100% !important;
+    padding:0 !important;
+    margin:40px auto 0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:#ffdbe9 !important;
+    box-shadow:none !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) .ver6-contact-image{
+    display:block !important;
+    width:100% !important;
+    height:auto !important;
+    max-width:100% !important;
+    border:0 !important;
+}
+
+body:not(.cast-detail-page) .ver6-contact-link{
+    position:absolute !important;
+    z-index:8 !important;
+    display:block !important;
+    background:transparent !important;
+    border:0 !important;
+    box-shadow:none !important;
+}
+
+body:not(.cast-detail-page) .ver6-contact-link.phone{
+    left:26% !important;
+    top:30% !important;
+    width:21% !important;
+    height:43% !important;
+}
+
+body:not(.cast-detail-page) .ver6-contact-link.line{
+    left:50% !important;
+    top:30% !important;
+    width:21% !important;
+    height:43% !important;
+}
+
+body:not(.cast-detail-page) .ver6-contact-link.form{
+    left:73% !important;
+    top:30% !important;
+    width:21% !important;
+    height:43% !important;
+}
+
+@media(max-width:1020px){
+    body:not(.cast-detail-page) .princess-card-grid-top,
+    body:not(.cast-detail-page) .princess-card-grid-middle,
+    body:not(.cast-detail-page) .princess-card-grid-bottom{
+        grid-template-columns:1fr !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card-grid-top > .princess-card,
+    body:not(.cast-detail-page) .princess-card-grid-middle > .princess-card,
+    body:not(.cast-detail-page) .princess-card-grid-bottom > .princess-card{
+        height:auto !important;
+        min-height:0 !important;
+    }
+
+    body:not(.cast-detail-page) #concept.princess-card,
+    body:not(.cast-detail-page) #system.princess-card,
+    body:not(.cast-detail-page) #recruit.princess-card{
+        min-height:0 !important;
+    }
+
+    body:not(.cast-detail-page) .ver6-card-image{
+        width:100% !important;
+        max-height:none !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero.hero-princess-image.hero-ver6,
+    body:not(.cast-detail-page) .hero.hero-ver6{
+        aspect-ratio:1677/938 !important;
+        height:auto !important;
+        min-height:0 !important;
+        margin:64px 0 28px !important;
+        background-size:contain !important;
+        background-position:center top !important;
+    }
+
+    body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link{
+        top:72% !important;
+        height:18% !important;
+    }
+
+    body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link.web{
+        left:17% !important;
+        width:22% !important;
+    }
+
+    body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link.line{
+        left:39% !important;
+        width:22% !important;
+    }
+
+    body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link.recruit{
+        left:61% !important;
+        width:22% !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card-grid{
+        gap:18px !important;
+    }
+
+    body:not(.cast-detail-page) #concept.princess-card,
+    body:not(.cast-detail-page) #system.princess-card,
+    body:not(.cast-detail-page) #recruit.princess-card{
+        padding:8px !important;
+    }
+
+    body:not(.cast-detail-page) #access .access-map iframe{
+        min-height:240px !important;
+    }
+
+    body:not(.cast-detail-page) #access .access-details p{
+        grid-template-columns:1fr !important;
+    }
+
+    body:not(.cast-detail-page) .ver6-contact-link.phone{
+        left:26% !important;
+        top:30% !important;
+        width:21% !important;
+        height:43% !important;
+    }
+
+    body:not(.cast-detail-page) .ver6-contact-link.line{
+        left:50% !important;
+        top:30% !important;
+        width:21% !important;
+        height:43% !important;
+    }
+
+    body:not(.cast-detail-page) .ver6-contact-link.form{
+        left:73% !important;
+        top:30% !important;
+        width:21% !important;
+        height:43% !important;
+    }
+}
+
+/* PC layout and schedule display polish */
+@media(min-width:1021px){
+    body:not(.cast-detail-page) .princess-card-grid,
+    body:not(.cast-detail-page) .princess-card-grid-top,
+    body:not(.cast-detail-page) .princess-card-grid-middle,
+    body:not(.cast-detail-page) .princess-card-grid-bottom{
+        display:grid !important;
+        align-items:stretch !important;
+        gap:24px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card-grid-top > .princess-card,
+    body:not(.cast-detail-page) .princess-card-grid-middle > .princess-card,
+    body:not(.cast-detail-page) .princess-card-grid-bottom > .princess-card{
+        height:auto !important;
+        display:flex !important;
+        flex-direction:column !important;
+        align-self:stretch !important;
+        margin-top:0 !important;
+        margin-bottom:0 !important;
+        transform:none !important;
+        position:relative !important;
+        overflow:visible !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card-grid-top > .princess-card{
+        min-height:600px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card-grid-middle > .princess-card{
+        min-height:780px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card-grid-bottom > .princess-card{
+        min-height:640px !important;
+    }
+
+    body:not(.cast-detail-page) #access.princess-card{
+        height:auto !important;
+        min-height:640px !important;
+        overflow:visible !important;
+    }
+
+    body:not(.cast-detail-page) #access .luxury-access-box{
+        height:auto !important;
+        min-height:0 !important;
+        display:grid !important;
+        grid-template-rows:minmax(320px,1fr) auto !important;
+        gap:16px !important;
+        overflow:visible !important;
+    }
+
+    body:not(.cast-detail-page) #access .access-map{
+        min-height:320px !important;
+        overflow:hidden !important;
+    }
+
+    body:not(.cast-detail-page) #access .access-map iframe{
+        height:100% !important;
+        min-height:320px !important;
+    }
+
+    body:not(.cast-detail-page) #access .access-details{
+        overflow:visible !important;
+    }
+
+    body:not(.cast-detail-page) #access .access-details p{
+        min-height:0 !important;
+        padding:11px 14px !important;
+        line-height:1.55 !important;
+    }
+}
+
+body:not(.cast-detail-page) .premium-cast-badge,
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge{
+    padding:0 !important;
+    border-radius:999px !important;
+    background:transparent !important;
+    box-shadow:none !important;
+}
+
+body:not(.cast-detail-page) .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
+    width:46px !important;
+    min-width:46px !important;
+    max-width:46px !important;
+    height:auto !important;
+}
+
+body:not(.cast-detail-page) .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+    width:50px !important;
+    min-width:50px !important;
+    max-width:50px !important;
+    height:auto !important;
+    margin-left:-12px !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
+        width:34px !important;
+        min-width:34px !important;
+        max-width:34px !important;
+    }
+
+    body:not(.cast-detail-page) .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+        width:38px !important;
+        min-width:38px !important;
+        max-width:38px !important;
+        margin-left:-8px !important;
+    }
+}
+
+/* Final badge size override for real homepage cast cards */
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges{
+    align-items:flex-start !important;
+    gap:1px !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-new{
+    width:46px !important;
+    min-width:46px !important;
+    max-width:46px !important;
+    height:auto !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-recommended{
+    width:50px !important;
+    min-width:50px !important;
+    max-width:50px !important;
+    height:auto !important;
+    margin-left:-12px !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-new{
+        width:34px !important;
+        min-width:34px !important;
+        max-width:34px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-recommended{
+        width:38px !important;
+        min-width:38px !important;
+        max-width:38px !important;
+        margin-left:-8px !important;
+    }
+}

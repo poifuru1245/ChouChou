@@ -9,7 +9,7 @@
 
     <meta name="description" content="甘くとろける夢の時間。すすきのキャバクラ Chou Chou">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=5.2.9">
+    <link rel="stylesheet" href="assets/css/style.css?v=6.2.0">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -34,20 +34,20 @@
             </a>
 
             <nav class="nav">
-                <a href="#"><span>ホーム</span><small>HOME</small></a>
-                <a href="#cast-list"><span>キャスト</span><small>CAST</small></a>
-                <a href="#cast"><span>出勤情報</span><small>SCHEDULE</small></a>
-                <a href="#system"><span>料金システム</span><small>SYSTEM</small></a>
-                <a href="#gallery"><span>ギャラリー</span><small>GALLERY</small></a>
-                <a href="#access"><span>アクセス</span><small>ACCESS</small></a>
-                <a href="#recruit"><span>求人情報</span><small>RECRUIT</small></a>
-                <a href="#contact"><span>お問い合わせ</span><small>CONTACT</small></a>
+                <a href="#"><span data-i18n="nav.home">ホーム</span><small>HOME</small></a>
+                <a href="#cast-list"><span data-i18n="nav.cast">キャスト</span><small>CAST</small></a>
+                <a href="#cast"><span data-i18n="nav.schedule">出勤情報</span><small>SCHEDULE</small></a>
+                <a href="#system"><span data-i18n="nav.system">料金システム</span><small>SYSTEM</small></a>
+                <a href="#gallery"><span data-i18n="nav.gallery">ギャラリー</span><small>GALLERY</small></a>
+                <a href="#access"><span data-i18n="nav.access">アクセス</span><small>ACCESS</small></a>
+                <a href="#recruit"><span data-i18n="nav.recruit">求人情報</span><small>RECRUIT</small></a>
+                <a href="#contact"><span data-i18n="nav.contact">お問い合わせ</span><small>CONTACT</small></a>
             </nav>
 
             <div class="language-switch" aria-label="Language">
-                <button type="button">JP</button>
-                <button type="button">EN</button>
-                <button type="button">中文</button>
+                <button type="button" data-lang="ja" class="is-active">JP</button>
+                <button type="button" data-lang="en">EN</button>
+                <button type="button" data-lang="zh">中文</button>
             </div>
 
         </div>
@@ -55,7 +55,7 @@
     </header>
 
     <!-- Hero -->
-    <section class="hero premium-hero luxury-hero hero-princess-image" aria-label="Chou Chou Princess Luxury">
+    <section class="hero premium-hero luxury-hero hero-princess-image hero-ver6" aria-label="Chou Chou Princess Luxury">
 
         <h1 class="hero-princess-title">Chou Chou</h1>
         <a href="reservation.html" class="hero-link web" aria-label="WEB予約"></a>
@@ -75,14 +75,14 @@
 
             <span>Today's Cast</span>
 
-            <h2>本日の出勤</h2>
+            <h2 data-i18n="section.schedule">本日の出勤</h2>
 
         </div>
 
 	           <div class="cast-grid today-schedule-list" data-limit="4" data-view="schedule"></div>
 
         <div class="princess-card-action">
-            <a href="schedule.html" class="reserve-btn">出勤一覧を見る</a>
+            <a href="schedule.html" class="reserve-btn" data-i18n="button.schedule">出勤一覧を見る</a>
         </div>
 
 	    </section>
@@ -94,7 +94,7 @@
 
             <span>News</span>
 
-            <h2>お知らせ</h2>
+            <h2 data-i18n="section.news">お知らせ</h2>
 
         </div>
 
@@ -103,34 +103,14 @@
         </div>
 
         <div class="news-more">
-            <a href="news.html" class="reserve-btn">お知らせ一覧を見る</a>
+            <a href="news.html" class="reserve-btn" data-i18n="button.news">お知らせ一覧を見る</a>
         </div>
 
 	    </section>
 	<!-- Concept -->
 	<section id="concept" class="concept princess-card">
 
-    <div class="section-title">
-        <span>Concept</span>
-        <h2>コンセプト</h2>
-    </div>
-
-    <div class="concept-content">
-
-        <p>
-            甘くとろける夢の時間。
-
-            Chou Chouは
-            洗練された空間と
-            上質な時間をご提供する
-            すすきののキャバクラです。
-
-            日常を忘れる
-            特別なひとときを
-            お楽しみください。
-        </p>
-
-    </div>
+    <img class="ver6-card-image" src="assets/images/concept-ver6.png" alt="Chou Chou コンセプト">
 
 	</section>
 
@@ -140,20 +120,7 @@
 
     <section id="system" class="system princess-card">
 
-        <div class="section-title">
-            <span>System</span>
-            <h2>料金システム</h2>
-        </div>
-
-        <div class="princess-info-list">
-            <p><b>SET</b><span>上質な時間をゆっくり楽しめる基本プラン</span></p>
-            <p><b>VIP</b><span>特別なお席で過ごす華やかな夜</span></p>
-            <p><b>RESERVE</b><span>WEB予約でスムーズにご案内</span></p>
-        </div>
-
-        <div class="princess-card-action">
-            <a href="reservation.html" class="reserve-btn">WEB予約</a>
-        </div>
+        <img class="ver6-card-image" src="assets/images/system-ver6.png" alt="Chou Chou 料金システム">
 
     </section>
 
@@ -161,13 +128,13 @@
 
       <div class="section-title">
         <span>Cast List</span>
-        <h2>キャスト一覧</h2>
+        <h2 data-i18n="section.cast">キャスト一覧</h2>
       </div>
 
       <div class="all-cast-grid" data-limit="3"></div>
 
       <div class="princess-card-action">
-        <a href="cast.html" class="reserve-btn">キャスト一覧を見る</a>
+        <a href="cast.html" class="reserve-btn" data-i18n="button.cast">キャスト一覧を見る</a>
       </div>
 
     </section>
@@ -177,7 +144,7 @@
 
     <div class="section-title">
         <span>Gallery</span>
-        <h2>店内ギャラリー</h2>
+        <h2 data-i18n="section.gallery">店内ギャラリー</h2>
     </div>
 
     <div class="public-gallery-grid" id="homeGalleryGrid" data-limit="6">
@@ -185,7 +152,7 @@
     </div>
 
     <div class="gallery-more">
-        <a href="gallery.html" class="reserve-btn">ギャラリーを見る</a>
+        <a href="gallery.html" class="reserve-btn" data-i18n="button.gallery">ギャラリーを見る</a>
     </div>
 
 	</section>
@@ -199,19 +166,27 @@
 
     <div class="section-title">
         <span>Access</span>
-        <h2>アクセス</h2>
+        <h2 data-i18n="section.access">アクセス</h2>
     </div>
 
-    <div class="access-box">
+    <div class="access-box luxury-access-box">
 
-        <p>
-            〒064-0805<br>
-            北海道札幌市中央区南5条西4丁目
-        </p>
+        <div class="access-map">
+            <iframe
+                src="https://www.google.com/maps?q=%E5%8C%97%E6%B5%B7%E9%81%93%E6%9C%AD%E5%B9%8C%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8D%975%E6%9D%A1%E8%A5%BF5%E4%B8%81%E7%9B%AE5-1%20%E3%82%B5%E3%83%B3%E3%83%BB%E3%83%89%E3%82%A5%E3%83%93%E3%83%AB7F&output=embed"
+                width="600"
+                height="360"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Chou Chou Google Map"></iframe>
+        </div>
 
-        <p>
-            Chou Chou
-        </p>
+        <div class="access-details">
+            <p><b>住所</b><span>〒064-0805 北海道札幌市中央区南5条西5丁目5-1 サン・ドゥビル7F</span></p>
+            <p><b>営業時間</b><span>20:00 - LAST</span></p>
+            <p><b>定休日</b><span>日曜</span></p>
+        </div>
 
     </div>
 
@@ -221,7 +196,7 @@
 
         <div class="section-title">
             <span>Instagram</span>
-            <h2>インスタグラム</h2>
+            <h2 data-i18n="section.instagram">インスタグラム</h2>
         </div>
 
         <div class="princess-info-list">
@@ -236,48 +211,20 @@
 
     <section id="recruit" class="recruit princess-card">
 
-        <div class="section-title">
-            <span>Recruit</span>
-            <h2>リクルート</h2>
-        </div>
-
-        <div class="princess-info-list">
-            <p><b>CAST</b><span>可愛く、上品に、自分らしく働ける環境です。</span></p>
-            <p><b>CONTACT</b><span>ご応募・ご相談はお気軽にお問い合わせください。</span></p>
-        </div>
-
-        <div class="princess-card-action">
-            <a href="reservation.html" class="reserve-btn">お問い合わせ</a>
-        </div>
+        <a href="reservation.html" class="ver6-image-link recruit-image-link" aria-label="求人情報 フォームはこちらから">
+            <img class="ver6-card-image" src="assets/images/recruit-ver6.png" alt="Chou Chou 求人情報">
+        </a>
 
     </section>
 
       </div>
 
-      <section id="contact" class="contact princess-card princess-contact-card luxury-contact-band">
+      <section id="contact" class="contact ver6-contact-image-section">
 
-        <div class="luxury-contact-copy">
-            <span>Contact</span>
-            <h2>お問い合わせ</h2>
-            <p>団体様のご予約や貸切のご相談も承っております。お気軽にお問い合わせください。</p>
-        </div>
-
-        <div class="luxury-contact-actions">
-            <a href="reservation.html" class="reserve-btn luxury-contact-btn">
-                <b>電話で予約</b>
-                <small>Coming Soon</small>
-            </a>
-            <a href="#" class="reserve-btn luxury-contact-btn fixed-line-reservation">
-                <b>LINEで予約</b>
-                <small>Coming Soon</small>
-            </a>
-            <a href="reservation.html" class="reserve-btn luxury-contact-btn">
-                <b>お問い合わせ</b>
-                <small>Contact Form</small>
-            </a>
-        </div>
-
-        <p class="luxury-contact-logo">Chou Chou</p>
+        <img class="ver6-contact-image" src="assets/images/contact-ver6.png" alt="Chou Chou ご予約・お問い合わせ">
+        <a href="reservation.html" class="ver6-contact-link phone" aria-label="電話で予約"></a>
+        <a href="#" class="ver6-contact-link line fixed-line-reservation" aria-label="LINEで予約"></a>
+        <a href="reservation.html" class="ver6-contact-link form" aria-label="お問い合わせ"></a>
 
       </section>
 
@@ -294,7 +241,7 @@
 </div>
 
 <script type="module" src="assets/app.js"></script>
-<script type="module" src="assets/cast.js?v=5.2.1"></script>
+<script type="module" src="assets/cast.js?v=6.2.0"></script>
 <script type="module" src="assets/js/news.js"></script>
 <script type="module" src="assets/gallery.js"></script>
 

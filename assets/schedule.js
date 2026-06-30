@@ -60,7 +60,7 @@ card.innerHTML=`
 
 <input
 type="text"
-placeholder="20:00〜LAST"
+placeholder="19:00〜LAST"
 value="${cast.schedule || ""}"
 class="schedule-input"
 >
