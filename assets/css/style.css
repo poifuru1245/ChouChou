@@ -1140,6 +1140,83 @@ body:not(.cast-detail-page) .hero.hero-princess-image::after{
     }
 }
 
+/* Hero clickable areas and spacing */
+body:not(.cast-detail-page) .hero.hero-princess-image{
+    position:relative !important;
+    margin-bottom:60px !important;
+}
+
+.hero-link{
+    position:absolute !important;
+    bottom:13% !important;
+    height:12% !important;
+    z-index:5 !important;
+    display:block !important;
+    background:transparent !important;
+    border:0 !important;
+    text-decoration:none !important;
+}
+
+.hero-link.web{
+    left:22% !important;
+    width:20% !important;
+}
+
+.hero-link.line{
+    left:40% !important;
+    width:20% !important;
+}
+
+.hero-link.recruit{
+    left:59% !important;
+    width:20% !important;
+}
+
+.hero-dots,
+.carousel-dots,
+.slick-dots,
+.swiper-pagination,
+.premium-hero-dots,
+.hero-princess-image .premium-hero-dots{
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+}
+
+.princess-home,
+.luxury-home,
+.top-sections,
+.home-cards,
+.section-wrap{
+    margin-top:0 !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero.hero-princess-image{
+        margin-bottom:40px !important;
+    }
+
+    .hero-link{
+        bottom:12% !important;
+        height:13% !important;
+    }
+
+    .hero-link.web{
+        left:8% !important;
+        width:28% !important;
+    }
+
+    .hero-link.line{
+        left:36% !important;
+        width:28% !important;
+    }
+
+    .hero-link.recruit{
+        left:64% !important;
+        width:28% !important;
+    }
+}
+
 /* Reference PDF alignment: header and contact band */
 body:not(.cast-detail-page) .header{
     background:rgba(255,255,255,.96) !important;
@@ -4556,5 +4633,35 @@ body:not(.cast-detail-page) .princess-home .all-cast-grid .cast-card .premium-ca
         width:28px !important;
         min-width:28px !important;
         max-width:28px !important;
+    }
+}
+/* Hero link spacing true final override */
+body:not(.cast-detail-page) .hero.hero-princess-image{
+    margin-bottom:60px !important;
+}
+
+body:not(.cast-detail-page) .princess-home,
+body:not(.cast-detail-page) .luxury-home,
+body:not(.cast-detail-page) .top-sections,
+body:not(.cast-detail-page) .home-cards,
+body:not(.cast-detail-page) .section-wrap{
+    margin-top:0 !important;
+}
+
+body:not(.cast-detail-page) .swiper-pagination,
+body:not(.cast-detail-page) .hero-dots,
+body:not(.cast-detail-page) .carousel-dots,
+body:not(.cast-detail-page) .slick-dots,
+body:not(.cast-detail-page) .premium-hero-dots,
+body:not(.cast-detail-page) .hero-princess-image .premium-hero-dots{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero.hero-princess-image{
+        margin-bottom:40px !important;
     }
 }
