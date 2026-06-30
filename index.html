@@ -9,7 +9,7 @@
 
     <meta name="description" content="甘くとろける夢の時間。すすきのキャバクラ Chou Chou">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=6.0.3">
+    <link rel="stylesheet" href="assets/css/style.css?v=5.1.0">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -57,17 +57,15 @@
 
         <div class="hero-content">
 
-            <p class="hero-catch">
-                甘くとろける夢の時間
-            </p>
+	            <p class="hero-catch">
+	                Princess Pink Lounge
+	            </p>
 
-           <img src="images/logo.png" class="hero-logo" alt="Chou Chou">
+	           <img src="images/logo.png" class="hero-logo" alt="Chou Chou">
 
-            </h1>
-
-            <p class="hero-sub">
-                洗練された空間で、特別なひとときを。
-            </p>
+	            <p class="hero-sub">
+	                甘くとろける夢の時間。レースと宝石のきらめきに包まれる、すすきのの特別な夜。
+	            </p>
 
             <div class="hero-buttons">
 
@@ -85,8 +83,12 @@
 
     </section>
 
-    <!-- Today's Cast -->
-    <section id="cast" class="today-cast">
+    <main class="princess-home" aria-label="Chou Chou information">
+
+      <div class="princess-card-grid princess-card-grid-top">
+
+	    <!-- Today's Cast -->
+	    <section id="cast" class="today-cast princess-card princess-card-large">
 
         <div class="section-title">
 
@@ -96,24 +98,12 @@
 
         </div>
 
-           <div class="cast-grid"></div>
+	           <div class="cast-grid"></div>
 
-    </section>
+	    </section>
 
-    <!-- News -->
-
-    <section id="cast-list" class="cast-list">
-
-  <div class="section-title">
-    <span>Cast List</span>
-    <h2>キャスト一覧</h2>
-  </div>
-
-  <div class="all-cast-grid"></div>
-
-</section>
-
-    <section class="news">
+	    <!-- News -->
+	    <section class="news princess-card">
 
         <div class="section-title">
 
@@ -131,9 +121,9 @@
             <a href="news.html" class="reserve-btn">もっと見る</a>
         </div>
 
-    </section>
-<!-- Concept -->
-<section id="concept" class="concept">
+	    </section>
+	<!-- Concept -->
+	<section id="concept" class="concept princess-card">
 
     <div class="section-title">
         <span>Concept</span>
@@ -157,10 +147,44 @@
 
     </div>
 
-</section>
+	</section>
 
-<!-- Gallery -->
-<section id="gallery" class="gallery">
+      </div>
+
+      <div class="princess-card-grid princess-card-grid-middle">
+
+    <section id="system" class="system princess-card">
+
+        <div class="section-title">
+            <span>System</span>
+            <h2>料金システム</h2>
+        </div>
+
+        <div class="princess-info-list">
+            <p><b>SET</b><span>上質な時間をゆっくり楽しめる基本プラン</span></p>
+            <p><b>VIP</b><span>特別なお席で過ごす華やかな夜</span></p>
+            <p><b>RESERVE</b><span>WEB予約でスムーズにご案内</span></p>
+        </div>
+
+        <div class="princess-card-action">
+            <a href="reservation.html" class="reserve-btn">WEB予約</a>
+        </div>
+
+    </section>
+
+    <section id="cast-list" class="cast-list princess-card princess-card-wide">
+
+      <div class="section-title">
+        <span>Cast List</span>
+        <h2>キャスト一覧</h2>
+      </div>
+
+      <div class="all-cast-grid"></div>
+
+    </section>
+
+	<!-- Gallery -->
+	<section id="gallery" class="gallery princess-card">
 
     <div class="section-title">
         <span>Gallery</span>
@@ -175,10 +199,14 @@
         <a href="gallery.html" class="reserve-btn">もっと見る</a>
     </div>
 
-</section>
+	</section>
 
-<!-- Access -->
-<section id="access" class="access">
+      </div>
+
+      <div class="princess-card-grid princess-card-grid-bottom">
+
+	<!-- Access -->
+	<section id="access" class="access princess-card">
 
     <div class="section-title">
         <span>Access</span>
@@ -198,7 +226,46 @@
 
     </div>
 
-</section>
+	</section>
+
+    <section id="instagram" class="instagram princess-card">
+
+        <div class="section-title">
+            <span>Instagram</span>
+            <h2>インスタグラム</h2>
+        </div>
+
+        <div class="princess-info-list">
+            <p><b>@chouchou</b><span>最新の雰囲気やイベント情報をお届けします。</span></p>
+        </div>
+
+        <div class="princess-card-action">
+            <a href="#" class="reserve-btn">Instagram</a>
+        </div>
+
+    </section>
+
+    <section id="recruit" class="recruit princess-card">
+
+        <div class="section-title">
+            <span>Recruit</span>
+            <h2>リクルート</h2>
+        </div>
+
+        <div class="princess-info-list">
+            <p><b>CAST</b><span>可愛く、上品に、自分らしく働ける環境です。</span></p>
+            <p><b>CONTACT</b><span>ご応募・ご相談はお気軽にお問い合わせください。</span></p>
+        </div>
+
+        <div class="princess-card-action">
+            <a href="reservation.html" class="reserve-btn">お問い合わせ</a>
+        </div>
+
+    </section>
+
+      </div>
+
+    </main>
 <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
   <button type="button" class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="閉じる">
     ×

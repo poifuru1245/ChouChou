@@ -2560,3 +2560,269 @@ body:not(.cast-detail-page) .all-cast-grid .cast-card .premium-cast-badge-img-re
         transform:translateX(-3px) !important;
     }
 }
+
+/* Ver5.1 Princess Pink final winning overrides */
+body:not(.cast-detail-page) .hero{
+    min-height:92vh !important;
+    padding:150px 18px 86px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    overflow:hidden !important;
+    background:
+        radial-gradient(circle at 50% 40%, rgba(255,255,255,.88), rgba(255,244,250,.66) 34%, transparent 58%),
+        radial-gradient(circle at 18% 20%, rgba(255,199,226,.72), transparent 25%),
+        radial-gradient(circle at 84% 18%, rgba(255,255,255,.88), transparent 22%),
+        linear-gradient(135deg,#fff7fb 0%,#ffddea 48%,#fff9fd 100%) !important;
+}
+
+body:not(.cast-detail-page) .hero::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:18px !important;
+    border:1px solid rgba(255,255,255,.86) !important;
+    outline:1px solid rgba(216,90,155,.24) !important;
+    outline-offset:-10px !important;
+    border-radius:34px !important;
+    pointer-events:none !important;
+    background:
+        radial-gradient(circle at 50% 0, rgba(255,255,255,.96) 0 7px, transparent 8px) 0 0/28px 15px repeat-x,
+        radial-gradient(circle at 50% 100%, rgba(255,255,255,.96) 0 7px, transparent 8px) 0 100%/28px 15px repeat-x !important;
+}
+
+body:not(.cast-detail-page) .hero::after{
+    content:"" !important;
+    position:absolute !important;
+    width:184px !important;
+    height:42px !important;
+    top:108px !important;
+    left:50% !important;
+    transform:translateX(-50%) !important;
+    border-radius:999px 999px 18px 18px !important;
+    background:linear-gradient(90deg,#f5a3c6,#fff,#f5a3c6) !important;
+    box-shadow:0 10px 28px rgba(216,90,155,.2) !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .hero-content{
+    position:relative !important;
+    z-index:2 !important;
+    width:min(980px,100%) !important;
+    max-width:980px !important;
+    margin:0 auto !important;
+    padding:54px 34px 46px !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) .hero-catch{
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:12px !important;
+    margin:0 0 18px !important;
+    padding:9px 22px !important;
+    border:1px solid rgba(255,255,255,.86) !important;
+    border-radius:999px !important;
+    background:linear-gradient(90deg,rgba(255,255,255,.84),rgba(255,226,240,.78),rgba(255,255,255,.84)) !important;
+    color:#bd3f84 !important;
+    font-size:18px !important;
+    letter-spacing:0 !important;
+    box-shadow:0 12px 26px rgba(216,90,155,.18) !important;
+}
+
+body:not(.cast-detail-page) .hero-logo{
+    width:min(760px,92vw) !important;
+    max-width:92vw !important;
+    filter:drop-shadow(0 18px 30px rgba(137,61,99,.22)) drop-shadow(0 0 18px rgba(255,255,255,.95)) !important;
+}
+
+body:not(.cast-detail-page) .hero-sub{
+    max-width:720px !important;
+    margin:24px auto 0 !important;
+    color:#7a4a61 !important;
+    font-size:24px !important;
+    line-height:1.8 !important;
+}
+
+.princess-home{
+    width:min(1440px,calc(100% - 32px)) !important;
+    margin:-34px auto 80px !important;
+    position:relative !important;
+    z-index:3 !important;
+}
+
+.princess-card-grid,
+.princess-card-grid-middle,
+.princess-card-grid-bottom{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:22px !important;
+    margin:0 0 22px !important;
+}
+
+.princess-card-grid-middle{
+    grid-template-columns:minmax(230px,.8fr) minmax(0,1.4fr) minmax(260px,1fr) !important;
+}
+
+.princess-card{
+    position:relative !important;
+    min-width:0 !important;
+    overflow:hidden !important;
+    padding:30px 24px !important;
+    border:1px solid rgba(228,124,173,.42) !important;
+    border-radius:22px !important;
+    background:#fff !important;
+    box-shadow:0 20px 48px rgba(167,70,116,.13),0 2px 0 rgba(255,255,255,.9) inset !important;
+}
+
+.princess-card::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:10px !important;
+    border:1px dashed rgba(232,116,170,.22) !important;
+    border-radius:17px !important;
+    pointer-events:none !important;
+}
+
+.princess-card::after{
+    content:"" !important;
+    position:absolute !important;
+    top:0 !important;
+    left:50% !important;
+    width:118px !important;
+    height:28px !important;
+    transform:translateX(-50%) !important;
+    border-radius:0 0 999px 999px !important;
+    background:linear-gradient(90deg,#f8a8c9,#fff0f7,#f8a8c9) !important;
+    box-shadow:0 8px 18px rgba(216,90,155,.14) !important;
+    pointer-events:none !important;
+}
+
+.princess-card .section-title{
+    margin:0 0 22px !important;
+    text-align:center !important;
+}
+
+.princess-card .section-title span{
+    color:#d85a9b !important;
+    font-size:17px !important;
+}
+
+.princess-card .section-title h2{
+    color:#7a405c !important;
+    font-size:28px !important;
+}
+
+.princess-home .cast-grid,
+.princess-home .all-cast-grid{
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr)) !important;
+    gap:14px !important;
+    max-width:none !important;
+    margin:0 !important;
+}
+
+.princess-home .all-cast-grid{
+    max-height:560px !important;
+    overflow:auto !important;
+}
+
+.princess-home .public-gallery-grid{
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr)) !important;
+    gap:14px !important;
+    max-width:none !important;
+    margin:0 !important;
+}
+
+.princess-home .news-list.public-news-list{
+    display:grid !important;
+    gap:14px !important;
+    max-width:none !important;
+    margin:0 !important;
+}
+
+.princess-home .concept-content,
+.princess-home .access-box{
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+}
+
+.princess-info-list{
+    display:grid !important;
+    gap:12px !important;
+}
+
+.princess-info-list p{
+    display:flex !important;
+    gap:12px !important;
+    align-items:flex-start !important;
+    margin:0 !important;
+    padding:13px 14px !important;
+    border-radius:14px !important;
+    background:linear-gradient(90deg,#fff6fb,#fff) !important;
+    color:#7c5364 !important;
+    line-height:1.7 !important;
+}
+
+@media(max-width:1020px){
+    .princess-card-grid,
+    .princess-card-grid-middle,
+    .princess-card-grid-bottom{
+        grid-template-columns:1fr 1fr !important;
+    }
+
+    .princess-card-large,
+    .princess-card-wide{
+        grid-column:1/-1 !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero{
+        min-height:86vh !important;
+        padding:118px 14px 74px !important;
+    }
+
+    body:not(.cast-detail-page) .hero-content{
+        padding:38px 12px 34px !important;
+    }
+
+    body:not(.cast-detail-page) .hero-sub{
+        font-size:16px !important;
+    }
+
+    .princess-home{
+        width:calc(100% - 22px) !important;
+        margin:-22px auto 58px !important;
+    }
+
+    .princess-card-grid,
+    .princess-card-grid-middle,
+    .princess-card-grid-bottom{
+        grid-template-columns:1fr !important;
+        gap:16px !important;
+        margin-bottom:16px !important;
+    }
+
+    .princess-card{
+        padding:25px 16px !important;
+        border-radius:18px !important;
+    }
+
+    .princess-card-large,
+    .princess-card-wide{
+        grid-column:auto !important;
+    }
+
+    .princess-home .cast-grid,
+    .princess-home .all-cast-grid,
+    .princess-home .public-gallery-grid{
+        grid-template-columns:1fr !important;
+    }
+
+    .princess-home .all-cast-grid{
+        max-height:none !important;
+        overflow:visible !important;
+    }
+}
