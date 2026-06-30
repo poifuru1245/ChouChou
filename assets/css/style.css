@@ -4674,3 +4674,20 @@ body:not(.cast-detail-page) .hero-princess-image .premium-hero-dots{
 .slider-dots{
     display:none !important;
 }
+
+/* Restore generated luxury interior hero image */
+body:not(.cast-detail-page) .hero.hero-princess-image{
+    background-image:
+        linear-gradient(rgba(255,218,235,.04),rgba(255,218,235,.04)),
+        url("../images/hero-princess.jpg") !important;
+    background-repeat:no-repeat !important;
+    background-position:center top !important;
+    background-size:cover !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero.hero-princess-image{
+        background-position:center top !important;
+        background-size:auto 100% !important;
+    }
+}
