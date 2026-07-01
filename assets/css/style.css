@@ -7248,3 +7248,159 @@ body:not(.cast-detail-page) .today-cast .public-cast-badges .premium-cast-badge-
         transform:translateX(-4px) !important;
     }
 }
+
+/* Ver6.4 forms, system table, phone display, and final badge alignment */
+body:not(.cast-detail-page) #system.princess-card{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    justify-content:flex-start !important;
+    gap:18px !important;
+    padding:34px 28px !important;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,244,250,.72)),
+        radial-gradient(circle at 50% 0%,rgba(255,190,221,.28),transparent 38%) !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) #system .section-title{
+    display:block !important;
+}
+
+body:not(.cast-detail-page) .system-price-card{
+    display:grid !important;
+    gap:0 !important;
+    padding:6px 12px !important;
+    border-radius:22px !important;
+    background:rgba(255,255,255,.76) !important;
+    border:1px solid rgba(231,160,195,.38) !important;
+    box-shadow:0 14px 28px rgba(165,62,118,.1) !important;
+}
+
+body:not(.cast-detail-page) .system-price-row{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) auto !important;
+    gap:18px !important;
+    align-items:center !important;
+    min-height:54px !important;
+    padding:12px 6px !important;
+    border-bottom:2px dotted rgba(226,130,177,.36) !important;
+    color:#6b3a52 !important;
+    font-weight:700 !important;
+}
+
+body:not(.cast-detail-page) .system-price-row:last-child{
+    border-bottom:0 !important;
+}
+
+body:not(.cast-detail-page) .system-price-row strong{
+    color:#df4f91 !important;
+    font-size:24px !important;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+    white-space:nowrap !important;
+}
+
+body:not(.cast-detail-page) .system-price-note{
+    margin:0 !important;
+    color:#6f455b !important;
+    text-align:center !important;
+    font-size:14px !important;
+}
+
+body:not(.cast-detail-page) .ver6-contact-link.phone{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:3px !important;
+    padding:0 1.5% 2.2% !important;
+    color:#e05095 !important;
+    text-align:center !important;
+    text-decoration:none !important;
+    font-weight:700 !important;
+}
+
+body:not(.cast-detail-page) .contact-phone-label{
+    display:block !important;
+    color:#e05095 !important;
+    font-size:clamp(10px,1vw,18px) !important;
+    line-height:1.1 !important;
+}
+
+body:not(.cast-detail-page) .contact-phone-number{
+    display:block !important;
+    color:#784057 !important;
+    font-size:clamp(10px,1.08vw,19px) !important;
+    line-height:1.1 !important;
+    white-space:nowrap !important;
+}
+
+.recruit-notify-actions{
+    grid-column:1 / -1;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+    margin-top:4px;
+}
+
+.recruit-notify-actions[hidden],
+.recruit-notify-btn[hidden]{
+    display:none !important;
+}
+
+.recruit-notify-btn{
+    min-width:220px;
+}
+
+body:not(.cast-detail-page) .today-schedule-link{
+    cursor:pointer !important;
+    transition:transform .2s ease, box-shadow .2s ease !important;
+}
+
+body:not(.cast-detail-page) .today-schedule-link:hover{
+    transform:translateY(-2px) !important;
+    box-shadow:0 14px 26px rgba(178,62,121,.16) !important;
+}
+
+body:not(.cast-detail-page) .today-schedule-profile{
+    font-weight:700 !important;
+    color:#74435b !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-new,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-recommended{
+    transform:none !important;
+    margin-left:0 !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-img-recommended{
+    transform:none !important;
+    margin-left:0 !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) #system.princess-card{
+        padding:28px 18px !important;
+    }
+
+    body:not(.cast-detail-page) .system-price-row{
+        min-height:48px !important;
+        gap:12px !important;
+        font-size:13px !important;
+    }
+
+    body:not(.cast-detail-page) .system-price-row strong{
+        font-size:20px !important;
+    }
+
+    body:not(.cast-detail-page) .contact-phone-label,
+    body:not(.cast-detail-page) .contact-phone-number{
+        font-size:9px !important;
+    }
+}

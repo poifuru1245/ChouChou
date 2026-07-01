@@ -124,6 +124,7 @@ const div =
 document.createElement("div");
 
 div.className = "today-schedule-item";
+makeTodayScheduleCardClickable(div, createCastDetailUrl(cast));
 
 const image =
 getMainImage(cast);
@@ -141,12 +142,12 @@ div.innerHTML = `
   <div class="today-schedule-info">
     <h3>${escapeHtml(cast.name || "")}</h3>
 
-    <p>
-      ${escapeHtml(formatAge(cast.age))}
+    <p class="today-schedule-profile">
+      ${escapeHtml(formatTodayProfile(cast))}
     </p>
 
     <p class="cast-time public-cast-schedule">
-      ${escapeHtml(formatSchedule(cast))}
+      <span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast))}
     </p>
   </div>
 `;
@@ -180,6 +181,7 @@ const div =
 document.createElement("div");
 
 div.className = "today-schedule-item";
+makeTodayScheduleCardClickable(div, createCastDetailUrl(cast));
 
 const image =
 getMainImage(cast);
@@ -197,12 +199,12 @@ div.innerHTML = `
   <div class="today-schedule-info">
     <h3>${escapeHtml(cast.name || "")}</h3>
 
-    <p>
-      ${escapeHtml(formatAge(cast.age))}
+    <p class="today-schedule-profile">
+      ${escapeHtml(formatTodayProfile(cast))}
     </p>
 
     <p class="cast-time public-cast-schedule">
-      ${escapeHtml(formatSchedule(cast, schedule.time))}
+      <span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast, schedule.time))}
     </p>
   </div>
 `;
@@ -267,6 +269,7 @@ createCastDetailUrl(cast);
 if(isScheduleList){
 
 div.className = "today-schedule-item";
+makeTodayScheduleCardClickable(div, detailUrl);
 
 div.innerHTML = `
   <div class="today-schedule-photo">
@@ -276,12 +279,12 @@ div.innerHTML = `
   <div class="today-schedule-info">
     <h3>${escapeHtml(cast.name || "")}</h3>
 
-    <p>
-      ${escapeHtml(formatAge(cast.age))}
+    <p class="today-schedule-profile">
+      ${escapeHtml(formatTodayProfile(cast))}
     </p>
 
     <p class="cast-time public-cast-schedule">
-      ${escapeHtml(formatSchedule(cast, todayCast.time))}
+      <span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast, todayCast.time))}
     </p>
   </div>
 `;
@@ -777,6 +780,30 @@ cast?.bustCup ||
 return cup
 ? `${cup}カップ`.replace("カップカップ","カップ")
 : "-";
+
+}
+
+function formatTodayProfile(cast){
+
+return `${formatAge(cast?.age)} / ${formatCup(cast)} / ${formatHeight(cast?.height)}`;
+
+}
+
+function makeTodayScheduleCardClickable(card, detailUrl){
+
+if(!card || !detailUrl) return;
+
+card.classList.add("today-schedule-link");
+card.setAttribute("role","link");
+card.setAttribute("tabindex","0");
+card.addEventListener("click",()=>{
+  window.location.href = detailUrl;
+});
+card.addEventListener("keydown",(event)=>{
+  if(event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  window.location.href = detailUrl;
+});
 
 }
 

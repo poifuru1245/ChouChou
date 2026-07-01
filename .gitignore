@@ -67,3 +67,7 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Local desktop artifacts
+.DS_Store
+届け出書/

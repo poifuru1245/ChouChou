@@ -1660,3 +1660,33 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
   width: 58px !important;
   height: auto !important;
 }
+
+/* Ver6.4 admin badge alignment */
+.admin-cast-badges,
+.cast-admin-badges,
+.admin-cast-card .cast-badge-layer,
+.cast-admin-card .cast-badge-layer{
+  align-items:flex-start !important;
+  gap:2px !important;
+}
+
+.admin-cast-badges .premium-cast-badge,
+.cast-admin-badges .premium-cast-badge,
+.admin-cast-card .premium-cast-badge,
+.cast-admin-card .premium-cast-badge{
+  margin-left:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+
+.admin-cast-badges .premium-cast-badge-img,
+.cast-admin-badges .premium-cast-badge-img,
+.admin-cast-card .premium-cast-badge-img,
+.cast-admin-card .premium-cast-badge-img{
+  margin-left:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  transform:none !important;
+}

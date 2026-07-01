@@ -9,7 +9,7 @@
 
     <meta name="description" content="甘くとろける夢の時間。すすきのキャバクラ Chou Chou">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=6.3.1">
+    <link rel="stylesheet" href="assets/css/style.css?v=6.4.0">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -120,7 +120,22 @@
 
     <section id="system" class="system princess-card">
 
-        <img class="ver6-card-image" src="assets/images/system-ver6.png" alt="Chou Chou 料金システム">
+        <div class="section-title">
+            <span>System</span>
+            <h2 data-i18n="section.system">料金システム</h2>
+        </div>
+
+        <div class="system-price-card" aria-label="料金システム">
+            <div class="system-price-row"><span data-i18n="system.first">初回セット</span><strong>¥9,100</strong></div>
+            <div class="system-price-row"><span data-i18n="system.regular">通常セット</span><strong>¥9,100</strong></div>
+            <div class="system-price-row"><span data-i18n="system.extend20">延長20分</span><strong>¥5,900</strong></div>
+            <div class="system-price-row"><span data-i18n="system.extend40">延長40分</span><strong>¥9,100</strong></div>
+            <div class="system-price-row"><span data-i18n="system.singleDrink">CASTシングルドリンク</span><strong>¥1,300</strong></div>
+            <div class="system-price-row"><span data-i18n="system.wineCocktail">CASTワインカクテル</span><strong>¥2,000</strong></div>
+            <div class="system-price-row"><span data-i18n="system.shot">CASTショット</span><strong>¥3,900</strong></div>
+        </div>
+
+        <p class="system-price-note" data-i18n="system.note">※税込みの料金表記となっております。</p>
 
     </section>
 
@@ -224,9 +239,12 @@
       <section id="contact" class="contact ver6-contact-image-section">
 
         <img class="ver6-contact-image" src="assets/images/contact-ver6.png" alt="Chou Chou ご予約・お問い合わせ">
-        <a href="reservation.html" class="ver6-contact-link phone" data-site-phone="phoneNumber" aria-label="電話で予約"></a>
+        <a href="tel:011-000-0000" class="ver6-contact-link phone" data-site-phone="phoneNumber" aria-label="電話で予約">
+            <span class="contact-phone-label">電話で予約</span>
+            <span class="contact-phone-number" data-site-phone-text>011-XXX-XXXX</span>
+        </a>
         <a href="#" class="ver6-contact-link line fixed-line-reservation" data-site-link="lineReservationUrl" aria-label="LINEで予約"></a>
-        <a href="reservation.html" class="ver6-contact-link form" data-site-link="contactFormUrl" aria-label="お問い合わせ"></a>
+        <a href="contact.html" class="ver6-contact-link form" data-site-link="contactFormUrl" aria-label="お問い合わせ"></a>
 
       </section>
 
@@ -242,8 +260,8 @@
   </div>
 </div>
 
-<script type="module" src="assets/app.js?v=6.3.1"></script>
-<script type="module" src="assets/cast.js?v=6.3.1"></script>
+<script type="module" src="assets/app.js?v=6.4.0"></script>
+<script type="module" src="assets/cast.js?v=6.4.0"></script>
 <script type="module" src="assets/js/news.js"></script>
 <script type="module" src="assets/gallery.js"></script>
 

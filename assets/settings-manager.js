@@ -10,6 +10,8 @@ const SITE_SETTINGS_FIELDS = [
   "webReservationUrl",
   "lineReservationUrl",
   "recruitUrl",
+  "recruitNotifyLineUrl",
+  "recruitNotifyEmail",
   "phoneNumber",
   "contactFormUrl",
   "instagramUrl",

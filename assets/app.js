@@ -425,6 +425,26 @@ function setupPublicLanguageSwitch() {
       "form.experience.no": "なし",
       "form.message": "メッセージ",
       "form.submit": "送信する",
+      "contact.form.eyebrow": "Contact",
+      "contact.form.title": "お問い合わせ",
+      "contact.form.lead": "ご意見・ご質問などがございましたら、下記フォームよりお気軽にお問い合わせください。",
+      "contact.form.name": "お名前",
+      "contact.form.email": "メールアドレス",
+      "contact.form.phone": "電話番号",
+      "contact.form.type": "お問い合わせ種別",
+      "contact.form.message": "ご意見・ご質問内容",
+      "contact.type.opinion": "ご意見",
+      "contact.type.question": "ご質問",
+      "contact.type.reservation": "予約について",
+      "contact.type.other": "その他",
+      "system.first": "初回セット",
+      "system.regular": "通常セット",
+      "system.extend20": "延長20分",
+      "system.extend40": "延長40分",
+      "system.singleDrink": "CASTシングルドリンク",
+      "system.wineCocktail": "CASTワインカクテル",
+      "system.shot": "CASTショット",
+      "system.note": "※税込みの料金表記となっております。",
       "concept.body": "日常を少しだけ忘れて、心がふわっと軽くなる場所。<br><br>可愛いだけではなく初めてのお客様も<br>お一人様も<br>気軽に楽しめる雰囲気の中で、笑顔あふれるひとときをお過ごしください。<br><br>可愛さ、癒し、そして少しの特別感。<br><br>そんな\"夢のような時間\"を、<br>Chou Chouでお楽しみください。"
     },
     en: {
@@ -483,6 +503,26 @@ function setupPublicLanguageSwitch() {
       "form.experience.no": "No",
       "form.message": "Message",
       "form.submit": "Submit",
+      "contact.form.eyebrow": "Contact",
+      "contact.form.title": "Contact",
+      "contact.form.lead": "Please use the form below for opinions, questions, or other inquiries.",
+      "contact.form.name": "Name",
+      "contact.form.email": "Email",
+      "contact.form.phone": "Phone",
+      "contact.form.type": "Inquiry Type",
+      "contact.form.message": "Opinion or Question",
+      "contact.type.opinion": "Opinion",
+      "contact.type.question": "Question",
+      "contact.type.reservation": "Reservation",
+      "contact.type.other": "Other",
+      "system.first": "First Set",
+      "system.regular": "Regular Set",
+      "system.extend20": "Extension 20 min",
+      "system.extend40": "Extension 40 min",
+      "system.singleDrink": "Cast Single Drink",
+      "system.wineCocktail": "Cast Wine Cocktail",
+      "system.shot": "Cast Shot",
+      "system.note": "All prices include tax.",
       "concept.body": "A place where you can forget everyday life for a moment and feel your heart become lighter.<br><br>Not only cute, but also welcoming for first-time guests and solo visitors. Enjoy a bright, relaxed moment filled with smiles.<br><br>Cuteness, comfort, and a little sense of something special.<br><br>Please enjoy that dreamlike time at Chou Chou."
     },
     zh: {
@@ -541,6 +581,26 @@ function setupPublicLanguageSwitch() {
       "form.experience.no": "无",
       "form.message": "留言",
       "form.submit": "发送",
+      "contact.form.eyebrow": "Contact",
+      "contact.form.title": "咨询",
+      "contact.form.lead": "如有意见、问题或其他咨询，请通过下方表单联系我们。",
+      "contact.form.name": "姓名",
+      "contact.form.email": "邮箱地址",
+      "contact.form.phone": "电话号码",
+      "contact.form.type": "咨询类别",
+      "contact.form.message": "意见・问题内容",
+      "contact.type.opinion": "意见",
+      "contact.type.question": "问题",
+      "contact.type.reservation": "预约相关",
+      "contact.type.other": "其他",
+      "system.first": "初回套组",
+      "system.regular": "通常套组",
+      "system.extend20": "延长20分钟",
+      "system.extend40": "延长40分钟",
+      "system.singleDrink": "CAST单杯饮品",
+      "system.wineCocktail": "CAST葡萄酒鸡尾酒",
+      "system.shot": "CAST Shot",
+      "system.note": "以上价格均为含税价格。",
       "concept.body": "这里是可以暂时忘记日常、让心情轻轻放松的地方。<br><br>不只是可爱，也欢迎第一次来店的客人和一人前来的客人。在轻松的氛围中，享受充满笑容的时光。<br><br>可爱、治愈，以及一点特别感。<br><br>请在 Chou Chou 享受这样梦幻般的时间。"
     }
   };
@@ -683,6 +743,10 @@ function applyPhoneLink(value) {
 
   document.querySelectorAll("[data-site-phone]").forEach((element) => {
     element.setAttribute("href", href);
+  });
+
+  document.querySelectorAll("[data-site-phone-text]").forEach((element) => {
+    element.textContent = phone;
   });
 }
 

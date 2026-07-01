@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>応募フォーム｜Chou Chou</title>
+    <title>お問い合わせ｜Chou Chou</title>
 
-    <meta name="description" content="Chou Chou キャスト応募フォーム">
+    <meta name="description" content="Chou Chouへのご意見・ご質問はこちらからお問い合わせください。">
 
     <link rel="stylesheet" href="assets/css/style.css?v=6.4.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,72 +39,59 @@
     </div>
 </header>
 
-<main class="recruit-form-page">
-    <section class="princess-card recruit-form-card">
+<main class="recruit-form-page contact-form-page">
+    <section class="princess-card recruit-form-card contact-form-card">
         <div class="section-title">
-            <span data-i18n="recruit.form.eyebrow">Recruit Entry</span>
-            <h1 data-i18n="recruit.form.title">応募フォーム</h1>
+            <span data-i18n="contact.form.eyebrow">Contact</span>
+            <h1 data-i18n="contact.form.title">お問い合わせ</h1>
         </div>
 
-        <p class="recruit-form-lead" data-i18n="recruit.form.lead">
-            Chou Chouで働いてみたい方は、下記フォームよりお気軽にご応募ください。
+        <p class="recruit-form-lead" data-i18n="contact.form.lead">
+            ご意見・ご質問などがございましたら、下記フォームよりお気軽にお問い合わせください。
         </p>
 
-        <form id="recruitApplicationForm" class="recruit-form">
+        <form id="contactForm" class="recruit-form contact-form">
             <label>
-                <span data-i18n="form.name">名前</span>
+                <span data-i18n="contact.form.name">お名前</span>
                 <input type="text" name="name" required autocomplete="name">
             </label>
 
             <label>
-                <span data-i18n="form.age">年齢</span>
-                <input type="number" name="age" min="18" max="60" required inputmode="numeric">
+                <span data-i18n="contact.form.email">メールアドレス</span>
+                <input type="email" name="email" required autocomplete="email">
             </label>
 
             <label>
-                <span data-i18n="form.phone">電話番号</span>
-                <input type="tel" name="phone" required autocomplete="tel">
+                <span data-i18n="contact.form.phone">電話番号</span>
+                <input type="tel" name="phone" autocomplete="tel">
             </label>
 
             <label>
-                <span data-i18n="form.lineId">LINE ID</span>
-                <input type="text" name="lineId" autocomplete="off">
-            </label>
-
-            <label>
-                <span data-i18n="form.workDays">希望勤務日</span>
-                <input type="text" name="workDays" placeholder="例：週3日 / 金土希望" data-i18n-placeholder="form.workDays.placeholder">
-            </label>
-
-            <label>
-                <span data-i18n="form.experience">経験有無</span>
-                <select name="experience" required>
+                <span data-i18n="contact.form.type">お問い合わせ種別</span>
+                <select name="type" required>
                     <option value="" data-i18n="form.select">選択してください</option>
-                    <option value="あり" data-i18n="form.experience.yes">あり</option>
-                    <option value="なし" data-i18n="form.experience.no">なし</option>
+                    <option value="ご意見" data-i18n="contact.type.opinion">ご意見</option>
+                    <option value="ご質問" data-i18n="contact.type.question">ご質問</option>
+                    <option value="予約について" data-i18n="contact.type.reservation">予約について</option>
+                    <option value="その他" data-i18n="contact.type.other">その他</option>
                 </select>
             </label>
 
             <label class="recruit-form-wide">
-                <span data-i18n="form.message">メッセージ</span>
-                <textarea name="message" rows="6"></textarea>
+                <span data-i18n="contact.form.message">ご意見・ご質問内容</span>
+                <textarea name="message" rows="7" required></textarea>
             </label>
 
             <div class="recruit-form-actions">
                 <button type="submit" class="reserve-btn" data-i18n="form.submit">送信する</button>
-                <p id="recruitFormStatus" class="recruit-form-status" aria-live="polite"></p>
-            </div>
-
-            <div id="recruitNotifyActions" class="recruit-notify-actions" hidden>
-                <a id="recruitNotifyLine" class="reserve-btn recruit-notify-btn" href="#" target="_blank" rel="noopener">LINEで応募内容を送る</a>
-                <a id="recruitNotifyMail" class="reserve-btn recruit-notify-btn" href="#">メールで応募内容を送る</a>
+                <p id="contactFormStatus" class="recruit-form-status" aria-live="polite"></p>
             </div>
         </form>
     </section>
 </main>
 
 <script type="module" src="assets/app.js?v=6.4.0"></script>
-<script type="module" src="assets/recruit-form.js?v=6.4.0"></script>
+<script type="module" src="assets/contact-form.js?v=6.4.0"></script>
 
 </body>
 
