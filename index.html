@@ -9,7 +9,7 @@
 
     <meta name="description" content="甘くとろける夢の時間。すすきのキャバクラ Chou Chou">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=6.2.0">
+    <link rel="stylesheet" href="assets/css/style.css?v=6.2.2">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -58,9 +58,9 @@
     <section class="hero premium-hero luxury-hero hero-princess-image hero-ver6" aria-label="Chou Chou Princess Luxury">
 
         <h1 class="hero-princess-title">Chou Chou</h1>
-        <a href="reservation.html" class="hero-link web" aria-label="WEB予約"></a>
-        <a href="#" class="hero-link line" aria-label="LINE予約"></a>
-        <a href="recruit.html" class="hero-link recruit" aria-label="求人募集"></a>
+        <a href="reservation.html" class="hero-link web" data-site-link="webReservationUrl" aria-label="WEB予約"></a>
+        <a href="#" class="hero-link line" data-site-link="lineReservationUrl" aria-label="LINE予約"></a>
+        <a href="recruit.html" class="hero-link recruit" data-site-link="recruitUrl" aria-label="求人募集"></a>
 
     </section>
 
@@ -173,6 +173,7 @@
 
         <div class="access-map">
             <iframe
+                data-site-map-embed
                 src="https://www.google.com/maps?q=%E5%8C%97%E6%B5%B7%E9%81%93%E6%9C%AD%E5%B9%8C%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8D%975%E6%9D%A1%E8%A5%BF5%E4%B8%81%E7%9B%AE5-1%20%E3%82%B5%E3%83%B3%E3%83%BB%E3%83%89%E3%82%A5%E3%83%93%E3%83%AB7F&output=embed"
                 width="600"
                 height="360"
@@ -204,14 +205,15 @@
         </div>
 
         <div class="princess-card-action">
-            <a href="#" class="reserve-btn">Instagram</a>
+            <a href="#" class="reserve-btn" data-site-link="instagramUrl">Instagram</a>
+            <a href="#" class="reserve-btn" data-site-link="xUrl">X</a>
         </div>
 
     </section>
 
     <section id="recruit" class="recruit princess-card">
 
-        <a href="reservation.html" class="ver6-image-link recruit-image-link" aria-label="求人情報 フォームはこちらから">
+        <a href="reservation.html" class="ver6-image-link recruit-image-link" data-site-link="recruitUrl" aria-label="求人情報 フォームはこちらから">
             <img class="ver6-card-image" src="assets/images/recruit-ver6.png" alt="Chou Chou 求人情報">
         </a>
 
@@ -222,9 +224,9 @@
       <section id="contact" class="contact ver6-contact-image-section">
 
         <img class="ver6-contact-image" src="assets/images/contact-ver6.png" alt="Chou Chou ご予約・お問い合わせ">
-        <a href="reservation.html" class="ver6-contact-link phone" aria-label="電話で予約"></a>
-        <a href="#" class="ver6-contact-link line fixed-line-reservation" aria-label="LINEで予約"></a>
-        <a href="reservation.html" class="ver6-contact-link form" aria-label="お問い合わせ"></a>
+        <a href="reservation.html" class="ver6-contact-link phone" data-site-phone="phoneNumber" aria-label="電話で予約"></a>
+        <a href="#" class="ver6-contact-link line fixed-line-reservation" data-site-link="lineReservationUrl" aria-label="LINEで予約"></a>
+        <a href="reservation.html" class="ver6-contact-link form" data-site-link="contactFormUrl" aria-label="お問い合わせ"></a>
 
       </section>
 
@@ -240,8 +242,8 @@
   </div>
 </div>
 
-<script type="module" src="assets/app.js"></script>
-<script type="module" src="assets/cast.js?v=6.2.0"></script>
+<script type="module" src="assets/app.js?v=6.2.2"></script>
+<script type="module" src="assets/cast.js?v=6.2.2"></script>
 <script type="module" src="assets/js/news.js"></script>
 <script type="module" src="assets/gallery.js"></script>
 

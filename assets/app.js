@@ -8,6 +8,7 @@ import {
   getFirestore,
   collection,
   getDocs,
+  getDoc,
   updateDoc,
   deleteDoc,
   doc
@@ -497,7 +498,153 @@ function setupPublicLanguageSwitch() {
   applyLanguage(localStorage.getItem("chouchou-language") || "ja");
 }
 
+async function setupSiteSettings() {
+  const configurableElements = document.querySelectorAll(
+    "[data-site-link], [data-site-phone], [data-site-map-embed]"
+  );
+
+  if (!configurableElements.length) return;
+
+  try {
+    const settingsSnapshot = await getDoc(doc(db, "settings", "site"));
+    const settings = settingsSnapshot.exists() ? settingsSnapshot.data() : {};
+
+    applySiteLink("webReservationUrl", settings.webReservationUrl);
+    applySiteLink("lineReservationUrl", settings.lineReservationUrl);
+    applySiteLink("recruitUrl", settings.recruitUrl);
+    applySiteLink("contactFormUrl", settings.contactFormUrl);
+    applySiteLink("instagramUrl", settings.instagramUrl);
+    applySiteLink("xUrl", settings.xUrl);
+    applyPhoneLink(settings.phoneNumber);
+    applyGoogleMap(settings.googleMapUrl);
+  } catch (error) {
+    console.error("サイト設定読み込み失敗", error);
+  }
+}
+
+function applySiteLink(key, value) {
+  const href = normalizeSiteUrl(value);
+
+  if (!href) return;
+
+  document.querySelectorAll(`[data-site-link="${key}"]`).forEach((element) => {
+    element.setAttribute("href", href);
+
+    if (isExternalUrl(href)) {
+      element.setAttribute("target", "_blank");
+      element.setAttribute("rel", "noopener");
+    }
+  });
+}
+
+function applyPhoneLink(value) {
+  const phone = String(value || "").trim();
+
+  if (!phone) return;
+
+  const href = `tel:${phone.replace(/[^\d+]/g, "")}`;
+
+  document.querySelectorAll("[data-site-phone]").forEach((element) => {
+    element.setAttribute("href", href);
+  });
+}
+
+function applyGoogleMap(value) {
+  const mapUrl = normalizeSiteUrl(value);
+
+  if (!mapUrl) return;
+
+  document.querySelectorAll("[data-site-map-embed]").forEach((iframe) => {
+    iframe.setAttribute("src", toGoogleMapEmbedUrl(mapUrl));
+  });
+}
+
+function normalizeSiteUrl(value) {
+  const url = String(value || "").trim();
+
+  if (!url) return "";
+
+  return url;
+}
+
+function isExternalUrl(url) {
+  return /^https?:\/\//i.test(url);
+}
+
+function toGoogleMapEmbedUrl(url) {
+  if (url.includes("output=embed")) return url;
+
+  if (url.includes("google.com/maps/embed")) return url;
+
+  return `https://www.google.com/maps?q=${encodeURIComponent(url)}&output=embed`;
+}
+
+function setupRevealAnimations() {
+  const selector = ".princess-card, .ver6-contact-image-section, .cast-card, .news-card, .gallery-card";
+  const targets = document.querySelectorAll(selector);
+
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach((target) => {
+      target.classList.add("reveal-card");
+      target.classList.add("is-visible");
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      rootMargin: "0px 0px -8% 0px",
+      threshold: 0.08
+    }
+  );
+
+  const registerRevealTarget = (target) => {
+    if (!(target instanceof HTMLElement)) return;
+    if (target.classList.contains("reveal-card")) return;
+
+    target.classList.add("reveal-card");
+    observer.observe(target);
+  };
+
+  targets.forEach((target) => {
+    registerRevealTarget(target);
+  });
+
+  if (!("MutationObserver" in window)) return;
+
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (!(node instanceof HTMLElement)) return;
+
+        if (node.matches(selector)) {
+          registerRevealTarget(node);
+        }
+
+        node.querySelectorAll(selector).forEach((child) => {
+          registerRevealTarget(child);
+        });
+      });
+    });
+  });
+
+  mutationObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
 loadReservations();
 loadRanking();
 loadTodayCast();
 setupPublicLanguageSwitch();
+setupSiteSettings();
+setupRevealAnimations();

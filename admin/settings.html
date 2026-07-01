@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>サイト設定</title>
+
+<link rel="stylesheet" href="../assets/css/admin.css">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+<aside class="sidebar">
+<h2>Chou Chou</h2>
+<a href="dashboard.html">ダッシュボード</a>
+<a href="cast.html">キャスト管理</a>
+<a href="schedule.html">出勤管理</a>
+<a href="news.html">お知らせ</a>
+<a href="gallery.html">ギャラリー</a>
+<a href="settings.html" class="active">サイト設定</a>
+<a href="login.html">ログアウト</a>
+</aside>
+
+<main class="main">
+
+<h1>サイト設定</h1>
+
+<form id="siteSettingsForm" class="settings-form">
+
+<div class="settings-grid">
+<label>
+<span>WEB予約 URL</span>
+<input type="text" name="webReservationUrl" placeholder="reservation.html">
+</label>
+
+<label>
+<span>LINE予約 URL</span>
+<input type="text" name="lineReservationUrl" placeholder="https://line.me/...">
+</label>
+
+<label>
+<span>求人募集 URL</span>
+<input type="text" name="recruitUrl" placeholder="recruit.html">
+</label>
+
+<label>
+<span>電話番号</span>
+<input type="tel" name="phoneNumber" placeholder="011-000-0000">
+</label>
+
+<label>
+<span>お問い合わせフォーム URL</span>
+<input type="text" name="contactFormUrl" placeholder="reservation.html">
+</label>
+
+<label>
+<span>Instagram URL</span>
+<input type="text" name="instagramUrl" placeholder="https://www.instagram.com/...">
+</label>
+
+<label>
+<span>X URL</span>
+<input type="text" name="xUrl" placeholder="https://x.com/...">
+</label>
+
+<label class="settings-field-wide">
+<span>Google Map URL</span>
+<input type="text" name="googleMapUrl" placeholder="Google Mapの共有URLまたは住所">
+</label>
+</div>
+
+<div class="settings-actions">
+<button type="submit" class="settings-save-btn">保存する</button>
+<p id="siteSettingsStatus" class="settings-status" aria-live="polite"></p>
+</div>
+
+</form>
+
+</main>
+
+</div>
+
+<script type="module" src="../assets/settings-manager.js"></script>
+
+</body>
+
+</html>
