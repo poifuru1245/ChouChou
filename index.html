@@ -9,7 +9,7 @@
 
     <meta name="description" content="甘くとろける夢の時間。すすきのキャバクラ Chou Chou">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=6.2.2">
+    <link rel="stylesheet" href="assets/css/style.css?v=6.3.1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -99,7 +99,7 @@
         </div>
 
         <div class="news-list public-news-list" data-limit="3">
-            <p class="public-news-empty">読み込み中...</p>
+            <p class="public-news-empty" data-i18n="state.loading">読み込み中...</p>
         </div>
 
         <div class="news-more">
@@ -148,7 +148,7 @@
     </div>
 
     <div class="public-gallery-grid" id="homeGalleryGrid" data-limit="6">
-        <p class="gallery-empty">読み込み中...</p>
+        <p class="gallery-empty" data-i18n="state.loading">読み込み中...</p>
     </div>
 
     <div class="gallery-more">
@@ -165,7 +165,7 @@
 	<section id="access" class="access princess-card">
 
     <div class="section-title">
-        <span>Access</span>
+        <span data-i18n="section.access.en">Access</span>
         <h2 data-i18n="section.access">アクセス</h2>
     </div>
 
@@ -184,9 +184,9 @@
         </div>
 
         <div class="access-details">
-            <p><b>住所</b><span>〒064-0805 北海道札幌市中央区南5条西5丁目5-1 サン・ドゥビル7F</span></p>
-            <p><b>営業時間</b><span>20:00 - LAST</span></p>
-            <p><b>定休日</b><span>日曜</span></p>
+            <p><b data-i18n="access.address.label">住所</b><span data-i18n="access.address.value">〒064-0805 北海道札幌市中央区南5条西5丁目5-1 サン・ドゥビル7F</span></p>
+            <p><b data-i18n="access.hours.label">営業時間</b><span data-i18n="access.hours.value">19:00〜LAST</span></p>
+            <p><b data-i18n="access.closed.label">定休日</b><span data-i18n="access.closed.value">日曜</span></p>
         </div>
 
     </div>
@@ -201,7 +201,7 @@
         </div>
 
         <div class="princess-info-list">
-            <p><b>@chouchou</b><span>最新の雰囲気やイベント情報をお届けします。</span></p>
+            <p><b>@chouchou</b><span data-i18n="instagram.body">最新の雰囲気やイベント情報をお届けします。</span></p>
         </div>
 
         <div class="princess-card-action">
@@ -213,7 +213,7 @@
 
     <section id="recruit" class="recruit princess-card">
 
-        <a href="reservation.html" class="ver6-image-link recruit-image-link" data-site-link="recruitUrl" aria-label="求人情報 フォームはこちらから">
+        <a href="recruit-form.html" class="ver6-image-link recruit-image-link" aria-label="求人情報 フォームはこちらから">
             <img class="ver6-card-image" src="assets/images/recruit-ver6.png" alt="Chou Chou 求人情報">
         </a>
 
@@ -242,8 +242,8 @@
   </div>
 </div>
 
-<script type="module" src="assets/app.js?v=6.2.2"></script>
-<script type="module" src="assets/cast.js?v=6.2.2"></script>
+<script type="module" src="assets/app.js?v=6.3.1"></script>
+<script type="module" src="assets/cast.js?v=6.3.1"></script>
 <script type="module" src="assets/js/news.js"></script>
 <script type="module" src="assets/gallery.js"></script>
 

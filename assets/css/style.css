@@ -6939,3 +6939,312 @@ body:not(.cast-detail-page) .today-cast .public-cast-badges img.premium-cast-bad
         margin-left:0 !important;
     }
 }
+
+/* Ver6.3 pink card, badge, form, and translation polish */
+body:not(.cast-detail-page){
+    background:
+        radial-gradient(circle at 16% 12%,rgba(255,255,255,.86) 0 1px,transparent 4px),
+        radial-gradient(circle at 78% 26%,rgba(255,180,215,.42) 0 1px,transparent 5px),
+        linear-gradient(180deg,#fff4fa 0%,#ffe4f1 46%,#fff8fc 100%) !important;
+}
+
+body:not(.cast-detail-page) .princess-home{
+    background:
+        linear-gradient(90deg,rgba(236,97,158,.08) 0 1px,transparent 1px),
+        linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,221,239,.24)) !important;
+    background-size:56px 100%,100% 100% !important;
+}
+
+body:not(.cast-detail-page) .princess-card{
+    position:relative !important;
+    padding:34px 30px !important;
+    border:1px solid rgba(229,117,174,.46) !important;
+    border-radius:28px !important;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,246,251,.66)),
+        radial-gradient(circle at 50% 0%,rgba(255,184,218,.28),transparent 36%) !important;
+    box-shadow:
+        0 22px 48px rgba(180,65,122,.14),
+        inset 0 0 0 1px rgba(255,255,255,.84) !important;
+    backdrop-filter:blur(12px) saturate(118%) !important;
+    -webkit-backdrop-filter:blur(12px) saturate(118%) !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) .princess-card::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:16px !important;
+    border:2px dashed rgba(224,140,182,.34) !important;
+    border-radius:22px !important;
+    background:transparent !important;
+    pointer-events:none !important;
+    z-index:0 !important;
+}
+
+body:not(.cast-detail-page) #concept.princess-card::before,
+body:not(.cast-detail-page) #system.princess-card::before,
+body:not(.cast-detail-page) #recruit.princess-card::before{
+    content:"" !important;
+    display:block !important;
+    position:absolute !important;
+    inset:16px !important;
+    border:2px dashed rgba(224,140,182,.34) !important;
+    border-radius:22px !important;
+    background:transparent !important;
+    pointer-events:none !important;
+    z-index:1 !important;
+}
+
+body:not(.cast-detail-page) .princess-card::after{
+    content:"" !important;
+    position:absolute !important;
+    top:-1px !important;
+    left:50% !important;
+    width:120px !important;
+    height:26px !important;
+    border-radius:0 0 999px 999px !important;
+    background:
+        radial-gradient(circle at 50% 64%,rgba(255,255,255,.92) 0 4px,transparent 5px),
+        linear-gradient(90deg,#d63f8a,#ffd1e6 45%,#b92f76) !important;
+    box-shadow:0 8px 18px rgba(193,55,119,.16) !important;
+    transform:translateX(-50%) !important;
+    pointer-events:none !important;
+    z-index:1 !important;
+}
+
+body:not(.cast-detail-page) #concept.princess-card::after,
+body:not(.cast-detail-page) #system.princess-card::after,
+body:not(.cast-detail-page) #recruit.princess-card::after{
+    content:"" !important;
+    display:block !important;
+}
+
+body:not(.cast-detail-page) .princess-card > *,
+body:not(.cast-detail-page) .princess-card .section-title,
+body:not(.cast-detail-page) .princess-card .princess-card-action{
+    position:relative !important;
+    z-index:2 !important;
+}
+
+body:not(.cast-detail-page) .section-title{
+    margin-bottom:24px !important;
+}
+
+body:not(.cast-detail-page) .section-title span{
+    color:#d85c9b !important;
+    letter-spacing:.04em !important;
+}
+
+body:not(.cast-detail-page) .section-title span::before,
+body:not(.cast-detail-page) .section-title span::after{
+    content:"";
+    display:inline-block;
+    width:8px;
+    height:8px;
+    margin:0 10px;
+    background:#e880b3;
+    clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);
+    vertical-align:middle;
+}
+
+body:not(.cast-detail-page) .section-title h1,
+body:not(.cast-detail-page) .section-title h2{
+    color:#6f3550 !important;
+    text-shadow:0 2px 0 rgba(255,255,255,.72) !important;
+}
+
+body:not(.cast-detail-page) .reserve-btn,
+body:not(.cast-detail-page) .recruit-form button.reserve-btn{
+    border:2px solid rgba(255,255,255,.86) !important;
+    border-radius:999px !important;
+    background:linear-gradient(135deg,#ff8cc2 0%,#e24f99 52%,#b72d78 100%) !important;
+    box-shadow:0 12px 24px rgba(195,50,119,.25), inset 0 0 0 1px rgba(255,255,255,.28) !important;
+}
+
+body:not(.cast-detail-page) .access-details p,
+body:not(.cast-detail-page) .princess-info-list p{
+    border:1px solid rgba(230,171,201,.5) !important;
+    border-radius:18px !important;
+    background:rgba(255,255,255,.72) !important;
+    box-shadow:0 10px 22px rgba(169,67,118,.08) !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges,
+body:not(.cast-detail-page) .cast-badge-layer,
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge,
+body:not(.cast-detail-page) .premium-cast-badge,
+body:not(.cast-detail-page) .premium-cast-badge::before,
+body:not(.cast-detail-page) .premium-cast-badge::after,
+body:not(.cast-detail-page) .premium-cast-badge-img,
+body:not(.cast-detail-page) .public-cast-badges img{
+    background:transparent !important;
+    background-color:transparent !important;
+    background-image:none !important;
+    border:0 !important;
+    box-shadow:none !important;
+    filter:none !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges,
+body:not(.cast-detail-page) .cast-badge-layer,
+body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges{
+    top:3px !important;
+    left:3px !important;
+    right:auto !important;
+    align-items:flex-start !important;
+    gap:1px !important;
+    overflow:visible !important;
+}
+
+body:not(.cast-detail-page) .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new{
+    margin-left:0 !important;
+    transform:translateX(0) !important;
+}
+
+body:not(.cast-detail-page) .premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+    margin-left:0 !important;
+    transform:translateX(-6px) !important;
+}
+
+.recruit-form-page{
+    width:min(100%,980px);
+    margin:128px auto 70px;
+    padding:0 18px;
+}
+
+.recruit-form-card{
+    min-height:0 !important;
+}
+
+.recruit-form-lead{
+    max-width:680px;
+    margin:0 auto 28px;
+    color:#70425b;
+    text-align:center;
+    line-height:1.9;
+}
+
+.recruit-form{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+}
+
+.recruit-form label{
+    display:grid;
+    gap:8px;
+    color:#783b57;
+    font-weight:700;
+}
+
+.recruit-form input,
+.recruit-form select,
+.recruit-form textarea{
+    width:100%;
+    min-height:48px;
+    padding:12px 14px;
+    border:1px solid rgba(226,137,181,.48);
+    border-radius:14px;
+    background:rgba(255,255,255,.78);
+    color:#5f334a;
+    font:inherit;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.recruit-form textarea{
+    resize:vertical;
+}
+
+.recruit-form input:focus,
+.recruit-form select:focus,
+.recruit-form textarea:focus{
+    outline:3px solid rgba(235,126,180,.22);
+    border-color:#df6fa9;
+}
+
+.recruit-form-wide,
+.recruit-form-actions{
+    grid-column:1 / -1;
+}
+
+.recruit-form-actions{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    margin-top:12px;
+}
+
+.recruit-form-status{
+    color:#72455d;
+    font-weight:700;
+}
+
+.recruit-form-status[data-type="success"]{
+    color:#2f9d63;
+}
+
+.recruit-form-status[data-type="error"]{
+    color:#d64f67;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-card{
+        padding:28px 18px !important;
+        border-radius:24px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card::before{
+        inset:10px !important;
+        border-radius:18px !important;
+    }
+
+    body:not(.cast-detail-page) .premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended{
+        transform:translateX(-4px) !important;
+    }
+
+    .recruit-form-page{
+        margin:96px auto 46px;
+        padding:0 14px;
+    }
+
+    .recruit-form{
+        grid-template-columns:1fr;
+    }
+}
+
+/* Ver6.3 final visual badge alignment */
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .all-cast-grid .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .today-cast .public-cast-badges .premium-cast-badge-recommended{
+    margin-left:0 !important;
+    transform:translateX(-6px) !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-new,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .all-cast-grid .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .today-cast .public-cast-badges .premium-cast-badge-new{
+    margin-left:0 !important;
+    transform:translateX(0) !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-recommended,
+    body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-recommended,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge-recommended,
+    body:not(.cast-detail-page) .all-cast-grid .public-cast-badges .premium-cast-badge-recommended,
+    body:not(.cast-detail-page) .today-cast .public-cast-badges .premium-cast-badge-recommended{
+        transform:translateX(-4px) !important;
+    }
+}

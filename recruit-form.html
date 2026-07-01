@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>応募フォーム｜Chou Chou</title>
+
+    <meta name="description" content="Chou Chou キャスト応募フォーム">
+
+    <link rel="stylesheet" href="assets/css/style.css?v=6.3.1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <a href="index.html" class="logo">Chou Chou</a>
+
+        <nav class="nav">
+            <a href="index.html"><span data-i18n="nav.home">ホーム</span><small>HOME</small></a>
+            <a href="index.html#cast-list"><span data-i18n="nav.cast">キャスト</span><small>CAST</small></a>
+            <a href="index.html#cast"><span data-i18n="nav.schedule">出勤情報</span><small>SCHEDULE</small></a>
+            <a href="index.html#system"><span data-i18n="nav.system">料金システム</span><small>SYSTEM</small></a>
+            <a href="index.html#gallery"><span data-i18n="nav.gallery">ギャラリー</span><small>GALLERY</small></a>
+            <a href="index.html#access"><span data-i18n="nav.access">アクセス</span><small>ACCESS</small></a>
+            <a href="index.html#recruit"><span data-i18n="nav.recruit">求人情報</span><small>RECRUIT</small></a>
+            <a href="index.html#contact"><span data-i18n="nav.contact">お問い合わせ</span><small>CONTACT</small></a>
+        </nav>
+
+        <div class="language-switch" aria-label="Language">
+            <button type="button" data-lang="ja" class="is-active">JP</button>
+            <button type="button" data-lang="en">EN</button>
+            <button type="button" data-lang="zh">中文</button>
+        </div>
+    </div>
+</header>
+
+<main class="recruit-form-page">
+    <section class="princess-card recruit-form-card">
+        <div class="section-title">
+            <span data-i18n="recruit.form.eyebrow">Recruit Entry</span>
+            <h1 data-i18n="recruit.form.title">応募フォーム</h1>
+        </div>
+
+        <p class="recruit-form-lead" data-i18n="recruit.form.lead">
+            Chou Chouで働いてみたい方は、下記フォームよりお気軽にご応募ください。
+        </p>
+
+        <form id="recruitApplicationForm" class="recruit-form">
+            <label>
+                <span data-i18n="form.name">名前</span>
+                <input type="text" name="name" required autocomplete="name">
+            </label>
+
+            <label>
+                <span data-i18n="form.age">年齢</span>
+                <input type="number" name="age" min="18" max="60" required inputmode="numeric">
+            </label>
+
+            <label>
+                <span data-i18n="form.phone">電話番号</span>
+                <input type="tel" name="phone" required autocomplete="tel">
+            </label>
+
+            <label>
+                <span data-i18n="form.lineId">LINE ID</span>
+                <input type="text" name="lineId" autocomplete="off">
+            </label>
+
+            <label>
+                <span data-i18n="form.workDays">希望勤務日</span>
+                <input type="text" name="workDays" placeholder="例：週3日 / 金土希望" data-i18n-placeholder="form.workDays.placeholder">
+            </label>
+
+            <label>
+                <span data-i18n="form.experience">経験有無</span>
+                <select name="experience" required>
+                    <option value="" data-i18n="form.select">選択してください</option>
+                    <option value="あり" data-i18n="form.experience.yes">あり</option>
+                    <option value="なし" data-i18n="form.experience.no">なし</option>
+                </select>
+            </label>
+
+            <label class="recruit-form-wide">
+                <span data-i18n="form.message">メッセージ</span>
+                <textarea name="message" rows="6"></textarea>
+            </label>
+
+            <div class="recruit-form-actions">
+                <button type="submit" class="reserve-btn" data-i18n="form.submit">送信する</button>
+                <p id="recruitFormStatus" class="recruit-form-status" aria-live="polite"></p>
+            </div>
+        </form>
+    </section>
+</main>
+
+<script type="module" src="assets/app.js?v=6.3.1"></script>
+<script type="module" src="assets/recruit-form.js?v=6.3.1"></script>
+
+</body>
+
+</html>

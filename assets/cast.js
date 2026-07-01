@@ -303,7 +303,7 @@ div.innerHTML = `
     </p>
 
     <p class="cast-time public-cast-schedule">
-      出勤：${escapeHtml(formatSchedule(cast, todayCast.time))}
+      <span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast, todayCast.time))}
     </p>
 
     ${tagsMarkup}
@@ -312,7 +312,7 @@ div.innerHTML = `
 class="reserve-btn public-profile-link"
 href="${detailUrl}"
 aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
-詳細
+<span data-i18n="button.detail">詳細</span>
 </a>
 
   </div>
@@ -330,7 +330,7 @@ console.log("追加", cast.name);
   if(renderedCount === 0){
 
   list.innerHTML = `
-    <p class="no-cast today-cast-empty">
+    <p class="no-cast today-cast-empty" data-i18n="today.empty">
       本日の出勤情報はありません
     </p>
   `;
@@ -412,7 +412,7 @@ ${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatCup(cast))} / ${escapeHt
 </p>
 
 <p class="cast-time public-cast-schedule">
-出勤：${escapeHtml(formatSchedule(cast))}
+<span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast))}
 </p>
 
 ${tagsMarkup}
@@ -421,7 +421,7 @@ ${tagsMarkup}
 class="reserve-btn public-profile-link"
 href="${detailUrl}"
 aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
-${detailLabel}
+<span data-i18n="${isLimitedList ? "button.detail" : "button.profile"}">${detailLabel}</span>
 </a>
 
 </div>
