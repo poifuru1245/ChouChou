@@ -1085,6 +1085,421 @@ margin:auto;
     }
 }
 
+/* =========================================================
+   ChouChou Ver7 Premium Finish
+   ========================================================= */
+body:not(.cast-detail-page){
+    overflow-x:hidden !important;
+    background:
+        radial-gradient(circle at 18% 8%,rgba(255,255,255,.86),transparent 22%),
+        radial-gradient(circle at 82% 18%,rgba(255,210,232,.72),transparent 25%),
+        linear-gradient(180deg,#fff7fb 0%,#ffeaf4 48%,#fff8fc 100%) !important;
+}
+
+body:not(.cast-detail-page) .princess-home{
+    width:min(100%,1500px) !important;
+    margin:0 auto !important;
+    padding:58px clamp(16px,3vw,42px) 80px !important;
+}
+
+body:not(.cast-detail-page) .princess-card-grid,
+body:not(.cast-detail-page) .princess-card-grid-top,
+body:not(.cast-detail-page) .princess-card-grid-middle,
+body:not(.cast-detail-page) .princess-card-grid-bottom{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    align-items:stretch !important;
+    gap:26px !important;
+    width:100% !important;
+    margin:0 0 26px !important;
+}
+
+body:not(.cast-detail-page) .princess-card-grid-top > .princess-card{
+    min-height:610px !important;
+    height:610px !important;
+}
+
+body:not(.cast-detail-page) .princess-card-grid-middle > .princess-card{
+    min-height:690px !important;
+    height:690px !important;
+}
+
+body:not(.cast-detail-page) .princess-card-grid-bottom > .princess-card{
+    min-height:560px !important;
+    height:560px !important;
+}
+
+body:not(.cast-detail-page) .princess-card{
+    position:relative !important;
+    isolation:isolate !important;
+    display:flex !important;
+    flex-direction:column !important;
+    min-width:0 !important;
+    padding:30px 26px !important;
+    border:1px solid rgba(229,143,185,.5) !important;
+    border-radius:30px !important;
+    background:
+        linear-gradient(160deg,rgba(255,255,255,.83),rgba(255,238,247,.72)),
+        radial-gradient(circle at 12% 5%,rgba(255,255,255,.95),transparent 28%) !important;
+    box-shadow:
+        0 24px 52px rgba(166,58,115,.13),
+        inset 0 1px 0 rgba(255,255,255,.9) !important;
+    backdrop-filter:blur(16px) saturate(1.1) !important;
+    -webkit-backdrop-filter:blur(16px) saturate(1.1) !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) .princess-card::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:13px !important;
+    z-index:-1 !important;
+    border:1px dashed rgba(216,101,160,.34) !important;
+    border-radius:22px !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-card::after{
+    content:"✦ ♡" !important;
+    position:absolute !important;
+    top:12px !important;
+    right:20px !important;
+    z-index:0 !important;
+    color:rgba(219,82,151,.36) !important;
+    font-size:18px !important;
+    letter-spacing:5px !important;
+    text-shadow:0 0 14px rgba(255,255,255,.95) !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .section-title{
+    flex:0 0 auto !important;
+    margin:0 0 20px !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) .section-title span{
+    color:#de5798 !important;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+    font-size:20px !important;
+    font-weight:700 !important;
+    letter-spacing:.08em !important;
+}
+
+body:not(.cast-detail-page) .section-title h2{
+    color:#5e3048 !important;
+    font-size:clamp(24px,2vw,34px) !important;
+    line-height:1.2 !important;
+    margin:6px 0 0 !important;
+}
+
+body:not(.cast-detail-page) .section-title h2::after{
+    content:"" !important;
+    display:block !important;
+    width:52px !important;
+    height:1px !important;
+    margin:14px auto 0 !important;
+    background:linear-gradient(90deg,transparent,#e27cac,transparent) !important;
+}
+
+body:not(.cast-detail-page) .princess-card-action,
+body:not(.cast-detail-page) .news-more,
+body:not(.cast-detail-page) .gallery-more{
+    margin-top:auto !important;
+    padding-top:18px !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) .reserve-btn,
+body:not(.cast-detail-page) .recruit-form button.reserve-btn{
+    position:relative !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-height:46px !important;
+    min-width:170px !important;
+    padding:12px 24px !important;
+    border:2px solid rgba(255,255,255,.92) !important;
+    border-radius:999px !important;
+    background:linear-gradient(135deg,#ff8abb 0%,#e84f98 52%,#c72f7d 100%) !important;
+    color:#fff !important;
+    box-shadow:0 12px 24px rgba(197,46,125,.26), inset 0 1px 0 rgba(255,255,255,.55) !important;
+    font-weight:800 !important;
+    text-decoration:none !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) .reserve-btn::after{
+    content:"" !important;
+    position:absolute !important;
+    inset:-40% auto -40% -70% !important;
+    width:48% !important;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.62),transparent) !important;
+    transform:skewX(-18deg) !important;
+    transition:left .55s ease !important;
+}
+
+body:not(.cast-detail-page) .today-schedule-list,
+body:not(.cast-detail-page) .public-news-list,
+body:not(.cast-detail-page) .all-cast-grid,
+body:not(.cast-detail-page) .public-gallery-grid,
+body:not(.cast-detail-page) .access-box,
+body:not(.cast-detail-page) .princess-info-list{
+    min-height:0 !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-list{
+    flex:1 1 auto !important;
+    overflow:auto !important;
+    padding:2px 2px 8px !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-item{
+    grid-template-columns:96px minmax(0,1fr) !important;
+    min-height:124px !important;
+    margin:0 !important;
+    border-color:rgba(231,124,178,.46) !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-photo{
+    width:96px !important;
+}
+
+body:not(.cast-detail-page) .public-news-list{
+    display:grid !important;
+    gap:12px !important;
+    flex:1 1 auto !important;
+    overflow:auto !important;
+}
+
+body:not(.cast-detail-page) .public-news-card{
+    border:1px solid rgba(235,157,196,.4) !important;
+    border-radius:18px !important;
+    background:rgba(255,255,255,.7) !important;
+    box-shadow:0 10px 20px rgba(169,66,122,.08) !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:14px !important;
+    flex:1 1 auto !important;
+    align-items:start !important;
+}
+
+body:not(.cast-detail-page) #cast-list .cast-card{
+    cursor:pointer !important;
+    min-width:0 !important;
+    border:1px solid rgba(234,151,192,.45) !important;
+    border-radius:22px !important;
+    background:rgba(255,255,255,.78) !important;
+    box-shadow:0 14px 28px rgba(165,58,114,.12) !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo{
+    aspect-ratio:4 / 5 !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-info{
+    padding:14px !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-info h3{
+    margin:0 0 8px !important;
+    color:#5f3049 !important;
+    font-size:21px !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-profile-line,
+body:not(.cast-detail-page) #cast-list .public-cast-schedule{
+    display:block !important;
+    margin:6px 0 !important;
+    color:#74435b !important;
+    font-size:13px !important;
+    font-weight:700 !important;
+    line-height:1.45 !important;
+}
+
+body:not(.cast-detail-page) .public-gallery-grid{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:14px !important;
+    flex:1 1 auto !important;
+    overflow:auto !important;
+}
+
+body:not(.cast-detail-page) .public-gallery-card,
+body:not(.cast-detail-page) .gallery-card{
+    border-radius:18px !important;
+    overflow:hidden !important;
+    border:1px solid rgba(255,255,255,.78) !important;
+    box-shadow:0 12px 24px rgba(110,54,88,.12) !important;
+}
+
+body:not(.cast-detail-page) .ver6-card-image,
+body:not(.cast-detail-page) .recruit-image-link img{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+}
+
+body:not(.cast-detail-page) #concept,
+body:not(.cast-detail-page) #recruit{
+    padding:0 !important;
+}
+
+body:not(.cast-detail-page) #access .access-box{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:14px !important;
+    flex:1 1 auto !important;
+}
+
+body:not(.cast-detail-page) #access .access-map iframe{
+    width:100% !important;
+    height:260px !important;
+    border:0 !important;
+    border-radius:20px !important;
+}
+
+body:not(.cast-detail-page) #access .access-details{
+    display:grid !important;
+    gap:10px !important;
+}
+
+body:not(.cast-detail-page) #access .access-details p,
+body:not(.cast-detail-page) .princess-info-list p{
+    display:grid !important;
+    grid-template-columns:auto minmax(0,1fr) !important;
+    gap:14px !important;
+    align-items:center !important;
+    margin:0 !important;
+    padding:13px 15px !important;
+    border:1px solid rgba(234,158,196,.44) !important;
+    border-radius:17px !important;
+    background:rgba(255,255,255,.68) !important;
+    color:#6d3b55 !important;
+}
+
+body:not(.cast-detail-page) .reveal-card{
+    opacity:1 !important;
+    transform:translateY(18px) scale(.992) !important;
+}
+
+body:not(.cast-detail-page) .reveal-card.is-visible{
+    opacity:1 !important;
+    transform:translateY(0) scale(1) !important;
+    transition:opacity .72s ease, transform .72s ease, box-shadow .25s ease !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges,
+body:not(.cast-detail-page) .cast-badge-layer{
+    left:4px !important;
+    top:4px !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:1px !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-new,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-recommended{
+    transform:translateX(-6px) !important;
+    margin:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new,
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .premium-cast-badge-img-new,
+body:not(.cast-detail-page) .premium-cast-badge-img-recommended{
+    width:42px !important;
+    height:auto !important;
+    margin:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    transform:none !important;
+}
+
+@media(hover:hover) and (pointer:fine){
+    body:not(.cast-detail-page) .princess-card,
+    body:not(.cast-detail-page) #cast-list .cast-card,
+    body:not(.cast-detail-page) #cast.today-cast .today-schedule-item{
+        transition:transform .28s ease, box-shadow .28s ease !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card:hover,
+    body:not(.cast-detail-page) #cast-list .cast-card:hover,
+    body:not(.cast-detail-page) #cast.today-cast .today-schedule-item:hover{
+        transform:translateY(-5px) !important;
+        box-shadow:0 30px 58px rgba(165,58,114,.18) !important;
+    }
+
+    body:not(.cast-detail-page) .reserve-btn:hover::after{
+        left:125% !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home{
+        padding:36px 14px 54px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card-grid,
+    body:not(.cast-detail-page) .princess-card-grid-top,
+    body:not(.cast-detail-page) .princess-card-grid-middle,
+    body:not(.cast-detail-page) .princess-card-grid-bottom{
+        grid-template-columns:1fr !important;
+        gap:18px !important;
+        margin-bottom:18px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card-grid-top > .princess-card,
+    body:not(.cast-detail-page) .princess-card-grid-middle > .princess-card,
+    body:not(.cast-detail-page) .princess-card-grid-bottom > .princess-card{
+        height:auto !important;
+        min-height:0 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-card{
+        padding:25px 18px !important;
+        border-radius:24px !important;
+    }
+
+    body:not(.cast-detail-page) #concept,
+    body:not(.cast-detail-page) #recruit{
+        padding:0 !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .all-cast-grid,
+    body:not(.cast-detail-page) .public-gallery-grid{
+        grid-template-columns:1fr !important;
+    }
+
+    body:not(.cast-detail-page) #cast.today-cast .today-schedule-item{
+        grid-template-columns:88px minmax(0,1fr) !important;
+        min-height:112px !important;
+    }
+
+    body:not(.cast-detail-page) #cast.today-cast .today-schedule-photo{
+        width:88px !important;
+    }
+
+    body:not(.cast-detail-page) #access .access-map iframe{
+        height:240px !important;
+    }
+
+    body:not(.cast-detail-page) .reserve-btn{
+        width:min(100%,280px) !important;
+    }
+}
+
 /* Ver6.5 strongest overrides for real rendered hero and badge classes */
 body:not(.cast-detail-page) .hero.premium-hero.luxury-hero.hero-princess-image.hero-ver6,
 body:not(.cast-detail-page) section.hero.premium-hero.luxury-hero.hero-princess-image.hero-ver6{

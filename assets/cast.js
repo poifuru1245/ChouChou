@@ -430,6 +430,7 @@ aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール
 </div>
 `;
 
+makePublicCastCardClickable(div, detailUrl);
 list.appendChild(div);
 
 });
@@ -797,6 +798,25 @@ card.classList.add("today-schedule-link");
 card.setAttribute("role","link");
 card.setAttribute("tabindex","0");
 card.addEventListener("click",()=>{
+  window.location.href = detailUrl;
+});
+card.addEventListener("keydown",(event)=>{
+  if(event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  window.location.href = detailUrl;
+});
+
+}
+
+function makePublicCastCardClickable(card, detailUrl){
+
+if(!card || !detailUrl) return;
+
+card.classList.add("public-cast-card-link");
+card.setAttribute("role","link");
+card.setAttribute("tabindex","0");
+card.addEventListener("click",(event)=>{
+  if(event.target.closest("a,button,input,select,textarea,label")) return;
   window.location.href = detailUrl;
 });
 card.addEventListener("keydown",(event)=>{

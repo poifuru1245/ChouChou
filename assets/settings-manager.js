@@ -7,6 +7,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const SITE_SETTINGS_FIELDS = [
+  "heroImageUrl",
   "webReservationUrl",
   "lineReservationUrl",
   "recruitUrl",
@@ -16,7 +17,9 @@ const SITE_SETTINGS_FIELDS = [
   "contactFormUrl",
   "instagramUrl",
   "xUrl",
-  "googleMapUrl"
+  "googleMapUrl",
+  "businessHours",
+  "closedDay"
 ];
 
 const settingsForm = document.getElementById("siteSettingsForm");

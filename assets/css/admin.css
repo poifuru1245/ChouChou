@@ -1615,6 +1615,32 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
   }
 }
 
+/* Ver7 admin settings polish */
+.settings-form{
+  max-width:1120px;
+}
+
+.settings-grid{
+  align-items:start;
+}
+
+.settings-grid label{
+  border:1px solid #f0c7da;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff,#fff6fb);
+  padding:14px;
+  box-shadow:0 8px 18px rgba(203,83,143,.08);
+}
+
+.settings-grid label span{
+  color:#743953;
+  font-weight:800;
+}
+
+.settings-grid input{
+  border-radius:12px;
+}
+
 /* === admin badge size align with public HP === */
 .admin-cast-card .premium-cast-badge-img,
 .cast-admin-card .premium-cast-badge-img,

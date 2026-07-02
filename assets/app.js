@@ -688,7 +688,7 @@ function setupPublicLanguageSwitch() {
 
 async function setupSiteSettings() {
   const configurableElements = document.querySelectorAll(
-    "[data-site-link], [data-site-phone], [data-site-map-embed]"
+    "[data-site-link], [data-site-phone], [data-site-map-embed], [data-site-hero-image], [data-site-business-hours], [data-site-closed-day]"
   );
 
   if (!configurableElements.length) return;
@@ -705,6 +705,9 @@ async function setupSiteSettings() {
     applySiteLink("xUrl", settings.xUrl);
     applyPhoneLink(settings.phoneNumber);
     applyGoogleMap(settings.googleMapUrl);
+    applyHeroImage(settings.heroImageUrl);
+    applyTextSetting("[data-site-business-hours]", settings.businessHours);
+    applyTextSetting("[data-site-closed-day]", settings.closedDay);
   } catch (error) {
     console.error("サイト設定読み込み失敗", error);
   }
@@ -748,6 +751,26 @@ function applyGoogleMap(value) {
 
   document.querySelectorAll("[data-site-map-embed]").forEach((iframe) => {
     iframe.setAttribute("src", toGoogleMapEmbedUrl(mapUrl));
+  });
+}
+
+function applyHeroImage(value) {
+  const imageUrl = normalizeSiteUrl(value);
+
+  if (!imageUrl) return;
+
+  document.querySelectorAll("[data-site-hero-image]").forEach((image) => {
+    image.setAttribute("src", imageUrl);
+  });
+}
+
+function applyTextSetting(selector, value) {
+  const text = String(value || "").trim();
+
+  if (!text) return;
+
+  document.querySelectorAll(selector).forEach((element) => {
+    element.textContent = text;
   });
 }
 
