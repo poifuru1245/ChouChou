@@ -34,6 +34,7 @@ let scheduleState = new Map();
 let dirtyCells = new Set();
 let selectedCellKey = "";
 let copiedCellValue = null;
+let dragCopyState = null;
 
 async function loadSchedule() {
   const wrap = document.getElementById("scheduleList");
@@ -238,6 +239,7 @@ function createScheduleCell(cast, date) {
         data-date="${escapeAttribute(date)}"
         aria-label="${escapeAttribute(cast.name || "")} ${escapeAttribute(date)} の出勤時間">
         <span>${escapeHtml(getCellDisplay(state.start, state.end))}</span>
+        <i class="schedule-fill-handle" aria-hidden="true"></i>
       </button>
     </td>
   `;
@@ -286,6 +288,9 @@ function bindScheduleEvents() {
   document.querySelectorAll(".schedule-cell").forEach((cell) => {
     cell.addEventListener("click", handleCellClick);
   });
+  document.querySelectorAll(".schedule-fill-handle").forEach((handle) => {
+    handle.addEventListener("pointerdown", startDragCopy);
+  });
 
   document.getElementById("saveAllSchedules")?.addEventListener("click", saveDirtySchedules);
   document.getElementById("castSearchInput")?.addEventListener("input", updateVisibleRows);
@@ -314,6 +319,8 @@ function bindScheduleEvents() {
 }
 
 function handleCellClick(event) {
+  if (event.target.closest(".schedule-fill-handle")) return;
+
   const cell = event.currentTarget;
   const key = cell.dataset.cellKey || "";
 
@@ -385,6 +392,146 @@ function renderCell(key) {
 
   cell.className = `schedule-cell ${getCellClass(state.status)}${dirtyCells.has(key) ? " is-dirty" : ""}${selectedCellKey === key ? " is-selected" : ""}`;
   cell.querySelector("span").textContent = getCellDisplay(state.start, state.end);
+}
+
+function startDragCopy(event) {
+  if (event.pointerType && event.pointerType !== "mouse") return;
+
+  const cell = event.currentTarget.closest(".schedule-cell");
+  const key = cell?.dataset.cellKey || "";
+  const state = scheduleState.get(key);
+  const position = getCellPosition(key);
+
+  if (!cell || !state || !position) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  selectedCellKey = key;
+  markSelectedCell(key);
+  closeEditor();
+
+  dragCopyState = {
+    sourceKey: key,
+    sourceStart: state.start,
+    sourceEnd: state.end,
+    startCastIndex: position.castIndex,
+    startDateIndex: position.dateIndex,
+    targetCastIndex: position.castIndex,
+    targetDateIndex: position.dateIndex,
+    copiedKeys: new Set([key]),
+    moved: false
+  };
+
+  document.body.classList.add("is-schedule-drag-copying");
+  cell.classList.add("is-drag-source");
+
+  document.addEventListener("pointermove", handleDragCopyMove);
+  document.addEventListener("pointerup", finishDragCopy, { once: true });
+}
+
+function handleDragCopyMove(event) {
+  if (!dragCopyState) return;
+
+  const target = document.elementFromPoint(event.clientX, event.clientY)?.closest(".schedule-cell");
+  const targetKey = target?.dataset.cellKey || "";
+  const position = getCellPosition(targetKey);
+
+  if (!position) return;
+
+  dragCopyState.targetCastIndex = position.castIndex;
+  dragCopyState.targetDateIndex = position.dateIndex;
+  dragCopyState.moved = dragCopyState.moved || targetKey !== dragCopyState.sourceKey;
+  updateDragCopyPreview();
+}
+
+function finishDragCopy() {
+  if (!dragCopyState) return;
+
+  document.removeEventListener("pointermove", handleDragCopyMove);
+
+  const keys = [...dragCopyState.copiedKeys].filter((key) => key !== dragCopyState.sourceKey);
+  const sourceStart = dragCopyState.sourceStart;
+  const sourceEnd = dragCopyState.sourceEnd;
+
+  if (dragCopyState.moved && keys.length > 0) {
+    keys.forEach((key) => {
+      updateCellState(key, sourceStart, sourceEnd);
+    });
+    updateVisibleRows();
+    renderHeaderCounts();
+  }
+
+  clearDragCopyPreview();
+  dragCopyState = null;
+}
+
+function updateDragCopyPreview() {
+  if (!dragCopyState) return;
+
+  clearDragCopyPreview(false);
+
+  const keys = getCellKeysInRange(
+    dragCopyState.startCastIndex,
+    dragCopyState.startDateIndex,
+    dragCopyState.targetCastIndex,
+    dragCopyState.targetDateIndex
+  );
+
+  dragCopyState.copiedKeys = new Set(keys);
+
+  keys.forEach((key) => {
+    const cell = document.querySelector(`.schedule-cell[data-cell-key="${cssEscape(key)}"]`);
+    if (!cell) return;
+    cell.classList.add(key === dragCopyState.sourceKey ? "is-drag-source" : "is-drag-target");
+  });
+}
+
+function clearDragCopyPreview(shouldClearBody = true) {
+  document.querySelectorAll(".schedule-cell.is-drag-source, .schedule-cell.is-drag-target").forEach((cell) => {
+    cell.classList.remove("is-drag-source", "is-drag-target");
+  });
+
+  if (shouldClearBody) {
+    document.body.classList.remove("is-schedule-drag-copying");
+  }
+}
+
+function getCellKeysInRange(startCastIndex, startDateIndex, targetCastIndex, targetDateIndex) {
+  const minCast = Math.min(startCastIndex, targetCastIndex);
+  const maxCast = Math.max(startCastIndex, targetCastIndex);
+  const minDate = Math.min(startDateIndex, targetDateIndex);
+  const maxDate = Math.max(startDateIndex, targetDateIndex);
+  const keys = [];
+
+  for (let castIndex = minCast; castIndex <= maxCast; castIndex += 1) {
+    const cast = casts[castIndex];
+    if (!cast) continue;
+
+    for (let dateIndex = minDate; dateIndex <= maxDate; dateIndex += 1) {
+      const date = dates[dateIndex];
+      if (!date) continue;
+      keys.push(createCellKey(cast.id, date.value));
+    }
+  }
+
+  return keys;
+}
+
+function getCellPosition(key) {
+  const state = scheduleState.get(key);
+
+  if (!state) return null;
+
+  const castIndex = casts.findIndex((cast) => cast.id === state.castId);
+  const dateIndex = dates.findIndex((date) => date.value === state.date);
+
+  if (castIndex < 0 || dateIndex < 0) return null;
+
+  return {
+    castIndex,
+    dateIndex
+  };
 }
 
 function markSelectedCell(key) {
