@@ -114,45 +114,65 @@ function renderScheduleAdmin() {
             変更をまとめて保存
           </button>
           <span id="dirtyCount" class="schedule-dirty-count">変更 0件</span>
+          <span id="copyStatus" class="schedule-copy-status" hidden></span>
         </div>
       </div>
 
       <div class="schedule-excel-tools">
-        <label class="schedule-tool-field">
-          <span>キャスト検索</span>
-          <input type="search" id="castSearchInput" placeholder="名前で検索">
-        </label>
+        <div class="schedule-filter-panel">
+          <label class="schedule-tool-field">
+            <span>キャスト検索</span>
+            <input type="search" id="castSearchInput" placeholder="名前で検索">
+          </label>
 
-        <label class="schedule-tool-field">
-          <span>表示</span>
-          <select id="scheduleFilterSelect">
-            <option value="all">すべて</option>
-            <option value="empty">未入力だけ</option>
-            <option value="working">出勤だけ</option>
-            <option value="off">休みだけ</option>
-          </select>
-        </label>
-
-        <div class="schedule-copy-group">
-          <span>日付コピー</span>
-          <select id="copyDateFrom">${dates.map((date) => `<option value="${date.value}">${escapeHtml(date.shortLabel)}</option>`).join("")}</select>
-          <span>→</span>
-          <select id="copyDateTo">${dates.map((date) => `<option value="${date.value}">${escapeHtml(date.shortLabel)}</option>`).join("")}</select>
-          <button type="button" id="copyDateButton">コピー</button>
+          <label class="schedule-tool-field">
+            <span>表示</span>
+            <select id="scheduleFilterSelect">
+              <option value="all">すべて</option>
+              <option value="empty">未入力だけ</option>
+              <option value="working">出勤だけ</option>
+              <option value="off">休みだけ</option>
+            </select>
+          </label>
         </div>
 
-        <div class="schedule-copy-group">
-          <span>キャストコピー</span>
-          <select id="copyCastFrom">${casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join("")}</select>
-          <span>→</span>
-          <select id="copyCastTo">${casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join("")}</select>
-          <button type="button" id="copyCastButton">コピー</button>
-        </div>
+        <div class="schedule-copy-panel" aria-label="コピー操作">
+          <h3>コピー操作</h3>
 
-        <div class="schedule-copy-group">
-          <span>セル単体コピー</span>
-          <button type="button" id="copySelectedCellButton">選択セルをコピー</button>
-          <button type="button" id="clearCopiedCellButton">解除</button>
+          <div class="schedule-copy-card">
+            <strong>日付コピー</strong>
+            <label class="schedule-tool-field">
+              <span>コピー元の日付</span>
+              <select id="copyDateFrom">${dates.map((date) => `<option value="${date.value}">${escapeHtml(date.shortLabel)}</option>`).join("")}</select>
+            </label>
+            <div class="schedule-copy-targets">
+              <span>コピー先の日付</span>
+              <div id="copyDateTargets" class="schedule-date-checkboxes">
+                ${createDateCheckboxes()}
+              </div>
+            </div>
+            <button type="button" id="copyDateButton">この日の全員分をコピー</button>
+          </div>
+
+          <div class="schedule-copy-card">
+            <strong>キャストコピー</strong>
+            <label class="schedule-tool-field">
+              <span>コピー元キャスト</span>
+              <select id="copyCastFrom">${casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join("")}</select>
+            </label>
+            <label class="schedule-tool-field">
+              <span>コピー先キャスト</span>
+              <select id="copyCastTo">${casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join("")}</select>
+            </label>
+            <button type="button" id="copyCastButton">このキャストの2週間分をコピー</button>
+          </div>
+
+          <div class="schedule-copy-card schedule-week-copy-card">
+            <strong>曜日コピー</strong>
+            <button type="button" id="copyFridayButton">今週の金曜を来週の金曜へコピー</button>
+            <button type="button" id="copySaturdayButton">今週の土曜を来週の土曜へコピー</button>
+            <button type="button" id="copyWeekButton">1週間分を翌週へコピー</button>
+          </div>
         </div>
       </div>
 
@@ -223,6 +243,15 @@ function createScheduleCell(cast, date) {
   `;
 }
 
+function createDateCheckboxes() {
+  return dates.map((date, index) => `
+    <label>
+      <input type="checkbox" value="${escapeAttribute(date.value)}" ${index === 1 ? "checked" : ""}>
+      <span>${escapeHtml(date.shortLabel)}</span>
+    </label>
+  `).join("");
+}
+
 function createEditorPanel() {
   return `
     <div id="scheduleEditorOverlay" class="schedule-editor-overlay" hidden>
@@ -242,6 +271,8 @@ function createEditorPanel() {
         </label>
 
         <div class="schedule-editor-buttons">
+          <button type="button" id="copyCurrentCellButton">このセルをコピー</button>
+          <button type="button" id="pasteCopiedCellButton">コピー中の内容をここに貼り付け</button>
           <button type="button" id="setCellOffButton">休み</button>
           <button type="button" id="setCellEmptyButton">未入力</button>
           <button type="button" id="saveCellButton" class="save-btn">セルに反映</button>
@@ -261,8 +292,9 @@ function bindScheduleEvents() {
   document.getElementById("scheduleFilterSelect")?.addEventListener("change", updateVisibleRows);
   document.getElementById("copyDateButton")?.addEventListener("click", copyDateSchedules);
   document.getElementById("copyCastButton")?.addEventListener("click", copyCastSchedules);
-  document.getElementById("copySelectedCellButton")?.addEventListener("click", copySelectedCell);
-  document.getElementById("clearCopiedCellButton")?.addEventListener("click", clearCopiedCell);
+  document.getElementById("copyFridayButton")?.addEventListener("click", () => copyWeekdayToNextWeek(5));
+  document.getElementById("copySaturdayButton")?.addEventListener("click", () => copyWeekdayToNextWeek(6));
+  document.getElementById("copyWeekButton")?.addEventListener("click", copyFirstWeekToSecondWeek);
   document.getElementById("closeScheduleEditor")?.addEventListener("click", closeEditor);
   document.getElementById("scheduleEditorOverlay")?.addEventListener("click", (event) => {
     if (event.target.id === "scheduleEditorOverlay") closeEditor();
@@ -275,21 +307,15 @@ function bindScheduleEvents() {
     document.getElementById("editorStartSelect").value = EMPTY_VALUE;
     document.getElementById("editorEndSelect").value = EMPTY_VALUE;
   });
+  document.getElementById("copyCurrentCellButton")?.addEventListener("click", copySelectedCell);
+  document.getElementById("pasteCopiedCellButton")?.addEventListener("click", pasteCopiedCellToCurrent);
   document.getElementById("saveCellButton")?.addEventListener("click", saveCurrentCell);
+  updateCopyStatus();
 }
 
 function handleCellClick(event) {
   const cell = event.currentTarget;
   const key = cell.dataset.cellKey || "";
-
-  if (copiedCellValue && selectedCellKey && key !== selectedCellKey) {
-    updateCellState(key, copiedCellValue.start, copiedCellValue.end);
-    selectedCellKey = key;
-    markSelectedCell(key);
-    updateVisibleRows();
-    renderHeaderCounts();
-    return;
-  }
 
   selectedCellKey = key;
   markSelectedCell(key);
@@ -307,6 +333,7 @@ function openEditor(key) {
   document.getElementById("scheduleEditorTarget").textContent = `${cast?.name || "名称未設定"} / ${date?.label || state.date}`;
   document.getElementById("editorStartSelect").value = normalizeTimeOption(state.start);
   document.getElementById("editorEndSelect").value = normalizeTimeOption(state.end);
+  document.getElementById("pasteCopiedCellButton").disabled = !copiedCellValue;
   overlay.hidden = false;
 }
 
@@ -448,15 +475,29 @@ async function saveDirtySchedules() {
 
 function copyDateSchedules() {
   const from = document.getElementById("copyDateFrom")?.value || "";
-  const to = document.getElementById("copyDateTo")?.value || "";
+  const targets = [...document.querySelectorAll("#copyDateTargets input:checked")]
+    .map((input) => input.value)
+    .filter((value) => value && value !== from);
 
-  if (!from || !to || from === to) return;
+  if (!from || targets.length === 0) {
+    alert("コピー先の日付を選択してください。");
+    return;
+  }
+
+  const fromLabel = getDateLabel(from);
+  const targetLabels = targets.map(getDateLabel).join("・");
+
+  if (!confirm(`${fromLabel}の全員分を${targetLabels}へコピーします。よろしいですか？`)) {
+    return;
+  }
 
   casts.forEach((cast) => {
     const fromState = scheduleState.get(createCellKey(cast.id, from));
-    const toKey = createCellKey(cast.id, to);
 
-    if (fromState) updateCellState(toKey, fromState.start, fromState.end);
+    targets.forEach((to) => {
+      const toKey = createCellKey(cast.id, to);
+      if (fromState) updateCellState(toKey, fromState.start, fromState.end);
+    });
   });
 
   updateVisibleRows();
@@ -468,6 +509,13 @@ function copyCastSchedules() {
   const to = document.getElementById("copyCastTo")?.value || "";
 
   if (!from || !to || from === to) return;
+
+  const fromCast = casts.find((cast) => cast.id === from);
+  const toCast = casts.find((cast) => cast.id === to);
+
+  if (!confirm(`${fromCast?.name || "コピー元"}の2週間分を${toCast?.name || "コピー先"}へコピーします。よろしいですか？`)) {
+    return;
+  }
 
   dates.forEach((date) => {
     const fromState = scheduleState.get(createCellKey(from, date.value));
@@ -493,12 +541,101 @@ function copySelectedCell() {
     end: state.end
   };
 
-  document.querySelector(".schedule-excel-page")?.classList.add("is-copying-cell");
+  updateCopyStatus();
+  document.getElementById("pasteCopiedCellButton")?.removeAttribute("disabled");
 }
 
-function clearCopiedCell() {
-  copiedCellValue = null;
-  document.querySelector(".schedule-excel-page")?.classList.remove("is-copying-cell");
+function pasteCopiedCellToCurrent() {
+  if (!selectedCellKey || !copiedCellValue) return;
+
+  const state = scheduleState.get(selectedCellKey);
+  const cast = casts.find((item) => item.id === state?.castId);
+  const date = dates.find((item) => item.value === state?.date);
+  const display = getCellDisplay(copiedCellValue.start, copiedCellValue.end);
+
+  if (!state) return;
+
+  if (!confirm(`${display}を${cast?.name || "選択セル"} / ${date?.shortLabel || state.date}へ貼り付けます。よろしいですか？`)) {
+    return;
+  }
+
+  updateCellState(selectedCellKey, copiedCellValue.start, copiedCellValue.end);
+  document.getElementById("editorStartSelect").value = normalizeTimeOption(copiedCellValue.start);
+  document.getElementById("editorEndSelect").value = normalizeTimeOption(copiedCellValue.end);
+  updateVisibleRows();
+  renderHeaderCounts();
+}
+
+function copyWeekdayToNextWeek(dayNumber) {
+  const fromDate = dates.slice(0, 7).find((date) => getDayNumber(date.value) === dayNumber);
+  const toDate = dates.slice(7).find((date) => getDayNumber(date.value) === dayNumber);
+
+  if (!fromDate || !toDate) {
+    alert("コピー対象の日付が見つかりません。");
+    return;
+  }
+
+  if (!confirm(`${fromDate.shortLabel}の全員分を${toDate.shortLabel}へコピーします。よろしいですか？`)) {
+    return;
+  }
+
+  copyOneDateToTargets(fromDate.value, [toDate.value]);
+}
+
+function copyFirstWeekToSecondWeek() {
+  const pairs = dates.slice(0, 7)
+    .map((fromDate, index) => ({
+      from: fromDate,
+      to: dates[index + 7]
+    }))
+    .filter((pair) => pair.to);
+
+  if (pairs.length === 0) return;
+
+  if (!confirm("1週間分のシフトを翌週へコピーします。よろしいですか？")) {
+    return;
+  }
+
+  pairs.forEach((pair) => {
+    copyOneDateToTargets(pair.from.value, [pair.to.value], false);
+  });
+
+  updateVisibleRows();
+  renderHeaderCounts();
+}
+
+function copyOneDateToTargets(from, targets, shouldRefresh = true) {
+  casts.forEach((cast) => {
+    const fromState = scheduleState.get(createCellKey(cast.id, from));
+
+    targets.forEach((to) => {
+      const toKey = createCellKey(cast.id, to);
+      if (fromState) updateCellState(toKey, fromState.start, fromState.end);
+    });
+  });
+
+  if (shouldRefresh) {
+    updateVisibleRows();
+    renderHeaderCounts();
+  }
+}
+
+function updateCopyStatus() {
+  const status = document.getElementById("copyStatus");
+  const page = document.querySelector(".schedule-excel-page");
+
+  if (!status) return;
+
+  if (!copiedCellValue) {
+    status.hidden = true;
+    status.textContent = "";
+    page?.classList.remove("is-copying-cell");
+    return;
+  }
+
+  status.hidden = false;
+  status.textContent = `コピー中：${getCellDisplay(copiedCellValue.start, copiedCellValue.end)}`;
+  page?.classList.add("is-copying-cell");
 }
 
 function updateVisibleRows() {
@@ -537,6 +674,15 @@ function getWorkingCount(date) {
     const state = scheduleState.get(createCellKey(cast.id, date));
     return state?.status === "working";
   }).length;
+}
+
+function getDateLabel(value) {
+  return dates.find((date) => date.value === value)?.shortLabel || value;
+}
+
+function getDayNumber(value) {
+  const date = new Date(`${value}T00:00:00+09:00`);
+  return date.getDay();
 }
 
 function getDateOptions() {
