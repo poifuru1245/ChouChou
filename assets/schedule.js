@@ -5,8 +5,7 @@ import {
   collection,
   getDocs,
   doc,
-  setDoc,
-  updateDoc,
+  writeBatch,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -21,19 +20,27 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 const DATE_RANGE_DAYS = 14;
+const OFF_VALUE = "__OFF__";
+const EMPTY_VALUE = "";
+const BATCH_LIMIT = 450;
 
 let casts = [];
 let schedules = [];
-let selectedDate = getTokyoDateKey();
+let dates = [];
+let scheduleState = new Map();
+let dirtyCells = new Set();
+let selectedCellKey = "";
+let copiedCellValue = null;
 
 async function loadSchedule() {
   const wrap = document.getElementById("scheduleList");
 
   if (!wrap) return;
 
-  wrap.innerHTML = "読み込み中...";
+  wrap.innerHTML = "<div class=\"schedule-loading\">読み込み中...</div>";
 
   const [castSnapshot, scheduleSnapshot] = await Promise.all([
     getDocs(collection(db, "casts")),
@@ -42,6 +49,7 @@ async function loadSchedule() {
 
   casts = [];
   schedules = [];
+  dates = getDateOptions();
 
   castSnapshot.forEach((item) => {
     casts.push({
@@ -62,142 +70,477 @@ async function loadSchedule() {
   });
 
   sortCastsByDisplayOrder(casts);
+  buildScheduleState();
   renderScheduleAdmin();
+}
+
+function buildScheduleState() {
+  scheduleState = new Map();
+
+  casts.forEach((cast) => {
+    dates.forEach((date) => {
+      const schedule = findScheduleForCast(date.value, cast);
+      const timeParts = parseScheduleTime(schedule);
+      const key = createCellKey(cast.id, date.value);
+
+      scheduleState.set(key, {
+        id: schedule?.id || `${date.value}_${cast.id}`,
+        castId: cast.id,
+        castName: cast.name || "",
+        date: date.value,
+        start: timeParts.start,
+        end: timeParts.end,
+        status: getCellStatus(timeParts.start, timeParts.end),
+        originalStart: timeParts.start,
+        originalEnd: timeParts.end
+      });
+    });
+  });
 }
 
 function renderScheduleAdmin() {
   const wrap = document.getElementById("scheduleList");
-  const dateOptions = getDateOptions();
-
-  if (!dateOptions.some((date) => date.value === selectedDate)) {
-    selectedDate = dateOptions[0]?.value || getTokyoDateKey();
-  }
 
   wrap.innerHTML = `
-    <div class="schedule-admin-toolbar">
-      <label>
-        <span>日付</span>
-        <select id="scheduleDateSelect" class="schedule-date-select">
-          ${dateOptions.map((date) => `
-            <option value="${date.value}" ${date.value === selectedDate ? "selected" : ""}>
-              ${date.label}
-            </option>
-          `).join("")}
-        </select>
-      </label>
-      <p>今日から2週間分の出勤を登録・編集できます。</p>
-    </div>
+    <div class="schedule-excel-page">
+      <div class="schedule-excel-toolbar">
+        <div class="schedule-excel-title">
+          <h2>2週間シフト表</h2>
+          <p>セルをクリックして編集し、変更をまとめてFirestoreへ保存します。</p>
+        </div>
 
-    <div class="schedule-admin-list">
-      ${casts.map((cast) => createScheduleCard(cast)).join("")}
-    </div>
-  `;
-
-  wrap.querySelector("#scheduleDateSelect")?.addEventListener("change", (event) => {
-    selectedDate = event.target.value;
-    renderScheduleAdmin();
-  });
-
-  wrap.querySelectorAll(".save-btn").forEach((button) => {
-    button.addEventListener("click", () => saveSchedule(button.closest(".schedule-admin-card")));
-  });
-}
-
-function createScheduleCard(cast) {
-  const schedule = findScheduleForCast(selectedDate, cast);
-  const timeParts = parseScheduleTime(schedule);
-  const image = cast.image || getCastImages(cast)[0] || "";
-
-  return `
-    <div class="cast-card schedule-admin-card" data-cast-id="${escapeAttribute(cast.id)}">
-      <div class="schedule-admin-profile">
-        ${image ? `<img src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">` : `<div class="schedule-admin-no-image">NO IMAGE</div>`}
-        <div>
-          <h3>${escapeHtml(cast.name || "")}</h3>
-          <p>${escapeHtml(formatCastMeta(cast))}</p>
+        <div class="schedule-excel-actions">
+          <button type="button" id="saveAllSchedules" class="save-btn schedule-save-all">
+            変更をまとめて保存
+          </button>
+          <span id="dirtyCount" class="schedule-dirty-count">変更 0件</span>
         </div>
       </div>
 
-      <div class="schedule-admin-controls">
-        <label>
-          <span>開始</span>
-          <select class="schedule-start-select">
-            ${createTimeOptions(timeParts.start)}
+      <div class="schedule-excel-tools">
+        <label class="schedule-tool-field">
+          <span>キャスト検索</span>
+          <input type="search" id="castSearchInput" placeholder="名前で検索">
+        </label>
+
+        <label class="schedule-tool-field">
+          <span>表示</span>
+          <select id="scheduleFilterSelect">
+            <option value="all">すべて</option>
+            <option value="empty">未入力だけ</option>
+            <option value="working">出勤だけ</option>
+            <option value="off">休みだけ</option>
           </select>
         </label>
 
+        <div class="schedule-copy-group">
+          <span>日付コピー</span>
+          <select id="copyDateFrom">${dates.map((date) => `<option value="${date.value}">${escapeHtml(date.shortLabel)}</option>`).join("")}</select>
+          <span>→</span>
+          <select id="copyDateTo">${dates.map((date) => `<option value="${date.value}">${escapeHtml(date.shortLabel)}</option>`).join("")}</select>
+          <button type="button" id="copyDateButton">コピー</button>
+        </div>
+
+        <div class="schedule-copy-group">
+          <span>キャストコピー</span>
+          <select id="copyCastFrom">${casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join("")}</select>
+          <span>→</span>
+          <select id="copyCastTo">${casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join("")}</select>
+          <button type="button" id="copyCastButton">コピー</button>
+        </div>
+
+        <div class="schedule-copy-group">
+          <span>セル単体コピー</span>
+          <button type="button" id="copySelectedCellButton">選択セルをコピー</button>
+          <button type="button" id="clearCopiedCellButton">解除</button>
+        </div>
+      </div>
+
+      <div class="schedule-legend">
+        <span class="schedule-legend-item is-working">出勤</span>
+        <span class="schedule-legend-item is-off">休み</span>
+        <span class="schedule-legend-item is-empty">未入力</span>
+        <span class="schedule-legend-item is-dirty">編集済み</span>
+      </div>
+
+      <div class="schedule-excel-shell">
+        <table class="schedule-excel-table" aria-label="2週間シフト表">
+          <thead>
+            <tr>
+              <th class="schedule-cast-column">キャスト</th>
+              ${dates.map((date) => `
+                <th class="schedule-date-column" data-date="${escapeAttribute(date.value)}">
+                  <span>${escapeHtml(date.shortLabel)}</span>
+                  <small>出勤${getWorkingCount(date.value)}名</small>
+                </th>
+              `).join("")}
+            </tr>
+          </thead>
+          <tbody id="scheduleTableBody">
+            ${casts.map((cast) => createCastRow(cast)).join("")}
+          </tbody>
+        </table>
+      </div>
+
+      ${createEditorPanel()}
+    </div>
+  `;
+
+  bindScheduleEvents();
+  updateVisibleRows();
+  updateDirtyCount();
+}
+
+function createCastRow(cast) {
+  return `
+    <tr class="schedule-cast-row" data-cast-id="${escapeAttribute(cast.id)}" data-cast-name="${escapeAttribute(cast.name || "")}">
+      <th class="schedule-cast-column schedule-cast-name" scope="row">
+        <span>${escapeHtml(cast.name || "名称未設定")}</span>
+        <small>${escapeHtml(formatCastMeta(cast))}</small>
+      </th>
+      ${dates.map((date) => createScheduleCell(cast, date.value)).join("")}
+    </tr>
+  `;
+}
+
+function createScheduleCell(cast, date) {
+  const key = createCellKey(cast.id, date);
+  const state = scheduleState.get(key) || createEmptyCellState(cast, date);
+  const status = getCellStatus(state.start, state.end);
+
+  return `
+    <td>
+      <button
+        type="button"
+        class="schedule-cell ${getCellClass(status)}"
+        data-cell-key="${escapeAttribute(key)}"
+        data-cast-id="${escapeAttribute(cast.id)}"
+        data-date="${escapeAttribute(date)}"
+        aria-label="${escapeAttribute(cast.name || "")} ${escapeAttribute(date)} の出勤時間">
+        <span>${escapeHtml(getCellDisplay(state.start, state.end))}</span>
+      </button>
+    </td>
+  `;
+}
+
+function createEditorPanel() {
+  return `
+    <div id="scheduleEditorOverlay" class="schedule-editor-overlay" hidden>
+      <div class="schedule-editor-panel" role="dialog" aria-modal="true" aria-labelledby="scheduleEditorTitle">
+        <button type="button" id="closeScheduleEditor" class="schedule-editor-close" aria-label="閉じる">×</button>
+        <h3 id="scheduleEditorTitle">シフト編集</h3>
+        <p id="scheduleEditorTarget" class="schedule-editor-target"></p>
+
         <label>
-          <span>終了</span>
-          <select class="schedule-end-select">
-            ${createTimeOptions(timeParts.end)}
-          </select>
+          <span>開始時間</span>
+          <select id="editorStartSelect">${createTimeOptions(EMPTY_VALUE)}</select>
         </label>
 
-        <button class="save-btn" type="button">保存</button>
+        <label>
+          <span>終了時間</span>
+          <select id="editorEndSelect">${createTimeOptions(EMPTY_VALUE)}</select>
+        </label>
+
+        <div class="schedule-editor-buttons">
+          <button type="button" id="setCellOffButton">休み</button>
+          <button type="button" id="setCellEmptyButton">未入力</button>
+          <button type="button" id="saveCellButton" class="save-btn">セルに反映</button>
+        </div>
       </div>
     </div>
   `;
 }
 
-async function saveSchedule(card) {
-  if (!card) return;
-
-  const castId = card.dataset.castId || "";
-  const cast = casts.find((item) => item.id === castId);
-
-  if (!cast) return;
-
-  const start = card.querySelector(".schedule-start-select")?.value || "";
-  const end = card.querySelector(".schedule-end-select")?.value || "";
-  const time = formatScheduleTime(start, end);
-  const existing = findScheduleForCast(selectedDate, cast);
-  const scheduleId = existing?.id || `${selectedDate}_${cast.id}`;
-  const isOff = !time;
-
-  await setDoc(
-    doc(db, "schedules", scheduleId),
-    {
-      date: selectedDate,
-      dateKey: selectedDate,
-      castId: cast.id,
-      castName: cast.name || "",
-      start,
-      end,
-      time,
-      status: isOff ? "休み" : "出勤",
-      updatedAt: serverTimestamp()
-    },
-    { merge: true }
-  );
-
-  if (selectedDate === getTokyoDateKey()) {
-    await updateDoc(
-      doc(db, "casts", cast.id),
-      {
-        schedule: time
-      }
-    );
-  }
-
-  schedules = schedules.filter((schedule) => schedule.id !== scheduleId);
-  schedules.push({
-    id: scheduleId,
-    date: selectedDate,
-    dateKey: selectedDate,
-    castId: cast.id,
-    castName: cast.name || "",
-    start,
-    end,
-    time,
-    status: isOff ? "休み" : "出勤"
+function bindScheduleEvents() {
+  document.querySelectorAll(".schedule-cell").forEach((cell) => {
+    cell.addEventListener("click", handleCellClick);
   });
 
-  alert("保存しました");
-  renderScheduleAdmin();
+  document.getElementById("saveAllSchedules")?.addEventListener("click", saveDirtySchedules);
+  document.getElementById("castSearchInput")?.addEventListener("input", updateVisibleRows);
+  document.getElementById("scheduleFilterSelect")?.addEventListener("change", updateVisibleRows);
+  document.getElementById("copyDateButton")?.addEventListener("click", copyDateSchedules);
+  document.getElementById("copyCastButton")?.addEventListener("click", copyCastSchedules);
+  document.getElementById("copySelectedCellButton")?.addEventListener("click", copySelectedCell);
+  document.getElementById("clearCopiedCellButton")?.addEventListener("click", clearCopiedCell);
+  document.getElementById("closeScheduleEditor")?.addEventListener("click", closeEditor);
+  document.getElementById("scheduleEditorOverlay")?.addEventListener("click", (event) => {
+    if (event.target.id === "scheduleEditorOverlay") closeEditor();
+  });
+  document.getElementById("setCellOffButton")?.addEventListener("click", () => {
+    document.getElementById("editorStartSelect").value = OFF_VALUE;
+    document.getElementById("editorEndSelect").value = OFF_VALUE;
+  });
+  document.getElementById("setCellEmptyButton")?.addEventListener("click", () => {
+    document.getElementById("editorStartSelect").value = EMPTY_VALUE;
+    document.getElementById("editorEndSelect").value = EMPTY_VALUE;
+  });
+  document.getElementById("saveCellButton")?.addEventListener("click", saveCurrentCell);
+}
+
+function handleCellClick(event) {
+  const cell = event.currentTarget;
+  const key = cell.dataset.cellKey || "";
+
+  if (copiedCellValue && selectedCellKey && key !== selectedCellKey) {
+    updateCellState(key, copiedCellValue.start, copiedCellValue.end);
+    selectedCellKey = key;
+    markSelectedCell(key);
+    updateVisibleRows();
+    renderHeaderCounts();
+    return;
+  }
+
+  selectedCellKey = key;
+  markSelectedCell(key);
+  openEditor(key);
+}
+
+function openEditor(key) {
+  const overlay = document.getElementById("scheduleEditorOverlay");
+  const state = scheduleState.get(key);
+  const cast = casts.find((item) => item.id === state?.castId);
+  const date = dates.find((item) => item.value === state?.date);
+
+  if (!overlay || !state) return;
+
+  document.getElementById("scheduleEditorTarget").textContent = `${cast?.name || "名称未設定"} / ${date?.label || state.date}`;
+  document.getElementById("editorStartSelect").value = normalizeTimeOption(state.start);
+  document.getElementById("editorEndSelect").value = normalizeTimeOption(state.end);
+  overlay.hidden = false;
+}
+
+function closeEditor() {
+  const overlay = document.getElementById("scheduleEditorOverlay");
+  if (overlay) overlay.hidden = true;
+}
+
+function saveCurrentCell() {
+  if (!selectedCellKey) return;
+
+  const start = document.getElementById("editorStartSelect")?.value || EMPTY_VALUE;
+  const end = document.getElementById("editorEndSelect")?.value || EMPTY_VALUE;
+
+  updateCellState(selectedCellKey, start, end);
+  closeEditor();
+  updateVisibleRows();
+  renderHeaderCounts();
+}
+
+function updateCellState(key, rawStart, rawEnd) {
+  const state = scheduleState.get(key);
+
+  if (!state) return;
+
+  const isOff = rawStart === OFF_VALUE || rawEnd === OFF_VALUE;
+  const start = isOff ? OFF_VALUE : rawStart;
+  const end = isOff ? OFF_VALUE : rawEnd;
+
+  state.start = start;
+  state.end = end;
+  state.status = getCellStatus(start, end);
+
+  if (state.start === state.originalStart && state.end === state.originalEnd) {
+    dirtyCells.delete(key);
+  } else {
+    dirtyCells.add(key);
+  }
+
+  renderCell(key);
+  updateDirtyCount();
+}
+
+function renderCell(key) {
+  const state = scheduleState.get(key);
+  const cell = document.querySelector(`.schedule-cell[data-cell-key="${cssEscape(key)}"]`);
+
+  if (!state || !cell) return;
+
+  cell.className = `schedule-cell ${getCellClass(state.status)}${dirtyCells.has(key) ? " is-dirty" : ""}${selectedCellKey === key ? " is-selected" : ""}`;
+  cell.querySelector("span").textContent = getCellDisplay(state.start, state.end);
+}
+
+function markSelectedCell(key) {
+  document.querySelectorAll(".schedule-cell.is-selected").forEach((cell) => {
+    cell.classList.remove("is-selected");
+  });
+
+  document.querySelector(`.schedule-cell[data-cell-key="${cssEscape(key)}"]`)?.classList.add("is-selected");
+}
+
+async function saveDirtySchedules() {
+  const saveButton = document.getElementById("saveAllSchedules");
+  const keys = [...dirtyCells];
+  const today = getTokyoDateKey();
+
+  if (!keys.length) {
+    alert("保存する変更はありません。");
+    return;
+  }
+
+  try {
+    if (saveButton) {
+      saveButton.disabled = true;
+      saveButton.textContent = "保存中...";
+    }
+
+    for (let index = 0; index < keys.length; index += BATCH_LIMIT) {
+      const batchKeys = keys.slice(index, index + BATCH_LIMIT);
+      const batch = writeBatch(db);
+
+      batchKeys.forEach((key) => {
+        const state = scheduleState.get(key);
+        const cast = casts.find((item) => item.id === state?.castId);
+
+        if (!state || !cast) return;
+
+        const isOff = state.start === OFF_VALUE || state.end === OFF_VALUE;
+        const start = isOff ? "" : state.start;
+        const end = isOff ? "" : state.end;
+        const time = isOff ? "" : formatScheduleTime(start, end);
+        const status = isOff ? "休み" : time ? "出勤" : "未設定";
+        const payload = {
+          date: state.date,
+          dateKey: state.date,
+          castId: state.castId,
+          castName: cast.name || state.castName || "",
+          start,
+          end,
+          time,
+          status,
+          isOff,
+          updatedAt: serverTimestamp()
+        };
+
+        batch.set(doc(db, "schedules", state.id), payload, { merge: true });
+
+        if (state.date === today) {
+          batch.update(doc(db, "casts", state.castId), {
+            schedule: time
+          });
+        }
+      });
+
+      await batch.commit();
+    }
+
+    keys.forEach((key) => {
+      const state = scheduleState.get(key);
+      if (!state) return;
+      state.originalStart = state.start;
+      state.originalEnd = state.end;
+      renderCell(key);
+    });
+
+    dirtyCells.clear();
+    updateDirtyCount();
+    alert("変更を保存しました。");
+  } catch (error) {
+    console.error("出勤保存失敗", error);
+    alert("出勤情報の保存に失敗しました。");
+  } finally {
+    if (saveButton) {
+      saveButton.disabled = false;
+      saveButton.textContent = "変更をまとめて保存";
+    }
+  }
+}
+
+function copyDateSchedules() {
+  const from = document.getElementById("copyDateFrom")?.value || "";
+  const to = document.getElementById("copyDateTo")?.value || "";
+
+  if (!from || !to || from === to) return;
+
+  casts.forEach((cast) => {
+    const fromState = scheduleState.get(createCellKey(cast.id, from));
+    const toKey = createCellKey(cast.id, to);
+
+    if (fromState) updateCellState(toKey, fromState.start, fromState.end);
+  });
+
+  updateVisibleRows();
+  renderHeaderCounts();
+}
+
+function copyCastSchedules() {
+  const from = document.getElementById("copyCastFrom")?.value || "";
+  const to = document.getElementById("copyCastTo")?.value || "";
+
+  if (!from || !to || from === to) return;
+
+  dates.forEach((date) => {
+    const fromState = scheduleState.get(createCellKey(from, date.value));
+    const toKey = createCellKey(to, date.value);
+
+    if (fromState) updateCellState(toKey, fromState.start, fromState.end);
+  });
+
+  updateVisibleRows();
+  renderHeaderCounts();
+}
+
+function copySelectedCell() {
+  const state = scheduleState.get(selectedCellKey);
+
+  if (!state) {
+    alert("コピーするセルを選択してください。");
+    return;
+  }
+
+  copiedCellValue = {
+    start: state.start,
+    end: state.end
+  };
+
+  document.querySelector(".schedule-excel-page")?.classList.add("is-copying-cell");
+}
+
+function clearCopiedCell() {
+  copiedCellValue = null;
+  document.querySelector(".schedule-excel-page")?.classList.remove("is-copying-cell");
+}
+
+function updateVisibleRows() {
+  const searchValue = (document.getElementById("castSearchInput")?.value || "").trim().toLowerCase();
+  const filterValue = document.getElementById("scheduleFilterSelect")?.value || "all";
+
+  document.querySelectorAll(".schedule-cast-row").forEach((row) => {
+    const name = (row.dataset.castName || "").toLowerCase();
+    const castId = row.dataset.castId || "";
+    const matchesName = !searchValue || name.includes(searchValue);
+    const matchesFilter = filterValue === "all" || dates.some((date) => {
+      const state = scheduleState.get(createCellKey(castId, date.value));
+      return state?.status === filterValue;
+    });
+
+    row.hidden = !(matchesName && matchesFilter);
+  });
+}
+
+function renderHeaderCounts() {
+  dates.forEach((date) => {
+    const header = document.querySelector(`.schedule-date-column[data-date="${cssEscape(date.value)}"] small`);
+    if (header) header.textContent = `出勤${getWorkingCount(date.value)}名`;
+  });
+}
+
+function updateDirtyCount() {
+  const count = dirtyCells.size;
+  const label = document.getElementById("dirtyCount");
+
+  if (label) label.textContent = `変更 ${count}件`;
+}
+
+function getWorkingCount(date) {
+  return casts.filter((cast) => {
+    const state = scheduleState.get(createCellKey(cast.id, date));
+    return state?.status === "working";
+  }).length;
 }
 
 function getDateOptions() {
-  const dates = [];
+  const result = [];
   const baseDate = new Date(`${getTokyoDateKey()}T00:00:00+09:00`);
 
   for (let index = 0; index < DATE_RANGE_DAYS; index += 1) {
@@ -212,42 +555,63 @@ function getDateOptions() {
       weekday: "short"
     }).format(date);
 
-    dates.push({
+    result.push({
       value,
-      label: index === 0 ? `${label}（今日）` : label
+      label: index === 0 ? `${label}（今日）` : label,
+      shortLabel: label
     });
   }
 
-  return dates;
+  return result;
 }
 
 function createTimeOptions(selectedValue) {
-  const values = ["", ...createTimeValues(), "LAST"];
+  const values = [EMPTY_VALUE, OFF_VALUE, ...createTimeValues(), "LAST"];
 
   return values.map((value) => `
     <option value="${value}" ${value === selectedValue ? "selected" : ""}>
-      ${value || "未設定"}
+      ${getTimeOptionLabel(value)}
     </option>
   `).join("");
+}
+
+function getTimeOptionLabel(value) {
+  if (!value) return "未入力";
+  if (value === OFF_VALUE) return "休み";
+  return value;
 }
 
 function createTimeValues() {
   const values = [];
 
-  for (let hour = 19; hour <= 29; hour += 1) {
-    const displayHour = hour >= 24 ? hour - 24 : hour;
-
+  for (let hour = 19; hour <= 24; hour += 1) {
     ["00", "30"].forEach((minute) => {
-      values.push(`${String(displayHour).padStart(2, "0")}:${minute}`);
+      values.push(`${String(hour).padStart(2, "0")}:${minute}`);
     });
   }
+
+  values.push("25:00");
 
   return values;
 }
 
 function parseScheduleTime(schedule) {
-  const start = schedule?.start || "";
-  const end = schedule?.end || "";
+  if (!schedule) {
+    return {
+      start: EMPTY_VALUE,
+      end: EMPTY_VALUE
+    };
+  }
+
+  if (isInactiveSchedule(schedule)) {
+    return {
+      start: OFF_VALUE,
+      end: OFF_VALUE
+    };
+  }
+
+  const start = normalizeTimeOption(schedule?.start || "");
+  const end = normalizeTimeOption(schedule?.end || "");
 
   if (start || end) {
     return {
@@ -261,20 +625,70 @@ function parseScheduleTime(schedule) {
 
   if (match) {
     return {
-      start: match[1].trim(),
-      end: match[2].trim()
+      start: normalizeTimeOption(match[1].trim()),
+      end: normalizeTimeOption(match[2].trim())
     };
   }
 
   return {
-    start: time,
-    end: ""
+    start: normalizeTimeOption(time),
+    end: EMPTY_VALUE
   };
+}
+
+function normalizeTimeOption(value) {
+  const text = String(value || "").trim();
+
+  if (!text || text === "未入力" || text === "未設定") return EMPTY_VALUE;
+  if (text === "休み" || text === OFF_VALUE) return OFF_VALUE;
+  if (text.toUpperCase() === "LAST") return "LAST";
+
+  return text;
 }
 
 function formatScheduleTime(start, end) {
   if (start && end) return `${start}〜${end}`;
   return start || end || "";
+}
+
+function getCellDisplay(start, end) {
+  const status = getCellStatus(start, end);
+
+  if (status === "off") return "休み";
+  if (status === "empty") return "未入力";
+  if (start && end) return `${start}-${end}`;
+
+  return start || end;
+}
+
+function getCellStatus(start, end) {
+  if (start === OFF_VALUE || end === OFF_VALUE) return "off";
+  if (!start && !end) return "empty";
+  return "working";
+}
+
+function getCellClass(status) {
+  if (status === "working") return "is-working";
+  if (status === "off") return "is-off";
+  return "is-empty";
+}
+
+function createEmptyCellState(cast, date) {
+  return {
+    id: `${date}_${cast.id}`,
+    castId: cast.id,
+    castName: cast.name || "",
+    date,
+    start: EMPTY_VALUE,
+    end: EMPTY_VALUE,
+    status: "empty",
+    originalStart: EMPTY_VALUE,
+    originalEnd: EMPTY_VALUE
+  };
+}
+
+function createCellKey(castId, date) {
+  return `${castId}__${date}`;
 }
 
 function findScheduleForCast(date, cast) {
@@ -290,6 +704,18 @@ function findScheduleForCast(date, cast) {
       (schedule.castName && schedule.castName === castId)
     )
   ));
+}
+
+function isInactiveSchedule(schedule) {
+  const status = String(schedule?.status || schedule?.attendanceStatus || "").trim();
+
+  return status === "休み" ||
+    status === "欠勤" ||
+    status === "cancel" ||
+    status === "canceled" ||
+    status === "cancelled" ||
+    schedule?.isOff === true ||
+    schedule?.off === true;
 }
 
 function getTokyoDateKey(date = new Date()) {
@@ -388,18 +814,6 @@ function formatCup(cast) {
     : "-";
 }
 
-function getCastImages(cast) {
-  const images = Array.isArray(cast?.images)
-    ? cast.images.filter(Boolean)
-    : [];
-
-  if (images.length === 0 && cast?.image) {
-    return [cast.image];
-  }
-
-  return images.slice(0, 5);
-}
-
 function sortCastsByDisplayOrder(items) {
   items.sort((a, b) => {
     const aOrder = getNumericDisplayOrder(a);
@@ -421,6 +835,14 @@ function getNumericDisplayOrder(cast) {
   const numericOrder = Number(order);
 
   return Number.isFinite(numericOrder) ? numericOrder : null;
+}
+
+function cssEscape(value) {
+  if (window.CSS && typeof window.CSS.escape === "function") {
+    return window.CSS.escape(value);
+  }
+
+  return String(value).replace(/["\\]/g, "\\$&");
 }
 
 function escapeHtml(value) {

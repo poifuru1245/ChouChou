@@ -25,7 +25,8 @@
   const {
     ref,
     uploadBytes,
-    getDownloadURL
+    getDownloadURL,
+    deleteObject
   } = storageApi;
 
   const COLLECTION_NAME = "casts";
@@ -1306,13 +1307,72 @@
 
     if (currentImage) {
       preview.innerHTML = `
-        <img src="${escapeAttribute(currentImage)}" alt="">
+        <div class="image-slot-current">
+          <img src="${escapeAttribute(currentImage)}" alt="">
+          <button
+            type="button"
+            class="image-delete-btn"
+            data-action="delete-image"
+            data-image-index="${index}"
+            aria-label="写真${index + 1}を削除">
+            ×
+          </button>
+        </div>
         <span>現在の写真${index + 1}</span>
       `;
+
+      preview.querySelector(".image-delete-btn")?.addEventListener("click", () => {
+        deleteImageAtIndex(index);
+      });
       return;
     }
 
     preview.innerHTML = "<span>未設定</span>";
+  }
+
+  async function deleteImageAtIndex(index) {
+    const imageUrl = state.currentImages[index] || "";
+
+    if (!imageUrl) return;
+    if (!confirm("画像を削除しますか？")) return;
+
+    setFormBusy(true);
+
+    try {
+      await deleteImageFromStorage(imageUrl);
+
+      state.currentImages = state.currentImages
+        .filter((image, imageIndex) => image && imageIndex !== index)
+        .slice(0, 5);
+      state.currentImage = state.currentImages[0] || "";
+
+      resetImageInputs();
+
+      if (state.editingId) {
+        await updateDoc(doc(db, COLLECTION_NAME, state.editingId), {
+          image: state.currentImage,
+          images: state.currentImages
+        });
+
+        await loadCasts();
+      }
+
+      renderImagePreviews();
+    } catch (error) {
+      console.error("画像削除失敗", error);
+      showError("画像の削除に失敗しました。");
+    } finally {
+      setFormBusy(false);
+    }
+  }
+
+  async function deleteImageFromStorage(imageUrl) {
+    try {
+      await deleteObject(ref(storage, imageUrl));
+    } catch (error) {
+      if (error?.code === "storage/object-not-found") return;
+      throw error;
+    }
   }
 
   function getCastFromButton(button) {

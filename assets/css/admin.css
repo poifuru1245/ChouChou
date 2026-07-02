@@ -1908,3 +1908,630 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     gap:6px !important;
   }
 }
+
+/* Ver7.1 schedule bulk editor and admin cast image controls */
+.schedule-admin-toolbar-bulk{
+  grid-template-columns:1fr auto !important;
+  align-items:center !important;
+}
+
+.schedule-admin-list-bulk{
+  grid-template-columns:1fr !important;
+}
+
+.schedule-admin-card-bulk{
+  align-items:stretch !important;
+  gap:16px !important;
+}
+
+.schedule-admin-card-bulk .schedule-admin-profile{
+  align-self:start !important;
+}
+
+.schedule-bulk-table{
+  display:grid;
+  gap:8px;
+  width:100%;
+  min-width:0;
+}
+
+.schedule-bulk-row{
+  display:grid;
+  grid-template-columns:minmax(150px,1fr) minmax(120px,150px) minmax(120px,150px);
+  gap:10px;
+  align-items:center;
+  padding:10px 12px;
+  border:1px dashed rgba(231,130,174,.38);
+  border-radius:14px;
+  background:rgba(255,255,255,.78);
+}
+
+.schedule-bulk-head{
+  border-style:solid;
+  background:linear-gradient(135deg,#fff7fb,#ffe4f1);
+  color:#8a3f63;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.03em;
+}
+
+.schedule-date-label{
+  display:grid;
+  gap:2px;
+  color:#5f3147;
+  font-weight:800;
+}
+
+.schedule-date-label small{
+  color:#b45c88;
+  font-size:11px;
+  font-weight:700;
+}
+
+.schedule-start-select,
+.schedule-end-select{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(221,104,158,.38);
+  border-radius:999px;
+  background:#fff;
+  color:#6d3650;
+  font-weight:700;
+  padding:0 12px;
+}
+
+.schedule-save-all{
+  min-width:190px;
+  justify-self:end;
+}
+
+.image-slot-current{
+  position:relative;
+  display:inline-grid;
+}
+
+.image-delete-btn{
+  position:absolute;
+  top:6px;
+  right:6px;
+  width:30px;
+  height:30px;
+  border:2px solid #fff;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ff6fa8,#d92872);
+  color:#fff;
+  font-size:20px;
+  line-height:1;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(176,45,102,.28);
+  display:grid;
+  place-items:center;
+  z-index:3;
+}
+
+.image-delete-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 22px rgba(176,45,102,.34);
+}
+
+#castGrid > .cast-card .admin-cast-badges,
+#castGrid > .cast-card .cast-admin-badges,
+#castGrid > .cast-card .cast-badge-layer,
+#castGrid > .cast-card .admin-cast-image-wrap .admin-cast-badges{
+  position:absolute !important;
+  top:56px !important;
+  left:8px !important;
+  right:auto !important;
+  bottom:auto !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  gap:1px !important;
+  width:auto !important;
+  height:auto !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  transform:none !important;
+  z-index:7 !important;
+  pointer-events:none !important;
+}
+
+#castGrid > .cast-card .admin-cast-badges .premium-cast-badge,
+#castGrid > .cast-card .admin-cast-badges .premium-cast-badge-new,
+#castGrid > .cast-card .admin-cast-badges .premium-cast-badge-recommended,
+#castGrid > .cast-card .cast-badge-layer .premium-cast-badge,
+#castGrid > .cast-card .cast-badge-layer .premium-cast-badge-new,
+#castGrid > .cast-card .cast-badge-layer .premium-cast-badge-recommended{
+  position:relative !important;
+  top:0 !important;
+  left:0 !important;
+  right:auto !important;
+  width:40px !important;
+  height:auto !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+
+#castGrid > .cast-card .admin-cast-badges .premium-cast-badge-img,
+#castGrid > .cast-card .cast-badge-layer .premium-cast-badge-img{
+  display:block !important;
+  width:40px !important;
+  height:auto !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+
+@media(max-width:768px){
+  .schedule-admin-toolbar-bulk{
+    grid-template-columns:1fr !important;
+  }
+
+  .schedule-save-all{
+    width:100%;
+    justify-self:stretch;
+  }
+
+  .schedule-bulk-row{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .schedule-bulk-row .schedule-date-label{
+    grid-column:1 / -1;
+  }
+
+  #castGrid > .cast-card .admin-cast-badges,
+  #castGrid > .cast-card .cast-admin-badges,
+  #castGrid > .cast-card .cast-badge-layer,
+  #castGrid > .cast-card .admin-cast-image-wrap .admin-cast-badges{
+    top:52px !important;
+    left:6px !important;
+  }
+}
+
+/* Ver7.2 Excel style schedule admin */
+.schedule-loading{
+  padding:24px;
+  color:#8a3f63;
+  font-weight:800;
+}
+
+.schedule-excel-page{
+  display:grid;
+  gap:16px;
+}
+
+.schedule-excel-toolbar{
+  position:sticky;
+  top:0;
+  z-index:30;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:16px;
+  align-items:center;
+  padding:16px;
+  border:1px solid rgba(231,130,174,.42);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(255,232,244,.92));
+  box-shadow:0 12px 30px rgba(194,78,132,.16);
+  backdrop-filter:blur(14px);
+}
+
+.schedule-excel-title h2{
+  margin:0 0 4px;
+  color:#6b304b;
+  font-size:22px;
+}
+
+.schedule-excel-title p{
+  margin:0;
+  color:#9d5b7b;
+  font-weight:700;
+}
+
+.schedule-excel-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.schedule-dirty-count{
+  min-width:86px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:#fff;
+  color:#c23980;
+  font-size:12px;
+  font-weight:800;
+  text-align:center;
+  border:1px solid rgba(231,130,174,.35);
+}
+
+.schedule-excel-tools{
+  display:grid;
+  grid-template-columns:minmax(180px,1fr) minmax(140px,180px);
+  gap:12px;
+  padding:14px;
+  border:1px dashed rgba(231,130,174,.36);
+  border-radius:18px;
+  background:rgba(255,246,251,.82);
+}
+
+.schedule-tool-field,
+.schedule-copy-group{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  color:#7c405c;
+  font-size:12px;
+  font-weight:800;
+}
+
+.schedule-tool-field{
+  display:grid;
+  gap:6px;
+}
+
+.schedule-tool-field input,
+.schedule-tool-field select,
+.schedule-copy-group select{
+  min-height:38px;
+  min-width:0;
+  border:1px solid rgba(221,104,158,.36);
+  border-radius:999px;
+  background:#fff;
+  color:#6d3650;
+  font-weight:700;
+  padding:0 12px;
+}
+
+.schedule-copy-group{
+  flex-wrap:wrap;
+  padding:10px;
+  border-radius:14px;
+  background:rgba(255,255,255,.72);
+}
+
+.schedule-copy-group button{
+  min-height:34px;
+  border:1px solid rgba(221,104,158,.35);
+  border-radius:999px;
+  background:linear-gradient(135deg,#fff,#ffe1ef);
+  color:#b33973;
+  font-weight:800;
+  cursor:pointer;
+  padding:0 12px;
+}
+
+.schedule-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.schedule-legend-item{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:28px;
+  padding:0 12px;
+  border-radius:999px;
+  color:#633246;
+  font-size:12px;
+  font-weight:800;
+  border:1px solid rgba(255,255,255,.85);
+}
+
+.schedule-legend-item.is-working{
+  background:#ddf8e6;
+}
+
+.schedule-legend-item.is-off{
+  background:#ffe0e7;
+}
+
+.schedule-legend-item.is-empty{
+  background:#fff6ce;
+}
+
+.schedule-legend-item.is-dirty{
+  background:#ffe5f2;
+  border-color:#ec6fab;
+}
+
+.schedule-excel-page.is-copying-cell .schedule-excel-shell{
+  box-shadow:0 0 0 3px rgba(236,111,171,.28),0 16px 36px rgba(194,78,132,.16);
+}
+
+.schedule-excel-shell{
+  max-width:100%;
+  max-height:calc(100vh - 260px);
+  min-height:420px;
+  overflow:auto;
+  border:1px solid rgba(231,130,174,.35);
+  border-radius:20px;
+  background:rgba(255,255,255,.76);
+  box-shadow:0 16px 36px rgba(194,78,132,.13);
+}
+
+.schedule-excel-table{
+  width:max-content;
+  min-width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  color:#67334b;
+}
+
+.schedule-excel-table th,
+.schedule-excel-table td{
+  border-right:1px solid rgba(231,130,174,.24);
+  border-bottom:1px solid rgba(231,130,174,.24);
+  background:#fffafd;
+}
+
+.schedule-excel-table thead th{
+  position:sticky;
+  top:0;
+  z-index:8;
+  min-width:118px;
+  padding:10px 8px;
+  background:linear-gradient(135deg,#fff7fb,#ffe1ef);
+  color:#8a3f63;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(194,78,132,.08);
+}
+
+.schedule-excel-table thead th span,
+.schedule-excel-table thead th small{
+  display:block;
+}
+
+.schedule-excel-table thead th span{
+  font-size:13px;
+  font-weight:900;
+}
+
+.schedule-excel-table thead th small{
+  margin-top:4px;
+  color:#c23980;
+  font-size:11px;
+  font-weight:800;
+}
+
+.schedule-cast-column{
+  position:sticky;
+  left:0;
+  z-index:12;
+  width:170px;
+  min-width:170px !important;
+  max-width:170px;
+  background:linear-gradient(135deg,#fff,#ffeaf4) !important;
+  text-align:left !important;
+}
+
+.schedule-excel-table thead .schedule-cast-column{
+  z-index:20;
+}
+
+.schedule-cast-name{
+  padding:10px 12px;
+  box-shadow:4px 0 12px rgba(194,78,132,.07);
+}
+
+.schedule-cast-name span,
+.schedule-cast-name small{
+  display:block;
+}
+
+.schedule-cast-name span{
+  overflow:hidden;
+  color:#653049;
+  font-size:14px;
+  font-weight:900;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.schedule-cast-name small{
+  margin-top:4px;
+  color:#9d5b7b;
+  font-size:11px;
+  font-weight:700;
+}
+
+.schedule-excel-table td{
+  width:118px;
+  min-width:118px;
+  padding:6px;
+}
+
+.schedule-cell{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:46px;
+  border:1px solid transparent;
+  border-radius:12px;
+  color:#593145;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+
+.schedule-cell:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 18px rgba(194,78,132,.14);
+}
+
+.schedule-cell.is-working{
+  background:linear-gradient(135deg,#e8faee,#d5f4df);
+}
+
+.schedule-cell.is-off{
+  background:linear-gradient(135deg,#ffe9ee,#ffd8e1);
+}
+
+.schedule-cell.is-empty{
+  background:linear-gradient(135deg,#fff9dc,#fff0b8);
+  color:#9a7541;
+}
+
+.schedule-cell.is-dirty{
+  border-color:#ed5fa5;
+  box-shadow:inset 0 0 0 2px rgba(237,95,165,.22),0 8px 18px rgba(194,78,132,.12);
+}
+
+.schedule-cell.is-selected{
+  outline:3px solid rgba(236,111,171,.32);
+}
+
+.schedule-editor-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:rgba(75,26,48,.26);
+  backdrop-filter:blur(6px);
+}
+
+.schedule-editor-overlay[hidden]{
+  display:none;
+}
+
+.schedule-editor-panel{
+  position:relative;
+  width:min(420px,100%);
+  display:grid;
+  gap:14px;
+  padding:24px;
+  border:1px solid rgba(231,130,174,.46);
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(255,231,243,.95));
+  box-shadow:0 24px 60px rgba(110,34,70,.24);
+}
+
+.schedule-editor-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:34px;
+  height:34px;
+  border:1px solid rgba(221,104,158,.28);
+  border-radius:50%;
+  background:#fff;
+  color:#c23980;
+  font-size:22px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.schedule-editor-panel h3{
+  margin:0;
+  color:#67334b;
+  font-size:22px;
+}
+
+.schedule-editor-target{
+  margin:0;
+  color:#9d5b7b;
+  font-weight:800;
+}
+
+.schedule-editor-panel label{
+  display:grid;
+  gap:6px;
+  color:#7c405c;
+  font-size:13px;
+  font-weight:800;
+}
+
+.schedule-editor-panel select{
+  min-height:44px;
+  border:1px solid rgba(221,104,158,.36);
+  border-radius:999px;
+  background:#fff;
+  color:#6d3650;
+  font-weight:800;
+  padding:0 14px;
+}
+
+.schedule-editor-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-end;
+}
+
+.schedule-editor-buttons button{
+  min-height:40px;
+  border:1px solid rgba(221,104,158,.35);
+  border-radius:999px;
+  background:#fff;
+  color:#b33973;
+  font-weight:900;
+  cursor:pointer;
+  padding:0 16px;
+}
+
+@media(max-width:1100px){
+  .schedule-excel-toolbar,
+  .schedule-excel-tools{
+    grid-template-columns:1fr;
+  }
+
+  .schedule-excel-actions{
+    justify-content:space-between;
+  }
+}
+
+@media(max-width:768px){
+  .schedule-excel-toolbar{
+    top:0;
+    padding:12px;
+  }
+
+  .schedule-excel-actions{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
+  .schedule-save-all{
+    width:100%;
+  }
+
+  .schedule-excel-shell{
+    max-height:70vh;
+    min-height:360px;
+    border-radius:16px;
+  }
+
+  .schedule-cast-column{
+    width:132px;
+    min-width:132px !important;
+    max-width:132px;
+  }
+
+  .schedule-excel-table td,
+  .schedule-excel-table thead th{
+    min-width:104px;
+  }
+
+  .schedule-cell{
+    min-height:42px;
+    font-size:11px;
+  }
+}
