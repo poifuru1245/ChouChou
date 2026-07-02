@@ -175,19 +175,10 @@ async function loadRanking() {
         rankingList.insertAdjacentHTML(
           "beforeend",
           `
-            <div class="ranking-card">
-              <img
-                src="${escapeAttribute(cast.image || "")}"
-                style="
-                  width:80px;
-                  height:80px;
-                  border-radius:50%;
-                  object-fit:cover;
-                "
-                alt=""
-              >
-              <h3>${medal} ${index + 1}位 ${escapeHtml(cast.name || "")}</h3>
-              <p>本指名：${escapeHtml(cast.nominate || 0)}本</p>
+            <div class="ranking-card ranking-card-compact">
+              <span class="ranking-rank">${medal} ${index + 1}位</span>
+              <h3>${escapeHtml(cast.name || "")}</h3>
+              <p>指名数：${escapeHtml(cast.nominate || 0)}本</p>
             </div>
           `
         );
@@ -843,9 +834,32 @@ function setupRevealAnimations() {
   });
 }
 
+function setupHeroSlider() {
+  const hero = document.querySelector(".hero.hero-ver6");
+  const slides = Array.from(document.querySelectorAll(".hero.hero-ver6 .hero-slide"));
+
+  if (!hero || slides.length <= 1) return;
+
+  let currentIndex = slides.findIndex((slide) => slide.classList.contains("is-active"));
+
+  if (currentIndex < 0) {
+    currentIndex = 0;
+    slides[0].classList.add("is-active");
+  }
+
+  window.setInterval(() => {
+    const nextIndex = (currentIndex + 1) % slides.length;
+
+    slides[currentIndex].classList.remove("is-active");
+    slides[nextIndex].classList.add("is-active");
+    currentIndex = nextIndex;
+  }, 4800);
+}
+
 loadReservations();
 loadRanking();
 loadTodayCast();
 setupPublicLanguageSwitch();
 setupSiteSettings();
 setupRevealAnimations();
+setupHeroSlider();

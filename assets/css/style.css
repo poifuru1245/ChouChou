@@ -1085,6 +1085,32 @@ margin:auto;
     }
 }
 
+/* Ver6.5 strongest overrides for real rendered hero and badge classes */
+body:not(.cast-detail-page) .hero.premium-hero.luxury-hero.hero-princess-image.hero-ver6,
+body:not(.cast-detail-page) section.hero.premium-hero.luxury-hero.hero-princess-image.hero-ver6{
+    background:none !important;
+    background-image:none !important;
+    background-color:#fff2f8 !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .public-cast-badges.cast-badge-layer .premium-cast-badge-new{
+    transform:translateX(-6px) !important;
+    margin-left:0 !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .public-cast-badges.cast-badge-layer .premium-cast-badge-recommended{
+    transform:translateX(-6px) !important;
+    margin-left:0 !important;
+}
+
 /* Hero princess generated image final override */
 body:not(.cast-detail-page) .hero.hero-princess-image{
     min-height:0 !important;
@@ -7402,5 +7428,261 @@ body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-img-recommende
     body:not(.cast-detail-page) .contact-phone-label,
     body:not(.cast-detail-page) .contact-phone-number{
         font-size:9px !important;
+    }
+}
+
+/* Ver6.5 hero slider, badge alignment, and today cast polish */
+body:not(.cast-detail-page) .hero.hero-ver6{
+    position:relative !important;
+    overflow:hidden !important;
+    background:none !important;
+    background-image:none !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 .hero-slider-track{
+    position:absolute !important;
+    inset:0 !important;
+    z-index:1 !important;
+    display:block !important;
+    overflow:hidden !important;
+    background:#fff2f8 !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 .hero-slide{
+    position:absolute !important;
+    inset:0 !important;
+    opacity:0 !important;
+    transition:opacity 1.15s ease !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 .hero-slide.is-active{
+    opacity:1 !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 .hero-slide img{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    background:#fff2f8 !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 .hero-princess-title{
+    position:relative !important;
+    z-index:2 !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .hero.hero-ver6 > .hero-link{
+    z-index:8 !important;
+}
+
+body:not(.cast-detail-page) .hero-arrow,
+body:not(.cast-detail-page) .premium-hero-arrow,
+body:not(.cast-detail-page) .swiper-pagination,
+body:not(.cast-detail-page) .swiper-pagination-bullet,
+body:not(.cast-detail-page) .hero-dots,
+body:not(.cast-detail-page) .slider-dots,
+body:not(.cast-detail-page) .slide-dots,
+body:not(.cast-detail-page) .hero-pagination,
+body:not(.cast-detail-page) .carousel-dots{
+    display:none !important;
+}
+
+body:not(.cast-detail-page) .public-cast-photo,
+body:not(.cast-detail-page) .today-schedule-photo{
+    position:relative !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges,
+body:not(.cast-detail-page) .cast-badge-layer,
+body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges{
+    top:4px !important;
+    left:4px !important;
+    right:auto !important;
+    bottom:auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    gap:1px !important;
+    width:auto !important;
+    max-width:calc(100% - 8px) !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge,
+body:not(.cast-detail-page) .premium-cast-badge{
+    display:block !important;
+    margin:0 !important;
+    padding:0 !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    border:0 !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge::before,
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge::after,
+body:not(.cast-detail-page) .premium-cast-badge::before,
+body:not(.cast-detail-page) .premium-cast-badge::after{
+    content:none !important;
+    display:none !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-img,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-img,
+body:not(.cast-detail-page) .premium-cast-badge-img{
+    display:block !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    border:0 !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-new{
+    transform:translateX(-6px) !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-recommended,
+body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-recommended{
+    transform:translateX(-6px) !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new,
+body:not(.cast-detail-page) .premium-cast-badge-img-new{
+    width:42px !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended,
+body:not(.cast-detail-page) .premium-cast-badge-img-recommended{
+    width:42px !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-item{
+    position:relative !important;
+    isolation:isolate !important;
+    gap:12px !important;
+    min-height:112px !important;
+    padding:10px !important;
+    border:1px solid rgba(234,143,188,.42) !important;
+    border-radius:18px !important;
+    background:
+        radial-gradient(circle at 95% 8%,rgba(255,255,255,.92) 0 10px,transparent 11px),
+        linear-gradient(135deg,rgba(255,255,255,.88),rgba(255,232,244,.74)) !important;
+    box-shadow:0 12px 24px rgba(196,82,139,.12) !important;
+    overflow:hidden !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-item::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:6px !important;
+    z-index:-1 !important;
+    border:1px dashed rgba(225,117,172,.34) !important;
+    border-radius:14px !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-item::after{
+    content:"♡ ✦" !important;
+    position:absolute !important;
+    right:14px !important;
+    top:8px !important;
+    color:rgba(226,84,154,.35) !important;
+    font-size:14px !important;
+    letter-spacing:3px !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-photo{
+    width:88px !important;
+    aspect-ratio:1 / 1 !important;
+    border-radius:16px !important;
+    border:2px solid rgba(255,255,255,.9) !important;
+    box-shadow:0 8px 16px rgba(168,71,122,.14) !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-photo .public-cast-image,
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-photo img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-info h3{
+    margin:0 0 8px !important;
+    color:#6c314d !important;
+    font-size:18px !important;
+    line-height:1.2 !important;
+}
+
+body:not(.cast-detail-page) #cast.today-cast .today-schedule-profile,
+body:not(.cast-detail-page) #cast.today-cast .public-cast-schedule{
+    display:inline-flex !important;
+    align-items:center !important;
+    width:auto !important;
+    margin:3px 0 !important;
+    padding:5px 9px !important;
+    border-radius:999px !important;
+    background:rgba(255,255,255,.72) !important;
+    border:1px solid rgba(239,169,204,.42) !important;
+    color:#74435b !important;
+    font-size:12px !important;
+    font-weight:700 !important;
+    line-height:1.35 !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .hero.hero-ver6 .hero-slide img{
+        object-fit:contain !important;
+        object-position:center center !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-badges,
+    body:not(.cast-detail-page) .cast-badge-layer,
+    body:not(.cast-detail-page) .today-cast .cast-card .public-cast-badges,
+    body:not(.cast-detail-page) .all-cast-grid .cast-card .public-cast-badges,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges{
+        top:3px !important;
+        left:3px !important;
+        gap:1px !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-new,
+    body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-new,
+    body:not(.cast-detail-page) .public-cast-badges .premium-cast-badge-recommended,
+    body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-recommended{
+        transform:translateX(-4px) !important;
+    }
+
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .public-cast-badges img.premium-cast-badge-img-recommended,
+    body:not(.cast-detail-page) .premium-cast-badge-img-recommended{
+        width:34px !important;
+    }
+
+    body:not(.cast-detail-page) #cast.today-cast .today-schedule-item{
+        min-height:104px !important;
+        gap:10px !important;
+        padding:9px !important;
+    }
+
+    body:not(.cast-detail-page) #cast.today-cast .today-schedule-photo{
+        width:82px !important;
     }
 }
