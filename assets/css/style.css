@@ -5,6 +5,7 @@
 }
 
 :root{
+    --home-card-width:359px;
     --home-card-height:654px;
 }
 
@@ -13,6 +14,21 @@ body{
     background:#fff6fa;
     color:#6d4a58;
     overflow-x:hidden;
+}
+
+.top-card-grid{
+    width:min(1200px,100%);
+    margin:60px auto;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:repeat(3,var(--home-card-width));
+    justify-content:center;
+    align-items:stretch;
+    gap:22px;
+}
+
+.top-card-grid > .premium-section-card{
+    margin:0 !important;
 }
 
 /* Header */
@@ -1889,35 +1905,52 @@ body:not(.cast-detail-page) .today-cast .no-cast{
     body:not(.cast-detail-page) .premium-card-today,
     body:not(.cast-detail-page) .premium-card-news,
     body:not(.cast-detail-page) .premium-card-concept{
-        aspect-ratio:auto !important;
+        width:var(--home-card-width) !important;
+        max-width:var(--home-card-width) !important;
+        aspect-ratio:unset !important;
         height:var(--home-card-height) !important;
         min-height:var(--home-card-height) !important;
+        max-height:none !important;
     }
 
     body:not(.cast-detail-page) .premium-card-today .today-schedule-list,
     body:not(.cast-detail-page) .premium-card-news .public-news-list{
-        aspect-ratio:auto !important;
+        aspect-ratio:unset !important;
         min-height:0 !important;
         height:auto !important;
+        max-height:none !important;
     }
 
     body:not(.cast-detail-page) .premium-card-today .today-schedule-item,
     body:not(.cast-detail-page) .premium-card-news .public-news-card{
-        aspect-ratio:auto !important;
+        aspect-ratio:unset !important;
         height:auto !important;
+        max-height:none !important;
     }
 
     body:not(.cast-detail-page) .premium-card-concept .ver6-card-image{
-        aspect-ratio:auto !important;
+        aspect-ratio:unset !important;
         max-height:100% !important;
     }
 }
 
 @media(max-width:768px){
+    .top-card-grid{
+        width:100%;
+        margin:40px auto;
+        padding:0 16px;
+        grid-template-columns:1fr;
+        gap:22px;
+    }
+
     body:not(.cast-detail-page) .premium-card-today,
     body:not(.cast-detail-page) .premium-card-news,
     body:not(.cast-detail-page) .premium-card-concept{
-        aspect-ratio:auto !important;
+        width:100% !important;
+        max-width:100% !important;
+        aspect-ratio:unset !important;
+        height:auto !important;
         min-height:420px !important;
+        max-height:none !important;
     }
 }
