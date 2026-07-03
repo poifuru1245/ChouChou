@@ -8267,3 +8267,197 @@ body:not(.cast-detail-page) .cast-badge-layer .premium-cast-badge-img-recommende
         width:34px !important;
     }
 }
+
+/* =========================================================
+   ChouChou Ver7.5 Premium Card Decoration
+   ========================================================= */
+body:not(.cast-detail-page) .premium-section-card{
+    position:relative !important;
+    isolation:isolate;
+    overflow:hidden !important;
+    border:1px solid rgba(207,166,80,.78) !important;
+    border-radius:24px !important;
+    background:
+        radial-gradient(circle at 18% 12%,rgba(255,255,255,.86) 0 12%,transparent 32%),
+        linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,226,241,.8) 46%,rgba(255,250,253,.92)) !important;
+    box-shadow:
+        0 22px 46px rgba(176,64,120,.16),
+        0 2px 0 rgba(255,255,255,.9) inset,
+        0 0 34px rgba(255,202,228,.55) inset !important;
+    backdrop-filter:blur(16px);
+}
+
+body:not(.cast-detail-page) .premium-section-card::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:12px !important;
+    z-index:0 !important;
+    pointer-events:none !important;
+    border:1px dashed rgba(225,122,171,.5) !important;
+    border-radius:18px !important;
+    background:
+        radial-gradient(circle at 8% 10%,rgba(255,107,170,.26) 0 2px,transparent 3px),
+        radial-gradient(circle at 94% 16%,rgba(255,255,255,.9) 0 2px,transparent 4px),
+        radial-gradient(circle at 78% 88%,rgba(207,166,80,.36) 0 2px,transparent 4px),
+        repeating-linear-gradient(135deg,transparent 0 22px,rgba(255,255,255,.22) 23px 24px);
+}
+
+body:not(.cast-detail-page) .premium-section-card::after{
+    content:"♡" !important;
+    position:absolute !important;
+    right:18px !important;
+    bottom:12px !important;
+    z-index:0 !important;
+    pointer-events:none !important;
+    color:rgba(226,79,143,.24) !important;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+    font-size:64px !important;
+    line-height:1 !important;
+    text-shadow:0 0 18px rgba(255,255,255,.9);
+}
+
+body:not(.cast-detail-page) .premium-section-card > *{
+    position:relative;
+    z-index:1;
+}
+
+body:not(.cast-detail-page) .premium-section-card .section-title::before{
+    content:"✦" !important;
+    display:block;
+    margin:0 auto 4px;
+    color:#d6a64f;
+    font-size:18px;
+    line-height:1;
+    text-shadow:0 0 12px rgba(255,255,255,.9);
+}
+
+body:not(.cast-detail-page) .premium-section-card .section-title span{
+    color:#d94f92 !important;
+    letter-spacing:.05em !important;
+}
+
+body:not(.cast-detail-page) .premium-section-card .section-title h2{
+    color:#5f3046 !important;
+}
+
+body:not(.cast-detail-page) .premium-section-card .reserve-btn,
+body:not(.cast-detail-page) .premium-section-card button,
+body:not(.cast-detail-page) .premium-section-card .news-more a,
+body:not(.cast-detail-page) .premium-section-card .gallery-more a{
+    position:relative;
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,.92) !important;
+    background:linear-gradient(135deg,#ff88bd,#df4c92 52%,#ba2f74) !important;
+    box-shadow:0 10px 24px rgba(194,61,132,.22),0 1px 0 rgba(255,255,255,.75) inset !important;
+}
+
+body:not(.cast-detail-page) .premium-section-card .reserve-btn::after,
+body:not(.cast-detail-page) .premium-section-card button::after{
+    content:"";
+    position:absolute;
+    inset:-40% auto -40% -60%;
+    width:40%;
+    transform:skewX(-18deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent);
+    transition:left .55s ease;
+}
+
+body:not(.cast-detail-page) .premium-section-card[data-premium-ready="true"]{
+    --premium-ready:1;
+}
+
+body:not(.cast-detail-page) .premium-card-today::after{content:"✧" !important;font-size:72px !important;}
+body:not(.cast-detail-page) .premium-card-news::after{content:"★" !important;font-size:54px !important;}
+body:not(.cast-detail-page) .premium-card-concept::after{content:"♛" !important;font-size:66px !important;}
+body:not(.cast-detail-page) .premium-card-system{border-color:rgba(214,166,72,.95) !important;}
+body:not(.cast-detail-page) .premium-card-system::after{content:"◇" !important;font-size:76px !important;color:rgba(207,166,80,.24) !important;}
+body:not(.cast-detail-page) .premium-card-cast::after{content:"♥" !important;font-size:64px !important;}
+body:not(.cast-detail-page) .premium-card-gallery::after{content:"◆" !important;font-size:58px !important;color:rgba(207,166,80,.22) !important;}
+body:not(.cast-detail-page) .premium-card-access::after{content:"⌖" !important;font-size:58px !important;}
+body:not(.cast-detail-page) .premium-card-instagram::after{content:"♡" !important;font-size:62px !important;}
+body:not(.cast-detail-page) .premium-card-recruit::after{content:"🎀" !important;font-size:48px !important;}
+
+body:not(.cast-detail-page) .premium-card-today .section-title::before{content:"◌" !important;}
+body:not(.cast-detail-page) .premium-card-news .section-title::before{content:"✦" !important;}
+body:not(.cast-detail-page) .premium-card-concept .section-title::before{content:"♕" !important;}
+body:not(.cast-detail-page) .premium-card-system .section-title::before{content:"◇" !important;}
+body:not(.cast-detail-page) .premium-card-cast .section-title::before{content:"♥" !important;}
+body:not(.cast-detail-page) .premium-card-gallery .section-title::before{content:"◆" !important;}
+body:not(.cast-detail-page) .premium-card-access .section-title::before{content:"⌖" !important;}
+body:not(.cast-detail-page) .premium-card-instagram .section-title::before{content:"♡" !important;}
+body:not(.cast-detail-page) .premium-card-recruit .section-title::before{content:"✧" !important;}
+
+body:not(.cast-detail-page) .premium-card-system .system-price-card,
+body:not(.cast-detail-page) .premium-card-access .access-box,
+body:not(.cast-detail-page) .premium-card-instagram .princess-info-list,
+body:not(.cast-detail-page) .premium-card-news .public-news-card,
+body:not(.cast-detail-page) .premium-card-gallery .public-gallery-card,
+body:not(.cast-detail-page) .premium-card-cast .cast-card,
+body:not(.cast-detail-page) .premium-card-today .today-schedule-item{
+    border:1px solid rgba(255,255,255,.76) !important;
+    background:rgba(255,255,255,.7) !important;
+    box-shadow:0 10px 24px rgba(180,75,126,.1) !important;
+}
+
+body:not(.cast-detail-page) .premium-section-card.reveal-card{
+    opacity:1;
+    transform:none;
+}
+
+body:not(.cast-detail-page) .premium-section-card.reveal-card:not(.is-visible){
+    opacity:0;
+    transform:translateY(18px) scale(.985);
+}
+
+body:not(.cast-detail-page) .premium-section-card.reveal-card.is-visible{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    transition:opacity .7s ease,transform .7s ease,box-shadow .25s ease;
+}
+
+@media(hover:hover) and (pointer:fine){
+    body:not(.cast-detail-page) .premium-section-card:hover{
+        transform:translateY(-6px) !important;
+        box-shadow:
+            0 30px 60px rgba(176,64,120,.22),
+            0 2px 0 rgba(255,255,255,.95) inset,
+            0 0 44px rgba(255,202,228,.68) inset !important;
+    }
+
+    body:not(.cast-detail-page) .premium-section-card:hover .reserve-btn::after,
+    body:not(.cast-detail-page) .premium-section-card:hover button::after{
+        left:125%;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .premium-section-card{
+        border-radius:18px !important;
+        box-shadow:0 14px 30px rgba(176,64,120,.13),0 0 24px rgba(255,202,228,.45) inset !important;
+    }
+
+    body:not(.cast-detail-page) .premium-section-card::before{
+        inset:8px !important;
+        border-radius:14px !important;
+    }
+
+    body:not(.cast-detail-page) .premium-section-card::after{
+        right:10px !important;
+        bottom:8px !important;
+        font-size:44px !important;
+    }
+
+    body:not(.cast-detail-page) .premium-section-card .section-title::before{
+        font-size:15px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    body:not(.cast-detail-page) .premium-section-card,
+    body:not(.cast-detail-page) .premium-section-card.reveal-card,
+    body:not(.cast-detail-page) .premium-section-card.reveal-card.is-visible{
+        transition:none !important;
+        transform:none !important;
+        opacity:1 !important;
+    }
+}

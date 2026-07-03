@@ -795,7 +795,7 @@ function toGoogleMapEmbedUrl(url) {
 }
 
 function setupRevealAnimations() {
-  const selector = ".princess-card, .ver6-contact-image-section, .cast-card, .news-card, .gallery-card";
+  const selector = ".premium-section-card, .princess-card, .ver6-contact-image-section, .cast-card, .news-card, .gallery-card";
   const targets = document.querySelectorAll(selector);
 
   if (!("IntersectionObserver" in window)) {
