@@ -4,6 +4,10 @@
     box-sizing:border-box;
 }
 
+:root{
+    --home-card-height:654px;
+}
+
 body{
     font-family:"Noto Serif JP",serif;
     background:#fff6fa;
@@ -1686,6 +1690,14 @@ body:not(.cast-detail-page) .today-cast .no-cast{
     max-width:283.5px !important;
 }
 
+body:not(.cast-detail-page) .today-cast .cast-grid:empty,
+body:not(.cast-detail-page) .today-cast .cast-grid:not(:has(.public-cast-card)):not(:has(.no-cast)){
+    width:100% !important;
+    max-width:283.5px !important;
+    min-height:550px !important;
+    grid-template-columns:1fr !important;
+}
+
 body:not(.cast-detail-page) .concept-content{
     display:flex !important;
     align-items:center !important;
@@ -1760,6 +1772,13 @@ body:not(.cast-detail-page) .today-cast .no-cast{
     body:not(.cast-detail-page) .today-cast .no-cast{
         max-width:calc((100vw - 78px) / 2) !important;
         aspect-ratio:156 / 358 !important;
+    }
+
+    body:not(.cast-detail-page) .today-cast .cast-grid:empty,
+    body:not(.cast-detail-page) .today-cast .cast-grid:not(:has(.public-cast-card)):not(:has(.no-cast)){
+        max-width:calc(100vw - 64px) !important;
+        min-height:420px !important;
+        grid-template-columns:1fr !important;
     }
 
     body:not(.cast-detail-page) .concept-content{
@@ -1862,5 +1881,43 @@ body:not(.cast-detail-page) .today-cast .no-cast{
     .cast-detail-badges .premium-cast-badge-img-recommended{
         width:44px !important;
         height:auto !important;
+    }
+}
+
+/* v8 top premium card rectangle fix */
+@media(min-width:769px){
+    body:not(.cast-detail-page) .premium-card-today,
+    body:not(.cast-detail-page) .premium-card-news,
+    body:not(.cast-detail-page) .premium-card-concept{
+        aspect-ratio:auto !important;
+        height:var(--home-card-height) !important;
+        min-height:var(--home-card-height) !important;
+    }
+
+    body:not(.cast-detail-page) .premium-card-today .today-schedule-list,
+    body:not(.cast-detail-page) .premium-card-news .public-news-list{
+        aspect-ratio:auto !important;
+        min-height:0 !important;
+        height:auto !important;
+    }
+
+    body:not(.cast-detail-page) .premium-card-today .today-schedule-item,
+    body:not(.cast-detail-page) .premium-card-news .public-news-card{
+        aspect-ratio:auto !important;
+        height:auto !important;
+    }
+
+    body:not(.cast-detail-page) .premium-card-concept .ver6-card-image{
+        aspect-ratio:auto !important;
+        max-height:100% !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .premium-card-today,
+    body:not(.cast-detail-page) .premium-card-news,
+    body:not(.cast-detail-page) .premium-card-concept{
+        aspect-ratio:auto !important;
+        min-height:420px !important;
     }
 }
