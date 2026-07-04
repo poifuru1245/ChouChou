@@ -1758,20 +1758,63 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-img,
     }
 }
 
-/* PC top section card alignment */
-@media(min-width:769px){
-    body:not(.cast-detail-page) .today-cast,
-    body:not(.cast-detail-page) .news,
-    body:not(.cast-detail-page) .concept{
-        width:min(1120px,calc(100% - 80px)) !important;
-        min-height:760px !important;
-        margin:56px auto !important;
-        padding:54px 40px 60px !important;
-        box-sizing:border-box !important;
-        border:1px solid rgba(242,188,215,.72) !important;
-        border-radius:28px !important;
-        background:linear-gradient(180deg,#fff,#fff8fb) !important;
-        box-shadow:0 18px 46px rgba(212,92,148,.14) !important;
-        overflow:visible !important;
-    }
+@media (min-width: 769px) {
+  .home-top-card-row {
+    max-width: 1180px;
+    margin: 80px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .home-top-card-row .home-vertical-card {
+    width: 100%;
+    height: 560px;
+    min-height: 560px;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 28px;
+  }
+
+  .home-top-card-row .section-title {
+    margin-bottom: 18px;
+  }
+
+  .home-top-card-row .today-cast .cast-grid,
+  .home-top-card-row .news .public-news-list,
+  .home-top-card-row .concept .concept-content {
+    height: calc(100% - 120px);
+    overflow: hidden;
+  }
+
+  .home-top-card-row .news .public-news-card.has-image {
+    display: block;
+  }
+
+  .home-top-card-row .news .public-news-image img {
+    width: 100%;
+    height: 170px;
+    min-height: 170px;
+    object-fit: cover;
+  }
+
+  .home-top-card-row .concept .concept-content {
+    max-width: none;
+    height: calc(100% - 120px);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-top-card-row {
+    display: block;
+  }
+
+  .home-top-card-row .home-vertical-card {
+    width: 100%;
+    height: auto;
+    min-height: unset;
+  }
 }
