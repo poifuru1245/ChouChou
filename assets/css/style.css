@@ -1757,3 +1757,21 @@ body:not(.cast-detail-page) .cast-card:hover .premium-cast-badge-img,
         height:auto !important;
     }
 }
+
+/* PC top section card alignment */
+@media(min-width:769px){
+    body:not(.cast-detail-page) .today-cast,
+    body:not(.cast-detail-page) .news,
+    body:not(.cast-detail-page) .concept{
+        width:min(1120px,calc(100% - 80px)) !important;
+        min-height:760px !important;
+        margin:56px auto !important;
+        padding:54px 40px 60px !important;
+        box-sizing:border-box !important;
+        border:1px solid rgba(242,188,215,.72) !important;
+        border-radius:28px !important;
+        background:linear-gradient(180deg,#fff,#fff8fb) !important;
+        box-shadow:0 18px 46px rgba(212,92,148,.14) !important;
+        overflow:visible !important;
+    }
+}
