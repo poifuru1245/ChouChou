@@ -8694,10 +8694,16 @@ body:not(.cast-detail-page) .premium-section-card .reserve-btn{
 
   .home-top-card-row .home-vertical-card {
     width: 100%;
-    height: 560px;
-    min-height: 560px;
+    height: 720px;
+    min-height: 720px;
     margin: 0;
     box-sizing: border-box;
+  }
+
+  .home-top-card-row .today-cast .cast-grid,
+  .home-top-card-row .news .public-news-list,
+  .home-top-card-row .concept .concept-content {
+    height: calc(100% - 140px);
   }
 }
 
