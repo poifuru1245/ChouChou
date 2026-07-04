@@ -8718,3 +8718,24 @@ body:not(.cast-detail-page) .premium-section-card .reserve-btn{
     min-height: unset;
   }
 }
+
+@media (min-width: 769px) {
+  .home-top-card-row > .home-vertical-card.today-cast,
+  .home-top-card-row > .home-vertical-card.news,
+  .home-top-card-row > .home-vertical-card.concept {
+    height: 720px !important;
+    min-height: 720px !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .home-top-card-row > .home-vertical-card.today-cast .cast-grid,
+  .home-top-card-row > .home-vertical-card.news .public-news-list,
+  .home-top-card-row > .home-vertical-card.concept .concept-content {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
