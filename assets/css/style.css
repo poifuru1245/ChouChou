@@ -8969,3 +8969,401 @@ body:not(.cast-detail-page) #cast.today-cast .ver9-today-cast-meta dt{
 body:not(.cast-detail-page) #cast.today-cast .ver9-today-cast-meta dd{
     padding-right:10px;
 }
+
+/* Ver9.0 Today's Cast Full Brand Rebuild */
+body:not(.cast-detail-page) .home-top-card-row > #cast.ver9-brand-today-cast{
+    position:relative !important;
+    width:100% !important;
+    height:720px !important;
+    min-height:720px !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:none !important;
+    box-shadow:none !important;
+    overflow:visible !important;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-frame{
+    position:relative;
+    isolation:isolate;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    border:1px solid rgba(215,171,86,.82);
+    border-radius:30px;
+    background:
+        radial-gradient(circle at 14% 9%,rgba(255,255,255,.95) 0 8%,transparent 26%),
+        radial-gradient(circle at 88% 15%,rgba(255,200,229,.56) 0 9%,transparent 28%),
+        linear-gradient(135deg,rgba(255,251,253,.96),rgba(255,230,243,.9) 52%,rgba(255,250,253,.97));
+    box-shadow:
+        0 22px 46px rgba(176,64,120,.16),
+        0 2px 0 rgba(255,255,255,.95) inset,
+        0 0 0 8px rgba(255,255,255,.42) inset,
+        0 0 0 11px rgba(214,166,72,.18) inset,
+        0 0 42px rgba(255,202,228,.56) inset;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-frame::before{
+    content:"";
+    position:absolute;
+    inset:17px;
+    z-index:-1;
+    border:1px solid rgba(214,166,72,.55);
+    border-radius:22px;
+    background:
+        radial-gradient(circle at 10% 16%,rgba(255,255,255,.8) 0 1px,transparent 4px),
+        radial-gradient(circle at 90% 18%,rgba(255,235,170,.65) 0 1px,transparent 4px),
+        radial-gradient(circle at 72% 84%,rgba(255,255,255,.74) 0 1px,transparent 4px),
+        linear-gradient(135deg,transparent 0 16px,rgba(255,255,255,.22) 17px 18px,transparent 19px 36px);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-frame::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-2;
+    background:
+        radial-gradient(circle at 0 0,rgba(255,116,178,.34) 0 42px,transparent 43px),
+        radial-gradient(circle at 100% 100%,rgba(255,116,178,.28) 0 48px,transparent 49px),
+        linear-gradient(45deg,transparent 0 42%,rgba(255,255,255,.22) 43%,transparent 44% 100%);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-decor,
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-decor span{
+    pointer-events:none;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-ribbon{
+    position:absolute;
+    top:-8px;
+    left:-8px;
+    width:116px;
+    height:74px;
+    z-index:3;
+    filter:drop-shadow(0 10px 14px rgba(196,82,139,.18));
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-ribbon::before,
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-ribbon::after{
+    content:"";
+    position:absolute;
+    top:22px;
+    width:70px;
+    height:38px;
+    border:1px solid rgba(255,255,255,.78);
+    border-radius:52% 48% 54% 46%;
+    background:linear-gradient(135deg,#ffd7e9,#ff8abd 58%,#d84f92);
+    box-shadow:0 1px 0 rgba(255,255,255,.86) inset,0 10px 20px rgba(196,82,139,.18);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-ribbon::before{
+    left:0;
+    transform:rotate(-24deg);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-ribbon::after{
+    right:0;
+    transform:rotate(22deg);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-tiara{
+    position:absolute;
+    top:27px;
+    left:50%;
+    z-index:3;
+    width:90px;
+    height:34px;
+    transform:translateX(-50%);
+    background:
+        radial-gradient(circle at 50% 18%,#fff 0 8%,transparent 9%),
+        radial-gradient(circle at 50% 42%,#f45f9f 0 12%,transparent 13%),
+        linear-gradient(135deg,transparent 0 18%,#d8ab55 19% 23%,transparent 24% 38%,#d8ab55 39% 43%,transparent 44% 57%,#d8ab55 58% 62%,transparent 63% 100%);
+    filter:drop-shadow(0 0 8px rgba(255,238,178,.58));
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-jewel{
+    position:absolute;
+    z-index:3;
+    width:18px;
+    height:18px;
+    border:1px solid rgba(255,255,255,.92);
+    border-radius:7px;
+    background:
+        radial-gradient(circle at 35% 26%,#fff 0 14%,transparent 16%),
+        linear-gradient(135deg,#ffe7f1,#ff72ae 52%,#d8ab55);
+    box-shadow:0 0 12px rgba(255,220,238,.66),0 5px 10px rgba(176,64,120,.16);
+    transform:rotate(45deg);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-jewel-top-left{top:19px;left:23px;}
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-jewel-top-right{top:19px;right:23px;}
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-jewel-bottom-left{bottom:22px;left:24px;}
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-jewel-bottom-right{right:24px;bottom:22px;}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-header{
+    position:relative;
+    z-index:2;
+    padding:60px 28px 18px;
+    text-align:center;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-label{
+    margin:0 0 8px;
+    color:#dc5b9b;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif;
+    font-size:27px;
+    font-weight:700;
+    line-height:1;
+    text-shadow:0 1px 0 #fff,0 0 14px rgba(255,255,255,.8);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-header h2{
+    margin:0;
+    color:#5b2c43;
+    font-size:44px;
+    line-height:1.05;
+    letter-spacing:.08em;
+    text-shadow:0 2px 0 rgba(255,255,255,.76);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-divider{
+    display:block;
+    width:120px;
+    height:13px;
+    margin:13px auto 0;
+    background:
+        radial-gradient(circle at 50% 50%,#ff78ad 0 11%,transparent 12%),
+        linear-gradient(90deg,transparent,#d8ab55 30%,#d8ab55 70%,transparent);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-list-wrap{
+    min-height:0;
+    padding:0 28px;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-list{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    align-content:start !important;
+    gap:13px !important;
+    max-height:462px !important;
+    height:100% !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding:1px 7px 1px 1px !important;
+    scrollbar-color:rgba(222,92,155,.58) rgba(255,238,247,.75);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-card{
+    position:relative;
+    isolation:isolate;
+    display:grid;
+    grid-template-columns:132px minmax(0,1fr);
+    gap:18px;
+    min-height:105px;
+    padding:12px 14px;
+    border:1px solid rgba(218,174,86,.56);
+    border-radius:23px;
+    background:
+        radial-gradient(circle at 3% 5%,rgba(255,107,170,.22) 0 12px,transparent 13px),
+        radial-gradient(circle at 98% 12%,rgba(255,255,255,.94) 0 10px,transparent 12px),
+        linear-gradient(135deg,rgba(255,255,255,.93),rgba(255,237,247,.9));
+    box-shadow:0 12px 24px rgba(176,64,120,.14),0 0 0 1px rgba(255,255,255,.72) inset;
+    cursor:pointer;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-card::before{
+    content:"";
+    position:absolute;
+    inset:7px;
+    z-index:-1;
+    border:1px solid rgba(238,173,204,.44);
+    border-radius:17px;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-card::after{
+    content:"♡ ✦";
+    position:absolute;
+    right:14px;
+    top:8px;
+    color:rgba(218,174,86,.46);
+    font-size:13px;
+    letter-spacing:3px;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-photo{
+    position:relative;
+    align-self:center;
+    width:132px;
+    aspect-ratio:1.26 / 1;
+    overflow:hidden;
+    border:1px solid rgba(218,174,86,.7);
+    border-radius:20px;
+    outline:1px solid rgba(255,255,255,.86);
+    outline-offset:-5px;
+    background:#fff;
+    box-shadow:0 10px 18px rgba(176,64,120,.16),0 0 14px rgba(255,244,250,.76) inset;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-image,
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-no-image{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-photo-tiara{
+    position:absolute;
+    top:-2px;
+    left:50%;
+    color:#d8ab55;
+    font-size:18px;
+    line-height:1;
+    text-shadow:0 0 7px rgba(255,255,255,.88);
+    transform:translateX(-50%);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-photo-bow{
+    position:absolute;
+    left:8px;
+    bottom:7px;
+    width:34px;
+    height:18px;
+    filter:drop-shadow(0 3px 5px rgba(176,64,120,.18));
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-photo-bow::before,
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-photo-bow::after{
+    content:"";
+    position:absolute;
+    top:3px;
+    width:18px;
+    height:13px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#ffd4e8,#ff82b8 58%,#d94f92);
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-photo-bow::before{left:0;transform:rotate(-22deg);}
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-photo-bow::after{right:0;transform:rotate(22deg);}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-info{
+    min-width:0;
+    align-self:center;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-heading{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+    margin-bottom:7px;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-heading h3{
+    margin:0;
+    color:#5f3046;
+    font-size:26px;
+    font-weight:800;
+    line-height:1.15;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-name-en{
+    color:#d5a65f;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif;
+    font-size:18px;
+    font-style:italic;
+    line-height:1;
+    white-space:nowrap;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-badge{
+    margin-left:auto;
+    border-radius:999px;
+    background:linear-gradient(135deg,#ff7fba,#d94f92);
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    line-height:1;
+    padding:7px 11px;
+    box-shadow:0 7px 14px rgba(205,70,139,.18),0 1px 0 rgba(255,255,255,.65) inset;
+    white-space:nowrap;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-meta{
+    display:grid;
+    gap:6px;
+    margin:0;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-meta-row{
+    display:grid;
+    grid-template-columns:82px minmax(0,1fr);
+    align-items:center;
+    min-height:27px;
+    border:1px solid rgba(239,169,204,.5);
+    border-radius:999px;
+    background:rgba(255,255,255,.76);
+    color:#714058;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-meta dt,
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-meta dd{
+    margin:0;
+    font-size:12px;
+    font-weight:700;
+    line-height:1.2;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-meta dt{
+    display:flex;
+    gap:5px;
+    color:#e45498;
+    padding-left:10px;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-cast-meta dd{
+    padding-right:10px;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-today-action{
+    padding:16px 42px 28px;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-schedule-button{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:54px;
+    border:1px solid rgba(214,166,72,.7);
+    border-radius:999px;
+    background:
+        linear-gradient(110deg,rgba(255,255,255,.38),transparent 26%,transparent 74%,rgba(255,255,255,.24)),
+        linear-gradient(135deg,#ff8ac0,#df4c92 52%,#ba2f74);
+    color:#fff;
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:.12em;
+    text-decoration:none;
+    box-shadow:0 13px 24px rgba(194,61,132,.24),0 1px 0 rgba(255,255,255,.75) inset,0 0 18px rgba(255,237,250,.34) inset;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-schedule-button::before{
+    content:"♕";
+    margin-right:12px;
+    color:#ffe7a8;
+    font-size:22px;
+}
+
+body:not(.cast-detail-page) #cast.ver9-brand-today-cast .ver9-brand-schedule-button::after{
+    content:"›";
+    margin-left:12px;
+    font-size:30px;
+    line-height:1;
+}
