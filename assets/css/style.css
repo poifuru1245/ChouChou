@@ -9876,3 +9876,214 @@ body:not(.cast-detail-page) #cast.v9-today-card .no-cast{
         height:100px;
     }
 }
+
+/* ChouChou Ver9.0 Today's Cast Phase3 Profile Cards */
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell{
+    grid-template-rows:auto minmax(0,1fr) auto;
+    background:
+        radial-gradient(circle at 50% 4%,rgba(255,255,255,.98) 0 9%,transparent 25%),
+        radial-gradient(circle at 14% 14%,rgba(255,211,234,.82) 0 11%,transparent 28%),
+        radial-gradient(circle at 88% 17%,rgba(255,238,183,.58) 0 9%,transparent 27%),
+        linear-gradient(135deg,rgba(255,252,254,.99),rgba(255,223,241,.95) 48%,rgba(255,249,253,.99));
+    box-shadow:
+        0 24px 50px rgba(176,64,120,.18),
+        0 2px 0 rgba(255,255,255,.96) inset,
+        0 0 0 8px rgba(255,255,255,.5) inset,
+        0 0 0 12px rgba(211,165,76,.2) inset,
+        0 0 52px rgba(255,190,224,.6) inset;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell::before{
+    inset:14px;
+    background:
+        radial-gradient(circle at 9% 13%,rgba(255,255,255,.9) 0 1px,transparent 4px),
+        radial-gradient(circle at 16% 36%,rgba(255,255,255,.72) 0 1px,transparent 4px),
+        radial-gradient(circle at 90% 17%,rgba(255,234,170,.74) 0 1px,transparent 4px),
+        radial-gradient(circle at 76% 84%,rgba(255,255,255,.78) 0 1px,transparent 4px),
+        repeating-linear-gradient(135deg,rgba(255,255,255,.2) 0 1px,transparent 1px 14px);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-header{
+    padding:48px 24px 10px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-eyebrow{
+    margin-bottom:6px;
+    font-size:24px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-header h2{
+    font-size:38px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-divider{
+    margin-top:9px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-tiara{
+    top:18px;
+    width:112px;
+    height:38px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list-frame{
+    padding:0 24px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list{
+    gap:3px;
+    row-gap:3px;
+    column-gap:0;
+    max-height:512px;
+    padding:0 6px 0 1px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item{
+    grid-template-columns:140px minmax(0,1fr);
+    gap:10px;
+    min-height:125px;
+    padding:8px 10px;
+    border-color:rgba(215,170,82,.74);
+    border-radius:24px;
+    background:
+        radial-gradient(circle at 5% 8%,rgba(255,100,168,.28) 0 13px,transparent 14px),
+        radial-gradient(circle at 96% 10%,rgba(255,255,255,.96) 0 10px,transparent 12px),
+        linear-gradient(135deg,rgba(255,255,255,.96),rgba(255,232,246,.93) 52%,rgba(255,249,253,.96));
+    box-shadow:
+        0 13px 24px rgba(176,64,120,.16),
+        0 0 0 1px rgba(255,255,255,.76) inset,
+        0 0 18px rgba(255,221,239,.34) inset;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item::before{
+    inset:6px;
+    border-color:rgba(215,170,82,.34);
+    border-radius:18px;
+    background:
+        radial-gradient(circle at 0 0,rgba(255,121,183,.18) 0 20px,transparent 21px),
+        radial-gradient(circle at 100% 100%,rgba(255,238,183,.24) 0 24px,transparent 25px);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item::after{
+    content:"♡ ✦ ♡";
+    right:11px;
+    top:7px;
+    color:rgba(215,170,82,.52);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo{
+    width:140px;
+    height:110px;
+    border-color:rgba(215,170,82,.84);
+    border-radius:21px;
+    box-shadow:
+        0 11px 19px rgba(176,64,120,.18),
+        0 0 0 5px rgba(255,255,255,.55) inset,
+        0 0 15px rgba(255,244,250,.82) inset;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo::before{
+    content:"";
+    position:absolute;
+    inset:5px;
+    z-index:2;
+    border:1px solid rgba(215,170,82,.5);
+    border-radius:16px;
+    pointer-events:none;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo-tiara{
+    top:-1px;
+    font-size:19px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo-jewel{
+    right:8px;
+    top:8px;
+    width:13px;
+    height:13px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo-ribbon{
+    left:7px;
+    bottom:8px;
+    width:40px;
+    height:20px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-height:110px;
+    padding:2px 0;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row{
+    gap:7px;
+    margin-bottom:7px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row h3{
+    max-width:none;
+    overflow:visible;
+    color:#5b2d43;
+    font-size:26px;
+    line-height:1.08;
+    text-overflow:clip;
+    white-space:normal;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-en{
+    display:none;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-status{
+    font-size:10px;
+    padding:6px 9px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta{
+    gap:4px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta-row{
+    grid-template-columns:76px minmax(0,1fr);
+    min-height:24px;
+    border-radius:14px;
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.86),rgba(255,249,253,.66));
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.92) inset,
+        0 4px 9px rgba(224,112,167,.08);
+    backdrop-filter:blur(7px);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dt,
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dd{
+    font-size:12px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dt{
+    padding-left:8px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dd{
+    overflow:visible;
+    padding-right:7px;
+    color:#5f3046;
+    text-align:left;
+    white-space:normal;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button-wrap{
+    padding:8px 42px 20px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button{
+    min-height:50px;
+    box-shadow:
+        0 13px 24px rgba(194,61,132,.24),
+        0 1px 0 rgba(255,255,255,.75) inset,
+        0 0 20px rgba(255,237,250,.4) inset;
+}

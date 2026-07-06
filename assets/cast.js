@@ -89,10 +89,10 @@ console.log("出勤者", todayCasts);
   sortCastsByDisplayOrder(casts);
 
 console.log("cast.js 起動");
-console.log(document.querySelector(".cast-grid"));
+console.log(document.querySelector(".v9-cast-list, .cast-grid"));
 
   const list =
-document.querySelector(".cast-grid");
+document.querySelector(".v9-cast-list, .cast-grid");
 
   if(!list) return;
 
