@@ -2132,3 +2132,214 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
         font-size:18px !important;
     }
 }
+
+/* Ver10 Phase2 Today's Cast spacing refinement */
+.today-cast{
+    background-position:center -34px !important;
+    background-size:100% 112% !important;
+}
+
+.today-cast .section-title{
+    padding-top:44px !important;
+    margin-bottom:8px !important;
+}
+
+.today-cast .section-title span{
+    font-size:24px !important;
+    line-height:1.05 !important;
+}
+
+.today-cast .section-title h2{
+    margin-top:6px !important;
+    font-size:31px !important;
+    line-height:1.1 !important;
+}
+
+.today-cast .cast-grid,
+body:not(.cast-detail-page) .today-cast .cast-grid{
+    gap:8px !important;
+    padding:0 18px !important;
+    justify-content:flex-start !important;
+}
+
+.today-cast .cast-grid > .public-cast-card,
+body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card{
+    grid-template-columns:80px minmax(0,1fr) !important;
+    min-height:86px !important;
+    height:86px !important;
+    padding:8px 10px 8px 13px !important;
+    border-radius:19px !important;
+}
+
+.today-cast .public-cast-photo,
+body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public-cast-photo{
+    width:76px !important;
+    max-width:76px !important;
+    min-width:76px !important;
+    height:76px !important;
+    border-radius:15px !important;
+}
+
+.today-cast .public-cast-photo > .public-cast-image,
+body:not(.cast-detail-page) .today-cast .public-cast-photo > .public-cast-image{
+    border-radius:13px !important;
+}
+
+.today-cast .public-cast-info,
+body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public-cast-info{
+    gap:7px !important;
+    padding-right:0 !important;
+}
+
+.today-cast .public-cast-info h3{
+    max-width:calc(100% - 82px) !important;
+    overflow:hidden !important;
+    font-size:23px !important;
+    line-height:1.12 !important;
+    white-space:nowrap !important;
+    text-overflow:ellipsis !important;
+}
+
+.today-cast-status{
+    top:3px !important;
+    right:1px !important;
+    min-width:70px !important;
+    height:22px !important;
+    padding:0 10px !important;
+    font-size:12px !important;
+}
+
+.today-cast-data-row{
+    gap:5px !important;
+    flex-wrap:nowrap !important;
+}
+
+.today-cast-data-pill{
+    min-height:30px !important;
+    padding:6px 8px !important;
+    font-size:13px !important;
+    line-height:1.1 !important;
+}
+
+.today-cast-data-row .today-cast-data-pill:first-child{
+    flex:0 0 104px !important;
+}
+
+.today-cast-time-pill{
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    overflow:hidden !important;
+}
+
+.today-cast-data-time{
+    min-width:0 !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+}
+
+.today-cast-more{
+    bottom:16px !important;
+}
+
+.today-cast-more-link{
+    width:294px !important;
+    min-height:52px !important;
+    padding:0 28px !important;
+    font-size:20px !important;
+    line-height:1.1 !important;
+    white-space:nowrap !important;
+}
+
+@media (min-width: 769px) {
+    .home-top-card-row .today-cast.home-vertical-card{
+        padding:0 !important;
+    }
+
+    .home-top-card-row .today-cast .cast-grid{
+        height:calc(100% - 144px) !important;
+        overflow:auto !important;
+        padding-bottom:4px !important;
+        scrollbar-width:none !important;
+    }
+
+    .home-top-card-row .today-cast .cast-grid::-webkit-scrollbar{
+        display:none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .today-cast .section-title{
+        padding-top:50px !important;
+        margin-bottom:10px !important;
+    }
+
+    .today-cast .section-title span{
+        font-size:23px !important;
+    }
+
+    .today-cast .section-title h2{
+        font-size:30px !important;
+    }
+
+    .today-cast .cast-grid,
+    body:not(.cast-detail-page) .today-cast .cast-grid{
+        gap:10px !important;
+        padding:0 16px !important;
+    }
+
+    .today-cast .cast-grid > .public-cast-card,
+    body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card{
+        grid-template-columns:82px minmax(0,1fr) !important;
+        min-height:96px !important;
+        padding:13px 14px 13px 16px !important;
+    }
+
+    .today-cast .public-cast-photo,
+    body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public-cast-photo{
+        width:74px !important;
+        max-width:74px !important;
+        min-width:74px !important;
+        height:80px !important;
+    }
+
+    .today-cast .public-cast-info{
+        gap:8px !important;
+    }
+
+    .today-cast .public-cast-info h3{
+        max-width:calc(100% - 76px) !important;
+        font-size:22px !important;
+    }
+
+    .today-cast-status{
+        top:0 !important;
+        min-width:66px !important;
+        height:22px !important;
+        font-size:11px !important;
+    }
+
+    .today-cast-data-row{
+        flex-wrap:wrap !important;
+        gap:7px !important;
+    }
+
+    .today-cast-data-row .today-cast-data-pill:first-child{
+        flex:0 0 auto !important;
+    }
+
+    .today-cast-data-pill{
+        min-height:30px !important;
+        padding:7px 11px !important;
+        font-size:13px !important;
+    }
+
+    .today-cast-more{
+        bottom:17px !important;
+    }
+
+    .today-cast-more-link{
+        width:270px !important;
+        min-height:50px !important;
+        font-size:18px !important;
+    }
+}
