@@ -10087,3 +10087,258 @@ body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button{
         0 1px 0 rgba(255,255,255,.75) inset,
         0 0 20px rgba(255,237,250,.4) inset;
 }
+
+/* ChouChou Ver9.0 Today's Cast Luxury Decoration */
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell{
+    border-color:rgba(219,174,82,.98);
+    background:
+        radial-gradient(circle at 10% 9%,rgba(255,255,255,.98) 0 5%,transparent 22%),
+        radial-gradient(circle at 92% 13%,rgba(255,221,239,.82) 0 7%,transparent 25%),
+        radial-gradient(circle at 50% 0,rgba(255,242,197,.52) 0 10%,transparent 29%),
+        repeating-radial-gradient(circle at 8% 18%,rgba(255,255,255,.18) 0 1px,transparent 1px 12px),
+        repeating-linear-gradient(135deg,rgba(255,255,255,.16) 0 1px,transparent 1px 13px),
+        linear-gradient(135deg,rgba(255,252,254,.99),rgba(255,218,239,.97) 48%,rgba(255,249,253,.99));
+    box-shadow:
+        0 24px 52px rgba(166,52,114,.24),
+        0 3px 0 rgba(255,255,255,.98) inset,
+        0 0 0 5px rgba(255,255,255,.72) inset,
+        0 0 0 9px rgba(255,224,240,.44) inset,
+        0 0 0 13px rgba(219,174,82,.34) inset,
+        0 0 0 15px rgba(255,255,255,.52) inset,
+        0 0 58px rgba(255,188,224,.72) inset;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell::before{
+    border-color:rgba(219,174,82,.78);
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.72) inset,
+        0 0 18px rgba(255,255,255,.58),
+        0 0 22px rgba(219,174,82,.14) inset;
+    background:
+        radial-gradient(circle at 9% 13%,rgba(255,255,255,.96) 0 1px,transparent 4px),
+        radial-gradient(circle at 16% 36%,rgba(255,255,255,.78) 0 1px,transparent 4px),
+        radial-gradient(circle at 32% 6%,rgba(255,245,185,.72) 0 1px,transparent 4px),
+        radial-gradient(circle at 90% 17%,rgba(255,234,170,.82) 0 1px,transparent 4px),
+        radial-gradient(circle at 76% 84%,rgba(255,255,255,.82) 0 1px,transparent 4px),
+        radial-gradient(circle at 95% 72%,rgba(255,255,255,.72) 0 1px,transparent 4px),
+        repeating-linear-gradient(135deg,rgba(255,255,255,.24) 0 1px,transparent 1px 12px),
+        repeating-linear-gradient(45deg,rgba(255,255,255,.12) 0 1px,transparent 1px 16px);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell::after{
+    background:
+        linear-gradient(112deg,rgba(255,255,255,.48) 0 9%,transparent 10% 42%,rgba(255,255,255,.24) 43%,transparent 58%),
+        radial-gradient(circle at 8% 8%,rgba(255,113,178,.34) 0 48px,transparent 49px),
+        radial-gradient(circle at 94% 94%,rgba(255,113,178,.28) 0 54px,transparent 55px),
+        radial-gradient(circle at 82% 18%,rgba(255,237,189,.34) 0 18px,transparent 19px);
+    opacity:1;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-decoration::before,
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-decoration::after{
+    content:"";
+    position:absolute;
+    z-index:5;
+    pointer-events:none;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-decoration::before{
+    top:54px;
+    right:26px;
+    width:30px;
+    height:74px;
+    border-radius:999px;
+    background:
+        radial-gradient(circle at 50% 13%,#fff 0 8%,transparent 9%),
+        radial-gradient(circle at 50% 31%,#ff7fb5 0 11%,transparent 12%),
+        radial-gradient(circle at 50% 58%,#fff 0 7%,transparent 8%),
+        radial-gradient(circle at 50% 82%,#ffb4d3 0 12%,transparent 13%),
+        linear-gradient(#d8aa52,#f8df9b,#d8aa52);
+    box-shadow:0 7px 16px rgba(164,86,125,.2),0 0 14px rgba(255,237,189,.5);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-decoration::after{
+    left:55px;
+    top:90px;
+    width:280px;
+    height:450px;
+    background:
+        radial-gradient(circle at 12% 10%,rgba(255,255,255,.9) 0 1px,transparent 4px),
+        radial-gradient(circle at 31% 23%,rgba(255,238,184,.76) 0 1px,transparent 4px),
+        radial-gradient(circle at 80% 18%,rgba(255,255,255,.82) 0 1px,transparent 4px),
+        radial-gradient(circle at 64% 46%,rgba(255,214,234,.86) 0 1px,transparent 4px),
+        radial-gradient(circle at 92% 70%,rgba(255,255,255,.78) 0 1px,transparent 4px),
+        radial-gradient(circle at 27% 82%,rgba(255,238,184,.72) 0 1px,transparent 4px);
+    filter:drop-shadow(0 0 8px rgba(255,255,255,.64));
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-tiara{
+    filter:drop-shadow(0 0 9px rgba(255,239,184,.82)) drop-shadow(0 7px 10px rgba(166,80,125,.18));
+    background:
+        radial-gradient(circle at 50% 12%,#fff 0 8%,transparent 9%),
+        radial-gradient(circle at 50% 39%,#ff5f9f 0 12%,transparent 13%),
+        radial-gradient(circle at 26% 56%,#fff2bc 0 6%,transparent 7%),
+        radial-gradient(circle at 74% 56%,#fff2bc 0 6%,transparent 7%),
+        linear-gradient(135deg,transparent 0 16%,#c89534 17% 22%,transparent 23% 37%,#d8aa52 38% 44%,transparent 45% 56%,#d8aa52 57% 63%,transparent 64% 100%);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-ribbon{
+    filter:drop-shadow(0 12px 16px rgba(190,75,132,.28)) drop-shadow(0 0 10px rgba(255,255,255,.5));
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-ribbon-top{
+    transform:scale(1.14) rotate(-3deg);
+    transform-origin:top left;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-ribbon::before,
+body:not(.cast-detail-page) #cast.v9-today-card .v9-ribbon::after{
+    background:
+        linear-gradient(118deg,rgba(255,255,255,.62),transparent 28%),
+        linear-gradient(135deg,#ffe2ef,#ff85ba 55%,#cf3f86);
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.94) inset,
+        0 11px 20px rgba(190,75,132,.22),
+        0 0 14px rgba(255,229,241,.58) inset;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel{
+    width:23px;
+    height:23px;
+    border:1px solid rgba(255,255,255,.96);
+    border-radius:9px;
+    background:
+        radial-gradient(circle at 35% 24%,#fff 0 13%,transparent 15%),
+        radial-gradient(circle at 62% 68%,rgba(255,255,255,.48) 0 10%,transparent 12%),
+        linear-gradient(135deg,#ffe3ef,#ff5fa2 48%,#d8aa52);
+    box-shadow:
+        0 0 14px rgba(255,220,238,.78),
+        0 0 0 3px rgba(216,170,82,.16),
+        0 7px 13px rgba(176,64,120,.2);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel::before{
+    content:"";
+    position:absolute;
+    inset:-8px;
+    border:1px solid rgba(216,170,82,.32);
+    border-radius:13px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-tl{top:22px;left:23px;}
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-tr{top:22px;right:23px;}
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-bl{bottom:24px;left:24px;}
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-br{right:24px;bottom:24px;}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item{
+    border-color:rgba(219,174,82,.92);
+    background:
+        radial-gradient(circle at 4% 6%,rgba(255,92,164,.36) 0 14px,transparent 15px),
+        radial-gradient(circle at 96% 11%,rgba(255,255,255,.98) 0 12px,transparent 13px),
+        radial-gradient(circle at 90% 86%,rgba(255,238,184,.32) 0 20px,transparent 21px),
+        linear-gradient(135deg,rgba(255,255,255,.98),rgba(255,225,242,.96) 54%,rgba(255,247,252,.98));
+    box-shadow:
+        0 15px 28px rgba(164,52,114,.22),
+        0 0 0 1px rgba(255,255,255,.84) inset,
+        0 0 0 4px rgba(255,255,255,.34) inset,
+        0 0 0 6px rgba(219,174,82,.12) inset,
+        0 0 24px rgba(255,207,232,.48) inset;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item::before{
+    border-color:rgba(219,174,82,.54);
+    background:
+        radial-gradient(circle at 4% 8%,#ff6eaa 0 4px,transparent 5px),
+        radial-gradient(circle at 96% 8%,#ff6eaa 0 4px,transparent 5px),
+        radial-gradient(circle at 4% 92%,#fff1b8 0 4px,transparent 5px),
+        radial-gradient(circle at 96% 92%,#fff1b8 0 4px,transparent 5px),
+        linear-gradient(112deg,rgba(255,255,255,.52) 0 14%,transparent 15% 68%,rgba(255,255,255,.28) 69%,transparent 84%),
+        radial-gradient(circle at 0 0,rgba(255,121,183,.2) 0 20px,transparent 21px),
+        radial-gradient(circle at 100% 100%,rgba(255,238,183,.28) 0 24px,transparent 25px);
+    box-shadow:0 0 12px rgba(255,255,255,.55) inset;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item::after{
+    content:"♕";
+    right:14px;
+    top:50%;
+    color:rgba(216,170,82,.18);
+    font-size:54px;
+    line-height:1;
+    text-shadow:0 1px 0 rgba(255,255,255,.55);
+    transform:translateY(-50%) rotate(-8deg);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo{
+    border-color:rgba(219,174,82,.98);
+    outline:1px solid rgba(255,255,255,.95);
+    outline-offset:-6px;
+    box-shadow:
+        0 12px 22px rgba(164,52,114,.24),
+        0 0 0 3px rgba(219,174,82,.18),
+        0 0 0 6px rgba(255,255,255,.42) inset,
+        0 0 20px rgba(255,244,250,.9) inset;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo::before{
+    border-color:rgba(219,174,82,.76);
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.72) inset,
+        0 0 10px rgba(255,255,255,.58);
+    background:
+        radial-gradient(circle at 8% 10%,#ff76b0 0 4px,transparent 5px),
+        radial-gradient(circle at 92% 10%,#fff2b8 0 4px,transparent 5px),
+        radial-gradient(circle at 8% 90%,#fff2b8 0 4px,transparent 5px),
+        radial-gradient(circle at 92% 90%,#ff76b0 0 4px,transparent 5px);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    background:linear-gradient(115deg,rgba(255,255,255,.48) 0 14%,transparent 15% 54%,rgba(255,255,255,.24) 55%,transparent 72%);
+    pointer-events:none;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo-jewel{
+    box-shadow:
+        0 0 9px rgba(255,217,236,.92),
+        0 0 0 3px rgba(216,170,82,.14);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo-ribbon::before,
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo-ribbon::after{
+    background:
+        linear-gradient(120deg,rgba(255,255,255,.52),transparent 34%),
+        linear-gradient(135deg,#ffd4e8,#ff74ae 58%,#d94f92);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button{
+    border-color:rgba(219,174,82,.95);
+    background:
+        radial-gradient(circle at 14% 50%,rgba(255,242,185,.6) 0 9px,transparent 10px),
+        radial-gradient(circle at 86% 50%,rgba(255,242,185,.5) 0 8px,transparent 9px),
+        linear-gradient(112deg,rgba(255,255,255,.52),transparent 24%,transparent 74%,rgba(255,255,255,.34)),
+        linear-gradient(135deg,#ff93c7,#df4c92 52%,#b92c72);
+    background-size:100% 100%,100% 100%,220% 100%,100% 100%;
+    box-shadow:
+        0 14px 27px rgba(194,61,132,.3),
+        0 0 0 3px rgba(255,255,255,.36) inset,
+        0 0 0 5px rgba(219,174,82,.18) inset,
+        0 1px 0 rgba(255,255,255,.82) inset,
+        0 0 22px rgba(255,237,250,.5) inset;
+    transition:background-position .45s ease,box-shadow .25s ease,filter .25s ease;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button:hover{
+    background-position:0 0,0 0,100% 0,0 0;
+    box-shadow:
+        0 16px 30px rgba(194,61,132,.34),
+        0 0 0 3px rgba(255,255,255,.42) inset,
+        0 0 0 5px rgba(219,174,82,.24) inset,
+        0 1px 0 rgba(255,255,255,.88) inset,
+        0 0 28px rgba(255,237,250,.62) inset,
+        0 0 16px rgba(255,236,176,.34);
+    filter:saturate(1.06) brightness(1.03);
+}
