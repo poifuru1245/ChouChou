@@ -113,8 +113,7 @@ todayCasts;
 
   const legacyScheduleCasts =
   casts
-  .filter((cast)=>String(cast?.schedule || "").trim())
-  .slice(0, limit ?? casts.length);
+  .filter((cast)=>String(cast?.schedule || "").trim());
 
   if(legacyScheduleCasts.length){
 
@@ -123,34 +122,14 @@ todayCasts;
 const div =
 document.createElement("div");
 
-div.className = "today-schedule-item";
+div.className = "today-schedule-item public-cast-card ver9-today-cast-item";
 makeTodayScheduleCardClickable(div, createCastDetailUrl(cast));
 
 const image =
 getMainImage(cast);
 
-const imageMarkup =
-image
-? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
-: `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
-
-div.innerHTML = `
-  <div class="today-schedule-photo">
-    ${imageMarkup}
-  </div>
-
-  <div class="today-schedule-info">
-    <h3>${escapeHtml(cast.name || "")}</h3>
-
-    <p class="today-schedule-profile">
-      ${escapeHtml(formatTodayProfile(cast))}
-    </p>
-
-    <p class="cast-time public-cast-schedule">
-      <span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast))}
-    </p>
-  </div>
-`;
+div.innerHTML =
+createVer9TodayCastMarkup(cast, formatSchedule(cast), image);
 
 list.appendChild(div);
 
@@ -170,7 +149,7 @@ list.appendChild(div);
 }
 
   schedulesForDisplay
-  .slice(0, limit ?? schedulesForDisplay.length)
+  .slice(0, schedulesForDisplay.length)
   .forEach((schedule)=>{
 
 const cast =
@@ -180,34 +159,14 @@ createScheduleFallbackCast(schedule);
 const div =
 document.createElement("div");
 
-div.className = "today-schedule-item";
+div.className = "today-schedule-item public-cast-card ver9-today-cast-item";
 makeTodayScheduleCardClickable(div, createCastDetailUrl(cast));
 
 const image =
 getMainImage(cast);
 
-const imageMarkup =
-image
-? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
-: `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
-
-div.innerHTML = `
-  <div class="today-schedule-photo">
-    ${imageMarkup}
-  </div>
-
-  <div class="today-schedule-info">
-    <h3>${escapeHtml(cast.name || "")}</h3>
-
-    <p class="today-schedule-profile">
-      ${escapeHtml(formatTodayProfile(cast))}
-    </p>
-
-    <p class="cast-time public-cast-schedule">
-      <span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast, schedule.time))}
-    </p>
-  </div>
-`;
+div.innerHTML =
+createVer9TodayCastMarkup(cast, formatSchedule(cast, schedule.time), image);
 
 list.appendChild(div);
 
@@ -268,25 +227,11 @@ createCastDetailUrl(cast);
 
 if(isScheduleList){
 
-div.className = "today-schedule-item";
+div.className = "today-schedule-item public-cast-card ver9-today-cast-item";
 makeTodayScheduleCardClickable(div, detailUrl);
 
 div.innerHTML = `
-  <div class="today-schedule-photo">
-    ${imageMarkup}
-  </div>
-
-  <div class="today-schedule-info">
-    <h3>${escapeHtml(cast.name || "")}</h3>
-
-    <p class="today-schedule-profile">
-      ${escapeHtml(formatTodayProfile(cast))}
-    </p>
-
-    <p class="cast-time public-cast-schedule">
-      <span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast, todayCast.time))}
-    </p>
-  </div>
+  ${createVer9TodayCastMarkup(cast, formatSchedule(cast, todayCast.time), image)}
 `;
 
 }else{
@@ -787,6 +732,60 @@ return cup
 function formatTodayProfile(cast){
 
 return `${formatAge(cast?.age)} / ${formatCup(cast)} / ${formatHeight(cast?.height)}`;
+
+}
+
+function createVer9TodayCastMarkup(cast, scheduleText, image = ""){
+
+const name =
+cast?.name || "";
+
+const imageMarkup =
+image
+? `<img class="public-cast-image ver9-today-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}">`
+: `<div class="cast-card-no-image public-cast-image ver9-today-cast-image">NO IMAGE</div>`;
+
+return `
+  <div class="today-schedule-photo ver9-today-cast-photo">
+    ${imageMarkup}
+  </div>
+
+  <div class="today-schedule-info ver9-today-cast-info">
+    <div class="ver9-today-cast-heading">
+      <h3>${escapeHtml(name)}</h3>
+      <span class="ver9-today-cast-name-en">${escapeHtml(toDisplayRomaji(cast))}</span>
+      <span class="ver9-today-cast-badge">本日出勤</span>
+    </div>
+
+    <dl class="ver9-today-cast-meta">
+      <div class="ver9-today-cast-meta-row">
+        <dt><span aria-hidden="true">▣</span> 年齢</dt>
+        <dd>${escapeHtml(formatAge(cast?.age))}</dd>
+      </div>
+      <div class="ver9-today-cast-meta-row">
+        <dt><span aria-hidden="true">◇</span> 身長</dt>
+        <dd>${escapeHtml(formatHeight(cast?.height))}</dd>
+      </div>
+      <div class="ver9-today-cast-meta-row">
+        <dt><span aria-hidden="true">○</span> 出勤時間</dt>
+        <dd>${escapeHtml(scheduleText || "未定")}</dd>
+      </div>
+    </dl>
+  </div>
+`;
+
+}
+
+function toDisplayRomaji(cast){
+
+const value =
+cast?.nameEn ||
+cast?.englishName ||
+cast?.romanName ||
+cast?.romaji ||
+"";
+
+return value || "";
 
 }
 
