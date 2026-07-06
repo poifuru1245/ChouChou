@@ -2343,3 +2343,139 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
         font-size:18px !important;
     }
 }
+
+/* Ver10 Final Polish */
+.today-cast{
+    box-shadow:
+        inset 0 0 0 1px rgba(226,177,83,.34),
+        inset 0 0 28px rgba(255,255,255,.48),
+        0 18px 42px rgba(210,86,146,.22) !important;
+}
+
+.today-cast::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:16px !important;
+    z-index:1 !important;
+    pointer-events:none !important;
+    border:1px solid rgba(218,172,87,.38) !important;
+    border-radius:24px !important;
+    background:
+        radial-gradient(circle at 15% 18%,rgba(255,255,255,.64) 0 2px,rgba(255,255,255,0) 3px),
+        radial-gradient(circle at 86% 24%,rgba(255,255,255,.7) 0 2px,rgba(255,255,255,0) 3px),
+        radial-gradient(circle at 74% 74%,rgba(255,255,255,.58) 0 2px,rgba(255,255,255,0) 3px),
+        linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,0) 35%,rgba(255,235,246,.22)) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.42),
+        inset 0 0 20px rgba(255,255,255,.45) !important;
+}
+
+.today-cast::after{
+    content:"" !important;
+    position:absolute !important;
+    left:22px !important;
+    right:22px !important;
+    bottom:90px !important;
+    z-index:1 !important;
+    height:1px !important;
+    pointer-events:none !important;
+    background:linear-gradient(90deg,rgba(218,172,87,0),rgba(218,172,87,.34),rgba(255,255,255,.48),rgba(218,172,87,.34),rgba(218,172,87,0)) !important;
+}
+
+.today-cast .section-title{
+    padding-top:36px !important;
+    margin-bottom:8px !important;
+}
+
+.today-cast .section-title span{
+    font-size:26px !important;
+}
+
+.today-cast .section-title h2{
+    font-size:34px !important;
+}
+
+.today-cast .cast-grid,
+body:not(.cast-detail-page) .today-cast .cast-grid{
+    padding-top:0 !important;
+    margin-top:-10px !important;
+}
+
+.today-cast .cast-grid > .public-cast-card,
+body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card{
+    box-sizing:border-box !important;
+    border:1px solid rgba(222,175,89,.72) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.72),
+        inset 0 0 0 3px rgba(255,233,187,.18),
+        0 8px 18px rgba(190,75,132,.12) !important;
+}
+
+.today-cast .cast-grid > .public-cast-card::before,
+body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:5px !important;
+    z-index:1 !important;
+    pointer-events:none !important;
+    border:1px solid rgba(224,181,95,.42) !important;
+    border-radius:14px !important;
+    background:
+        radial-gradient(circle at 8px 8px,rgba(255,255,255,.76) 0 2px,rgba(255,255,255,0) 3px),
+        radial-gradient(circle at calc(100% - 8px) calc(100% - 8px),rgba(255,244,215,.7) 0 2px,rgba(255,255,255,0) 3px) !important;
+}
+
+.today-cast .public-cast-info,
+.today-cast .public-cast-photo{
+    z-index:2 !important;
+}
+
+.today-cast-more{
+    bottom:24px !important;
+}
+
+.today-cast-more-link{
+    min-height:58px !important;
+    padding:6px 28px 0 !important;
+    align-items:center !important;
+    background-size:100% 100% !important;
+    font-size:20px !important;
+    line-height:1.1 !important;
+}
+
+.today-cast .no-cast{
+    align-self:flex-start !important;
+    margin-top:8px !important;
+    padding:28px 24px !important;
+    transform:translateY(-12px) !important;
+}
+
+@media (min-width: 769px){
+    .home-top-card-row .today-cast .cast-grid{
+        height:calc(100% - 140px) !important;
+    }
+}
+
+@media (max-width: 768px){
+    .today-cast .section-title{
+        padding-top:42px !important;
+    }
+
+    .today-cast .section-title span{
+        font-size:25px !important;
+    }
+
+    .today-cast .section-title h2{
+        font-size:32px !important;
+    }
+
+    .today-cast-more{
+        bottom:24px !important;
+    }
+
+    .today-cast-more-link{
+        min-height:56px !important;
+        padding-top:6px !important;
+        font-size:19px !important;
+    }
+}
