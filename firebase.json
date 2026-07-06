@@ -4,9 +4,15 @@
     "public": ".",
     "ignore": [
       "firebase.json",
+      "firebase-debug.log",
       "**/.*",
       "**/node_modules/**",
-      "届け出書/**"
+      "届出書/**",
+      "*.xlsx",
+      "*.heic",
+      "*.HEIC",
+      "*backup*",
+      "*.save"
     ]
   }
 }
