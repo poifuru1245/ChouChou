@@ -2479,3 +2479,114 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card::before{
         font-size:19px !important;
     }
 }
+
+/* Ver11 Premium Today's Cast: image-led material layering */
+.today-cast{
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,245,250,.06)),
+        url("../img/today-cast/ver11-today-bg.png") center top/100% 100% no-repeat !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(226,177,83,.28),
+        0 18px 42px rgba(210,86,146,.22) !important;
+}
+
+.today-cast::before,
+.today-cast::after{
+    content:none !important;
+}
+
+.today-cast .section-title{
+    padding-top:42px !important;
+    margin-bottom:8px !important;
+    text-align:center !important;
+}
+
+.today-cast .section-title span{
+    font-size:28px !important;
+    line-height:1.02 !important;
+}
+
+.today-cast .section-title h2{
+    margin-top:7px !important;
+    font-size:36px !important;
+    line-height:1.06 !important;
+}
+
+.today-cast .cast-grid,
+body:not(.cast-detail-page) .today-cast .cast-grid{
+    gap:5px !important;
+    margin-top:-2px !important;
+    padding-right:18px !important;
+    padding-left:18px !important;
+}
+
+.today-cast .cast-grid > .public-cast-card,
+body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card{
+    border:0 !important;
+    background:url("../img/today-cast/ver11-cast-card-bg.png") center/100% 100% no-repeat !important;
+    box-shadow:0 8px 18px rgba(190,75,132,.1) !important;
+}
+
+.today-cast .cast-grid > .public-cast-card::before,
+body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card::before{
+    content:none !important;
+}
+
+.today-cast .public-cast-photo,
+body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public-cast-photo{
+    border-color:rgba(222,175,89,.76) !important;
+    box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,.78),
+        0 5px 12px rgba(181,83,132,.12) !important;
+}
+
+.today-cast .public-cast-info h3{
+    color:#4b2336 !important;
+}
+
+.today-cast-data-pill{
+    border-color:rgba(238,188,213,.68) !important;
+    background:rgba(255,255,255,.62) !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.84) !important;
+}
+
+.today-cast-more{
+    bottom:20px !important;
+}
+
+.today-cast-more-link{
+    min-height:58px !important;
+    padding:10px 28px 0 !important;
+    background:url("../img/today-cast/ver11-button-bg.png") center/100% 170% no-repeat !important;
+}
+
+@media (min-width: 769px){
+    .home-top-card-row .today-cast .cast-grid{
+        height:359px !important;
+    }
+}
+
+@media (max-width: 768px){
+    .today-cast{
+        background-size:100% 100% !important;
+    }
+
+    .today-cast .section-title{
+        padding-top:40px !important;
+        margin-bottom:8px !important;
+    }
+
+    .today-cast .section-title span{
+        font-size:27px !important;
+    }
+
+    .today-cast .section-title h2{
+        font-size:34px !important;
+    }
+
+    .today-cast-more-link{
+        min-height:58px !important;
+        padding-top:10px !important;
+        background-size:100% 172% !important;
+    }
+}
