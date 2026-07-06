@@ -138,15 +138,22 @@ div.innerHTML = `
 
   <div class="cast-info public-cast-info">
 
+    <span class="today-cast-status">本日出勤</span>
+
     <h3>${escapeHtml(cast.name || "")}</h3>
 
-    <p class="public-cast-profile-line">
-      ${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatHeight(cast.height))}
-    </p>
+    <div class="today-cast-data-row">
+      <p class="public-cast-profile-line today-cast-data-pill">
+        <span class="today-cast-data-age">${escapeHtml(formatAge(cast.age))}</span>
+        <span aria-hidden="true"> / - / </span>
+        <span class="today-cast-data-height">${escapeHtml(formatHeight(cast.height))}</span>
+      </p>
 
-    <p class="cast-time public-cast-schedule">
-      出勤：${escapeHtml(formatSchedule(cast, todayCast.time))}
-    </p>
+      <p class="cast-time public-cast-schedule today-cast-data-pill today-cast-time-pill">
+        <span>出勤：</span>
+        <span class="today-cast-data-time">${escapeHtml(formatSchedule(cast, todayCast.time))}</span>
+      </p>
+    </div>
 
     ${tagsMarkup}
 
