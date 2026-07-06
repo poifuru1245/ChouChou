@@ -122,14 +122,14 @@ todayCasts;
 const div =
 document.createElement("div");
 
-div.className = "ver9-brand-cast-card";
+div.className = "v9-cast-item";
 makeTodayScheduleCardClickable(div, createCastDetailUrl(cast));
 
 const image =
 getMainImage(cast);
 
 div.innerHTML =
-createVer9TodayCastMarkup(cast, formatSchedule(cast), image);
+createV9TodayCastMarkup(cast, formatSchedule(cast), image);
 
 list.appendChild(div);
 
@@ -159,14 +159,14 @@ createScheduleFallbackCast(schedule);
 const div =
 document.createElement("div");
 
-div.className = "ver9-brand-cast-card";
+div.className = "v9-cast-item";
 makeTodayScheduleCardClickable(div, createCastDetailUrl(cast));
 
 const image =
 getMainImage(cast);
 
 div.innerHTML =
-createVer9TodayCastMarkup(cast, formatSchedule(cast, schedule.time), image);
+createV9TodayCastMarkup(cast, formatSchedule(cast, schedule.time), image);
 
 list.appendChild(div);
 
@@ -227,11 +227,11 @@ createCastDetailUrl(cast);
 
 if(isScheduleList){
 
-div.className = "ver9-brand-cast-card";
+div.className = "v9-cast-item";
 makeTodayScheduleCardClickable(div, detailUrl);
 
 div.innerHTML = `
-  ${createVer9TodayCastMarkup(cast, formatSchedule(cast, todayCast.time), image)}
+  ${createV9TodayCastMarkup(cast, formatSchedule(cast, todayCast.time), image)}
 `;
 
 }else{
@@ -735,41 +735,42 @@ return `${formatAge(cast?.age)} / ${formatCup(cast)} / ${formatHeight(cast?.heig
 
 }
 
-function createVer9TodayCastMarkup(cast, scheduleText, image = ""){
+function createV9TodayCastMarkup(cast, scheduleText, image = ""){
 
 const name =
 cast?.name || "";
 
 const imageMarkup =
 image
-? `<img class="ver9-brand-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}">`
-: `<div class="ver9-brand-cast-no-image">NO IMAGE</div>`;
+? `<img class="v9-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}">`
+: `<div class="v9-cast-no-image">NO IMAGE</div>`;
 
 return `
-  <div class="ver9-brand-cast-photo">
+  <div class="v9-cast-photo">
     ${imageMarkup}
-    <span class="ver9-brand-photo-tiara" aria-hidden="true">♕</span>
-    <span class="ver9-brand-photo-bow" aria-hidden="true"></span>
+    <span class="v9-cast-photo-tiara" aria-hidden="true">♕</span>
+    <span class="v9-cast-photo-jewel" aria-hidden="true"></span>
+    <span class="v9-cast-photo-ribbon" aria-hidden="true"></span>
   </div>
 
-  <div class="ver9-brand-cast-info">
-    <div class="ver9-brand-cast-heading">
+  <div class="v9-cast-profile">
+    <div class="v9-cast-name-row">
       <h3>${escapeHtml(name)}</h3>
-      <span class="ver9-brand-cast-name-en">${escapeHtml(toDisplayRomaji(cast))}</span>
-      <span class="ver9-brand-cast-badge">本日出勤</span>
+      <span class="v9-cast-name-en">${escapeHtml(toDisplayRomaji(cast))}</span>
+      <span class="v9-cast-status">本日出勤</span>
     </div>
 
-    <dl class="ver9-brand-cast-meta">
-      <div class="ver9-brand-cast-meta-row">
-        <dt><span aria-hidden="true">▣</span><span>年齢</span></dt>
+    <dl class="v9-cast-meta">
+      <div class="v9-cast-meta-row">
+        <dt><span class="v9-meta-icon" aria-hidden="true">□</span><span>年齢</span></dt>
         <dd>${escapeHtml(formatAge(cast?.age))}</dd>
       </div>
-      <div class="ver9-brand-cast-meta-row">
-        <dt><span aria-hidden="true">◇</span><span>身長</span></dt>
+      <div class="v9-cast-meta-row">
+        <dt><span class="v9-meta-icon" aria-hidden="true">◇</span><span>身長</span></dt>
         <dd>${escapeHtml(formatHeight(cast?.height))}</dd>
       </div>
-      <div class="ver9-brand-cast-meta-row">
-        <dt><span aria-hidden="true">○</span><span>出勤時間</span></dt>
+      <div class="v9-cast-meta-row">
+        <dt><span class="v9-meta-icon" aria-hidden="true">○</span><span>出勤時間</span></dt>
         <dd>${escapeHtml(scheduleText || "未定")}</dd>
       </div>
     </dl>
