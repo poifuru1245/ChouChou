@@ -132,8 +132,8 @@ createCastDetailUrl(cast);
 
 div.innerHTML = `
   <div class="public-cast-photo">
-    ${imageMarkup}
     ${badgeMarkup}
+    ${imageMarkup}
   </div>
 
   <div class="cast-info public-cast-info">
@@ -224,8 +224,8 @@ createCastDetailUrl(cast);
 
 div.innerHTML = `
 <div class="public-cast-photo">
-${imageMarkup}
 ${badgeMarkup}
+${imageMarkup}
 </div>
 
 <div class="cast-info public-cast-info">
@@ -410,7 +410,7 @@ return "";
 }
 
 return `
-<div class="public-cast-badges" data-badge-layout="public">
+<div class="cast-badges public-cast-badges" data-badge-layout="public">
 ${badges.join("")}
 </div>
 `;
@@ -420,9 +420,7 @@ ${badges.join("")}
 function createNewBadgeImage(){
 
 return `
-<span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
-  <img class="premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/badge-new.png" alt="NEW 新人" width="48" decoding="async" onerror="this.parentElement.remove()">
-</span>
+<img class="badge-new premium-cast-badge premium-cast-badge-new premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/badge-new.png" alt="NEW 新人" width="48" decoding="async" onerror="this.remove()">
 `;
 
 }
@@ -430,9 +428,7 @@ return `
 function createRecommendedBadgeImage(label = "おすすめ"){
 
 return `
-<span class="premium-cast-badge premium-cast-badge-recommended" aria-label="${label}">
-  <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/badge-osusume.png" alt="${label}" width="48" decoding="async" onerror="this.parentElement.remove()">
-</span>
+<img class="badge-recommend premium-cast-badge premium-cast-badge-recommended premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/badge-osusume.png" alt="${label}" width="48" decoding="async" onerror="this.remove()">
 `;
 
 }
