@@ -3234,3 +3234,59 @@ body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges > img{
     box-shadow:none !important;
     z-index:auto !important;
 }
+
+/* Ver11.0 Cast List badge isolation final override */
+body:not(.cast-detail-page) #cast-list .public-cast-photo{
+    position:relative !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges{
+    position:absolute !important;
+    top:10px !important;
+    left:10px !important;
+    z-index:50 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:8px !important;
+    margin:0 !important;
+    padding:0 !important;
+    transform:none !important;
+    animation:none !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .premium-cast-badge,
+body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .premium-cast-badge-img,
+body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .badge-new,
+body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .badge-recommend{
+    position:static !important;
+    display:block !important;
+    width:48px !important;
+    height:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    transform:none !important;
+    animation:none !important;
+    filter:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-card:hover .public-cast-photo > .cast-badges.public-cast-badges .premium-cast-badge,
+body:not(.cast-detail-page) #cast-list .public-cast-card:hover .public-cast-photo > .cast-badges.public-cast-badges .premium-cast-badge-img{
+    transform:none !important;
+    filter:none !important;
+}
+
+@media (max-width: 768px){
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges{
+        top:10px !important;
+        left:10px !important;
+        gap:8px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .premium-cast-badge,
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .premium-cast-badge-img,
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .badge-new,
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .badge-recommend{
+        width:48px !important;
+    }
+}
