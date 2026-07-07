@@ -3240,3 +3240,40 @@ body:not(.cast-detail-page) #cast-list .public-cast-photo .premium-cast-badge-im
     height:auto !important;
     object-fit:contain !important;
 }
+
+/* Ver11.0 Cast List badge absolute pinning */
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card{
+    position:relative !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo{
+    position:relative !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo .public-cast-badges{
+    position:absolute !important;
+    inset:0 auto auto 0 !important;
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    z-index:35 !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo .premium-cast-badge-new,
+body:not(.cast-detail-page) #cast-list .public-cast-photo .premium-cast-badge-recommended{
+    position:absolute !important;
+    left:12px !important;
+    z-index:36 !important;
+    margin:0 !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo .premium-cast-badge-new{
+    top:12px !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo .premium-cast-badge-recommended{
+    top:76px !important;
+}
