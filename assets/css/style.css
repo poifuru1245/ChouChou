@@ -2890,3 +2890,46 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
         bottom:24px !important;
     }
 }
+
+/* Ver11.0 text-position adjustment only */
+.today-cast .section-title span{
+    transform:translateY(-3px) !important;
+}
+
+.today-cast .section-title h2{
+    transform:translateY(-5px) !important;
+}
+
+.today-cast .no-cast{
+    transform:translateY(-22px) !important;
+}
+
+.today-cast .today-cast-more-link{
+    padding:2px 28px 8px !important;
+}
+
+.today-cast-more-link::before{
+    top:0 !important;
+}
+
+.home-top-card-row .news .section-title span{
+    transform:translateY(-18px) !important;
+}
+
+.home-top-card-row .news .section-title h2{
+    transform:translateY(-10px) !important;
+}
+
+.home-top-card-row .concept .section-title span{
+    transform:translateY(12px) !important;
+}
+
+.home-top-card-row .concept .section-title h2{
+    transform:translateY(8px) !important;
+}
+
+@media (max-width: 768px){
+    .today-cast .section-title span{
+        transform:translateY(-5px) !important;
+    }
+}
