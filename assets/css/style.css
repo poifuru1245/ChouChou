@@ -2860,3 +2860,33 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
         font-size:15px !important;
     }
 }
+
+/* Ver11.0 Today's Cast layout-only final alignment */
+.today-cast .section-title span{
+    transform:translateY(17px) !important;
+}
+
+.today-cast .today-cast-more{
+    position:absolute !important;
+    left:50% !important;
+    right:auto !important;
+    bottom:24px !important;
+    width:max-content !important;
+    max-width:calc(100% - 48px) !important;
+    margin:0 !important;
+    transform:translateX(-50%) !important;
+}
+
+.today-cast .today-cast-more-link{
+    margin:0 auto !important;
+}
+
+@media (max-width: 768px){
+    .today-cast .section-title span{
+        transform:translateY(15px) !important;
+    }
+
+    .today-cast .today-cast-more{
+        bottom:24px !important;
+    }
+}
