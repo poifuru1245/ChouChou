@@ -3634,3 +3634,269 @@ body:not(.cast-detail-page) #cast-list .public-profile-link:hover{
         font-size:13px !important;
     }
 }
+
+/* Ver5.3 Public CAST clean glass refinement */
+body:not(.cast-detail-page) #cast-list.cast-list{
+    background:
+        radial-gradient(circle at 18% 10%,rgba(255,255,255,.74) 0 2px,rgba(255,255,255,0) 7px),
+        radial-gradient(circle at 88% 18%,rgba(255,232,245,.62),rgba(255,232,245,0) 24%),
+        linear-gradient(180deg,rgba(255,250,253,.94),rgba(255,236,246,.82)) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid{
+    gap:28px !important;
+    align-items:stretch !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card{
+    position:relative !important;
+    display:flex !important;
+    flex-direction:column !important;
+    height:100% !important;
+    padding:14px 14px 18px !important;
+    border:1px solid rgba(214,173,94,.62) !important;
+    border-radius:22px !important;
+    overflow:hidden !important;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.74),rgba(255,240,248,.6) 54%,rgba(255,255,255,.72)),
+        rgba(255,245,250,.72) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.86),
+        0 16px 34px rgba(180,83,132,.15),
+        0 1px 0 rgba(255,255,255,.9) !important;
+    backdrop-filter:blur(10px) !important;
+    text-align:center !important;
+    transition:transform .32s ease, box-shadow .32s ease, border-color .32s ease, filter .32s ease !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover{
+    transform:translateY(-5px) !important;
+    border-color:rgba(222,181,100,.82) !important;
+    filter:brightness(1.015) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.9),
+        0 22px 42px rgba(180,83,132,.2),
+        0 0 20px rgba(255,226,178,.18) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:1 !important;
+    pointer-events:none !important;
+    border:0 !important;
+    border-radius:inherit !important;
+    background:
+        linear-gradient(115deg,rgba(255,255,255,.46),rgba(255,255,255,0) 31%),
+        linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0) 58%) !important;
+    box-shadow:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card::after{
+    content:"" !important;
+    position:absolute !important;
+    top:0 !important;
+    left:-55% !important;
+    z-index:2 !important;
+    width:42% !important;
+    height:100% !important;
+    pointer-events:none !important;
+    transform:skewX(-18deg) translateX(-35%) !important;
+    background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.38),rgba(255,255,255,0)) !important;
+    opacity:0 !important;
+    transition:opacity .34s ease, transform .52s ease !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover::after{
+    opacity:.8 !important;
+    transform:skewX(-18deg) translateX(330%) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card > *{
+    position:relative !important;
+    z-index:3 !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo{
+    width:100% !important;
+    height:332px !important;
+    margin:0 !important;
+    border:1px solid rgba(218,179,101,.56) !important;
+    border-radius:18px !important;
+    overflow:hidden !important;
+    background:rgba(255,255,255,.5) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.78),
+        0 8px 18px rgba(170,86,128,.1) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:10 !important;
+    pointer-events:none !important;
+    border-radius:inherit !important;
+    background:linear-gradient(135deg,rgba(255,255,255,.34),rgba(255,255,255,0) 34%) !important;
+    box-shadow:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo::after{
+    content:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo > .public-cast-image,
+body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-card-no-image{
+    width:100% !important;
+    height:100% !important;
+    border-radius:16px !important;
+    object-fit:cover !important;
+    filter:saturate(1.03) brightness(1.02) contrast(1.01) !important;
+    transition:transform .42s ease, filter .42s ease !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover .public-cast-image{
+    transform:scale(1.018) !important;
+    filter:saturate(1.05) brightness(1.035) contrast(1.01) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-info{
+    display:flex !important;
+    flex:1 1 auto !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    gap:9px !important;
+    padding:18px 4px 0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-info h3{
+    width:100% !important;
+    margin:0 !important;
+    color:#4b2537 !important;
+    font-size:24px !important;
+    font-weight:700 !important;
+    line-height:1.25 !important;
+    letter-spacing:0 !important;
+    text-align:center !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.85) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-profile-line,
+body:not(.cast-detail-page) #cast-list .public-cast-schedule{
+    width:100% !important;
+    min-height:30px !important;
+    margin:0 !important;
+    padding:6px 12px !important;
+    border:1px solid rgba(232,190,210,.7) !important;
+    border-radius:999px !important;
+    background:rgba(255,255,255,.66) !important;
+    color:#704058 !important;
+    font-size:15px !important;
+    font-weight:700 !important;
+    line-height:1.2 !important;
+    text-align:center !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.88) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-schedule{
+    color:#bd4e88 !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-profile-link{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:min(100%,188px) !important;
+    min-height:42px !important;
+    margin-top:auto !important;
+    padding:11px 24px !important;
+    border:1px solid rgba(255,229,185,.7) !important;
+    border-radius:999px !important;
+    background:
+        linear-gradient(115deg,rgba(255,255,255,.36),rgba(255,255,255,0) 33%),
+        linear-gradient(135deg,#f48cbd,#db4f96 58%,#bd2f7f) !important;
+    color:#fff !important;
+    font-size:15px !important;
+    font-weight:800 !important;
+    line-height:1 !important;
+    text-decoration:none !important;
+    text-shadow:0 1px 0 rgba(125,35,82,.24) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.55),
+        0 10px 20px rgba(204,75,139,.22) !important;
+    transition:transform .28s ease, filter .28s ease, box-shadow .28s ease !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-profile-link:hover{
+    transform:translateY(-2px) !important;
+    filter:brightness(1.07) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.62),
+        0 14px 24px rgba(204,75,139,.28),
+        0 0 16px rgba(255,224,176,.22) !important;
+}
+
+@media (max-width: 768px){
+    body:not(.cast-detail-page) #cast-list .all-cast-grid{
+        grid-template-columns:minmax(0,1fr) !important;
+        gap:18px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card{
+        display:grid !important;
+        grid-template-columns:118px minmax(0,1fr) !important;
+        padding:10px !important;
+        border-radius:18px !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card::after{
+        display:none !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-photo{
+        width:118px !important;
+        height:154px !important;
+        border-radius:15px !important;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.72) !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .public-cast-image,
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-card-no-image{
+        border-radius:13px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-info{
+        align-items:flex-start !important;
+        justify-content:center !important;
+        gap:5px !important;
+        min-width:0 !important;
+        padding:4px 6px 4px 12px !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-info h3{
+        font-size:20px !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-profile-line,
+    body:not(.cast-detail-page) #cast-list .public-cast-schedule{
+        min-height:0 !important;
+        padding:5px 9px !important;
+        font-size:13px !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-profile-link{
+        align-self:flex-start !important;
+        width:auto !important;
+        min-height:32px !important;
+        margin-top:3px !important;
+        padding:8px 16px !important;
+        font-size:13px !important;
+    }
+}
