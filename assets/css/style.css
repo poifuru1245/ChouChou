@@ -3036,3 +3036,16 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
 .home-top-card-row .home-vertical-card .section-title h2{
     top:var(--title-jp-baseline-shift, 0) !important;
 }
+
+/* Ver11.0 final Today's Cast text-position adjustment only */
+.today-cast .no-cast{
+    transform:translateY(1px) !important;
+}
+
+.today-cast .today-cast-more-link{
+    padding:0 28px 24px !important;
+}
+
+.today-cast-more-link::before{
+    top:-12px !important;
+}
