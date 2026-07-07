@@ -3070,3 +3070,144 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
     transform:none !important;
     height:auto !important;
 }
+
+/* Ver11.0 Cast List premium card redesign */
+body:not(.cast-detail-page) #cast-list.cast-list{
+    position:relative !important;
+    background:
+        radial-gradient(circle at 10% 8%,rgba(255,255,255,.72) 0 2px,rgba(255,255,255,0) 5px),
+        radial-gradient(circle at 92% 12%,rgba(255,255,255,.66) 0 2px,rgba(255,255,255,0) 5px),
+        linear-gradient(180deg,rgba(255,246,251,.86),rgba(255,232,243,.72)) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card{
+    isolation:isolate !important;
+    overflow:hidden !important;
+    border:1px solid rgba(218,172,87,.76) !important;
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.78),rgba(255,236,246,.74) 48%,rgba(255,249,252,.88)),
+        radial-gradient(circle at 14% 12%,rgba(255,255,255,.92) 0 2px,rgba(255,255,255,0) 5px),
+        radial-gradient(circle at 86% 88%,rgba(255,233,186,.42),rgba(255,233,186,0) 34%) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.72),
+        inset 0 0 22px rgba(255,255,255,.34),
+        0 16px 34px rgba(210,86,146,.2),
+        0 3px 0 rgba(155,111,39,.1) !important;
+    transition:transform .35s ease, box-shadow .35s ease, filter .35s ease !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover{
+    transform:translateY(-5px) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.8),
+        inset 0 0 26px rgba(255,255,255,.42),
+        0 22px 44px rgba(210,86,146,.27),
+        0 0 18px rgba(255,228,171,.2) !important;
+    filter:brightness(1.02) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:1 !important;
+    pointer-events:none !important;
+    background:
+        radial-gradient(circle at 17px 17px,#fff 0 2px,#ffc2df 3px 6px,#d9a84f 7px 8px,rgba(255,255,255,0) 10px),
+        radial-gradient(circle at calc(100% - 17px) 17px,#fff 0 2px,#ffc2df 3px 6px,#d9a84f 7px 8px,rgba(255,255,255,0) 10px),
+        radial-gradient(circle at 17px calc(100% - 17px),#fff 0 2px,#ffc2df 3px 6px,#d9a84f 7px 8px,rgba(255,255,255,0) 10px),
+        radial-gradient(circle at calc(100% - 17px) calc(100% - 17px),#fff 0 2px,#ffc2df 3px 6px,#d9a84f 7px 8px,rgba(255,255,255,0) 10px),
+        linear-gradient(120deg,rgba(255,255,255,.22),rgba(255,255,255,0) 34%,rgba(255,255,255,.2) 62%,rgba(255,255,255,0)) !important;
+    opacity:.88 !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card::after{
+    content:"" !important;
+    position:absolute !important;
+    inset:9px !important;
+    z-index:1 !important;
+    pointer-events:none !important;
+    border:1px solid rgba(255,236,187,.5) !important;
+    border-radius:17px !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.44),
+        inset 0 0 18px rgba(255,255,255,.3) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card > *{
+    position:relative !important;
+    z-index:2 !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo{
+    border-bottom:1px solid rgba(218,172,87,.58) !important;
+    background:linear-gradient(135deg,#fff9fc,#f8dfeb) !important;
+    box-shadow:
+        inset 0 0 0 3px rgba(255,246,220,.72),
+        inset 0 0 0 5px rgba(205,154,70,.42),
+        inset 0 0 18px rgba(255,255,255,.5) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo::after{
+    content:"" !important;
+    position:absolute !important;
+    inset:8px !important;
+    z-index:12 !important;
+    pointer-events:none !important;
+    border:1px solid rgba(255,235,184,.68) !important;
+    border-radius:12px !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.48),
+        0 0 16px rgba(231,187,95,.18) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-photo > .public-cast-image{
+    filter:saturate(1.04) brightness(1.02) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-info{
+    background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,243,249,.76)) !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.86) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-info h3{
+    color:#4f2538 !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.8) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-profile-line,
+body:not(.cast-detail-page) #cast-list .public-cast-schedule{
+    color:#7a4059 !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-profile-link{
+    background:linear-gradient(135deg,#f08bbd,#d84293 62%,#b92176) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.58),
+        0 8px 18px rgba(216,90,155,.24),
+        0 0 0 1px rgba(255,233,185,.48) !important;
+    transition:filter .3s ease, transform .3s ease !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-profile-link:hover{
+    filter:brightness(1.08) !important;
+    transform:translateY(-1px) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-badges{
+    top:12px !important;
+    left:12px !important;
+    z-index:35 !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-badges .premium-cast-badge{
+    opacity:1 !important;
+    transform:none !important;
+    animation:none !important;
+}
+
+body:not(.cast-detail-page) #cast-list .public-cast-card:hover .premium-cast-badge,
+body:not(.cast-detail-page) #cast-list .public-cast-card:hover .premium-cast-badge-img{
+    transform:none !important;
+}
