@@ -3049,3 +3049,16 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
 .today-cast-more-link::before{
     top:-12px !important;
 }
+
+/* Ver11.0 final Today's Cast empty/button text nudge only */
+.today-cast .no-cast{
+    transform:translateY(31px) !important;
+}
+
+.today-cast .today-cast-more-link{
+    padding:9px 28px 15px !important;
+}
+
+.today-cast-more-link::before{
+    top:-3px !important;
+}
