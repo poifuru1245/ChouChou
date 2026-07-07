@@ -3065,5 +3065,8 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
 
 /* Ver11.0 Concept content-position adjustment only */
 .home-top-card-row .concept .concept-content{
-    transform:translateY(35px) !important;
+    position:relative !important;
+    top:60px !important;
+    transform:none !important;
+    height:auto !important;
 }
