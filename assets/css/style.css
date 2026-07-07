@@ -3062,3 +3062,8 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
 .today-cast-more-link::before{
     top:-3px !important;
 }
+
+/* Ver11.0 Concept content-position adjustment only */
+.home-top-card-row .concept .concept-content{
+    transform:translateY(35px) !important;
+}
