@@ -420,7 +420,7 @@ ${badges.join("")}
 function createNewBadgeImage(){
 
 return `
-<img class="badge-new premium-cast-badge premium-cast-badge-new premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/badge-new.png" alt="NEW 新人" width="48" decoding="async" onerror="this.remove()">
+<img class="badge-new" src="assets/img/badges/badge-new.png" alt="NEW 新人" width="48" decoding="async" onerror="this.remove()">
 `;
 
 }
@@ -428,7 +428,7 @@ return `
 function createRecommendedBadgeImage(label = "おすすめ"){
 
 return `
-<img class="badge-recommend premium-cast-badge premium-cast-badge-recommended premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/badge-osusume.png" alt="${label}" width="48" decoding="async" onerror="this.remove()">
+<img class="badge-recommend" src="assets/img/badges/badge-osusume.png" alt="${label}" width="48" decoding="async" onerror="this.remove()">
 `;
 
 }
