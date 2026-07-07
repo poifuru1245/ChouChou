@@ -3335,3 +3335,12 @@ body:not(.cast-detail-page) #cast-list .public-cast-card:hover .public-cast-phot
     filter:none !important;
     box-shadow:none !important;
 }
+
+/* Temporarily hide unstable CAST list badges */
+#cast-list .public-cast-badges,
+#cast-list .badge-new,
+#cast-list .badge-recommend,
+#cast-list .premium-cast-badge,
+#cast-list .premium-cast-badge-img{
+    display:none !important;
+}
