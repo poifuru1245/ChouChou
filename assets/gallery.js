@@ -6,11 +6,14 @@ import {
 import { db } from "./app.js";
 
 const COLLECTION_NAME = "gallery";
+const INITIAL_VISIBLE_COUNT = 6;
+const LOAD_MORE_COUNT = 3;
 
 const elements = {
   grids: [
     ...document.querySelectorAll(".public-gallery-grid")
   ],
+  moreButton: document.getElementById("galleryMoreButton"),
   lightbox: document.getElementById("galleryLightbox"),
   lightboxImage: document.getElementById("galleryLightboxImage"),
   lightboxTitle: document.getElementById("galleryLightboxTitle"),
@@ -22,10 +25,12 @@ const elements = {
 
 let galleryItems = [];
 let activeGalleryIndex = 0;
+let visibleGalleryCount = INITIAL_VISIBLE_COUNT;
 
 if (elements.grids.length) {
   loadGallery();
   bindLightboxEvents();
+  bindGalleryMore();
 }
 
 async function loadGallery() {
@@ -52,28 +57,54 @@ async function loadGallery() {
 
 function renderGallery(items) {
   galleryItems = items.filter((item) => Boolean(item.imageUrl));
+  visibleGalleryCount = Math.min(INITIAL_VISIBLE_COUNT, galleryItems.length);
 
   elements.grids.forEach((grid) => {
     if (!galleryItems.length) {
       grid.innerHTML = `<p class="gallery-empty">店内写真準備中</p>`;
+      updateGalleryMoreButton();
       return;
     }
 
-    const fragment = document.createDocumentFragment();
+    renderVisibleGalleryItems(grid);
+  });
 
-    galleryItems.forEach((item, index) => {
-      fragment.appendChild(createGalleryItem(item, index));
+  updateGalleryMoreButton();
+}
+
+function renderVisibleGalleryItems(grid) {
+  const fragment = document.createDocumentFragment();
+
+  galleryItems.slice(0, visibleGalleryCount).forEach((item, index) => {
+    fragment.appendChild(createGalleryItem(item, index));
+  });
+
+  grid.innerHTML = "";
+
+  if (!fragment.childNodes.length) {
+    grid.innerHTML = `<p class="gallery-empty">店内写真準備中</p>`;
+    return;
+  }
+
+  grid.appendChild(fragment);
+}
+
+function bindGalleryMore() {
+  elements.moreButton?.addEventListener("click", () => {
+    visibleGalleryCount = Math.min(visibleGalleryCount + LOAD_MORE_COUNT, galleryItems.length);
+
+    elements.grids.forEach((grid) => {
+      renderVisibleGalleryItems(grid);
     });
 
-    grid.innerHTML = "";
-
-    if (!fragment.childNodes.length) {
-      grid.innerHTML = `<p class="gallery-empty">店内写真準備中</p>`;
-      return;
-    }
-
-    grid.appendChild(fragment);
+    updateGalleryMoreButton();
   });
+}
+
+function updateGalleryMoreButton() {
+  if (!elements.moreButton) return;
+
+  elements.moreButton.hidden = visibleGalleryCount >= galleryItems.length;
 }
 
 function createGalleryItem(item, index) {
