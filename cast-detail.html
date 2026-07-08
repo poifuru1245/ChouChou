@@ -13,34 +13,45 @@
 <body class="cast-detail-page">
 
 <main class="cast-detail">
-
-  <section class="cast-gallery" aria-label="キャスト写真">
-    <img id="castImage" class="cast-main-image" alt="">
-    <div id="castThumbnails" class="cast-thumbnails"></div>
-  </section>
-
-  <section class="profile-box">
+  <div class="cast-detail-heading">
     <p class="profile-label">Cast Profile</p>
     <h1 id="castName"></h1>
+  </div>
 
-    <div class="profile-grid">
-      <p id="castAge"></p>
-      <p id="castHeight"></p>
-      <p id="castBirthday"></p>
-      <p id="castBloodType"></p>
-      <p id="castHobby"></p>
-      <p id="castDrink"></p>
-    </div>
+  <div class="cast-detail-layout">
+    <section class="cast-gallery" aria-label="キャスト写真">
+      <div class="cast-photo-frame">
+        <img id="castImage" class="cast-main-image" alt="">
+      </div>
+      <div id="castThumbnails" class="cast-thumbnails"></div>
+    </section>
 
-    <p id="castMessage" class="profile-message"></p>
+    <section class="profile-box">
+      <div class="profile-card-head">
+        <p class="profile-label">Luxury Profile</p>
+        <h2>プロフィール</h2>
+      </div>
 
-    <div id="castTags" class="cast-tags"></div>
-    <div id="castSns" class="cast-sns"></div>
+      <div class="profile-grid">
+        <p id="castAge"></p>
+        <p id="castHeight"></p>
+        <p id="castBloodType"></p>
+        <p id="castBirthday"></p>
+        <p id="castHobby"></p>
+        <p id="castDrink"></p>
+      </div>
 
-    <a href="reservation.html" class="reserve-btn">
-      指名予約する
-    </a>
-  </section>
+      <p id="castMessage" class="profile-message"></p>
+
+      <div id="castTags" class="cast-tags"></div>
+      <div id="castSns" class="cast-sns"></div>
+
+      <div class="cast-reserve-actions" aria-label="予約">
+        <a href="reservation.html" class="reserve-btn cast-web-reserve">WEB予約</a>
+        <a href="#" class="reserve-btn cast-line-reserve">LINE予約</a>
+      </div>
+    </section>
+  </div>
 
 </main>
 
