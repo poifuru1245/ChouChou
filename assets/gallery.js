@@ -15,8 +15,13 @@ const elements = {
   lightboxImage: document.getElementById("galleryLightboxImage"),
   lightboxTitle: document.getElementById("galleryLightboxTitle"),
   lightboxClose: document.getElementById("galleryLightboxClose"),
-  lightboxBackdrop: document.getElementById("galleryLightboxBackdrop")
+  lightboxBackdrop: document.getElementById("galleryLightboxBackdrop"),
+  lightboxPrev: document.getElementById("galleryLightboxPrev"),
+  lightboxNext: document.getElementById("galleryLightboxNext")
 };
+
+let galleryItems = [];
+let activeGalleryIndex = 0;
 
 if (elements.grids.length) {
   loadGallery();
@@ -46,17 +51,18 @@ async function loadGallery() {
 }
 
 function renderGallery(items) {
+  galleryItems = items.filter((item) => Boolean(item.imageUrl));
+
   elements.grids.forEach((grid) => {
-    if (!items.length) {
+    if (!galleryItems.length) {
       grid.innerHTML = `<p class="gallery-empty">店内写真準備中</p>`;
       return;
     }
 
     const fragment = document.createDocumentFragment();
 
-    items.forEach((item) => {
-      if (!item.imageUrl) return;
-      fragment.appendChild(createGalleryItem(item));
+    galleryItems.forEach((item, index) => {
+      fragment.appendChild(createGalleryItem(item, index));
     });
 
     grid.innerHTML = "";
@@ -70,7 +76,7 @@ function renderGallery(items) {
   });
 }
 
-function createGalleryItem(item) {
+function createGalleryItem(item, index) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "public-gallery-item";
@@ -87,24 +93,47 @@ function createGalleryItem(item) {
     ${item.title ? `<span>${escapeHtml(item.title)}</span>` : ""}
   `;
 
-  button.addEventListener("click", () => openLightbox(item));
+  button.addEventListener("click", () => openLightbox(index));
 
   return button;
 }
 
-function openLightbox(item) {
+function openLightbox(index) {
   if (!elements.lightbox || !elements.lightboxImage) return;
 
+  const item = galleryItems[index];
+  if (!item) return;
+
+  activeGalleryIndex = index;
+  updateLightbox(item);
+  updateLightboxNavigation();
+  elements.lightbox.classList.add("is-open");
+  elements.lightbox.setAttribute("aria-hidden", "false");
+  document.body.classList.add("is-gallery-lightbox-open");
+}
+
+function updateLightbox(item) {
   elements.lightboxImage.src = item.imageUrl || "";
   elements.lightboxImage.alt = item.title || "";
 
   if (elements.lightboxTitle) {
     elements.lightboxTitle.textContent = item.title || "";
   }
+}
 
-  elements.lightbox.classList.add("is-open");
-  elements.lightbox.setAttribute("aria-hidden", "false");
-  document.body.classList.add("is-gallery-lightbox-open");
+function showLightboxItem(direction) {
+  if (!galleryItems.length) return;
+
+  activeGalleryIndex = (activeGalleryIndex + direction + galleryItems.length) % galleryItems.length;
+  updateLightbox(galleryItems[activeGalleryIndex]);
+  updateLightboxNavigation();
+}
+
+function updateLightboxNavigation() {
+  const shouldShow = galleryItems.length > 1;
+
+  if (elements.lightboxPrev) elements.lightboxPrev.hidden = !shouldShow;
+  if (elements.lightboxNext) elements.lightboxNext.hidden = !shouldShow;
 }
 
 function closeLightbox() {
@@ -119,10 +148,22 @@ function closeLightbox() {
 function bindLightboxEvents() {
   elements.lightboxClose?.addEventListener("click", closeLightbox);
   elements.lightboxBackdrop?.addEventListener("click", closeLightbox);
+  elements.lightboxPrev?.addEventListener("click", () => showLightboxItem(-1));
+  elements.lightboxNext?.addEventListener("click", () => showLightboxItem(1));
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeLightbox();
+    }
+
+    if (!elements.lightbox?.classList.contains("is-open")) return;
+
+    if (event.key === "ArrowLeft") {
+      showLightboxItem(-1);
+    }
+
+    if (event.key === "ArrowRight") {
+      showLightboxItem(1);
     }
   });
 }
