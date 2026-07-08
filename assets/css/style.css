@@ -6963,6 +6963,14 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
     margin-top:12px;
 }
 
+.system-drink-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.system-drink-card{
+    min-height:220px;
+}
+
 .system-menu-list{
     position:relative;
     z-index:1;
