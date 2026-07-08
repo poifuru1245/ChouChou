@@ -5121,3 +5121,165 @@ body:not(.cast-detail-page) #cast-list .public-profile-link:hover{
         0 15px 28px rgba(190,79,133,.31),
         0 0 18px rgba(244,221,176,.3) !important;
 }
+
+/* Public CAST section luxury catalogue layout */
+body:not(.cast-detail-page) #cast-list.cast-list{
+    position:relative !important;
+    isolation:isolate !important;
+    overflow:hidden !important;
+    padding-top:92px !important;
+    padding-bottom:118px !important;
+    background:
+        radial-gradient(circle at 16% 22%,rgba(255,177,218,.22),rgba(255,177,218,0) 30%),
+        radial-gradient(circle at 84% 18%,rgba(255,221,238,.3),rgba(255,221,238,0) 34%),
+        radial-gradient(circle at 50% 96%,rgba(213,137,170,.14),rgba(213,137,170,0) 36%),
+        repeating-radial-gradient(ellipse at 12% 8%,rgba(255,255,255,.08) 0 1px,rgba(255,255,255,0) 2px 16px),
+        repeating-linear-gradient(45deg,rgba(194,145,169,.055) 0 1px,rgba(255,255,255,0) 1px 18px),
+        repeating-linear-gradient(-45deg,rgba(214,180,116,.05) 0 1px,rgba(255,255,255,0) 1px 20px),
+        linear-gradient(180deg,rgba(255,248,252,.98),rgba(255,231,243,.88) 48%,rgba(255,246,251,.96)) !important;
+}
+
+body:not(.cast-detail-page) #cast-list.cast-list::before,
+body:not(.cast-detail-page) #cast-list.cast-list::after{
+    content:"" !important;
+    position:absolute !important;
+    pointer-events:none !important;
+    z-index:0 !important;
+}
+
+body:not(.cast-detail-page) #cast-list.cast-list::before{
+    inset:0 !important;
+    opacity:.68 !important;
+    background:
+        radial-gradient(circle at 22% 24%,rgba(255,255,255,.64) 0 1px,rgba(255,255,255,0) 5px),
+        radial-gradient(circle at 74% 31%,rgba(255,236,198,.54) 0 1px,rgba(255,236,198,0) 6px),
+        radial-gradient(circle at 88% 68%,rgba(255,255,255,.5) 0 1px,rgba(255,255,255,0) 5px),
+        radial-gradient(circle at 38% 82%,rgba(255,230,242,.5) 0 1px,rgba(255,230,242,0) 6px);
+    filter:blur(.2px) !important;
+}
+
+body:not(.cast-detail-page) #cast-list.cast-list::after{
+    width:52vw !important;
+    height:52vw !important;
+    right:-20vw !important;
+    top:9% !important;
+    border-radius:50% !important;
+    opacity:.42 !important;
+    background:radial-gradient(circle,rgba(255,156,207,.28),rgba(255,214,235,.12) 42%,rgba(255,214,235,0) 70%) !important;
+    filter:blur(24px) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .section-title,
+body:not(.cast-detail-page) #cast-list .all-cast-grid{
+    position:relative !important;
+    z-index:1 !important;
+}
+
+body:not(.cast-detail-page) #cast-list .section-title{
+    margin-bottom:52px !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) #cast-list .section-title span{
+    position:relative !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:14px !important;
+    color:#b98a42 !important;
+    font-weight:700 !important;
+    letter-spacing:0 !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.9),0 0 14px rgba(255,226,184,.32) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .section-title span::before,
+body:not(.cast-detail-page) #cast-list .section-title span::after{
+    content:"" !important;
+    display:block !important;
+    width:72px !important;
+    height:1px !important;
+    background:linear-gradient(90deg,rgba(197,159,86,0),rgba(197,159,86,.62),rgba(248,235,205,.42)) !important;
+    box-shadow:0 1px 0 rgba(255,255,255,.65) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .section-title span::after{
+    transform:scaleX(-1) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .section-title h2{
+    position:relative !important;
+    display:inline-block !important;
+    margin-top:13px !important;
+    color:#5f3148 !important;
+    text-shadow:
+        0 1px 0 rgba(255,255,255,.95),
+        0 8px 22px rgba(159,82,118,.16),
+        0 0 18px rgba(255,222,236,.56) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .section-title h2::before{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    top:-31px !important;
+    width:48px !important;
+    height:18px !important;
+    transform:translateX(-50%) !important;
+    background:
+        radial-gradient(circle at 50% 10%,rgba(255,255,255,.95) 0 2px,rgba(197,159,86,.68) 3px 4px,rgba(255,255,255,0) 5px),
+        radial-gradient(circle at 18% 62%,rgba(255,255,255,.82) 0 1px,rgba(197,159,86,.6) 2px 3px,rgba(255,255,255,0) 4px),
+        radial-gradient(circle at 82% 62%,rgba(255,255,255,.82) 0 1px,rgba(197,159,86,.6) 2px 3px,rgba(255,255,255,0) 4px),
+        linear-gradient(135deg,rgba(255,255,255,0) 24%,rgba(197,159,86,.58) 25% 28%,rgba(255,255,255,0) 29%),
+        linear-gradient(45deg,rgba(255,255,255,0) 24%,rgba(197,159,86,.58) 25% 28%,rgba(255,255,255,0) 29%),
+        linear-gradient(180deg,rgba(255,255,255,0) 66%,rgba(197,159,86,.56) 67% 73%,rgba(255,255,255,0) 74%) !important;
+    opacity:.78 !important;
+    filter:drop-shadow(0 2px 5px rgba(197,159,86,.22)) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .section-title h2::after{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    bottom:-16px !important;
+    width:132px !important;
+    height:1px !important;
+    transform:translateX(-50%) !important;
+    background:linear-gradient(90deg,rgba(197,159,86,0),rgba(197,159,86,.62),rgba(248,235,205,.48),rgba(197,159,86,.62),rgba(197,159,86,0)) !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid{
+    gap:42px 38px !important;
+    align-items:stretch !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card{
+    min-height:600px !important;
+}
+
+body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover .public-cast-image{
+    transform:scale(1.05) !important;
+}
+
+@media (max-width: 768px){
+    body:not(.cast-detail-page) #cast-list.cast-list{
+        padding-top:70px !important;
+        padding-bottom:88px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .section-title{
+        margin-bottom:38px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .section-title span::before,
+    body:not(.cast-detail-page) #cast-list .section-title span::after{
+        width:42px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .all-cast-grid{
+        gap:28px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card{
+        min-height:0 !important;
+    }
+}
