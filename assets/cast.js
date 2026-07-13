@@ -755,9 +755,7 @@ image
 return `
   <div class="v9-cast-photo">
     ${imageMarkup}
-    <span class="v9-cast-photo-tiara" aria-hidden="true">♕</span>
-    <span class="v9-cast-photo-jewel" aria-hidden="true"></span>
-    <span class="v9-cast-photo-ribbon" aria-hidden="true"></span>
+
   </div>
 
   <div class="v9-cast-profile">
