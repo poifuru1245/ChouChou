@@ -1,4 +1,4 @@
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   html,
   body {
     width: 100% !important;
@@ -130,6 +130,36 @@
     min-width: 0 !important;
     margin: 0 0 24px !important;
     padding: 0 !important;
+  }
+
+  body:not(.cast-detail-page) .home-mobile-gallery-preview,
+  body:not(.cast-detail-page) .home-mobile-instagram-preview {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 18px !important;
+  }
+
+  body:not(.cast-detail-page) .home-mobile-gallery-preview[hidden],
+  body:not(.cast-detail-page) .home-mobile-instagram-preview[hidden] {
+    display: none !important;
+  }
+
+  body:not(.cast-detail-page) .home-mobile-instagram-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 58px;
+    padding: 12px;
+    border: 1px solid rgba(205, 176, 112, .34);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .72);
+    color: #8a6174;
+    font-weight: 700;
+    text-align: center;
   }
 
   body:not(.cast-detail-page) .home-link-card .reserve-btn,

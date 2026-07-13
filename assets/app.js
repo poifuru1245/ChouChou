@@ -37,6 +37,13 @@ let ranking = {};
 
 const rankingList = document.getElementById("rankingList");
 const hasPublicCastList = Boolean(document.querySelector(".cast-grid, .all-cast-grid"));
+const mobileHomeQuery =
+typeof window !== "undefined"
+? window.matchMedia("(max-width: 767px)")
+: null;
+
+renderMobileInstagramPreview();
+configureMobileNewsButton();
 
 async function loadReservations() {
   const reservationList = document.getElementById("reservationList");
@@ -305,6 +312,34 @@ document.getElementById("todayBtn")?.addEventListener("click", () => {
   currentFilter = "today";
   loadReservations();
 });
+
+function renderMobileInstagramPreview() {
+  const preview = document.querySelector(".home-mobile-instagram-preview");
+
+  if (!preview || !mobileHomeQuery?.matches) return;
+
+  document.querySelector(".home-instagram-placeholder")?.setAttribute("hidden", "");
+
+  preview.hidden = false;
+  preview.innerHTML = "";
+
+  ["最新投稿 1", "最新投稿 2", "最新投稿 3"].forEach((label) => {
+    const item = document.createElement("div");
+    item.className = "home-mobile-instagram-item";
+    item.textContent = label;
+    preview.appendChild(item);
+  });
+}
+
+function configureMobileNewsButton() {
+  if (!mobileHomeQuery?.matches) return;
+
+  const link = document.querySelector(".news-more .reserve-btn");
+
+  if (!link) return;
+
+  link.textContent = "お知らせ一覧を見る";
+}
 
 document.getElementById("allBtn")?.addEventListener("click", () => {
   currentFilter = "all";

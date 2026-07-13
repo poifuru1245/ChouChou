@@ -8,6 +8,10 @@ import { db } from "./app.js";
 const COLLECTION_NAME = "gallery";
 const INITIAL_VISIBLE_COUNT = 6;
 const LOAD_MORE_COUNT = 3;
+const mobileGalleryQuery =
+typeof window !== "undefined"
+? window.matchMedia("(max-width: 767px)")
+: null;
 
 const elements = {
   grids: [
@@ -60,6 +64,8 @@ function renderGallery(items) {
   visibleGalleryCount = Math.min(INITIAL_VISIBLE_COUNT, galleryItems.length);
 
   elements.grids.forEach((grid) => {
+    syncMobileGalleryGridVisibility(grid);
+
     if (!galleryItems.length) {
       grid.innerHTML = `<p class="gallery-empty">店内写真準備中</p>`;
       updateGalleryMoreButton();
@@ -72,10 +78,19 @@ function renderGallery(items) {
   updateGalleryMoreButton();
 }
 
+function syncMobileGalleryGridVisibility(grid) {
+  const mobileLimit = Number(grid.dataset.mobileLimit || 0);
+
+  if (mobileLimit <= 0) return;
+
+  grid.hidden = !mobileGalleryQuery?.matches;
+}
+
 function renderVisibleGalleryItems(grid) {
   const fragment = document.createDocumentFragment();
+  const visibleCount = getVisibleGalleryCountForGrid(grid);
 
-  galleryItems.slice(0, visibleGalleryCount).forEach((item, index) => {
+  galleryItems.slice(0, visibleCount).forEach((item, index) => {
     fragment.appendChild(createGalleryItem(item, index));
   });
 
@@ -87,6 +102,16 @@ function renderVisibleGalleryItems(grid) {
   }
 
   grid.appendChild(fragment);
+}
+
+function getVisibleGalleryCountForGrid(grid) {
+  const mobileLimit = Number(grid.dataset.mobileLimit || 0);
+
+  if (mobileGalleryQuery?.matches && mobileLimit > 0) {
+    return Math.min(mobileLimit, galleryItems.length);
+  }
+
+  return visibleGalleryCount;
 }
 
 function bindGalleryMore() {

@@ -26,6 +26,11 @@ getApps().length
  : initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+const MOBILE_HOME_LIMIT = 3;
+const mobileHomeQuery =
+typeof window !== "undefined"
+? window.matchMedia("(max-width: 767px)")
+: null;
 
 async function loadCasts() {
 
@@ -87,6 +92,7 @@ console.log("cast.js 起動");
 console.log(list);
 
   list.innerHTML = "";
+  configureTodayCastMobileButton();
 
   if(todayCasts.length === 0){
 
@@ -98,6 +104,8 @@ console.log(list);
 
   return;
 }
+
+  const todayDisplayCasts = [];
 
   casts.forEach((cast)=>{
 
@@ -111,6 +119,16 @@ todayCasts.find(
 if(!todayCast){
   return;
 }
+
+todayDisplayCasts.push({
+  cast,
+  todayCast
+});
+
+  });
+
+  getVisibleItemsForList(list,todayDisplayCasts)
+  .forEach(({ cast, todayCast })=>{
 
     const div =
       document.createElement("div");
@@ -202,7 +220,7 @@ sortCastsByDisplayOrder(casts);
 
 list.innerHTML = "";
 
-casts.forEach((cast)=>{
+getMobileLimitedItems(casts).forEach((cast)=>{
 
 const div =
 document.createElement("div");
@@ -259,6 +277,67 @@ list.appendChild(div);
 }
 
 loadAllCasts();
+
+function isMobileHomeView(){
+
+return Boolean(
+mobileHomeQuery?.matches &&
+document.body &&
+!document.body.classList.contains("cast-detail-page")
+);
+
+}
+
+function getMobileLimitedItems(items){
+
+return isMobileHomeView()
+? items.slice(0,MOBILE_HOME_LIMIT)
+: items;
+
+}
+
+function getVisibleItemsForList(list,items){
+
+const limit =
+typeof window !== "undefined" &&
+window.innerWidth <= 767
+? getListLimit(list)
+: null;
+
+return limit
+? items.slice(0,limit)
+: items;
+
+}
+
+function getListLimit(list){
+
+const limit =
+Number(list?.dataset?.visibleCount || MOBILE_HOME_LIMIT);
+
+return Number.isFinite(limit) && limit > 0
+? limit
+: MOBILE_HOME_LIMIT;
+
+}
+
+function configureTodayCastMobileButton(){
+
+if(!isMobileHomeView()) return;
+
+const link =
+document.querySelector(".today-cast-more-link");
+
+if(!link) return;
+
+link.href = "schedule.html";
+link.innerHTML = `
+  <span aria-hidden="true">♕</span>
+  本日の出勤を見る
+  <span aria-hidden="true">›</span>
+`;
+
+}
 
 function sortCastsByDisplayOrder(casts){
 
