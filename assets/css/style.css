@@ -10090,8 +10090,9 @@ body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button{
 
 /* ChouChou Today's Cast Princess Brand Refinement */
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell{
-    border-color:rgba(211,165,76,.82);
+    border:1.5px solid rgba(211,165,76,.86);
     background:
+        radial-gradient(ellipse at 50% 7%,rgba(255,255,255,.34) 0 18%,transparent 44%),
         radial-gradient(circle at 50% 4%,rgba(255,255,255,.98) 0 9%,transparent 25%),
         radial-gradient(circle at 14% 14%,rgba(255,211,234,.82) 0 11%,transparent 28%),
         radial-gradient(circle at 88% 17%,rgba(255,238,183,.58) 0 9%,transparent 27%),
@@ -10108,6 +10109,8 @@ body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell::before{
     inset:14px;
     border-color:rgba(211,165,76,.48);
     background:
+        repeating-linear-gradient(45deg,rgba(218,112,170,.045) 0 1px,transparent 1px 18px),
+        repeating-linear-gradient(-45deg,rgba(218,112,170,.045) 0 1px,transparent 1px 18px),
         radial-gradient(circle at 9% 13%,rgba(255,255,255,.9) 0 1px,transparent 4px),
         radial-gradient(circle at 16% 36%,rgba(255,255,255,.72) 0 1px,transparent 4px),
         radial-gradient(circle at 90% 17%,rgba(255,234,170,.74) 0 1px,transparent 4px),
@@ -10169,6 +10172,7 @@ body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-br{right:12px;bottom:1
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-eyebrow{
     color:#dd5c9d;
+    font-size:27px;
     font-weight:700;
     letter-spacing:0;
     text-shadow:0 1px 0 #fff,0 0 14px rgba(255,255,255,.8);
@@ -10181,10 +10185,50 @@ body:not(.cast-detail-page) #cast.v9-today-card .v9-today-header h2{
 }
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-divider{
+    position:relative;
+    width:138px;
     height:8px;
     background:
         radial-gradient(circle at 50% 50%,#ff78ad 0 12%,transparent 13%),
         linear-gradient(90deg,transparent,#d7aa55 30%,#d7aa55 70%,transparent);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-today-divider::before{
+    content:"♕";
+    position:absolute;
+    left:50%;
+    top:50%;
+    z-index:1;
+    padding:0 5px;
+    background:rgba(255,235,246,.92);
+    color:#d3a64f;
+    font-size:13px;
+    line-height:1;
+    text-shadow:0 1px 0 #fff,0 0 7px rgba(255,235,172,.72);
+    transform:translate(-50%,-50%);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item{
+    border-width:1.5px;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.08) 34%,transparent 52%),
+        radial-gradient(circle at 5% 8%,rgba(255,100,168,.28) 0 13px,transparent 14px),
+        radial-gradient(circle at 96% 10%,rgba(255,255,255,.96) 0 10px,transparent 12px),
+        linear-gradient(135deg,rgba(255,255,255,.96),rgba(255,232,246,.93) 52%,rgba(255,249,253,.96));
+    box-shadow:
+        0 15px 28px rgba(176,64,120,.19),
+        0 2px 0 rgba(255,255,255,.92) inset,
+        0 0 0 1px rgba(255,255,255,.78) inset,
+        0 0 22px rgba(255,221,239,.4) inset;
+    backdrop-filter:blur(8px) saturate(1.06);
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item::before{
+    border-color:rgba(215,170,82,.38);
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.34),transparent 38%),
+        radial-gradient(circle at 0 0,rgba(255,121,183,.18) 0 20px,transparent 21px),
+        radial-gradient(circle at 100% 100%,rgba(255,238,183,.24) 0 24px,transparent 25px);
 }
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item::after{
@@ -10213,12 +10257,17 @@ body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-status{
     flex:0 0 auto;
     margin-left:auto;
     margin-right:2px;
-    padding:7px 11px;
+    padding:7.6px 14px;
     border:1px solid rgba(215,170,82,.55);
-    background:linear-gradient(135deg,#ff8bbc,#d95091);
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.28),transparent 48%),
+        linear-gradient(135deg,#ff9ac7,#e45d9d 52%,#c84385);
     color:#fff;
     font-size:10px;
-    font-weight:700;
+    font-weight:800;
     letter-spacing:.08em;
-    box-shadow:0 5px 12px rgba(205,70,139,.2),0 1px 0 rgba(255,255,255,.55) inset;
+    box-shadow:
+        0 6px 14px rgba(190,55,124,.23),
+        0 1px 0 rgba(255,255,255,.64) inset,
+        0 0 8px rgba(255,229,242,.22) inset;
 }
