@@ -3269,8 +3269,10 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
 
     .home-top-card-row .today-cast .cast-grid{
         height:calc(100% - 144px) !important;
-        overflow:auto !important;
+        overflow-x:hidden !important;
+        overflow-y:auto !important;
         padding-bottom:4px !important;
+        box-sizing:border-box !important;
         scrollbar-width:none !important;
     }
 
@@ -3465,6 +3467,9 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card::before{
 @media (min-width: 769px){
     .home-top-card-row .today-cast .cast-grid{
         height:calc(100% - 140px) !important;
+        overflow-x:hidden !important;
+        overflow-y:auto !important;
+        box-sizing:border-box !important;
     }
 }
 
@@ -3575,6 +3580,9 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public
 @media (min-width: 769px){
     .home-top-card-row .today-cast .cast-grid{
         height:359px !important;
+        overflow-x:hidden !important;
+        overflow-y:auto !important;
+        box-sizing:border-box !important;
     }
 }
 
@@ -9437,15 +9445,20 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
         display: flex !important;
         flex-direction: column !important;
         flex-wrap: nowrap !important;
+        grid-auto-flow: row !important;
         grid-template-columns: none !important;
         gap: 8px !important;
         width: 100% !important;
         max-width: 100% !important;
+        min-width: 0 !important;
+        max-height: 266px !important;
         padding: 0 18px 4px !important;
+        box-sizing: border-box !important;
         overflow-x: hidden !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none !important;
+        scroll-snap-type: none !important;
     }
 
     body:not(.cast-detail-page) .home-top-card-row .today-cast .cast-grid::-webkit-scrollbar,
@@ -9459,6 +9472,8 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
+        box-sizing: border-box !important;
+        scroll-snap-align: none !important;
     }
 
     body:not(.cast-detail-page) .home-top-card-row .news .public-news-list {
