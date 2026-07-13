@@ -117,7 +117,9 @@ todayCasts;
 
   if(legacyScheduleCasts.length){
 
-  legacyScheduleCasts.forEach((cast)=>{
+  legacyScheduleCasts
+.slice(0, limit ?? legacyScheduleCasts.length)
+.forEach((cast)=>{
 
 const div =
 document.createElement("div");
@@ -149,7 +151,7 @@ list.appendChild(div);
 }
 
   schedulesForDisplay
-  .slice(0, schedulesForDisplay.length)
+  .slice(0, limit ?? schedulesForDisplay.length)
   .forEach((schedule)=>{
 
 const cast =
