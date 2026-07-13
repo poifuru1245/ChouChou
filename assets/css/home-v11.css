@@ -181,7 +181,9 @@ body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card::before {
         radial-gradient(circle at 12px 12px, rgba(255,255,255,.32) 0 2px, rgba(255,255,255,0) 4px),
         radial-gradient(circle at calc(100% - 12px) 12px, rgba(255,244,215,.3) 0 2px, rgba(255,255,255,0) 4px),
         radial-gradient(circle at 12px calc(100% - 12px), rgba(255,232,244,.28) 0 2px, rgba(255,255,255,0) 4px),
-        radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), rgba(255,255,255,.3) 0 2px, rgba(255,255,255,0) 4px) !important;
+        radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), rgba(255,255,255,.3) 0 2px, rgba(255,255,255,0) 4px),
+        repeating-linear-gradient(45deg, rgba(255,255,255,.08) 0 1px, rgba(255,255,255,0) 1px 12px),
+        repeating-linear-gradient(-45deg, rgba(246,228,190,.06) 0 1px, rgba(255,255,255,0) 1px 14px) !important;
     opacity: .3 !important;
 }
 

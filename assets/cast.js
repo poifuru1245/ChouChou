@@ -141,8 +141,6 @@ const imageMarkup =
 image
 ? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
 : `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
-const badgeMarkup =
-createCastBadgeMarkup(cast);
 const tagsMarkup =
 createPublicTagMarkup(cast);
 const detailUrl =
@@ -150,7 +148,6 @@ createCastDetailUrl(cast);
 
 div.innerHTML = `
   <div class="public-cast-photo">
-    ${badgeMarkup}
     ${imageMarkup}
   </div>
 
