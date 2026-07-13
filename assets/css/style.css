@@ -8874,7 +8874,7 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
     }
 }
 
-/* Emergency mobile layout repair: keep desktop styles, release PC sizing on phones */
+/* Emergency mobile layout repair: strong mobile overrides are needed because older homepage rules use !important. */
 @media (max-width: 768px){
     html,
     body{
@@ -8896,6 +8896,9 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
 
     body:not(.cast-detail-page) section,
     body:not(.cast-detail-page) .hero,
+    body:not(.cast-detail-page) .top-system,
+    body:not(.cast-detail-page) .gallery,
+    body:not(.cast-detail-page) .public-gallery-section,
     body:not(.cast-detail-page) .cast-list,
     body:not(.cast-detail-page) .home-card-grid-section,
     body:not(.cast-detail-page) .home-top-card-row,
@@ -8909,6 +8912,9 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
     }
 
     body:not(.cast-detail-page) .hero,
+    body:not(.cast-detail-page) .top-system,
+    body:not(.cast-detail-page) .gallery,
+    body:not(.cast-detail-page) .public-gallery-section,
     body:not(.cast-detail-page) .cast-list,
     body:not(.cast-detail-page) .home-card-grid-section,
     body:not(.cast-detail-page) .home-top-card-row{
@@ -8961,6 +8967,93 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
         white-space:normal !important;
     }
 
+    body:not(.cast-detail-page) .section-title,
+    body:not(.cast-detail-page) .section-title span,
+    body:not(.cast-detail-page) .section-title h1,
+    body:not(.cast-detail-page) .section-title h2,
+    body:not(.cast-detail-page) .top-system-name,
+    body:not(.cast-detail-page) .top-system-desc,
+    body:not(.cast-detail-page) .top-system-price,
+    body:not(.cast-detail-page) .gallery-placeholder,
+    body:not(.cast-detail-page) .public-gallery-item span{
+        width:auto !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        writing-mode:horizontal-tb !important;
+        text-orientation:mixed !important;
+        word-break:normal !important;
+        overflow-wrap:anywhere !important;
+        white-space:normal !important;
+        transform:none !important;
+    }
+
+    body:not(.cast-detail-page) .top-system-grid,
+    body:not(.cast-detail-page) .top-system-info,
+    body:not(.cast-detail-page) .public-gallery-grid{
+        display:grid !important;
+        grid-template-columns:minmax(0,1fr) !important;
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        gap:20px !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        padding-left:0 !important;
+        padding-right:0 !important;
+    }
+
+    body:not(.cast-detail-page) .top-system-card,
+    body:not(.cast-detail-page) .top-system-info p,
+    body:not(.cast-detail-page) .public-gallery-item{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        height:auto !important;
+        min-height:0 !important;
+        margin:0 !important;
+        grid-column:auto !important;
+        flex:none !important;
+        flex-basis:auto !important;
+        box-sizing:border-box !important;
+        writing-mode:horizontal-tb !important;
+        text-orientation:mixed !important;
+    }
+
+    body:not(.cast-detail-page) .top-system-card{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:stretch !important;
+        text-align:center !important;
+        padding:28px 18px !important;
+    }
+
+    body:not(.cast-detail-page) .top-system-price{
+        display:block !important;
+        margin-top:10px !important;
+        line-height:1.2 !important;
+    }
+
+    body:not(.cast-detail-page) .top-system-more .reserve-btn,
+    body:not(.cast-detail-page) .gallery-more .reserve-btn,
+    body:not(.cast-detail-page) .gallery-more-button{
+        width:min(100%,320px) !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        margin-inline:auto !important;
+        white-space:normal !important;
+        writing-mode:horizontal-tb !important;
+        text-orientation:mixed !important;
+    }
+
+    body:not(.cast-detail-page) .public-gallery-item img{
+        display:block !important;
+        width:100% !important;
+        max-width:100% !important;
+        height:auto !important;
+        min-height:0 !important;
+        object-fit:contain !important;
+    }
+
     .home-card-grid-section{
         margin:72px auto !important;
     }
@@ -8975,6 +9068,10 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
         align-items:stretch !important;
     }
 
+    .home-card-grid > *{
+        grid-column:auto !important;
+    }
+
     .home-link-card{
         width:100% !important;
         max-width:100% !important;
@@ -8982,6 +9079,9 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
         height:auto !important;
         min-height:0 !important;
         margin-inline:0 !important;
+        grid-column:auto !important;
+        flex:none !important;
+        flex-basis:auto !important;
         padding:28px 20px 24px !important;
         display:flex !important;
         flex-direction:column !important;
@@ -9003,15 +9103,20 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
     }
 
     .home-link-card-head,
+    .home-link-card-head *,
     .home-link-card p,
     .home-link-card ul,
     .home-link-card li,
-    .home-link-card .reserve-btn{
+    .home-link-card .reserve-btn,
+    .home-link-card .reserve-btn *{
         width:100% !important;
         max-width:100% !important;
         min-width:0 !important;
         writing-mode:horizontal-tb !important;
         text-orientation:mixed !important;
+        word-break:normal !important;
+        overflow-wrap:anywhere !important;
+        white-space:normal !important;
     }
 
     .home-link-card-head{
@@ -9143,8 +9248,10 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
     }
 
     .today-cast .cast-grid > .public-cast-card,
+    .today-cast .cast-grid > .cast-card,
     body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card{
         position:relative !important;
+        inset:auto !important;
         display:flex !important;
         flex-direction:column !important;
         width:100% !important;
@@ -9152,14 +9259,20 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
         min-width:0 !important;
         height:auto !important;
         min-height:0 !important;
+        margin:0 !important;
         padding:16px !important;
         overflow:hidden !important;
         grid-template-columns:none !important;
+        grid-column:auto !important;
+        flex:none !important;
+        flex-basis:auto !important;
         transform:none !important;
         text-align:left !important;
     }
 
     .today-cast .public-cast-photo,
+    .today-cast .cast-card img,
+    .today-cast .cast-card-no-image,
     body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public-cast-photo{
         position:relative !important;
         width:100% !important;
@@ -9172,6 +9285,7 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
     }
 
     .today-cast .public-cast-photo > .public-cast-image,
+    .today-cast .cast-card img,
     body:not(.cast-detail-page) .today-cast .public-cast-photo > .public-cast-image{
         width:100% !important;
         height:100% !important;
@@ -9180,6 +9294,7 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
     }
 
     .today-cast .public-cast-info,
+    .today-cast .cast-info,
     body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card > .public-cast-info{
         position:relative !important;
         display:flex !important;
@@ -9193,7 +9308,8 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
         overflow:visible !important;
     }
 
-    .today-cast .public-cast-info h3{
+    .today-cast .public-cast-info h3,
+    .today-cast .cast-info h3{
         width:100% !important;
         max-width:100% !important;
         margin:0 !important;
@@ -9203,6 +9319,20 @@ body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover 
         white-space:normal !important;
         overflow:visible !important;
         text-overflow:clip !important;
+        overflow-wrap:anywhere !important;
+        writing-mode:horizontal-tb !important;
+        text-orientation:mixed !important;
+    }
+
+    .today-cast .cast-card p,
+    .today-cast .public-cast-profile-line,
+    .today-cast .public-cast-schedule{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        margin:0 !important;
+        white-space:normal !important;
+        word-break:normal !important;
         overflow-wrap:anywhere !important;
         writing-mode:horizontal-tb !important;
         text-orientation:mixed !important;
