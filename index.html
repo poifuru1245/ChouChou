@@ -9,7 +9,7 @@
 
     <meta name="description" content="甘くとろける夢の時間。すすきのキャバクラ Chou Chou">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=6.1.27">
+    <link rel="stylesheet" href="assets/css/style.css?v=6.1.28">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -172,177 +172,89 @@
 
 </section>
 
-<!-- System -->
-<section id="system" class="top-system">
-
-    <div class="section-title">
-        <span>System</span>
-        <h2>料金システム</h2>
-    </div>
-
-    <div class="top-system-grid">
-        <article class="top-system-card">
-            <span class="top-system-ribbon">初回人気No.1</span>
-            <span class="top-system-jewel" aria-hidden="true"></span>
-            <p class="top-system-name">初回セット</p>
-            <p class="top-system-desc">初めてのお客様におすすめのゆったりプラン</p>
-            <p class="top-system-price">¥9,100</p>
+<!-- Home Card Grid -->
+<section class="home-card-grid-section" aria-label="Chou Chou information">
+    <div class="home-card-grid">
+        <article id="system" class="home-link-card home-link-card-system">
+            <div class="home-link-card-head">
+                <span>System</span>
+                <h2>料金システム</h2>
+            </div>
+            <p>初めてのお客様にも分かりやすい、安心の料金案内です。</p>
+            <ul>
+                <li>初回セット ¥9,100</li>
+                <li>通常セット ¥9,100</li>
+            </ul>
+            <a href="system.html" class="reserve-btn">料金システムを見る</a>
         </article>
 
-        <article class="top-system-card">
-            <span class="top-system-jewel" aria-hidden="true"></span>
-            <p class="top-system-name">通常セット</p>
-            <p class="top-system-desc">上質な時間を気軽に楽しめる基本プラン</p>
-            <p class="top-system-price">¥9,100</p>
+        <article class="home-link-card home-link-card-cast">
+            <div class="home-link-card-head">
+                <span>Cast</span>
+                <h2>キャスト一覧</h2>
+            </div>
+            <p>本日の出勤や在籍キャストを、写真付きでご覧いただけます。</p>
+            <ul>
+                <li>Today's Cast</li>
+                <li>Cast List</li>
+            </ul>
+            <a href="#cast-list" class="reserve-btn">キャストを見る</a>
         </article>
 
-        <article class="top-system-card">
-            <span class="top-system-jewel" aria-hidden="true"></span>
-            <p class="top-system-name">延長20分</p>
-            <p class="top-system-desc">もう少しだけ過ごしたい時に選びやすい延長</p>
-            <p class="top-system-price">¥5,900</p>
+        <article id="gallery" class="home-link-card home-link-card-gallery">
+            <div class="home-link-card-head">
+                <span>Gallery</span>
+                <h2>店内ギャラリー</h2>
+            </div>
+            <p>上品で可愛い店内の雰囲気を、ギャラリーでご確認いただけます。</p>
+            <ul>
+                <li>Showroom</li>
+                <li>Luxury Lounge</li>
+            </ul>
+            <a href="gallery.html" class="reserve-btn">ギャラリーを見る</a>
         </article>
 
-        <article class="top-system-card">
-            <span class="top-system-jewel" aria-hidden="true"></span>
-            <p class="top-system-name">延長40分</p>
-            <p class="top-system-desc">特別な夜をゆっくり楽しむための延長</p>
-            <p class="top-system-price">¥9,100</p>
+        <article id="access" class="home-link-card home-link-card-access">
+            <div class="home-link-card-head">
+                <span>Access</span>
+                <h2>アクセス</h2>
+            </div>
+            <p>初めてのお客様でも迷わずご来店いただけるよう、道順をまとめています。</p>
+            <ul>
+                <li>南5条西4丁目</li>
+                <li>すすきのエリア</li>
+            </ul>
+            <a href="access.html" class="reserve-btn">アクセスを見る</a>
         </article>
-    </div>
 
-    <div class="top-system-info" aria-label="料金に関するご案内">
-        <p><span aria-hidden="true">税込</span>税込価格表示</p>
-        <p><span aria-hidden="true">明朗</span>安心の明朗会計</p>
-        <p><span aria-hidden="true">安心</span>初めてのお客様も安心してご利用いただけます</p>
-    </div>
+        <article class="home-link-card home-link-card-instagram">
+            <div class="home-link-card-head">
+                <span>Instagram</span>
+                <h2>インスタグラム</h2>
+            </div>
+            <p class="home-instagram-placeholder">Instagramの最新投稿を準備中です</p>
+            <ul>
+                <li>News</li>
+                <li>Photo</li>
+            </ul>
+            <a href="#" class="reserve-btn">Instagramを見る</a>
+        </article>
 
-    <div class="top-system-more">
-        <a href="system.html" class="reserve-btn">料金システムを見る</a>
-    </div>
-
-</section>
-
-<!-- Gallery -->
-<section id="gallery" class="gallery">
-
-    <div class="section-title">
-        <span>Gallery</span>
-        <h2>店内ギャラリー</h2>
-    </div>
-
-    <div class="public-gallery-grid" id="homeGalleryGrid">
-        <p class="gallery-empty">読み込み中...</p>
-    </div>
-
-    <div class="gallery-more">
-        <a href="gallery.html" class="reserve-btn">もっと見る</a>
-    </div>
-
-</section>
-
-<!-- Recruit -->
-<section id="recruit" class="top-recruit">
-
-    <div class="section-title">
-        <span>Recruit</span>
-        <h2>求人情報</h2>
-    </div>
-
-    <div class="top-recruit-panel">
-        <div class="top-recruit-copy">
-            <p class="top-recruit-label">Chou Chou Recruit</p>
-            <h3>可愛く、自分らしく、上質に働く。</h3>
-            <p>
-                未経験の方も安心して始められるよう、衣装・ヘアメイク・シフト相談まで丁寧にサポートします。
-            </p>
-        </div>
-        <div class="top-recruit-points">
-            <span>高時給</span>
-            <span>自由シフト</span>
-            <span>未経験歓迎</span>
-        </div>
-        <div class="top-recruit-more">
+        <article id="recruit" class="home-link-card home-link-card-recruit">
+            <div class="home-link-card-head">
+                <span>Recruit</span>
+                <h2>求人情報</h2>
+            </div>
+            <p>Chou Chouで一緒に働きませんか？未経験の方も安心してスタートできます。</p>
+            <ul>
+                <li>未経験歓迎</li>
+                <li>自由シフト</li>
+                <li>送迎あり</li>
+                <li>体験入店受付中</li>
+            </ul>
             <a href="recruit.html" class="reserve-btn">求人情報を見る</a>
-        </div>
-    </div>
-
-</section>
-
-<!-- Access -->
-<section id="access" class="access">
-
-    <div class="section-title">
-        <span>Access</span>
-        <h2>アクセス</h2>
-    </div>
-
-    <div class="access-showcase">
-        <div class="access-map-panel">
-            <iframe
-                title="Chou Chou 周辺地図"
-                src="https://www.google.com/maps?q=%E5%8C%97%E6%B5%B7%E9%81%93%E6%9C%AD%E5%B9%8C%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E5%8D%975%E6%9D%A1%E8%A5%BF4%E4%B8%81%E7%9B%AE&output=embed"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                allowfullscreen>
-            </iframe>
-        </div>
-
-        <div class="access-info-panel">
-            <p class="access-panel-label">Shop Information</p>
-            <h3>Chou Chou</h3>
-            <dl>
-                <div>
-                    <dt>住所</dt>
-                    <dd>〒064-0805<br>北海道札幌市中央区南5条西4丁目</dd>
-                </div>
-                <div>
-                    <dt>電話番号</dt>
-                    <dd>店舗へお問い合わせください</dd>
-                </div>
-                <div>
-                    <dt>営業時間</dt>
-                    <dd>20:00〜LAST</dd>
-                </div>
-                <div>
-                    <dt>定休日</dt>
-                    <dd>店舗へお問い合わせください</dd>
-                </div>
-            </dl>
-        </div>
-    </div>
-
-    <div class="access-guide-panel">
-        <p class="access-panel-label">Access Guide</p>
-        <h3>ご来店方法</h3>
-        <div class="access-guide-list">
-            <p><span>駅</span>地下鉄すすきの駅から徒歩圏内です</p>
-            <p><span>ビル</span>南5条西4丁目エリアのビルを目印にお越しください</p>
-            <p><span>7F</span>店舗は7階です</p>
-            <p><span>EV</span>エレベーターをご利用ください</p>
-        </div>
-    </div>
-
-    <div class="access-photo-grid" aria-label="来店時の目印写真">
-        <article class="access-photo-tile access-photo-outside">
-            <span>Exterior</span>
-            <h3>外観写真</h3>
-        </article>
-        <article class="access-photo-tile access-photo-building-entry">
-            <span>Building Entrance</span>
-            <h3>ビル入口写真</h3>
-        </article>
-        <article class="access-photo-tile access-photo-shop-entry">
-            <span>Shop Entrance</span>
-            <h3>店舗入口写真</h3>
         </article>
     </div>
-
-    <div class="access-reserve-panel">
-        <a href="reservation.html" class="reserve-btn access-web-btn">WEB予約</a>
-        <a href="#" class="reserve-btn access-line-btn">LINE予約</a>
-    </div>
-
 </section>
 <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
   <button type="button" class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="閉じる">

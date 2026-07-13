@@ -816,6 +816,223 @@ section{
     min-height:56px;
 }
 
+.home-card-grid-section{
+    max-width:1200px;
+    margin:120px auto;
+    padding:0 20px;
+}
+
+.home-card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:24px;
+    align-items:stretch;
+}
+
+.home-link-card{
+    position:relative;
+    min-height:410px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    padding:32px 26px 28px;
+    border:1px solid rgba(205,176,112,.52);
+    border-radius:28px;
+    background:
+        radial-gradient(circle at 12% 10%,rgba(255,255,255,.68) 0 2px,rgba(255,255,255,0) 9px),
+        radial-gradient(circle at 90% 12%,rgba(255,244,217,.34),rgba(255,244,217,0) 36%),
+        repeating-linear-gradient(45deg,rgba(194,145,169,.042) 0 1px,rgba(255,255,255,0) 1px 18px),
+        linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,240,248,.68));
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.94),
+        inset 0 0 0 1px rgba(255,246,226,.28),
+        0 20px 44px rgba(184,88,127,.13),
+        0 0 22px rgba(244,221,176,.14);
+    transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+
+.home-link-card::before{
+    content:"";
+    position:absolute;
+    left:26px;
+    right:26px;
+    top:112px;
+    height:1px;
+    background:linear-gradient(90deg,rgba(198,159,86,0),rgba(198,159,86,.44),rgba(255,244,217,.56),rgba(198,159,86,.44),rgba(198,159,86,0));
+}
+
+.home-link-card::after{
+    content:"";
+    position:absolute;
+    inset:0 auto 0 -48%;
+    width:34%;
+    transform:skewX(-18deg);
+    background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.42),rgba(255,244,217,.18),rgba(255,255,255,0));
+    opacity:0;
+    transition:opacity .25s ease, left .68s ease;
+}
+
+.home-link-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(198,159,86,.74);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.96),
+        inset 0 0 0 1px rgba(255,246,226,.36),
+        0 28px 54px rgba(184,88,127,.17),
+        0 0 26px rgba(255,188,224,.24),
+        0 0 18px rgba(244,221,176,.2);
+}
+
+.home-link-card:hover::after{
+    left:118%;
+    opacity:.72;
+}
+
+.home-link-card > *{
+    position:relative;
+    z-index:1;
+}
+
+.home-link-card-head{
+    min-height:92px;
+}
+
+.home-link-card-head span{
+    display:inline-flex;
+    align-items:center;
+    min-height:28px;
+    padding:0 12px;
+    border:1px solid rgba(205,176,112,.42);
+    border-radius:999px;
+    background:linear-gradient(135deg,#fff,#fff1f7);
+    color:#bd8d43;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif;
+    font-size:17px;
+    font-weight:700;
+}
+
+.home-link-card-head h2{
+    margin:14px 0 0;
+    color:#63344c;
+    font-size:26px;
+    line-height:1.25;
+    text-shadow:0 1px 0 rgba(255,255,255,.94),0 0 14px rgba(255,222,236,.42);
+}
+
+.home-link-card p{
+    min-height:72px;
+    margin:24px 0 18px;
+    color:#765367;
+    font-size:14px;
+    line-height:1.85;
+}
+
+.home-link-card ul{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin:0 0 26px;
+    padding:0;
+    list-style:none;
+}
+
+.home-link-card li{
+    display:inline-flex;
+    align-items:center;
+    min-height:30px;
+    padding:0 11px;
+    border:1px solid rgba(205,176,112,.34);
+    border-radius:999px;
+    background:rgba(255,255,255,.72);
+    color:#8a6174;
+    font-size:12px;
+    font-weight:700;
+}
+
+.home-link-card .reserve-btn{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    min-height:54px;
+    margin-top:auto;
+    overflow:hidden;
+    border:1px solid rgba(255,244,217,.78);
+    border-radius:999px;
+    background:
+        linear-gradient(115deg,rgba(255,255,255,.45),rgba(255,255,255,0) 35%),
+        linear-gradient(135deg,#f59ac8 0%,#df559e 58%,#bd257d 100%);
+    color:#fff;
+    font-weight:800;
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.5),
+        inset 0 -2px 0 rgba(128,27,82,.16),
+        0 16px 30px rgba(204,75,139,.25),
+        0 0 18px rgba(244,221,176,.2);
+}
+
+.home-link-card .reserve-btn::before{
+    content:"";
+    position:absolute;
+    inset:0 auto 0 -48%;
+    width:36%;
+    transform:skewX(-18deg);
+    background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.58),rgba(255,244,217,.25),rgba(255,255,255,0));
+    opacity:0;
+    transition:opacity .25s ease, left .72s ease;
+}
+
+.home-link-card .reserve-btn:hover::before{
+    left:118%;
+    opacity:.86;
+}
+
+.home-link-card-recruit{
+    background:
+        radial-gradient(circle at 12% 10%,rgba(255,255,255,.7) 0 2px,rgba(255,255,255,0) 9px),
+        radial-gradient(circle at 84% 14%,rgba(255,217,237,.44),rgba(255,217,237,0) 38%),
+        repeating-linear-gradient(45deg,rgba(194,145,169,.046) 0 1px,rgba(255,255,255,0) 1px 18px),
+        linear-gradient(145deg,rgba(255,255,255,.9),rgba(255,232,244,.72));
+}
+
+.home-link-card-recruit .home-link-card-head{
+    position:relative;
+}
+
+.home-link-card-recruit .home-link-card-head::after{
+    content:"Ribbon";
+    position:absolute;
+    right:0;
+    top:0;
+    padding:5px 12px;
+    border:1px solid rgba(255,244,217,.8);
+    border-radius:999px;
+    background:linear-gradient(135deg,#fff9e8,#d4af66 58%,#b9873d);
+    color:#744a24;
+    font-size:11px;
+    font-weight:800;
+    box-shadow:0 8px 16px rgba(139,91,38,.16);
+}
+
+.home-instagram-placeholder{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:86px !important;
+    padding:18px;
+    border:1px solid rgba(205,176,112,.34);
+    border-radius:18px;
+    background:rgba(255,255,255,.68);
+    text-align:center;
+}
+
+@media(max-width:980px){
+    .home-card-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+}
+
 @media(max-width:768px){
     .top-recruit{
         margin:88px auto;
@@ -835,6 +1052,26 @@ section{
     .top-recruit-more .reserve-btn{
         width:100%;
         min-width:0;
+    }
+
+    .home-card-grid-section{
+        margin:88px auto;
+        padding:0 16px;
+    }
+
+    .home-card-grid{
+        grid-template-columns:1fr;
+        gap:18px;
+    }
+
+    .home-link-card{
+        min-height:0;
+        padding:28px 20px 24px;
+    }
+
+    .home-link-card-head,
+    .home-link-card p{
+        min-height:0;
     }
 }
 
