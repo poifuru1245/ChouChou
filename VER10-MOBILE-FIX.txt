@@ -1,0 +1,27 @@
+Chou Chou Ver10 Mobile Fix
+
+変更ファイル:
+- index.html
+- assets/css/mobile-v10.css（新規）
+
+設置方法:
+1. このZIPの内容で現在のChouChouフォルダを上書きしてください。
+2. VS Codeのターミナルで次を実行してください。
+
+cd /Users/konponasahinin/Desktop/ChouChou
+node --check assets/app.js
+node --check assets/cast.js
+git diff --check
+git add .
+git commit -m "fix: add ver10 mobile layout stylesheet"
+firebase deploy --only hosting
+
+確認URL:
+https://chouchou-susukino.web.app
+
+Safariで古い表示が残る場合:
+- プライベートブラウズで開く
+- または履歴とWebサイトデータを削除
+
+mobile-v10.cssはstyle.cssの後に読み込まれ、768px以下だけに適用されます。
+PC表示は変更しません。

@@ -1,0 +1,513 @@
+/* Chou Chou Ver10 mobile layout reset
+   Loaded after style.css. Desktop (769px+) is intentionally untouched. */
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    overflow-x: clip !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg,
+  iframe {
+    max-width: 100%;
+  }
+
+  body:not(.cast-detail-page) .princess-home,
+  body:not(.cast-detail-page) main.princess-home.luxury-home {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 24px 16px 56px !important;
+    overflow: visible !important;
+  }
+
+  body:not(.cast-detail-page) .princess-card-grid,
+  body:not(.cast-detail-page) .princess-card-grid-top,
+  body:not(.cast-detail-page) .princess-card-grid-middle,
+  body:not(.cast-detail-page) .princess-card-grid-bottom,
+  body:not(.cast-detail-page) .home-top-card-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+    align-items: start !important;
+    gap: 24px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 24px !important;
+    padding: 0 !important;
+  }
+
+  body:not(.cast-detail-page) .princess-card-grid > *,
+  body:not(.cast-detail-page) .princess-card-grid-top > *,
+  body:not(.cast-detail-page) .princess-card-grid-middle > *,
+  body:not(.cast-detail-page) .princess-card-grid-bottom > *,
+  body:not(.cast-detail-page) .home-top-card-row > * {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+  }
+
+  body:not(.cast-detail-page) .premium-section-card,
+  body:not(.cast-detail-page) .princess-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 24px 16px 20px !important;
+    overflow: hidden !important;
+  }
+
+  body:not(.cast-detail-page) .section-title,
+  body:not(.cast-detail-page) .section-title span,
+  body:not(.cast-detail-page) .section-title h2,
+  body:not(.cast-detail-page) .premium-section-card p,
+  body:not(.cast-detail-page) .premium-section-card a,
+  body:not(.cast-detail-page) .premium-section-card button {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    white-space: normal !important;
+    max-width: 100% !important;
+  }
+
+  body:not(.cast-detail-page) .section-title {
+    width: 100% !important;
+    margin: 0 0 18px !important;
+    text-align: center !important;
+  }
+
+  body:not(.cast-detail-page) .section-title span {
+    display: block !important;
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
+
+  body:not(.cast-detail-page) .section-title h2 {
+    margin: 6px 0 0 !important;
+    font-size: clamp(22px, 7vw, 30px) !important;
+    line-height: 1.35 !important;
+    letter-spacing: .06em !important;
+  }
+
+  /* Header */
+  body:not(.cast-detail-page) .header,
+  body:not(.cast-detail-page) .header-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) .header-inner {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px 14px !important;
+  }
+
+  body:not(.cast-detail-page) .header .logo {
+    min-width: 0 !important;
+    font-size: clamp(24px, 8vw, 34px) !important;
+    white-space: nowrap !important;
+  }
+
+  body:not(.cast-detail-page) .header .nav {
+    display: none !important;
+  }
+
+  body:not(.cast-detail-page) .language-switch {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) .language-switch button {
+    min-width: 0 !important;
+    padding: 6px 7px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Hero */
+  body:not(.cast-detail-page) .hero,
+  body:not(.cast-detail-page) .hero-slider-track,
+  body:not(.cast-detail-page) .hero-slide {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) .hero {
+    min-height: 0 !important;
+    aspect-ratio: 9 / 12 !important;
+    overflow: hidden !important;
+  }
+
+  body:not(.cast-detail-page) .hero-slide img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* Today's Cast */
+  body:not(.cast-detail-page) #cast.v9-today-card,
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell,
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list-frame,
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell {
+    display: grid !important;
+    grid-template-rows: auto auto auto !important;
+    overflow: hidden !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-today-header {
+    padding: 46px 16px 16px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-today-eyebrow {
+    font-size: 22px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-today-header h2 {
+    font-size: clamp(28px, 9vw, 38px) !important;
+    line-height: 1.25 !important;
+    writing-mode: horizontal-tb !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list-frame {
+    padding: 0 14px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 12px !important;
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    overflow: hidden !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3 !important;
+    margin: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 10px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row h3 {
+    max-width: 100% !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    font-size: clamp(22px, 7vw, 28px) !important;
+    line-height: 1.25 !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    writing-mode: horizontal-tb !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-status {
+    margin-left: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta {
+    display: grid !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta-row {
+    display: grid !important;
+    grid-template-columns: minmax(82px, auto) minmax(0, 1fr) !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    height: auto !important;
+    border-radius: 16px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dt,
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dd {
+    min-width: 0 !important;
+    margin: 0 !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    white-space: normal !important;
+    word-break: normal !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dd {
+    overflow-wrap: anywhere !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button-wrap {
+    width: 100% !important;
+    padding: 18px 16px 24px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button {
+    width: min(100%, 320px) !important;
+    min-height: 50px !important;
+    margin: 0 auto !important;
+    padding: 10px 16px !important;
+    font-size: 16px !important;
+    letter-spacing: .06em !important;
+    white-space: normal !important;
+  }
+
+  /* System */
+  body:not(.cast-detail-page) #system,
+  body:not(.cast-detail-page) #system .system-price-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 15px 4px !important;
+    writing-mode: horizontal-tb !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row span,
+  body:not(.cast-detail-page) #system .system-price-row strong {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row span {
+    min-width: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
+    white-space: normal !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row strong {
+    min-width: max-content !important;
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+  }
+
+  /* Cast list */
+  body:not(.cast-detail-page) #cast-list,
+  body:not(.cast-detail-page) #cast-list .all-cast-grid,
+  body:not(.cast-detail-page) #cast-list .public-cast-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast-list .all-cast-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+  }
+
+  body:not(.cast-detail-page) #cast-list .public-cast-card {
+    height: auto !important;
+  }
+
+  /* Gallery */
+  body:not(.cast-detail-page) #gallery,
+  body:not(.cast-detail-page) #gallery .public-gallery-grid,
+  body:not(.cast-detail-page) #gallery .public-gallery-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #gallery .public-gallery-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  body:not(.cast-detail-page) #gallery .public-gallery-card img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+  }
+
+  body:not(.cast-detail-page) #gallery .gallery-more,
+  body:not(.cast-detail-page) #gallery .princess-card-action {
+    width: 100% !important;
+    padding-top: 20px !important;
+  }
+
+  body:not(.cast-detail-page) .reserve-btn,
+  body:not(.cast-detail-page) #gallery .reserve-btn,
+  body:not(.cast-detail-page) #cast-list .reserve-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: min(100%, 320px) !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+    margin: 0 auto !important;
+    padding: 10px 18px !important;
+    white-space: normal !important;
+    text-align: center !important;
+  }
+
+  /* News / Concept / Access / Instagram / Recruit */
+  body:not(.cast-detail-page) .news,
+  body:not(.cast-detail-page) #concept,
+  body:not(.cast-detail-page) #access,
+  body:not(.cast-detail-page) #instagram,
+  body:not(.cast-detail-page) #recruit,
+  body:not(.cast-detail-page) .news-list,
+  body:not(.cast-detail-page) .access-box,
+  body:not(.cast-detail-page) .luxury-access-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+  }
+
+  body:not(.cast-detail-page) .ver6-card-image {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  body:not(.cast-detail-page) #access .access-box,
+  body:not(.cast-detail-page) #access .luxury-access-box {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  body:not(.cast-detail-page) #access iframe {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 280px !important;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  body:not(.cast-detail-page) .princess-home,
+  body:not(.cast-detail-page) main.princess-home.luxury-home {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 4px !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row strong {
+    text-align: left !important;
+  }
+}
