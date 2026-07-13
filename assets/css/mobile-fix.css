@@ -1,0 +1,414 @@
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  img,
+  iframe {
+    max-width: 100%;
+  }
+
+  body:not(.cast-detail-page) .princess-home,
+  body:not(.cast-detail-page) .hero,
+  body:not(.cast-detail-page) .home-top-card-row,
+  body:not(.cast-detail-page) .home-card-grid-section,
+  body:not(.cast-detail-page) .cast-list {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  body:not(.cast-detail-page) .princess-home {
+    padding-top: 0 !important;
+    padding-bottom: 48px !important;
+  }
+
+  body:not(.cast-detail-page) .princess-card-grid-top,
+  body:not(.cast-detail-page) .princess-card-grid-middle,
+  body:not(.cast-detail-page) .princess-card-grid-bottom,
+  body:not(.cast-detail-page) .home-top-card-row,
+  body:not(.cast-detail-page) .home-card-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+    gap: 24px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 32px 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  body:not(.cast-detail-page) .princess-card-grid-top > section,
+  body:not(.cast-detail-page) .princess-card-grid-middle > section,
+  body:not(.cast-detail-page) .princess-card-grid-bottom > section,
+  body:not(.cast-detail-page) .home-top-card-row > section,
+  body:not(.cast-detail-page) .home-card-grid > article,
+  body:not(.cast-detail-page) .home-card-grid > section,
+  body:not(.cast-detail-page) .home-vertical-card,
+  body:not(.cast-detail-page) .home-link-card,
+  body:not(.cast-detail-page) .news,
+  body:not(.cast-detail-page) #concept,
+  body:not(.cast-detail-page) #system,
+  body:not(.cast-detail-page) #gallery,
+  body:not(.cast-detail-page) #access,
+  body:not(.cast-detail-page) #instagram,
+  body:not(.cast-detail-page) #recruit {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    overflow: visible !important;
+  }
+
+  body:not(.cast-detail-page) .section-title,
+  body:not(.cast-detail-page) .section-title span,
+  body:not(.cast-detail-page) .section-title h1,
+  body:not(.cast-detail-page) .section-title h2,
+  body:not(.cast-detail-page) .home-link-card-head,
+  body:not(.cast-detail-page) .home-link-card-head span,
+  body:not(.cast-detail-page) .home-link-card-head h2,
+  body:not(.cast-detail-page) .home-link-card p,
+  body:not(.cast-detail-page) .home-link-card li,
+  body:not(.cast-detail-page) .system-price-card,
+  body:not(.cast-detail-page) .system-price-row,
+  body:not(.cast-detail-page) .system-price-row span,
+  body:not(.cast-detail-page) .system-price-row strong,
+  body:not(.cast-detail-page) .public-gallery-grid,
+  body:not(.cast-detail-page) .gallery-more,
+  body:not(.cast-detail-page) .reserve-btn {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    max-width: 100% !important;
+  }
+
+  body:not(.cast-detail-page) .home-link-card {
+    display: flex !important;
+    flex: none !important;
+    flex-basis: auto !important;
+    flex-direction: column !important;
+    padding: 28px 20px 24px !important;
+  }
+
+  body:not(.cast-detail-page) .home-link-card ul {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 24px !important;
+    padding: 0 !important;
+  }
+
+  body:not(.cast-detail-page) .home-link-card .reserve-btn,
+  body:not(.cast-detail-page) .gallery-more-button,
+  body:not(.cast-detail-page) .today-cast-more-link,
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: min(100%, 320px) !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    white-space: normal !important;
+    text-align: center !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 16px 4px !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row span {
+    min-width: 0 !important;
+    text-align: left !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+
+  body:not(.cast-detail-page) #system .system-price-row strong {
+    min-width: max-content !important;
+    font-size: 18px !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+  }
+
+  body:not(.cast-detail-page) #gallery .public-gallery-grid,
+  body:not(.cast-detail-page) .public-gallery-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #gallery .public-gallery-card,
+  body:not(.cast-detail-page) #gallery .public-gallery-item,
+  body:not(.cast-detail-page) .public-gallery-card,
+  body:not(.cast-detail-page) .public-gallery-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    grid-column: auto !important;
+  }
+
+  body:not(.cast-detail-page) #gallery .public-gallery-card img,
+  body:not(.cast-detail-page) #gallery .public-gallery-item img,
+  body:not(.cast-detail-page) .public-gallery-card img,
+  body:not(.cast-detail-page) .public-gallery-item img {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    object-fit: cover;
+  }
+
+  body:not(.cast-detail-page) #gallery .gallery-more,
+  body:not(.cast-detail-page) .gallery-more {
+    width: 100% !important;
+    padding: 20px 0 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast-list,
+  body:not(.cast-detail-page) #cast-list .all-cast-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast-list .all-cast-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+  }
+
+  body:not(.cast-detail-page) #cast-list .public-cast-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card,
+  body:not(.cast-detail-page) .today-cast {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell {
+    display: grid !important;
+    grid-template-rows: auto auto auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list-frame {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 16px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list,
+  body:not(.cast-detail-page) .today-cast .cast-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item,
+  body:not(.cast-detail-page) .today-cast .cast-grid > .public-cast-card,
+  body:not(.cast-detail-page) .today-cast .cast-grid > .cast-card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 14px !important;
+    position: relative !important;
+    inset: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo,
+  body:not(.cast-detail-page) .today-cast .public-cast-photo,
+  body:not(.cast-detail-page) .today-cast .cast-card img,
+  body:not(.cast-detail-page) .today-cast .cast-card-no-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3;
+    margin: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo img,
+  body:not(.cast-detail-page) .today-cast .public-cast-photo img,
+  body:not(.cast-detail-page) .today-cast .public-cast-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile,
+  body:not(.cast-detail-page) .today-cast .public-cast-info,
+  body:not(.cast-detail-page) .today-cast .cast-info {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row h3,
+  body:not(.cast-detail-page) .today-cast .public-cast-info h3,
+  body:not(.cast-detail-page) .today-cast .cast-info h3 {
+    width: auto !important;
+    max-width: 100% !important;
+    font-size: 24px !important;
+    line-height: 1.3 !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    word-break: break-word !important;
+    white-space: normal !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta {
+    display: grid !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta-row {
+    display: grid !important;
+    grid-template-columns: minmax(86px, auto) minmax(0, 1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 42px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dt,
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dd,
+  body:not(.cast-detail-page) .today-cast .public-cast-profile-line,
+  body:not(.cast-detail-page) .today-cast .public-cast-schedule,
+  body:not(.cast-detail-page) .today-cast-data-pill,
+  body:not(.cast-detail-page) .today-cast-data-time {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    font-size: 14px !important;
+  }
+
+  body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button-wrap {
+    width: 100% !important;
+    padding: 18px 16px 24px !important;
+  }
+
+  body:not(.cast-detail-page) .ver6-card-image {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  body:not(.cast-detail-page) #access iframe {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 280px !important;
+  }
+
+  .header-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .logo {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .language-switch,
+  .nav {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
