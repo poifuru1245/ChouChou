@@ -96,8 +96,13 @@ document.querySelector(".v9-cast-list, .cast-grid");
 
   if(!list) return;
 
-  const limit =
+  const requestedLimit =
 getListLimit(list);
+
+  const limit =
+window.matchMedia("(max-width: 767px)").matches
+? requestedLimit
+: null;
 
   const isScheduleList =
 list?.dataset?.view === "schedule";
@@ -577,16 +582,16 @@ return {
 
 }
 
-function getListLimit(list){
+function getListLimit(list) {
+  const rawValue =
+    list?.dataset?.visibleCount ??
+    list?.dataset?.limit;
 
-const value =
-Number(list?.dataset?.limit);
+  const value = Number(rawValue);
 
-return Number.isInteger(value) &&
-value > 0
-? value
-: null;
-
+  return Number.isInteger(value) && value > 0
+    ? value
+    : null;
 }
 
 loadAllCasts();

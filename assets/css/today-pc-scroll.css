@@ -1,0 +1,34 @@
+/* Today's Cast PC horizontal scroll */
+@media screen and (min-width: 769px) {
+  #cast.v9-today-card .v9-cast-list-frame {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  #cast.v9-today-card .v9-cast-list {
+    display: flex !important;
+    grid-template-columns: none !important;
+    gap: 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 8px 8px 18px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  #cast.v9-today-card .v9-cast-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  #cast.v9-today-card .v9-cast-item {
+    flex: 0 0 340px !important;
+    width: 340px !important;
+    max-width: 340px !important;
+    min-width: 340px !important;
+    scroll-snap-align: start;
+  }
+}
