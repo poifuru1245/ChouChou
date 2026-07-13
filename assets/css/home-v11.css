@@ -73,3 +73,93 @@
         overflow: hidden !important;
     }
 }
+
+@media (min-width: 769px) {
+    body:not(.cast-detail-page) #cast-list .all-cast-grid {
+        grid-template-columns: repeat(3, minmax(0, 332px)) !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        gap: 38px 36px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 620px !important;
+        min-height: 620px !important;
+        padding: 14px 14px 18px !important;
+        box-sizing: border-box !important;
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.92),
+            inset 0 0 0 1px rgba(246,228,190,.52),
+            inset 0 0 0 2px rgba(205,176,112,.14),
+            0 15px 24px rgba(104,63,72,.08),
+            0 25px 50px rgba(179,91,126,.2),
+            0 0 20px rgba(244,221,176,.18) !important;
+        transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease, filter .28s ease !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover {
+        transform: translateY(-3px) !important;
+        box-shadow:
+            inset 0 1px 0 rgba(255,255,255,.94),
+            inset 0 0 0 1px rgba(246,228,190,.58),
+            inset 0 0 0 2px rgba(205,176,112,.18),
+            0 17px 27px rgba(104,63,72,.09),
+            0 29px 56px rgba(179,91,126,.24),
+            0 0 24px rgba(244,221,176,.22) !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-photo {
+        height: 376px !important;
+        margin: 0 0 2px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .public-cast-image,
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-card-no-image {
+        object-fit: cover !important;
+        object-position: center top !important;
+        transition: transform .28s ease, filter .28s ease !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .all-cast-grid > .public-cast-card:hover .public-cast-image {
+        transform: scale(1.025) !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-info {
+        gap: 8px !important;
+        padding: 15px 4px 0 !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-info h3 {
+        margin: 0 0 3px !important;
+        font-size: 26px !important;
+        line-height: 1.2 !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-profile-line,
+    body:not(.cast-detail-page) #cast-list .public-cast-schedule {
+        min-height: 31px !important;
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-profile-link {
+        min-height: 44px !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges {
+        max-width: calc(100% - 18px) !important;
+        filter: drop-shadow(0 5px 9px rgba(96,45,72,.18)) drop-shadow(0 0 8px rgba(244,221,176,.2)) !important;
+    }
+
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .premium-cast-badge,
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .premium-cast-badge-img,
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .badge-new,
+    body:not(.cast-detail-page) #cast-list .public-cast-photo > .cast-badges.public-cast-badges .badge-recommend {
+        width: 42px !important;
+        max-width: 42px !important;
+        height: auto !important;
+        filter: drop-shadow(0 4px 8px rgba(96,45,72,.18)) drop-shadow(0 0 7px rgba(255,255,255,.5)) !important;
+    }
+}
