@@ -1,0 +1,613 @@
+/* Chou Chou Ver11 — authoritative home layout
+   Loaded last. This file owns homepage geometry and responsive behavior.
+   Existing style.css remains only for decorative details. */
+
+:root {
+  --v11-page-max: 1500px;
+  --v11-gap: clamp(20px, 2vw, 34px);
+  --v11-card-radius: 30px;
+  --v11-page-pad: clamp(16px, 3vw, 48px);
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: clip;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+iframe,
+video,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+body > .header,
+body > .hero,
+body > .princess-home,
+body > .gallery-lightbox {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  position: relative;
+  z-index: 100;
+}
+
+.header-inner {
+  width: min(100%, var(--v11-page-max));
+  min-width: 0;
+  margin-inline: auto;
+}
+
+/* Hero */
+.hero {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.hero-slider-track,
+.hero-slide,
+.hero-slide img {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Home root */
+.princess-home.luxury-home {
+  display: block !important;
+  width: 100% !important;
+  max-width: var(--v11-page-max) !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  padding: clamp(34px, 5vw, 76px) var(--v11-page-pad) 80px !important;
+  overflow: visible !important;
+}
+
+/* The three actual homepage rows */
+.princess-card-grid-top,
+.princess-card-grid-middle,
+.princess-card-grid-bottom {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  grid-auto-rows: 1fr !important;
+  gap: var(--v11-gap) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 0 var(--v11-gap) !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+}
+
+.princess-card-grid-top > section,
+.princess-card-grid-middle > section,
+.princess-card-grid-bottom > section {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+}
+
+/* Cards */
+.princess-card,
+.premium-section-card,
+.v9-today-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.section-title,
+.section-title *,
+.princess-card p,
+.princess-card a,
+.princess-card button,
+.premium-section-card p,
+.premium-section-card a,
+.premium-section-card button {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  word-break: normal !important;
+  overflow-wrap: anywhere !important;
+  white-space: normal !important;
+}
+
+.section-title {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.ver6-card-image,
+.ver6-contact-image {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Dynamic homepage areas */
+#system .system-price-card,
+#cast-list .all-cast-grid,
+#gallery .public-gallery-grid,
+#access .access-box,
+#cast.v9-today-card .v9-cast-list {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+#system .system-price-row,
+#system .system-price-row * {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+}
+
+#access iframe {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+#contact.ver6-contact-image-section {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .princess-card-grid-top,
+  .princess-card-grid-middle,
+  .princess-card-grid-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .princess-card-grid-top > #cast,
+  .princess-card-grid-top > #concept,
+  .princess-card-grid-bottom > #recruit {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+/* Mobile — rebuild flow from scratch */
+@media (max-width: 768px) {
+  :root {
+    --v11-gap: 20px;
+    --v11-page-pad: 14px;
+  }
+
+  html,
+  body {
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .header-inner {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 12px 14px !important;
+  }
+
+  .header .nav {
+    display: none !important;
+  }
+
+  .header .logo {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    font-size: clamp(28px, 9vw, 42px) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  .language-switch {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+  }
+
+  .language-switch button {
+    min-width: 0 !important;
+    padding: 9px 10px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+
+  .hero {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .hero-slider-track,
+  .hero-slide {
+    height: 100% !important;
+  }
+
+  .hero-slide img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .princess-home.luxury-home {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 34px var(--v11-page-pad) 56px !important;
+  }
+
+  .princess-card-grid,
+  .princess-card-grid-top,
+  .princess-card-grid-middle,
+  .princess-card-grid-bottom,
+  .home-top-card-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+    grid-auto-flow: row !important;
+    gap: var(--v11-gap) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 var(--v11-gap) !important;
+    padding: 0 !important;
+  }
+
+  .princess-card-grid > section,
+  .princess-card-grid-top > section,
+  .princess-card-grid-middle > section,
+  .princess-card-grid-bottom > section,
+  .home-top-card-row > section,
+  #cast,
+  .news,
+  #concept,
+  #system,
+  #cast-list,
+  #gallery,
+  #access,
+  #instagram,
+  #recruit {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    float: none !important;
+    clear: both !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    overflow: hidden !important;
+  }
+
+  .princess-card,
+  .premium-section-card,
+  .v9-today-card {
+    padding: 22px 15px 20px !important;
+    border-radius: 24px !important;
+  }
+
+  .section-title {
+    margin: 0 0 18px !important;
+    text-align: center !important;
+  }
+
+  .section-title span {
+    display: block !important;
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+  }
+
+  .section-title h2 {
+    margin: 6px 0 0 !important;
+    font-size: clamp(26px, 8vw, 36px) !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Today's Cast */
+  #cast.v9-today-card {
+    padding: 0 !important;
+  }
+
+  #cast.v9-today-card .v9-today-card-shell,
+  #cast.v9-today-card .v9-cast-list-frame,
+  #cast.v9-today-card .v9-cast-list {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  #cast.v9-today-card .v9-today-header {
+    padding: 46px 16px 20px !important;
+  }
+
+  #cast.v9-today-card .v9-today-header h2 {
+    font-size: clamp(32px, 10vw, 44px) !important;
+    line-height: 1.2 !important;
+    writing-mode: horizontal-tb !important;
+  }
+
+  #cast.v9-today-card .v9-cast-list-frame {
+    padding: 0 14px !important;
+  }
+
+  #cast.v9-today-card .v9-cast-list {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+    padding: 0 !important;
+  }
+
+  #cast.v9-today-card .v9-cast-item {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 13px !important;
+    margin: 0 !important;
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    overflow: hidden !important;
+  }
+
+  #cast.v9-today-card .v9-cast-photo {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3 !important;
+    margin: 0 !important;
+  }
+
+  #cast.v9-today-card .v9-cast-photo img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  #cast.v9-today-card .v9-cast-profile {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+
+  #cast.v9-today-card .v9-cast-name-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #cast.v9-today-card .v9-cast-name-row h3 {
+    width: auto !important;
+    max-width: 100% !important;
+    font-size: 25px !important;
+    line-height: 1.25 !important;
+    writing-mode: horizontal-tb !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  #cast.v9-today-card .v9-cast-meta {
+    display: grid !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #cast.v9-today-card .v9-cast-meta-row {
+    display: grid !important;
+    grid-template-columns: minmax(88px, auto) minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 42px !important;
+  }
+
+  #cast.v9-today-card .v9-cast-meta dt,
+  #cast.v9-today-card .v9-cast-meta dd {
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    white-space: normal !important;
+    word-break: normal !important;
+  }
+
+  #cast.v9-today-card .v9-cast-button-wrap {
+    width: 100% !important;
+    padding: 20px 16px 24px !important;
+  }
+
+  /* System */
+  #system .system-price-card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #system .system-price-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 15px 3px !important;
+  }
+
+  #system .system-price-row span {
+    min-width: 0 !important;
+    text-align: left !important;
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+  }
+
+  #system .system-price-row strong {
+    min-width: max-content !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+    font-size: 18px !important;
+  }
+
+  /* Cast list */
+  #cast-list .all-cast-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #cast-list .public-cast-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+  }
+
+  /* Gallery */
+  #gallery .public-gallery-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #gallery .public-gallery-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #gallery .public-gallery-card img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Access */
+  #access .access-box {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #access iframe {
+    width: 100% !important;
+    height: 280px !important;
+  }
+
+  #access .access-details p {
+    display: grid !important;
+    grid-template-columns: minmax(76px, auto) minmax(0, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .reserve-btn,
+  .v9-cast-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: min(100%, 320px) !important;
+    max-width: 100% !important;
+    margin-inline: auto !important;
+    white-space: normal !important;
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .header-inner {
+    padding-inline: 10px !important;
+  }
+
+  .header .logo {
+    font-size: clamp(26px, 8.5vw, 35px) !important;
+  }
+
+  .language-switch button {
+    padding: 8px 8px !important;
+    font-size: 11px !important;
+  }
+
+  #system .system-price-row {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+  }
+}
