@@ -10088,91 +10088,105 @@ body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button{
         0 0 20px rgba(255,237,250,.4) inset;
 }
 
-/* ChouChou Today's Cast Jewelry Hotel Refinement */
+/* ChouChou Today's Cast Princess Brand Refinement */
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell{
-    border-color:rgba(178,139,67,.72);
+    border-color:rgba(211,165,76,.82);
     background:
-        radial-gradient(circle at 12% 10%,rgba(255,255,255,.88) 0 1px,transparent 2px),
-        radial-gradient(circle at 88% 22%,rgba(218,181,101,.34) 0 1px,transparent 2px),
-        radial-gradient(circle at 16% 82%,rgba(255,255,255,.8) 0 1px,transparent 2px),
-        linear-gradient(142deg,#fffdfb 0%,#f8eee8 48%,#fffaf7 100%);
+        radial-gradient(circle at 50% 4%,rgba(255,255,255,.98) 0 9%,transparent 25%),
+        radial-gradient(circle at 14% 14%,rgba(255,211,234,.82) 0 11%,transparent 28%),
+        radial-gradient(circle at 88% 17%,rgba(255,238,183,.58) 0 9%,transparent 27%),
+        linear-gradient(135deg,rgba(255,252,254,.99),rgba(255,223,241,.95) 48%,rgba(255,249,253,.99));
     box-shadow:
-        0 24px 48px rgba(74,45,53,.16),
-        0 1px 0 rgba(255,255,255,.96) inset,
-        0 0 0 7px rgba(255,255,255,.42) inset,
-        0 0 0 9px rgba(184,145,73,.13) inset;
+        0 24px 50px rgba(176,64,120,.18),
+        0 2px 0 rgba(255,255,255,.96) inset,
+        0 0 0 8px rgba(255,255,255,.5) inset,
+        0 0 0 12px rgba(211,165,76,.2) inset,
+        0 0 52px rgba(255,190,224,.6) inset;
 }
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell::before{
-    inset:16px;
-    border-color:rgba(180,143,73,.34);
+    inset:14px;
+    border-color:rgba(211,165,76,.48);
     background:
-        radial-gradient(circle at 8% 11%,rgba(255,255,255,.92) 0 1px,transparent 3px),
-        radial-gradient(circle at 91% 18%,rgba(202,164,88,.48) 0 1px,transparent 3px),
-        radial-gradient(circle at 12% 88%,rgba(202,164,88,.3) 0 1px,transparent 3px),
-        radial-gradient(circle at 88% 84%,rgba(255,255,255,.9) 0 1px,transparent 3px);
+        radial-gradient(circle at 9% 13%,rgba(255,255,255,.9) 0 1px,transparent 4px),
+        radial-gradient(circle at 16% 36%,rgba(255,255,255,.72) 0 1px,transparent 4px),
+        radial-gradient(circle at 90% 17%,rgba(255,234,170,.74) 0 1px,transparent 4px),
+        radial-gradient(circle at 76% 84%,rgba(255,255,255,.78) 0 1px,transparent 4px),
+        repeating-linear-gradient(135deg,rgba(255,255,255,.2) 0 1px,transparent 1px 14px);
 }
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-card-shell::after{
     inset:0;
-    opacity:.38;
+    opacity:.72;
     background:
-        radial-gradient(circle at 0 50%,transparent 0 13px,rgba(188,150,80,.18) 14px 15px,transparent 16px) 0 16px/32px 32px repeat-y,
-        radial-gradient(circle at 100% 50%,transparent 0 13px,rgba(188,150,80,.18) 14px 15px,transparent 16px) 100% 16px/32px 32px repeat-y,
-        radial-gradient(circle at 9% 24%,#fff 0 1px,transparent 2px),
-        radial-gradient(circle at 91% 68%,rgba(205,165,84,.72) 0 1px,transparent 2px);
+        radial-gradient(circle at 0 50%,transparent 0 13px,rgba(230,133,181,.2) 14px 15px,transparent 16px) 0 16px/32px 32px repeat-y,
+        radial-gradient(circle at 100% 50%,transparent 0 13px,rgba(230,133,181,.2) 14px 15px,transparent 16px) 100% 16px/32px 32px repeat-y,
+        radial-gradient(circle at 8% 23%,rgba(255,255,255,.96) 0 1px,transparent 3px),
+        radial-gradient(circle at 92% 69%,rgba(255,239,184,.82) 0 1px,transparent 3px);
 }
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-decoration span{
     z-index:0;
 }
 
-body:not(.cast-detail-page) #cast.v9-today-card .v9-tiara,
+body:not(.cast-detail-page) #cast.v9-today-card .v9-tiara{
+    display:block;
+    top:5px;
+    opacity:.88;
+}
+
 body:not(.cast-detail-page) #cast.v9-today-card .v9-ribbon{
-    display:none;
+    display:block;
+    opacity:.72;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-ribbon-top{
+    top:-30px;
+    left:-22px;
+}
+
+body:not(.cast-detail-page) #cast.v9-today-card .v9-ribbon-bottom{
+    right:-70px;
+    bottom:-24px;
 }
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel{
-    width:13px;
-    height:13px;
-    border-color:rgba(255,255,255,.88);
-    border-radius:3px;
-    opacity:.68;
+    width:15px;
+    height:15px;
+    border-color:rgba(255,255,255,.92);
+    border-radius:5px;
+    opacity:.76;
     background:
-        linear-gradient(135deg,rgba(255,255,255,.96),rgba(224,195,135,.76) 48%,rgba(139,98,38,.6));
-    box-shadow:0 0 8px rgba(255,255,255,.8),0 3px 8px rgba(87,57,41,.12);
+        radial-gradient(circle at 34% 25%,#fff 0 14%,transparent 16%),
+        linear-gradient(135deg,#ffe7f1,#ff72ae 52%,#d7aa55);
+    box-shadow:0 0 10px rgba(255,220,238,.7),0 4px 9px rgba(176,64,120,.14);
 }
 
-body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-tl{top:24px;left:25px;}
-body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-tr{top:24px;right:25px;}
-body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-bl{bottom:26px;left:26px;}
-body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-br{right:26px;bottom:26px;}
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-tl{top:22px;left:12px;}
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-tr{top:22px;right:12px;}
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-bl{bottom:18px;left:12px;}
+body:not(.cast-detail-page) #cast.v9-today-card .v9-jewel-br{right:12px;bottom:18px;}
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-eyebrow{
-    color:#a67b3d;
-    font-weight:600;
-    letter-spacing:.08em;
-    text-shadow:none;
+    color:#dd5c9d;
+    font-weight:700;
+    letter-spacing:0;
+    text-shadow:0 1px 0 #fff,0 0 14px rgba(255,255,255,.8);
 }
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-header h2{
-    color:#432f35;
-    font-weight:700;
-    text-shadow:none;
+    color:#5b2d43;
+    font-weight:800;
+    text-shadow:0 2px 0 rgba(255,255,255,.76);
 }
 
 body:not(.cast-detail-page) #cast.v9-today-card .v9-today-divider{
-    height:1px;
-    background:linear-gradient(90deg,transparent,#b58a43 22%,#b58a43 78%,transparent);
+    height:8px;
+    background:
+        radial-gradient(circle at 50% 50%,#ff78ad 0 12%,transparent 13%),
+        linear-gradient(90deg,transparent,#d7aa55 30%,#d7aa55 70%,transparent);
 }
 
-body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item{
-    border-color:rgba(181,141,69,.42);
-    background:linear-gradient(135deg,rgba(255,255,255,.97),rgba(250,245,242,.94));
-    box-shadow:0 10px 22px rgba(78,48,57,.11),0 1px 0 rgba(255,255,255,.9) inset;
-}
-
-body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item::before,
 body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item::after{
     content:none;
 }
@@ -10200,22 +10214,11 @@ body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-status{
     margin-left:auto;
     margin-right:2px;
     padding:7px 11px;
-    border:0;
-    background:linear-gradient(135deg,#8f5d6a,#5f3945);
-    color:#fffaf2;
+    border:1px solid rgba(215,170,82,.55);
+    background:linear-gradient(135deg,#ff8bbc,#d95091);
+    color:#fff;
     font-size:10px;
     font-weight:700;
     letter-spacing:.08em;
-    box-shadow:0 5px 12px rgba(60,35,43,.18),0 1px 0 rgba(255,255,255,.22) inset;
-}
-
-body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta-row{
-    border-color:rgba(190,157,100,.28);
-    background:rgba(255,255,255,.76);
-    box-shadow:0 1px 0 rgba(255,255,255,.92) inset;
-}
-
-body:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta dt,
-body:not(.cast-detail-page) #cast.v9-today-card .v9-meta-icon{
-    color:#9a7040;
+    box-shadow:0 5px 12px rgba(205,70,139,.2),0 1px 0 rgba(255,255,255,.55) inset;
 }
