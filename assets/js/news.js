@@ -7,11 +7,19 @@ import { db } from "../app.js";
 
 const COLLECTION_NAME = "news";
 const DEFAULT_CATEGORY = "お知らせ";
+const mobileHomeQuery = window.matchMedia("(max-width: 767px)");
 
 const lists = [...document.querySelectorAll(".public-news-list")];
+let cachedNewsItems = [];
 
 if (lists.length) {
   loadPublicNews();
+
+  if (typeof mobileHomeQuery.addEventListener === "function") {
+    mobileHomeQuery.addEventListener("change", () => renderNews(cachedNewsItems));
+  } else if (typeof mobileHomeQuery.addListener === "function") {
+    mobileHomeQuery.addListener(() => renderNews(cachedNewsItems));
+  }
 }
 
 async function loadPublicNews() {
@@ -31,6 +39,7 @@ async function loadPublicNews() {
     });
 
     sortNewsItems(items);
+    cachedNewsItems = items;
     renderNews(items);
   } catch (error) {
     console.error("公開お知らせ読み込み失敗", error);
@@ -42,7 +51,7 @@ async function loadPublicNews() {
 
 function renderNews(items) {
   lists.forEach((list) => {
-    const limit = Number(list.dataset.limit || 0);
+    const limit = mobileHomeQuery.matches ? Number(list.dataset.limit || 0) : 0;
     const visibleItems = limit > 0 ? items.slice(0, limit) : items;
 
     if (!visibleItems.length) {
