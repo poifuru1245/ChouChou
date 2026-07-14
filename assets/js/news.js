@@ -35,6 +35,7 @@ async function loadPublicNews() {
   } catch (error) {
     console.error("公開お知らせ読み込み失敗", error);
     lists.forEach((list) => {
+      updateNewsListState(list, 0);
       list.innerHTML = `<p class="public-news-empty">お知らせの読み込みに失敗しました。</p>`;
     });
   }
@@ -46,6 +47,7 @@ function renderNews(items) {
     const visibleItems = limit > 0 ? items.slice(0, limit) : items;
 
     if (!visibleItems.length) {
+      updateNewsListState(list, 0);
       list.innerHTML = `<p class="public-news-empty">現在お知らせはありません。</p>`;
       return;
     }
@@ -58,7 +60,14 @@ function renderNews(items) {
 
     list.innerHTML = "";
     list.appendChild(fragment);
+    updateNewsListState(list, visibleItems.length);
   });
+}
+
+function updateNewsListState(list, itemCount) {
+  list.dataset.itemCount = String(itemCount);
+  list.classList.toggle("is-news-compact", itemCount < 3);
+  list.classList.toggle("has-news-overflow", itemCount >= 4);
 }
 
 function createNewsCard(item) {
