@@ -884,6 +884,31 @@ function setupRevealAnimations() {
   });
 }
 
+function setupPremiumHeader() {
+  const header = document.querySelector(".header");
+
+  if (!header || header.dataset.premiumHeaderReady === "true") return;
+
+  header.dataset.premiumHeaderReady = "true";
+
+  let ticking = false;
+
+  const updateHeaderState = () => {
+    header.classList.toggle("is-compact", window.scrollY > 32);
+    ticking = false;
+  };
+
+  const requestHeaderUpdate = () => {
+    if (ticking) return;
+
+    ticking = true;
+    window.requestAnimationFrame(updateHeaderState);
+  };
+
+  updateHeaderState();
+  window.addEventListener("scroll", requestHeaderUpdate, { passive: true });
+}
+
 function setupHeroSlider() {
   const hero = document.querySelector(".hero.hero-ver6");
   const slides = Array.from(document.querySelectorAll(".hero.hero-ver6 .hero-slide"));
@@ -911,5 +936,6 @@ loadRanking();
 loadTodayCast();
 setupPublicLanguageSwitch();
 setupSiteSettings();
+setupPremiumHeader();
 setupRevealAnimations();
 setupHeroSlider();
