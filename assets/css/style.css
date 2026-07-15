@@ -12995,3 +12995,152 @@ body:not(.cast-detail-page) .princess-home #gallery .gallery-more .reserve-btn{
         transition:none !important;
     }
 }
+
+/* =========================================================
+   Chou Chou Ver11.6 — Instagram Brand Gallery
+   ========================================================= */
+body.premium-design-system .princess-home .princess-card-grid-bottom > #instagram.premium-card-instagram{
+    grid-column:span 2 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    padding:var(--premium-space-card) !important;
+    overflow:hidden !important;
+}
+
+body.premium-design-system .princess-home #instagram.premium-card-instagram::before,
+body.premium-design-system .princess-home #instagram.premium-card-instagram::after,
+body.premium-design-system .princess-home #instagram .section-title::before,
+body.premium-design-system .princess-home #instagram .section-title::after{
+    display:none !important;
+    content:none !important;
+}
+
+body.premium-design-system .princess-home #instagram .section-title{
+    display:flex !important;
+    min-height:0 !important;
+    margin:0 0 var(--premium-space-title) !important;
+}
+
+body.premium-design-system .princess-home #instagram .instagram-brand-grid{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:clamp(12px,1.5vw,20px) !important;
+    width:100% !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+}
+
+body.premium-design-system .princess-home #instagram .instagram-brand-post.card-premium{
+    display:flex !important;
+    flex-direction:column !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:.75px solid rgba(var(--premium-gold-rgb),.48) !important;
+    border-radius:22px !important;
+    background:rgba(255,255,255,.42) !important;
+    box-shadow:0 9px 20px rgba(111,59,86,.1) !important;
+    -webkit-backdrop-filter:blur(6px) saturate(106%) !important;
+    backdrop-filter:blur(6px) saturate(106%) !important;
+    transform:translateY(0) !important;
+    transition:transform var(--premium-transition),border-color var(--premium-transition),box-shadow var(--premium-transition) !important;
+}
+
+body.premium-design-system .princess-home #instagram .instagram-brand-photo{
+    width:100% !important;
+    aspect-ratio:1 / 1 !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    background:var(--premium-pink) !important;
+}
+
+body.premium-design-system .princess-home #instagram .instagram-brand-photo img{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center !important;
+    transform:scale(1) !important;
+    transition:transform var(--premium-transition) !important;
+}
+
+body.premium-design-system .princess-home #instagram .instagram-brand-caption{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:44px !important;
+    margin:0 !important;
+    padding:12px 14px !important;
+    overflow:hidden !important;
+    color:var(--premium-ink) !important;
+    font-family:"Noto Serif JP",serif !important;
+    font-size:12px !important;
+    font-weight:600 !important;
+    letter-spacing:.04em !important;
+    line-height:20px !important;
+    text-align:left !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+}
+
+body.premium-design-system .princess-home #instagram .instagram-brand-state{
+    grid-column:1 / -1 !important;
+    margin:0 !important;
+    padding:56px 20px !important;
+    color:var(--premium-muted) !important;
+    font-size:13px !important;
+    letter-spacing:.04em !important;
+    line-height:1.7 !important;
+    text-align:center !important;
+}
+
+body.premium-design-system .princess-home #instagram .instagram-brand-action{
+    display:flex !important;
+    justify-content:center !important;
+    width:100% !important;
+    margin-top:var(--premium-space-action) !important;
+}
+
+@media(hover:hover) and (pointer:fine){
+    body.premium-design-system .princess-home #instagram .instagram-brand-post.card-premium:hover{
+        border-color:rgba(var(--premium-gold-rgb),.82) !important;
+        box-shadow:var(--premium-shadow-hover) !important;
+        transform:translateY(-6px) !important;
+    }
+
+    body.premium-design-system .princess-home #instagram .instagram-brand-post:hover .instagram-brand-photo img{
+        transform:scale(1.03) !important;
+    }
+}
+
+@media(max-width:1100px){
+    body.premium-design-system .princess-home .princess-card-grid-bottom > #instagram.premium-card-instagram{
+        grid-column:1 / -1 !important;
+    }
+}
+
+@media(max-width:680px){
+    body.premium-design-system .princess-home #instagram .instagram-brand-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:10px !important;
+    }
+
+    body.premium-design-system .princess-home #instagram .instagram-brand-caption{
+        min-height:40px !important;
+        padding:10px 11px !important;
+        font-size:10px !important;
+        line-height:20px !important;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    body.premium-design-system .princess-home #instagram .instagram-brand-post.card-premium,
+    body.premium-design-system .princess-home #instagram .instagram-brand-photo img{
+        transform:none !important;
+        transition:none !important;
+    }
+}

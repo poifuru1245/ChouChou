@@ -377,7 +377,7 @@ function setupPublicLanguageSwitch() {
       "section.gallery": "店内ギャラリー",
       "section.access": "アクセス",
       "section.access.en": "Access",
-      "section.instagram": "インスタグラム",
+      "section.instagram": "最新の投稿",
       "section.recruit": "求人情報",
       "recruit.v11.title": "キャスト募集",
       "recruit.v11.message": "甘くとろける夢の時間を、一緒につくりませんか。",
@@ -397,6 +397,10 @@ function setupPublicLanguageSwitch() {
       "access.closed.label": "定休日",
       "access.closed.value": "日曜",
       "instagram.body": "最新の雰囲気やイベント情報をお届けします。",
+      "instagram.loading": "投稿を読み込み中...",
+      "instagram.empty": "最新の投稿を準備中です。",
+      "instagram.error": "投稿を読み込めませんでした。",
+      "instagram.follow": "Follow on Instagram",
       "button.schedule": "出勤一覧を見る",
       "button.news": "お知らせ一覧を見る",
       "button.webReserve": "WEB予約",
@@ -464,7 +468,7 @@ function setupPublicLanguageSwitch() {
       "section.gallery": "Gallery",
       "section.access": "Access",
       "section.access.en": "Access",
-      "section.instagram": "Instagram",
+      "section.instagram": "Latest Posts",
       "section.recruit": "Recruit",
       "recruit.v11.title": "Cast Recruitment",
       "recruit.v11.message": "Would you like to create sweet, dreamlike moments with us?",
@@ -484,6 +488,10 @@ function setupPublicLanguageSwitch() {
       "access.closed.label": "Closed",
       "access.closed.value": "Sunday",
       "instagram.body": "Follow us for the latest atmosphere and event updates.",
+      "instagram.loading": "Loading posts...",
+      "instagram.empty": "New posts are coming soon.",
+      "instagram.error": "Posts could not be loaded.",
+      "instagram.follow": "Follow on Instagram",
       "button.schedule": "View Schedule",
       "button.news": "View News",
       "button.webReserve": "Web Reservation",
@@ -551,7 +559,7 @@ function setupPublicLanguageSwitch() {
       "section.gallery": "店内相册",
       "section.access": "交通",
       "section.access.en": "Access",
-      "section.instagram": "Instagram",
+      "section.instagram": "最新动态",
       "section.recruit": "招聘信息",
       "recruit.v11.title": "招募演员",
       "recruit.v11.message": "愿意和我们一起创造甜蜜梦幻的时光吗？",
@@ -571,6 +579,10 @@ function setupPublicLanguageSwitch() {
       "access.closed.label": "定休日",
       "access.closed.value": "周日",
       "instagram.body": "为您带来最新店内氛围与活动信息。",
+      "instagram.loading": "正在加载动态...",
+      "instagram.empty": "最新动态准备中。",
+      "instagram.error": "无法加载动态。",
+      "instagram.follow": "在Instagram关注",
       "button.schedule": "查看出勤",
       "button.news": "查看公告",
       "button.webReserve": "网页预约",
@@ -884,6 +896,91 @@ function setupRevealAnimations() {
   });
 }
 
+async function setupInstagramBrandGallery() {
+  const grid = document.querySelector("[data-instagram-brand-grid]");
+
+  if (!grid || grid.dataset.instagramState) return;
+
+  grid.dataset.instagramState = "loading";
+
+  try {
+    const snapshot = await getDocs(collection(db, "gallery"));
+    const limit = Number(grid.dataset.limit || 6);
+    const posts = [];
+
+    snapshot.forEach((docSnap) => {
+      const post = {
+        id: docSnap.id,
+        ...docSnap.data()
+      };
+
+      if (post.imageUrl) posts.push(post);
+    });
+
+    posts.sort((a, b) => {
+      const timeDifference = getInstagramPostTime(b) - getInstagramPostTime(a);
+
+      if (timeDifference !== 0) return timeDifference;
+
+      const aOrder = Number(a.displayOrder ?? Number.MAX_SAFE_INTEGER);
+      const bOrder = Number(b.displayOrder ?? Number.MAX_SAFE_INTEGER);
+      return aOrder - bOrder;
+    });
+
+    const visiblePosts = posts.slice(0, Number.isFinite(limit) && limit > 0 ? limit : 6);
+
+    if (!visiblePosts.length) {
+      grid.dataset.instagramState = "empty";
+      grid.innerHTML = `<p class="instagram-brand-state" data-i18n="instagram.empty">最新の投稿を準備中です。</p>`;
+      return;
+    }
+
+    grid.dataset.instagramState = "ready";
+    grid.innerHTML = visiblePosts.map((post) => {
+      const title = String(post.title || "").trim();
+      const date = formatInstagramPostDate(post);
+      const caption = title || date || "Chou Chou";
+
+      return `
+        <article class="instagram-brand-post card-premium">
+          <div class="instagram-brand-photo">
+            <img src="${escapeAttribute(post.imageUrl)}" alt="${escapeAttribute(caption)}" loading="lazy">
+          </div>
+          <p class="instagram-brand-caption">${escapeHtml(caption)}</p>
+        </article>
+      `;
+    }).join("");
+  } catch (error) {
+    console.error("Instagramブランドギャラリー読み込み失敗", error);
+    grid.dataset.instagramState = "error";
+    grid.innerHTML = `<p class="instagram-brand-state" data-i18n="instagram.error">投稿を読み込めませんでした。</p>`;
+  }
+}
+
+function getInstagramPostTime(post) {
+  const value = post?.createdAt || post?.updatedAt;
+
+  if (typeof value?.toMillis === "function") return value.toMillis();
+  if (typeof value?.seconds === "number") return value.seconds * 1000;
+  if (typeof value === "number") return value;
+
+  const parsed = Date.parse(String(value || ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatInstagramPostDate(post) {
+  const timestamp = getInstagramPostTime(post);
+
+  if (!timestamp) return "";
+
+  return new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date(timestamp)).replaceAll("/", ".");
+}
+
 function setupPremiumHeader() {
   const header = document.querySelector(".header");
 
@@ -936,6 +1033,7 @@ loadRanking();
 loadTodayCast();
 setupPublicLanguageSwitch();
 setupSiteSettings();
+setupInstagramBrandGallery();
 setupPremiumHeader();
 setupRevealAnimations();
 setupHeroSlider();
