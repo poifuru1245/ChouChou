@@ -834,8 +834,9 @@ function toGoogleMapEmbedUrl(url) {
 }
 
 function setupRevealAnimations() {
-  const selector = ".premium-section-card, .princess-card, .ver6-contact-image-section, .cast-card, .news-card, .gallery-card";
-  const targets = document.querySelectorAll(selector);
+  const selector = ".premium-section-card, .ver6-contact-image-section, .cast-card, .news-card, .gallery-card";
+  const revealRoot = document.querySelector(".princess-home") || document.body;
+  const targets = revealRoot.querySelectorAll(selector);
 
   if (!("IntersectionObserver" in window)) {
     targets.forEach((target) => {
@@ -890,7 +891,7 @@ function setupRevealAnimations() {
     });
   });
 
-  mutationObserver.observe(document.body, {
+  mutationObserver.observe(revealRoot, {
     childList: true,
     subtree: true
   });
