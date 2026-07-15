@@ -89,6 +89,7 @@ console.log("出勤者", todayCasts);
   sortCastsByDisplayOrder(casts);
 
   renderPrincessPickUp(casts);
+  loadAllCasts(todayCasts);
 
 console.log("cast.js 起動");
 console.log(document.querySelector(".v9-cast-list, .cast-grid"));
@@ -298,7 +299,7 @@ console.log("追加", cast.name);
 
 loadCasts();
 
-async function loadAllCasts(){
+async function loadAllCasts(todayCasts = []){
 
 const snapshot =
 await getDocs(collection(db,"casts"));
@@ -341,18 +342,14 @@ const imageMarkup =
 image
 ? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
 : `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
+const todaySchedule =
+todayCasts.find((schedule)=>isScheduleForCast(schedule,cast));
 const badgeMarkup =
-createCastBadgeMarkup(cast);
-const tagsMarkup =
-createPublicTagMarkup(cast);
+createCastBadgeMarkup(cast,{
+  textStyle:true
+});
 const detailUrl =
 createCastDetailUrl(cast);
-const isLimitedList =
-limit !== null;
-const detailLabel =
-isLimitedList
-? "詳細"
-: "プロフィール";
 
 div.innerHTML = `
 <div class="public-cast-photo">
@@ -365,20 +362,21 @@ ${badgeMarkup}
 <h3>${escapeHtml(cast.name || "")}</h3>
 
 <p class="public-cast-profile-line">
-${escapeHtml(formatAge(cast.age))} / ${escapeHtml(formatCup(cast))} / ${escapeHtml(formatHeight(cast.height))}
+${escapeHtml(formatAge(cast.age))} <span aria-hidden="true">◇</span>${escapeHtml(formatHeight(cast.height))}
 </p>
 
-<p class="cast-time public-cast-schedule">
-<span data-i18n="cast.schedule.label">出勤</span>：${escapeHtml(formatSchedule(cast))}
-</p>
+${createCastListHobbyMarkup(cast)}
 
-${tagsMarkup}
+<p class="public-cast-schedule-row">
+  ${todaySchedule ? '<span class="public-cast-today-label">TODAY</span>' : ""}
+  <span class="public-cast-schedule-time">${escapeHtml(formatSchedule(cast,todaySchedule?.time))}</span>
+</p>
 
 <a
 class="reserve-btn public-profile-link"
 href="${detailUrl}"
 aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
-<span data-i18n="${isLimitedList ? "button.detail" : "button.profile"}">${detailLabel}</span>
+<span>PROFILE</span>
 </a>
 
 </div>
@@ -388,6 +386,24 @@ makePublicCastCardClickable(div, detailUrl);
 list.appendChild(div);
 
 });
+
+}
+
+function createCastListHobbyMarkup(cast){
+
+const hobby =
+String(cast?.hobby || "").trim();
+
+if(!hobby){
+return "";
+}
+
+return `
+<p class="public-cast-hobby">
+  <span class="public-cast-hobby-label">趣味</span>
+  <span class="public-cast-hobby-value">${escapeHtml(hobby)}</span>
+</p>
+`;
 
 }
 
@@ -595,8 +611,6 @@ function getListLimit(list) {
     ? value
     : null;
 }
-
-loadAllCasts();
 
 function renderPrincessPickUp(casts){
 
@@ -992,16 +1006,19 @@ cast?.schedule ||
 
 }
 
-function createCastBadgeMarkup(cast){
+function createCastBadgeMarkup(cast,options = {}){
 
 const badges = [];
 
+const textStyle =
+options?.textStyle === true;
+
 if(isBadgeEnabled(cast?.isNew)){
-badges.push(createNewBadgeImage());
+badges.push(textStyle ? createTextBadge("NEW","new") : createNewBadgeImage());
 }
 
 if(isBadgeEnabled(cast?.isRecommended)){
-badges.push(createRecommendedBadgeImage());
+badges.push(textStyle ? createTextBadge("おすすめ","recommended") : createRecommendedBadgeImage());
 }
 
 if(!badges.length){
@@ -1012,6 +1029,16 @@ return `
 <div class="public-cast-badges cast-badge-layer">
 ${badges.join("")}
 </div>
+`;
+
+}
+
+function createTextBadge(label,type){
+
+return `
+<span class="premium-cast-badge premium-cast-badge-${escapeAttribute(type)} public-cast-text-badge">
+  ${escapeHtml(label)}
+</span>
 `;
 
 }
