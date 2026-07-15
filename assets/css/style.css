@@ -3,7 +3,6 @@
     padding:0;
     box-sizing:border-box;
 }
-
 body{
     font-family:"Noto Serif JP",serif;
     background:#fff6fa;
@@ -7354,7 +7353,6 @@ body:not(.cast-detail-page) .princess-card-action{
         transition:none !important;
     }
 }
-
 /* Ver6.2 final real cast badge override */
 body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges,
 body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges.cast-badge-layer,
@@ -10552,5 +10550,1384 @@ body:not(.cast-detail-page) .princess-home #system{
             0 0 0 1px rgba(255,232,173,.2),
             0 2px 0 rgba(255,255,255,.94) inset,
             0 0 22px rgba(255,221,239,.4) inset !important;
+    }
+}
+
+/* Ver9.0.8 Concept card — refined glass luxury */
+body:not(.cast-detail-page) .princess-home #concept.premium-card-concept{
+    isolation:isolate !important;
+    border:1.5px solid rgba(202,153,63,.92) !important;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.62) 0%,rgba(255,255,255,.18) 18%,rgba(255,255,255,.04) 44%,rgba(255,244,249,.18) 100%),
+        repeating-linear-gradient(45deg,rgba(198,153,76,.055) 0 1px,transparent 1px 20px),
+        repeating-linear-gradient(-45deg,rgba(198,153,76,.055) 0 1px,transparent 1px 20px),
+        linear-gradient(145deg,rgba(255,255,255,.72),rgba(255,226,241,.56) 52%,rgba(255,251,253,.7)) !important;
+    box-shadow:
+        0 24px 48px rgba(111,61,85,.2),
+        0 9px 22px rgba(191,139,47,.12),
+        0 2px 0 rgba(255,255,255,.96) inset,
+        0 0 0 1px rgba(255,255,255,.68) inset,
+        0 0 26px rgba(255,255,255,.42) inset !important;
+    -webkit-backdrop-filter:blur(12px) saturate(112%) !important;
+    backdrop-filter:blur(12px) saturate(112%) !important;
+    transform:translateY(-4px) !important;
+}
+
+body:not(.cast-detail-page) .princess-home #concept.premium-card-concept::before{
+    content:"" !important;
+    display:block !important;
+    position:absolute !important;
+    inset:10px !important;
+    z-index:3 !important;
+    border:1px solid rgba(213,169,78,.72) !important;
+    border-radius:20px !important;
+    background:
+        repeating-linear-gradient(45deg,rgba(194,145,65,.055) 0 1px,transparent 1px 22px),
+        repeating-linear-gradient(-45deg,rgba(194,145,65,.055) 0 1px,transparent 1px 22px) !important;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.66),
+        0 0 18px rgba(255,255,255,.38) inset !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #concept.premium-card-concept::after{
+    content:"" !important;
+    display:block !important;
+    position:absolute !important;
+    top:1px !important;
+    right:12px !important;
+    bottom:auto !important;
+    left:12px !important;
+    z-index:4 !important;
+    width:auto !important;
+    height:34% !important;
+    border-radius:24px 24px 55% 55% / 24px 24px 28px 28px !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.54),rgba(255,255,255,.16) 54%,transparent 100%) !important;
+    box-shadow:0 1px 0 rgba(255,255,255,.92) inset !important;
+    transform:none !important;
+    color:transparent !important;
+    font-size:0 !important;
+    pointer-events:none !important;
+}
+
+/* Keep only the restrained jewel and two highlights on the Concept card. */
+body:not(.cast-detail-page) .princess-home #concept .premium-card-ornaments{
+    z-index:5 !important;
+}
+
+body:not(.cast-detail-page) .princess-home #concept .premium-ribbon{
+    display:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #concept .premium-jewel{
+    right:17px !important;
+    bottom:17px !important;
+    z-index:5 !important;
+    width:28px !important;
+    height:28px !important;
+    border:1px solid rgba(255,255,255,.96) !important;
+    border-radius:8px 8px 11px 8px !important;
+    background:
+        radial-gradient(circle at 28% 22%,#fff 0 8%,rgba(255,255,255,.68) 9%,transparent 23%),
+        linear-gradient(135deg,rgba(255,255,255,.98),rgba(248,169,204,.88) 38%,rgba(197,73,132,.9) 68%,rgba(255,221,237,.94)) !important;
+    box-shadow:
+        0 7px 16px rgba(126,69,94,.22),
+        0 0 12px rgba(255,255,255,.94) inset,
+        0 0 9px rgba(255,235,244,.74) !important;
+}
+
+body:not(.cast-detail-page) .princess-home #concept .premium-sparkles{
+    z-index:4 !important;
+    background:
+        radial-gradient(circle at 80% 20%,rgba(255,255,255,.98) 0 1px,rgba(255,255,255,.44) 2px,transparent 4px),
+        radial-gradient(circle at 18% 80%,rgba(230,188,102,.72) 0 1px,rgba(255,255,255,.32) 2px,transparent 4px) !important;
+    opacity:.9 !important;
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home #concept.premium-card-concept{
+        transform:translateY(-2px) !important;
+        box-shadow:
+            0 17px 34px rgba(111,61,85,.18),
+            0 7px 17px rgba(191,139,47,.1),
+            0 2px 0 rgba(255,255,255,.94) inset,
+            0 0 0 1px rgba(255,255,255,.64) inset,
+            0 0 22px rgba(255,255,255,.38) inset !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #concept.premium-card-concept::before{
+        inset:8px !important;
+        border-radius:17px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #concept.premium-card-concept::after{
+        right:10px !important;
+        left:10px !important;
+        height:30% !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #concept .premium-jewel{
+        right:13px !important;
+        bottom:13px !important;
+        width:22px !important;
+        height:22px !important;
+    }
+}
+
+/* Ver9.0.9 Cast List cards — Today's Cast glass luxury */
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card{
+    position:relative !important;
+    isolation:isolate !important;
+    overflow:hidden !important;
+    border:1.5px solid rgba(211,165,76,.76) !important;
+    border-radius:22px !important;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.12) 34%,transparent 54%),
+        radial-gradient(circle at 88% 12%,rgba(255,219,238,.5) 0 8%,transparent 28%),
+        linear-gradient(145deg,rgba(255,255,255,.84),rgba(255,232,245,.7) 54%,rgba(255,251,253,.88)) !important;
+    box-shadow:
+        0 17px 34px rgba(176,64,120,.17),
+        0 2px 0 rgba(255,255,255,.96) inset,
+        0 0 24px rgba(255,226,241,.4) inset !important;
+    -webkit-backdrop-filter:blur(12px) saturate(112%) !important;
+    backdrop-filter:blur(12px) saturate(112%) !important;
+    transform:translateY(0) !important;
+    transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card::before{
+    content:"" !important;
+    display:block !important;
+    position:absolute !important;
+    inset:7px !important;
+    z-index:9 !important;
+    border:1px solid rgba(218,174,86,.46) !important;
+    border-radius:16px !important;
+    background:transparent !important;
+    box-shadow:0 0 0 1px rgba(255,255,255,.58),0 0 14px rgba(255,255,255,.32) inset !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card::after{
+    content:"" !important;
+    display:block !important;
+    position:absolute !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:auto !important;
+    left:0 !important;
+    z-index:4 !important;
+    width:100% !important;
+    height:36% !important;
+    border-radius:22px 22px 48% 48% / 22px 22px 20px 20px !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,.12) 62%,transparent) !important;
+    box-shadow:0 1px 0 rgba(255,255,255,.92) inset !important;
+    transform:none !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-photo{
+    position:relative !important;
+    overflow:hidden !important;
+    border-bottom:1px solid rgba(211,165,76,.5) !important;
+    background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(255,225,241,.74)) !important;
+    box-shadow:0 10px 22px rgba(176,64,120,.12),0 0 18px rgba(255,255,255,.55) inset !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-image{
+    object-fit:cover !important;
+    object-position:center top !important;
+    transform:scale(1.17) !important;
+    transform-origin:center top !important;
+    filter:saturate(1.03) contrast(1.01) !important;
+    transition:transform .45s ease,filter .35s ease !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card-no-image.public-cast-image{
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card:has(.public-cast-badges) .public-cast-info{
+    padding:18px 14px 20px !important;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.52),rgba(255,255,255,.15) 46%,transparent),
+        rgba(255,247,251,.28) !important;
+    -webkit-backdrop-filter:blur(10px) saturate(108%) !important;
+    backdrop-filter:blur(10px) saturate(108%) !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info h3{
+    position:relative !important;
+    padding-bottom:9px !important;
+    color:#6f3653 !important;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+    font-weight:700 !important;
+    letter-spacing:.05em !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.92) !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info h3::after{
+    content:"" !important;
+    display:block !important;
+    width:52% !important;
+    max-width:92px !important;
+    height:1px !important;
+    margin:8px auto 0 !important;
+    background:linear-gradient(90deg,transparent,rgba(201,151,58,.92) 18%,rgba(255,232,173,.96) 50%,rgba(201,151,58,.92) 82%,transparent) !important;
+    box-shadow:0 1px 4px rgba(207,166,80,.28) !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges.cast-badge-layer,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges.cast-badge-layer{
+    top:10px !important;
+    right:auto !important;
+    bottom:auto !important;
+    left:10px !important;
+    z-index:12 !important;
+    flex-direction:row !important;
+    gap:5px !important;
+    overflow:visible !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:39px !important;
+    min-width:39px !important;
+    height:39px !important;
+    padding:2px !important;
+    border:1px solid rgba(225,185,103,.74) !important;
+    border-radius:12px !important;
+    background:linear-gradient(145deg,rgba(255,255,255,.7),rgba(255,227,241,.5)) !important;
+    box-shadow:0 7px 14px rgba(112,61,86,.18),0 1px 0 rgba(255,255,255,.95) inset,0 0 9px rgba(255,243,248,.72) inset !important;
+    -webkit-backdrop-filter:blur(7px) saturate(112%) !important;
+    backdrop-filter:blur(7px) saturate(112%) !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-new,
+body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-recommended{
+    width:35px !important;
+    min-width:35px !important;
+    max-width:35px !important;
+    height:35px !important;
+    margin:0 !important;
+    border-radius:9px !important;
+    opacity:.88 !important;
+    filter:saturate(1.08) brightness(1.05) drop-shadow(0 2px 4px rgba(99,54,77,.22)) !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast-list .public-profile-link,
+body:not(.cast-detail-page) .princess-home #cast-list .cast-card .reserve-btn.public-profile-link{
+    position:relative !important;
+    overflow:hidden !important;
+    border:1px solid rgba(205,156,65,.78) !important;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.74),rgba(255,255,255,.25) 48%,rgba(255,223,239,.46)),
+        rgba(255,247,251,.5) !important;
+    color:#9d4774 !important;
+    box-shadow:0 9px 20px rgba(155,73,114,.15),0 1px 0 rgba(255,255,255,.94) inset,0 0 12px rgba(255,255,255,.5) inset !important;
+    -webkit-backdrop-filter:blur(10px) saturate(112%) !important;
+    backdrop-filter:blur(10px) saturate(112%) !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.86) !important;
+    transition:border-color .28s ease,box-shadow .28s ease,color .28s ease,transform .28s ease !important;
+}
+
+@media(hover:hover) and (pointer:fine){
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card:hover{
+        transform:translateY(-4px) !important;
+        border-color:rgba(225,181,88,.96) !important;
+        box-shadow:
+            0 24px 44px rgba(176,64,120,.23),
+            0 0 0 1px rgba(255,232,173,.24),
+            0 2px 0 rgba(255,255,255,.98) inset,
+            0 0 28px rgba(255,226,241,.5) inset !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card:hover .public-cast-image{
+        transform:scale(1.2) !important;
+        filter:saturate(1.05) contrast(1.015) !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card:hover .cast-card-no-image.public-cast-image{
+        transform:none !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-profile-link:hover,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-profile-link:focus-visible{
+        border-color:rgba(225,181,88,.98) !important;
+        color:#87345f !important;
+        box-shadow:0 11px 24px rgba(155,73,114,.2),0 0 18px rgba(255,226,151,.52),0 1px 0 rgba(255,255,255,.96) inset !important;
+        transform:translateY(-1px) !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card::before{
+        inset:6px !important;
+        border-radius:15px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card:has(.public-cast-badges) .public-cast-info{
+        padding:14px 12px 15px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-info h3::after{
+        width:46% !important;
+        margin-right:auto !important;
+        margin-left:0 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges.cast-badge-layer,
+    body:not(.cast-detail-page) .princess-home #cast-list .cast-card .public-cast-badges{
+        top:8px !important;
+        left:8px !important;
+        gap:4px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges .premium-cast-badge{
+        width:33px !important;
+        min-width:33px !important;
+        height:33px !important;
+        border-radius:10px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-new,
+    body:not(.cast-detail-page) .princess-home #cast-list .public-cast-badges img.premium-cast-badge-img-recommended{
+        width:29px !important;
+        min-width:29px !important;
+        max-width:29px !important;
+        height:29px !important;
+        border-radius:7px !important;
+    }
+}
+/* Ver9.1.0 Princess Pick Up */
+body:not(.cast-detail-page) .princess-home #princess-pickup{
+    position:relative !important;
+    isolation:isolate !important;
+    display:block !important;
+    width:100% !important;
+    min-width:0 !important;
+    padding:10px !important;
+    overflow:hidden !important;
+    border:1.5px solid rgba(208,158,65,.9) !important;
+    border-radius:30px !important;
+    background:
+        radial-gradient(circle at 12% 9%,rgba(255,255,255,.94) 0 7%,transparent 25%),
+        radial-gradient(circle at 88% 17%,rgba(255,210,233,.52) 0 9%,transparent 28%),
+        linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.13) 35%,transparent 58%),
+        linear-gradient(145deg,rgba(255,255,255,.85),rgba(255,225,241,.75) 52%,rgba(255,249,252,.9)) !important;
+    box-shadow:
+        0 24px 48px rgba(176,64,120,.2),
+        0 2px 0 rgba(255,255,255,.96) inset,
+        0 0 36px rgba(255,207,231,.48) inset,
+        0 0 0 7px rgba(255,246,251,.3) inset !important;
+    -webkit-backdrop-filter:blur(14px) saturate(116%) !important;
+    backdrop-filter:blur(14px) saturate(116%) !important;
+    transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease !important;
+}
+
+body:not(.cast-detail-page) .princess-home #princess-pickup::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:15px !important;
+    z-index:3 !important;
+    border:1px solid rgba(218,174,86,.58) !important;
+    border-radius:22px !important;
+    background:
+        repeating-linear-gradient(45deg,rgba(202,154,67,.045) 0 1px,transparent 1px 20px),
+        repeating-linear-gradient(-45deg,rgba(202,154,67,.045) 0 1px,transparent 1px 20px) !important;
+    box-shadow:0 0 0 1px rgba(255,255,255,.68),0 0 20px rgba(255,255,255,.4) inset !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home #princess-pickup::after{
+    content:"" !important;
+    position:absolute !important;
+    top:1px !important;
+    right:12px !important;
+    left:12px !important;
+    z-index:2 !important;
+    height:34% !important;
+    border-radius:28px 28px 50% 50% !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.52),rgba(255,255,255,.14) 58%,transparent) !important;
+    box-shadow:0 1px 0 rgba(255,255,255,.96) inset !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-shell{
+    position:relative !important;
+    z-index:4 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    padding:20px 18px 18px !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-decoration{
+    position:absolute !important;
+    inset:0 !important;
+    z-index:0 !important;
+    overflow:hidden !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-crown{
+    position:absolute !important;
+    top:-4px !important;
+    left:50% !important;
+    color:rgba(205,158,68,.36) !important;
+    font-size:50px !important;
+    line-height:1 !important;
+    text-shadow:0 0 12px rgba(255,255,255,.95),0 4px 12px rgba(164,79,120,.14) !important;
+    transform:translateX(-50%) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-jewel{
+    position:absolute !important;
+    width:13px !important;
+    height:13px !important;
+    border:1px solid rgba(255,255,255,.94) !important;
+    border-radius:4px !important;
+    background:linear-gradient(135deg,#fff,#f7dca2 42%,#c99638) !important;
+    box-shadow:0 0 12px rgba(255,235,174,.68),0 4px 9px rgba(151,70,111,.16) !important;
+    transform:rotate(45deg) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-jewel-left{top:27px !important;left:22px !important;}
+body:not(.cast-detail-page) .princess-pickup-jewel-right{right:22px !important;bottom:26px !important;}
+
+body:not(.cast-detail-page) .princess-pickup-header{
+    position:relative !important;
+    z-index:1 !important;
+    flex:0 0 auto !important;
+    margin-bottom:15px !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-eyebrow{
+    margin:0 0 4px !important;
+    color:#c7983f !important;
+    font-family:"Cormorant Garamond",serif !important;
+    font-size:21px !important;
+    font-weight:700 !important;
+    letter-spacing:.08em !important;
+    text-shadow:0 1px 0 #fff,0 0 12px rgba(255,255,255,.82) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-header h2{
+    margin:0 !important;
+    color:#713b57 !important;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+    font-size:20px !important;
+    font-weight:700 !important;
+    letter-spacing:.05em !important;
+    line-height:1.35 !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.94) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-divider{
+    display:block !important;
+    width:92px !important;
+    height:1px !important;
+    margin:10px auto 0 !important;
+    background:linear-gradient(90deg,transparent,#c99638 22%,#f4dda5 50%,#c99638 78%,transparent) !important;
+    box-shadow:0 1px 5px rgba(207,166,80,.32) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-content{
+    position:relative !important;
+    z-index:1 !important;
+    display:flex !important;
+    flex:1 1 auto !important;
+    flex-direction:column !important;
+    min-height:0 !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-photo{
+    position:relative !important;
+    flex:1 1 auto !important;
+    width:100% !important;
+    min-height:290px !important;
+    max-height:390px !important;
+    overflow:hidden !important;
+    border:1.5px solid rgba(211,165,76,.72) !important;
+    border-radius:22px !important;
+    outline:1px solid rgba(255,255,255,.8) !important;
+    outline-offset:-6px !important;
+    background:linear-gradient(145deg,#fff8fc,#ffe6f2) !important;
+    box-shadow:0 15px 29px rgba(176,64,120,.18),0 0 20px rgba(255,255,255,.62) inset !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-image,
+body:not(.cast-detail-page) .princess-pickup-no-image{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center top !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-no-image{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-height:290px !important;
+    color:#bb7799 !important;
+    font-weight:700 !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-photo-glow{
+    position:absolute !important;
+    inset:0 !important;
+    z-index:2 !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.32),transparent 28%,transparent 72%,rgba(255,230,243,.16)) !important;
+    box-shadow:0 1px 0 rgba(255,255,255,.94) inset !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-profile{
+    display:flex !important;
+    flex:0 0 auto !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    padding:15px 6px 0 !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-profile h3{
+    margin:0 !important;
+    color:#6d3552 !important;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+    font-size:30px !important;
+    font-weight:700 !important;
+    letter-spacing:.07em !important;
+    line-height:1.15 !important;
+    text-shadow:0 1px 0 #fff,0 0 12px rgba(255,255,255,.74) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-name-line{
+    display:block !important;
+    width:82px !important;
+    height:1px !important;
+    margin:9px auto 8px !important;
+    background:linear-gradient(90deg,transparent,#c58f31 18%,#f6e1ab 50%,#c58f31 82%,transparent) !important;
+    box-shadow:0 1px 4px rgba(207,166,80,.3) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-comment{
+    display:block !important;
+    width:100% !important;
+    margin:0 !important;
+    overflow:hidden !important;
+    color:#86536c !important;
+    font-size:13px !important;
+    line-height:1.5 !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-meta{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:9px !important;
+    margin:7px 0 11px !important;
+    color:#8f6076 !important;
+    font-size:13px !important;
+    font-weight:700 !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-meta span:nth-child(2){
+    color:#c99c43 !important;
+    font-size:10px !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-button{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:min(100%,210px) !important;
+    min-height:40px !important;
+    padding:10px 20px !important;
+    overflow:hidden !important;
+    border:1px solid rgba(205,156,65,.82) !important;
+    border-radius:999px !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(255,255,255,.24) 48%,rgba(255,220,238,.48)),rgba(255,247,251,.54) !important;
+    color:#95436e !important;
+    font-size:13px !important;
+    font-weight:700 !important;
+    letter-spacing:.04em !important;
+    text-decoration:none !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.9) !important;
+    box-shadow:0 9px 20px rgba(155,73,114,.16),0 1px 0 rgba(255,255,255,.96) inset,0 0 14px rgba(255,255,255,.54) inset !important;
+    -webkit-backdrop-filter:blur(10px) saturate(112%) !important;
+    backdrop-filter:blur(10px) saturate(112%) !important;
+    transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-loading,
+body:not(.cast-detail-page) .princess-pickup-empty{
+    margin:auto !important;
+    color:#9a607c !important;
+    text-align:center !important;
+}
+
+@media(min-width:769px){
+    body:not(.cast-detail-page) .princess-home #princess-pickup{
+        height:auto !important;
+        min-height:510px !important;
+        max-height:none !important;
+        margin:0 !important;
+        padding:12px !important;
+        grid-column:1 / -1 !important;
+        grid-row:1 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-shell{
+        min-height:486px !important;
+        padding:26px 28px 28px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-header{
+        margin-bottom:18px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-content{
+        display:grid !important;
+        grid-template-columns:minmax(0,43fr) minmax(0,57fr) !important;
+        align-items:stretch !important;
+        gap:clamp(26px,3.2vw,52px) !important;
+        width:100% !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-photo{
+        width:100% !important;
+        height:100% !important;
+        min-height:370px !important;
+        max-height:none !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-profile{
+        align-items:flex-start !important;
+        justify-content:center !important;
+        padding:24px clamp(18px,3vw,48px) 24px 4px !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-profile h3{
+        font-size:clamp(38px,3.4vw,52px) !important;
+        line-height:1.1 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-name-line{
+        width:112px !important;
+        margin:13px 0 12px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-comment{
+        font-size:15px !important;
+        line-height:1.6 !important;
+        text-align:left !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-meta{
+        justify-content:flex-start !important;
+        gap:12px !important;
+        margin:12px 0 20px !important;
+        font-size:15px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-button{
+        align-self:flex-start !important;
+        width:min(100%,230px) !important;
+        min-height:46px !important;
+        font-size:14px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home .home-top-card-row{
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+        width:100% !important;
+        max-width:none !important;
+        margin:0 0 var(--v11-gap,34px) !important;
+        gap:clamp(24px,2.4vw,38px) !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home .home-top-card-row > #cast{
+        grid-column:1 !important;
+        grid-row:2 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home .home-top-card-row > .news{
+        grid-column:2 !important;
+        grid-row:2 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home .home-top-card-row > #concept{
+        grid-column:3 !important;
+        grid-row:2 !important;
+    }
+}
+
+@media(hover:hover) and (pointer:fine){
+    body:not(.cast-detail-page) .princess-home #princess-pickup:hover{
+        transform:translateY(-3px) !important;
+        border-color:rgba(225,181,88,.98) !important;
+        box-shadow:0 29px 56px rgba(176,64,120,.23),0 0 0 1px rgba(255,232,173,.24),0 2px 0 rgba(255,255,255,.98) inset,0 0 40px rgba(255,207,231,.56) inset !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-button:hover,
+    body:not(.cast-detail-page) .princess-pickup-button:focus-visible{
+        border-color:rgba(225,181,88,.98) !important;
+        box-shadow:0 11px 24px rgba(155,73,114,.21),0 0 19px rgba(255,226,151,.54),0 1px 0 rgba(255,255,255,.98) inset !important;
+        transform:translateY(-1px) !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home #princess-pickup{
+        height:auto !important;
+        min-height:0 !important;
+        margin-bottom:20px !important;
+        padding:9px !important;
+        border-radius:25px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #princess-pickup::before{
+        inset:11px !important;
+        border-radius:19px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-shell{
+        padding:21px 15px 18px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-header{
+        margin-bottom:14px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-photo{
+        flex:none !important;
+        width:min(100%,380px) !important;
+        min-height:0 !important;
+        max-height:none !important;
+        margin:0 auto !important;
+        aspect-ratio:4/5 !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-profile{
+        padding:16px 8px 2px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-profile h3{
+        font-size:28px !important;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    body:not(.cast-detail-page) .princess-home #princess-pickup,
+    body:not(.cast-detail-page) .princess-pickup-button{
+        transition:none !important;
+    }
+}
+/* Ver9.1.2 Princess Pick Up final polish */
+body:not(.cast-detail-page) .princess-pickup-decoration::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    background:
+        radial-gradient(circle at 11% 24%,rgba(255,255,255,.92) 0 1px,rgba(255,255,255,.28) 2px,transparent 4px),
+        radial-gradient(circle at 84% 17%,rgba(247,218,151,.74) 0 1px,rgba(255,255,255,.24) 2px,transparent 4px),
+        radial-gradient(circle at 91% 72%,rgba(255,255,255,.84) 0 1px,rgba(255,220,237,.25) 2px,transparent 4px),
+        radial-gradient(circle at 18% 86%,rgba(223,180,92,.56) 0 1px,rgba(255,255,255,.2) 2px,transparent 4px) !important;
+    opacity:.72 !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-crown{
+    top:-7px !important;
+    font-size:56px !important;
+    color:#cfa04b !important;
+    background:linear-gradient(180deg,#fff4c9 0%,#d6a74d 42%,#a87527 72%,#f3d995 100%) !important;
+    -webkit-background-clip:text !important;
+    background-clip:text !important;
+    -webkit-text-fill-color:transparent !important;
+    text-shadow:none !important;
+    filter:drop-shadow(0 0 7px rgba(255,245,201,.74)) drop-shadow(0 4px 7px rgba(152,87,25,.22)) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-eyebrow{
+    font-size:25px !important;
+    letter-spacing:.1em !important;
+    text-shadow:0 1px 0 #fff,0 0 14px rgba(255,255,255,.94),0 3px 8px rgba(154,98,38,.12) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-header h2{
+    font-size:21px !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-photo::before{
+    content:"" !important;
+    position:absolute !important;
+    top:50% !important;
+    left:50% !important;
+    z-index:1 !important;
+    width:72% !important;
+    aspect-ratio:1 !important;
+    border-radius:50% !important;
+    background:radial-gradient(circle,rgba(255,255,255,.34) 0%,rgba(255,225,239,.2) 38%,rgba(255,241,196,.08) 58%,transparent 72%) !important;
+    filter:blur(15px) !important;
+    mix-blend-mode:screen !important;
+    opacity:.58 !important;
+    transform:translate(-50%,-52%) !important;
+    pointer-events:none !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-image{
+    position:relative !important;
+    z-index:0 !important;
+    transform:scale(1.035) !important;
+    transform-origin:center top !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-name-line{
+    width:164px !important;
+    height:1px !important;
+    margin:14px auto 13px !important;
+    background:linear-gradient(90deg,transparent,#b9832c 12%,#f8e7ba 50%,#b9832c 88%,transparent) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-comment{
+    display:-webkit-box !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:normal !important;
+    -webkit-box-orient:vertical !important;
+    -webkit-line-clamp:2 !important;
+    line-clamp:2 !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-details{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:8px 10px !important;
+    width:100% !important;
+    margin:14px 0 20px !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-details > div{
+    display:grid !important;
+    grid-template-columns:auto minmax(0,1fr) !important;
+    align-items:center !important;
+    gap:10px !important;
+    min-width:0 !important;
+    min-height:40px !important;
+    padding:8px 11px !important;
+    border:1px solid rgba(215,171,82,.4) !important;
+    border-radius:13px !important;
+    background:linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,244,250,.28)) !important;
+    box-shadow:0 6px 14px rgba(145,72,108,.08),0 1px 0 rgba(255,255,255,.9) inset !important;
+    -webkit-backdrop-filter:blur(8px) saturate(108%) !important;
+    backdrop-filter:blur(8px) saturate(108%) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-details dt,
+body:not(.cast-detail-page) .princess-pickup-details dd{
+    min-width:0 !important;
+    margin:0 !important;
+    line-height:1.35 !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-details dt{
+    color:#b07a35 !important;
+    font-size:12px !important;
+    font-weight:700 !important;
+    white-space:nowrap !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-details dd{
+    overflow:hidden !important;
+    color:#78465e !important;
+    font-size:13px !important;
+    font-weight:700 !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup-button{
+    min-height:48px !important;
+    border-color:rgba(203,151,55,.88) !important;
+    background:
+        linear-gradient(110deg,rgba(255,255,255,.66),rgba(255,255,255,.18) 32%,rgba(255,230,242,.38) 68%,rgba(255,255,255,.48)),
+        rgba(255,247,251,.58) !important;
+    color:#8b3d67 !important;
+    font-size:15px !important;
+    box-shadow:0 11px 23px rgba(155,73,114,.18),0 1px 0 rgba(255,255,255,.98) inset,0 0 16px rgba(255,255,255,.6) inset !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-ready .princess-pickup-photo,
+body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-ready .princess-pickup-profile h3,
+body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-ready .princess-pickup-button{
+    opacity:0 !important;
+    transform:translateY(15px) !important;
+    transition:opacity .7s ease,transform .7s cubic-bezier(.22,.8,.24,1) !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-ready .princess-pickup-profile h3{
+    transition-delay:.12s !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-ready .princess-pickup-button{
+    transition-delay:.24s !important;
+}
+
+body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-visible .princess-pickup-photo,
+body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-visible .princess-pickup-profile h3,
+body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-visible .princess-pickup-button{
+    opacity:1 !important;
+    transform:translateY(0) !important;
+}
+
+@media(min-width:769px){
+    body:not(.cast-detail-page) .princess-home #princess-pickup{
+        min-height:535px !important;
+        padding:9px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-shell{
+        min-height:515px !important;
+        padding:22px 22px 23px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-header{
+        margin-bottom:15px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-content{
+        grid-template-columns:minmax(0,49fr) minmax(0,51fr) !important;
+        gap:clamp(20px,2.4vw,38px) !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-photo{
+        min-height:405px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-profile{
+        padding:18px clamp(14px,2.4vw,38px) 18px 2px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-name-line{
+        width:224px !important;
+        margin:17px 0 15px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-comment{
+        max-width:620px !important;
+        font-size:15px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-button{
+        width:min(100%,250px) !important;
+    }
+}
+
+@media(hover:hover) and (pointer:fine){
+    body:not(.cast-detail-page) .princess-pickup-button:hover,
+    body:not(.cast-detail-page) .princess-pickup-button:focus-visible{
+        transform:translateY(-2px) !important;
+        box-shadow:0 14px 27px rgba(155,73,114,.22),0 0 20px rgba(255,224,145,.56),0 1px 0 rgba(255,255,255,.98) inset !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home #princess-pickup{
+        padding:7px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-shell{
+        padding:19px 12px 16px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-photo{
+        width:min(100%,420px) !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-name-line{
+        width:164px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-pickup-details{
+        margin:13px 0 18px !important;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-ready .princess-pickup-photo,
+    body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-ready .princess-pickup-profile h3,
+    body:not(.cast-detail-page) .princess-pickup.is-princess-pickup-ready .princess-pickup-button{
+        opacity:1 !important;
+        transform:none !important;
+        transition:none !important;
+    }
+}
+/* =========================================================
+   Chou Chou Ver10 — Homepage Design System
+   ========================================================= */
+body:not(.cast-detail-page) .princess-home{
+    --v10-gold:#c89a43;
+    --v10-gold-light:#f4dfaa;
+    --v10-gold-line:rgba(205,158,68,.68);
+    --v10-ink:#6f3b56;
+    --v10-muted:#946379;
+    --v10-card-radius:28px;
+    --v10-inner-radius:20px;
+    --v10-card-padding:28px;
+    --v10-button-height:46px;
+    --v10-glass:
+        linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.12) 34%,transparent 58%),
+        linear-gradient(145deg,rgba(255,255,255,.86),rgba(255,229,243,.74) 52%,rgba(255,250,253,.9));
+    --v10-card-shadow:
+        0 22px 46px rgba(167,67,118,.17),
+        0 2px 0 rgba(255,255,255,.96) inset,
+        0 0 30px rgba(255,214,235,.38) inset;
+}
+
+/* One card language: radius, glass, gold frame and shadow. */
+body:not(.cast-detail-page) .princess-home :is(
+    .premium-section-card,
+    #cast.v9-today-card,
+    #princess-pickup
+){
+    border:1.5px solid var(--v10-gold-line) !important;
+    border-radius:var(--v10-card-radius) !important;
+    background:var(--v10-glass) !important;
+    box-shadow:var(--v10-card-shadow) !important;
+    -webkit-backdrop-filter:blur(13px) saturate(112%) !important;
+    backdrop-filter:blur(13px) saturate(112%) !important;
+}
+
+body:not(.cast-detail-page) .princess-home .premium-section-card{
+    padding:var(--v10-card-padding) 24px 24px !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(#concept,#recruit).premium-section-card{
+    padding:12px !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(
+    .public-news-card,
+    .system-price-card,
+    .cast-card.public-cast-card,
+    .public-gallery-item,
+    .access-box,
+    .princess-info-list,
+    #cast .v9-cast-item
+){
+    border:1px solid rgba(205,158,68,.46) !important;
+    border-radius:var(--v10-inner-radius) !important;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.54),rgba(255,244,250,.28)),
+        rgba(255,255,255,.42) !important;
+    box-shadow:0 11px 24px rgba(156,70,112,.11),0 1px 0 rgba(255,255,255,.9) inset !important;
+    -webkit-backdrop-filter:blur(9px) saturate(108%) !important;
+    backdrop-filter:blur(9px) saturate(108%) !important;
+}
+
+/* Unified title system: tiara, subtitle, title and gold rule. */
+body:not(.cast-detail-page) .princess-home :is(
+    #cast .v9-today-header,
+    #princess-pickup .princess-pickup-header,
+    .premium-section-card .section-title
+){
+    position:relative !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:0 !important;
+    width:100% !important;
+    min-height:108px !important;
+    margin:0 0 22px !important;
+    padding:0 !important;
+    text-align:center !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(
+    #cast .v9-today-header,
+    #princess-pickup .princess-pickup-header,
+    .premium-section-card .section-title
+)::before{
+    content:"♕" !important;
+    position:static !important;
+    display:block !important;
+    width:auto !important;
+    height:22px !important;
+    margin:0 0 5px !important;
+    color:var(--v10-gold) !important;
+    font-family:"Cormorant Garamond",serif !important;
+    font-size:23px !important;
+    line-height:22px !important;
+    background:none !important;
+    border:0 !important;
+    box-shadow:none !important;
+    text-shadow:0 1px 0 #fff,0 0 10px rgba(255,239,188,.68) !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(
+    #cast .v9-today-eyebrow,
+    #princess-pickup .princess-pickup-eyebrow,
+    .premium-section-card .section-title > span
+){
+    order:1 !important;
+    margin:0 0 4px !important;
+    color:var(--v10-gold) !important;
+    font-family:"Cormorant Garamond",serif !important;
+    font-size:23px !important;
+    font-weight:700 !important;
+    letter-spacing:.09em !important;
+    line-height:1.1 !important;
+    text-shadow:0 1px 0 #fff,0 0 12px rgba(255,255,255,.82) !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(
+    #cast .v9-today-header h2,
+    #princess-pickup .princess-pickup-header h2,
+    .premium-section-card .section-title > h2
+){
+    order:2 !important;
+    margin:0 !important;
+    color:var(--v10-ink) !important;
+    font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+    font-size:21px !important;
+    font-weight:700 !important;
+    letter-spacing:.055em !important;
+    line-height:1.35 !important;
+    text-align:center !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.94) !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(
+    #cast .v9-today-header,
+    #princess-pickup .princess-pickup-header,
+    .premium-section-card .section-title
+)::after{
+    content:"" !important;
+    position:static !important;
+    order:3 !important;
+    display:block !important;
+    width:112px !important;
+    height:1px !important;
+    margin:11px auto 0 !important;
+    border:0 !important;
+    background:linear-gradient(90deg,transparent,var(--v10-gold) 20%,var(--v10-gold-light) 50%,var(--v10-gold) 80%,transparent) !important;
+    box-shadow:0 1px 4px rgba(202,155,67,.24) !important;
+    transform:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(
+    #cast .v9-today-divider,
+    #princess-pickup .princess-pickup-divider,
+    .premium-section-card .section-title h2::after
+){
+    display:none !important;
+    content:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(#cast .v9-tiara,#princess-pickup .princess-pickup-crown){
+    display:none !important;
+}
+
+/* Reduce the icon vocabulary to tiaras, jewels and restrained line icons. */
+body:not(.cast-detail-page) .princess-home :is(.premium-ribbon,.premium-sparkles,.v9-ribbon){
+    display:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(.v9-jewel-bl,.v9-jewel-br){
+    display:none !important;
+}
+
+body:not(.cast-detail-page) .princess-home .premium-jewel{
+    width:24px !important;
+    height:24px !important;
+    opacity:.78 !important;
+}
+
+body:not(.cast-detail-page) .princess-home :is(
+    .premium-card-today,
+    .premium-card-news,
+    .premium-card-concept,
+    .premium-card-system,
+    .premium-card-cast,
+    .premium-card-gallery,
+    .premium-card-access,
+    .premium-card-instagram,
+    .premium-card-recruit
+)::after{
+    content:"" !important;
+    color:transparent !important;
+    font-size:0 !important;
+}
+
+body:not(.cast-detail-page) .princess-home #cast .v9-cast-item::after{
+    content:"◇" !important;
+    color:rgba(200,154,67,.42) !important;
+    font-size:16px !important;
+}
+
+/* One button system for every homepage action. */
+body:not(.cast-detail-page) .princess-home :is(
+    a.reserve-btn,
+    button.reserve-btn,
+    .v9-cast-button,
+    .princess-pickup-button,
+    .public-profile-link
+){
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:auto !important;
+    min-width:170px !important;
+    max-width:100% !important;
+    min-height:var(--v10-button-height) !important;
+    height:var(--v10-button-height) !important;
+    margin-inline:auto !important;
+    padding:0 24px !important;
+    overflow:hidden !important;
+    border:1px solid rgba(203,151,55,.84) !important;
+    border-radius:999px !important;
+    background:
+        linear-gradient(110deg,rgba(255,255,255,.7),rgba(255,255,255,.2) 32%,rgba(255,228,241,.4) 68%,rgba(255,255,255,.5)),
+        rgba(255,247,251,.62) !important;
+    color:#8c4168 !important;
+    font-family:"Noto Serif JP",serif !important;
+    font-size:14px !important;
+    font-weight:700 !important;
+    letter-spacing:.045em !important;
+    line-height:1 !important;
+    text-align:center !important;
+    text-decoration:none !important;
+    text-shadow:0 1px 0 rgba(255,255,255,.92) !important;
+    box-shadow:0 10px 22px rgba(151,68,109,.16),0 1px 0 rgba(255,255,255,.98) inset,0 0 14px rgba(255,255,255,.56) inset !important;
+    -webkit-backdrop-filter:blur(10px) saturate(110%) !important;
+    backdrop-filter:blur(10px) saturate(110%) !important;
+    transform:translateY(0) !important;
+    transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease,color .28s ease !important;
+}
+
+@media(hover:hover) and (pointer:fine){
+    body:not(.cast-detail-page) .princess-home :is(
+        a.reserve-btn,
+        button.reserve-btn,
+        .v9-cast-button,
+        .princess-pickup-button,
+        .public-profile-link
+    ):hover,
+    body:not(.cast-detail-page) .princess-home :is(
+        a.reserve-btn,
+        button.reserve-btn,
+        .v9-cast-button,
+        .princess-pickup-button,
+        .public-profile-link
+    ):focus-visible{
+        border-color:rgba(219,174,79,.98) !important;
+        color:#7e365e !important;
+        box-shadow:0 14px 28px rgba(151,68,109,.21),0 0 18px rgba(255,226,151,.48),0 1px 0 rgba(255,255,255,.98) inset !important;
+        transform:translateY(-2px) !important;
+    }
+}
+
+/* PC rhythm: one 80px vertical cadence from the hero through contact. */
+@media(min-width:769px){
+    body:not(.cast-detail-page) .princess-home.luxury-home{
+        padding-top:80px !important;
+        padding-bottom:80px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home > :is(
+        .princess-card-grid-top,
+        .princess-card-grid-middle,
+        .princess-card-grid-bottom
+    ){
+        margin-bottom:80px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home .home-top-card-row{
+        row-gap:80px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home #contact{
+        margin-top:0 !important;
+        margin-bottom:0 !important;
+    }
+}
+
+@media(max-width:768px){
+    body:not(.cast-detail-page) .princess-home{
+        --v10-card-radius:24px;
+        --v10-inner-radius:17px;
+        --v10-card-padding:22px;
+        --v10-button-height:44px;
+    }
+
+    body:not(.cast-detail-page) .princess-home .premium-section-card{
+        padding:22px 16px 18px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home :is(
+        #cast .v9-today-header,
+        #princess-pickup .princess-pickup-header,
+        .premium-section-card .section-title
+    ){
+        min-height:101px !important;
+        margin-bottom:18px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home :is(
+        #cast .v9-today-eyebrow,
+        #princess-pickup .princess-pickup-eyebrow,
+        .premium-section-card .section-title > span
+    ){
+        font-size:21px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home :is(
+        #cast .v9-today-header h2,
+        #princess-pickup .princess-pickup-header h2,
+        .premium-section-card .section-title > h2
+    ){
+        font-size:19px !important;
+    }
+
+    body:not(.cast-detail-page) .princess-home :is(
+        a.reserve-btn,
+        button.reserve-btn,
+        .v9-cast-button,
+        .princess-pickup-button,
+        .public-profile-link
+    ){
+        min-width:150px !important;
+        padding-inline:20px !important;
+        font-size:13px !important;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    body:not(.cast-detail-page) .princess-home :is(
+        a.reserve-btn,
+        button.reserve-btn,
+        .v9-cast-button,
+        .princess-pickup-button,
+        .public-profile-link
+    ){
+        transition:none !important;
     }
 }

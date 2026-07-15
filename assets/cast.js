@@ -88,6 +88,8 @@ console.log("出勤者", todayCasts);
 
   sortCastsByDisplayOrder(casts);
 
+  renderPrincessPickUp(casts);
+
 console.log("cast.js 起動");
 console.log(document.querySelector(".v9-cast-list, .cast-grid"));
 
@@ -595,6 +597,154 @@ function getListLimit(list) {
 }
 
 loadAllCasts();
+
+function renderPrincessPickUp(casts){
+
+const section =
+document.querySelector("[data-princess-pickup]");
+
+const content =
+section?.querySelector("[data-princess-pickup-content]");
+
+if(!section || !content) return;
+
+const cast =
+selectPrincessPickUpCast(casts,section);
+
+if(!cast){
+content.innerHTML = `
+  <p class="princess-pickup-empty">
+    おすすめキャストを準備中です
+  </p>
+`;
+return;
+}
+
+const image =
+getMainImage(cast);
+
+const imageMarkup =
+image
+? `<img class="princess-pickup-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}" loading="lazy">`
+: `<div class="princess-pickup-no-image">NO IMAGE</div>`;
+
+const detailUrl =
+createCastDetailUrl(cast);
+
+const hobby =
+String(cast?.hobby || "").trim();
+
+const favoriteDrink =
+String(cast?.favoriteDrink || cast?.drink || "").trim();
+
+const optionalDetails = [
+  hobby
+  ? `<div><dt>趣味</dt><dd>${escapeHtml(hobby)}</dd></div>`
+  : "",
+  favoriteDrink
+  ? `<div><dt>好きなお酒</dt><dd>${escapeHtml(favoriteDrink)}</dd></div>`
+  : ""
+].join("");
+
+content.innerHTML = `
+  <div class="princess-pickup-photo">
+    ${imageMarkup}
+    <span class="princess-pickup-photo-glow" aria-hidden="true"></span>
+  </div>
+
+  <div class="princess-pickup-profile">
+    <h3>${escapeHtml(cast.name || "CAST")}</h3>
+    <span class="princess-pickup-name-line" aria-hidden="true"></span>
+    <p class="princess-pickup-comment">${escapeHtml(getPrincessPickUpComment(cast))}</p>
+    <dl class="princess-pickup-details">
+      <div><dt>年齢</dt><dd>${escapeHtml(formatAge(cast.age))}</dd></div>
+      <div><dt>身長</dt><dd>${escapeHtml(formatHeight(cast.height))}</dd></div>
+      ${optionalDetails}
+    </dl>
+    <a class="princess-pickup-button" href="${detailUrl}" aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィールを見る">
+      プロフィールを見る
+    </a>
+  </div>
+`;
+
+initializePrincessPickUpReveal(section);
+
+}
+
+function initializePrincessPickUpReveal(section){
+
+if(!section) return;
+
+section.classList.add("is-princess-pickup-ready");
+
+const reveal = ()=>{
+section.classList.add("is-princess-pickup-visible");
+};
+
+if(
+window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+!("IntersectionObserver" in window)
+){
+reveal();
+return;
+}
+
+const observer =
+new IntersectionObserver((entries)=>{
+
+if(!entries.some((entry)=>entry.isIntersecting)) return;
+
+reveal();
+observer.disconnect();
+
+},{
+threshold:.18,
+rootMargin:"0px 0px -8% 0px"
+});
+
+observer.observe(section);
+
+}
+
+function selectPrincessPickUpCast(casts,section){
+
+if(!Array.isArray(casts) || casts.length === 0){
+return null;
+}
+
+const configuredCastId =
+String(section?.dataset?.castId || "").trim();
+
+if(configuredCastId){
+const configuredCast =
+casts.find((cast)=>String(cast?.id || "") === configuredCastId);
+
+if(configuredCast){
+return configuredCast;
+}
+}
+
+return casts.find((cast)=>
+  isBadgeEnabled(cast?.isPrincessPickUp) ||
+  isBadgeEnabled(cast?.isPrincessPickup) ||
+  isBadgeEnabled(cast?.isPickup) ||
+  isBadgeEnabled(cast?.isRecommended)
+) || casts.find((cast)=>getMainImage(cast)) || casts[0];
+
+}
+
+function getPrincessPickUpComment(cast){
+
+return String(
+cast?.pickupComment ||
+cast?.comment ||
+cast?.message ||
+cast?.introduction ||
+cast?.catchCopy ||
+"今夜を彩る、特別なプリンセスです。"
+).trim();
+
+}
 
 function sortCastsByDisplayOrder(casts){
 
