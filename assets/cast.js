@@ -345,9 +345,7 @@ image
 const todaySchedule =
 todayCasts.find((schedule)=>isScheduleForCast(schedule,cast));
 const badgeMarkup =
-createCastBadgeMarkup(cast,{
-  textStyle:true
-});
+createCastBadgeMarkup(cast);
 const detailUrl =
 createCastDetailUrl(cast);
 
