@@ -917,7 +917,7 @@ image
 return `
   <div class="v9-cast-photo image-premium">
     ${imageMarkup}
-
+    ${createCastBadgeMarkup(cast)}
   </div>
 
   <div class="v9-cast-profile">
