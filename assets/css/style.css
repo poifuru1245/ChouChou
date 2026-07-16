@@ -13146,8 +13146,8 @@ body.premium-design-system .princess-home #instagram .instagram-brand-action{
 }
 
 /* =========================================================
-   Chou Chou Ver11.7 — Premium Polish
-   A final compatibility layer for motion, depth and type.
+   Chou Chou Ver11.8 — Unified Premium UI System
+   Shared tokens -> components -> legacy compatibility only.
    ========================================================= */
 :root{
     --premium-hover-lift:-4px;
@@ -13155,6 +13155,15 @@ body.premium-design-system .princess-home #instagram .instagram-brand-action{
     --premium-shadow:0 12px 28px rgba(111,59,86,.14),0 1px 0 rgba(255,255,255,.94) inset;
     --premium-shadow-hover:0 18px 36px rgba(111,59,86,.2),0 0 0 1px rgba(var(--premium-gold-rgb),.14),0 1px 0 rgba(255,255,255,.96) inset;
     --premium-glass:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,236,246,.7) 54%,rgba(255,252,254,.86));
+    --premium-glass-panel:linear-gradient(180deg,rgba(255,255,255,.54),rgba(255,239,247,.27)),rgba(255,255,255,.38);
+    --premium-control-height:48px;
+    --premium-control-radius:14px;
+    --premium-control-padding:12px 14px;
+    --premium-control-border:rgba(226,137,181,.48);
+    --premium-control-border-focus:#df6fa9;
+    --premium-control-background:rgba(255,255,255,.78);
+    --premium-control-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+    --premium-control-shadow-focus:0 0 0 3px rgba(235,126,180,.22),inset 0 1px 0 rgba(255,255,255,.94);
 }
 
 html body.premium-design-system{
@@ -13164,41 +13173,58 @@ html body.premium-design-system{
     -webkit-font-smoothing:antialiased;
 }
 
-html body.premium-design-system :is(
-    .card-premium,
-    .premium-section-card,
-    #cast .v9-cast-item,
-    #cast-list .cast-card.public-cast-card,
-    #gallery .public-gallery-item.premium-gallery-item,
-    .public-news-card,
-    .system-price-card,
-    .access-box,
-    .princess-info-list
-){
+/* Card: one contract, with padding variants controlled by a custom property. */
+html body.premium-design-system .card-premium{
+    padding:var(--premium-card-padding,var(--premium-space-card)) !important;
+    border:1px solid rgba(var(--premium-gold-rgb),.58) !important;
+    border-radius:var(--premium-radius-card) !important;
+    background:var(--premium-glass) !important;
     box-shadow:var(--premium-shadow) !important;
+    -webkit-backdrop-filter:blur(11px) saturate(108%) !important;
+    backdrop-filter:blur(11px) saturate(108%) !important;
     transition:transform var(--premium-transition),border-color var(--premium-transition),box-shadow var(--premium-transition) !important;
 }
 
+html body.premium-design-system :is(
+    .public-cast-card,
+    .public-gallery-item,
+    .premium-gallery-item,
+    .instagram-brand-post
+).card-premium{
+    --premium-card-padding:0px;
+}
+
+html body.premium-design-system #concept.card-premium{
+    --premium-card-padding:12px;
+}
+
+/* Legacy layout selectors resolve back to the card contract. */
+html body.premium-design-system .princess-home :is(
+    #cast,
+    #princess-pickup,
+    .premium-section-card
+).card-premium,
 html body.premium-design-system .princess-home #cast-list .cast-card.public-cast-card,
 html body.premium-design-system .princess-home #gallery .public-gallery-item.premium-gallery-item,
 html body.premium-design-system .princess-home #instagram .instagram-brand-post.card-premium{
+    border:1px solid rgba(var(--premium-gold-rgb),.58) !important;
     border-radius:var(--premium-radius-card) !important;
+    background:var(--premium-glass) !important;
     box-shadow:var(--premium-shadow) !important;
+    -webkit-backdrop-filter:blur(11px) saturate(108%) !important;
+    backdrop-filter:blur(11px) saturate(108%) !important;
     transition:transform var(--premium-transition),border-color var(--premium-transition),box-shadow var(--premium-transition) !important;
 }
 
-html body.premium-design-system :is(.card-premium,.premium-section-card){
-    border-radius:var(--premium-radius-card) !important;
-}
-
-html body.premium-design-system :is(.card-premium,.premium-section-card,.glass-panel){
+html body.premium-design-system .glass-panel{
     -webkit-backdrop-filter:blur(11px) saturate(108%) !important;
     backdrop-filter:blur(11px) saturate(108%) !important;
 }
 
+/* Glass panel */
 html body.premium-design-system .glass-panel{
     border-radius:var(--premium-radius-image) !important;
-    background:linear-gradient(180deg,rgba(255,255,255,.54),rgba(255,239,247,.27)),rgba(255,255,255,.38) !important;
+    background:var(--premium-glass-panel) !important;
     box-shadow:var(--premium-shadow) !important;
 }
 
@@ -13207,41 +13233,18 @@ html body.premium-design-system #recruit .recruit-v11-content.glass-panel{
     backdrop-filter:blur(11px) saturate(108%) !important;
 }
 
-html body.premium-design-system .princess-home :is(
-    #cast,
-    #princess-pickup,
-    #news,
-    #concept,
-    #system,
-    #cast-list,
-    #gallery,
-    #access,
-    #instagram,
-    #recruit
-).premium-section-card,
-html body.premium-design-system .princess-home #instagram .instagram-brand-post.card-premium{
-    -webkit-backdrop-filter:blur(11px) saturate(108%) !important;
-    backdrop-filter:blur(11px) saturate(108%) !important;
-}
-
-html body.premium-design-system :is(
-    .image-premium,
-    .recruit-v11-media,
-    .public-cast-photo,
-    .profile-image,
-    .gallery-lightbox-content
-){
+/* Image */
+html body.premium-design-system .image-premium{
+    overflow:hidden !important;
     border-radius:var(--premium-radius-image) !important;
+    transition:transform var(--premium-transition),border-color var(--premium-transition),box-shadow var(--premium-transition),filter var(--premium-transition) !important;
 }
 
-html body.premium-design-system :is(
-    .button-premium:not(.button-premium-hotspot),
-    a.reserve-btn,
-    button.reserve-btn,
-    .v9-cast-button,
-    .princess-pickup-button,
-    .public-profile-link
-){
+/* Button */
+html body.premium-design-system .button-premium:not(.button-premium-hotspot){
+    height:var(--premium-button-height) !important;
+    min-height:var(--premium-button-height) !important;
+    padding:0 24px !important;
     border-radius:var(--premium-radius-pill) !important;
     box-shadow:var(--premium-shadow) !important;
     font-family:"Noto Serif JP",serif !important;
@@ -13251,36 +13254,26 @@ html body.premium-design-system :is(
     transition:transform var(--premium-transition),border-color var(--premium-transition),box-shadow var(--premium-transition),color var(--premium-transition) !important;
 }
 
-html body.premium-design-system :is(
-    .badge-premium,
-    .public-cast-today-label,
-    .public-cast-text-badge,
-    .public-gallery-category
-){
+/* Badge */
+html body.premium-design-system .badge-premium{
     border-radius:var(--premium-radius-pill) !important;
+    font-family:"Noto Serif JP",serif !important;
+    font-size:10px !important;
+    font-weight:800 !important;
     letter-spacing:.08em !important;
     line-height:1 !important;
     transition:transform var(--premium-transition),border-color var(--premium-transition),box-shadow var(--premium-transition) !important;
 }
 
-html body.premium-design-system :is(
-    .section-subtitle,
-    .v9-today-eyebrow,
-    .princess-pickup-eyebrow,
-    .section-title > span
-){
+/* Title, subtitle and divider */
+html body.premium-design-system .section-subtitle{
     font-family:"Cormorant Garamond",serif !important;
     font-weight:700 !important;
     letter-spacing:.095em !important;
     line-height:1.12 !important;
 }
 
-html body.premium-design-system :is(
-    .section-heading,
-    .section-title > h2,
-    .v9-today-header > h2,
-    .princess-pickup-header > h2
-){
+html body.premium-design-system .section-heading{
     font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
     font-weight:700 !important;
     letter-spacing:.058em !important;
@@ -13291,45 +13284,107 @@ html body.premium-design-system :is(p,li,dd,.public-cast-profile-line,.instagram
     line-height:1.7;
 }
 
-html body.premium-design-system :is(.section-title,.v9-today-header,.princess-pickup-header){
+html body.premium-design-system .section-title{
     margin-bottom:var(--premium-space-title) !important;
+}
+
+html body.premium-design-system .section-divider{
+    margin-top:14px !important;
+}
+
+/* Section */
+html body.premium-design-system .premium-section{
+    margin-bottom:var(--premium-space-section) !important;
+}
+
+/* Input and form */
+html body.premium-design-system :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+    select,
+    textarea
+){
+    width:100%;
+    min-height:var(--premium-control-height) !important;
+    padding:var(--premium-control-padding) !important;
+    border:1px solid var(--premium-control-border) !important;
+    border-radius:var(--premium-control-radius) !important;
+    outline:0;
+    background:var(--premium-control-background) !important;
+    color:var(--premium-ink) !important;
+    font-family:"Noto Serif JP",serif !important;
+    font-size:14px !important;
+    font-weight:500 !important;
+    letter-spacing:.025em !important;
+    line-height:1.6 !important;
+    box-shadow:var(--premium-control-shadow) !important;
+    transition:border-color var(--premium-transition),box-shadow var(--premium-transition),background-color var(--premium-transition) !important;
+}
+
+html body.premium-design-system textarea{
+    resize:vertical;
+}
+
+html body.premium-design-system :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+    select,
+    textarea
+):focus{
+    border-color:var(--premium-control-border-focus) !important;
+    outline:0 !important;
+    box-shadow:var(--premium-control-shadow-focus) !important;
+}
+
+html body.premium-design-system :is(input,textarea)::placeholder{
+    color:var(--premium-muted);
+    opacity:.72;
+}
+
+html body.premium-design-system :is(input,select,textarea):disabled{
+    cursor:not-allowed;
+    opacity:.58;
+}
+
+html body.premium-design-system :is(.recruit-form,.contact-form,.reservation-form) label{
+    color:var(--premium-ink) !important;
+    font-family:"Noto Serif JP",serif !important;
+    font-size:13px !important;
+    font-weight:700 !important;
+    letter-spacing:.04em !important;
+    line-height:1.6 !important;
 }
 
 html body.premium-design-system :is(
     .card-premium,
-    .premium-section-card,
     .glass-panel,
     .image-premium,
     .button-premium,
-    .badge-premium
-) :is(img,a,button){
+    .badge-premium,
+    .section-title,
+    .section-subtitle,
+    .section-heading,
+    .section-divider,
+    input,
+    select,
+    textarea
+),
+html body.premium-design-system :is(.card-premium,.glass-panel,.image-premium) :is(img,a,button){
     transition-duration:.25s !important;
     transition-timing-function:ease !important;
 }
 
 html body.premium-design-system .reveal-card,
 html body.premium-design-system .reveal-card.is-visible{
-    transition-duration:.3s !important;
+    transition-duration:.25s !important;
     transition-timing-function:ease !important;
 }
 
 html body.premium-design-system .premium-gallery-item.is-gallery-visible{
-    animation-duration:.3s !important;
+    animation-duration:.25s !important;
     animation-timing-function:ease !important;
 }
 
 @media(hover:hover) and (pointer:fine){
-    html body.premium-design-system :is(
-        .card-premium,
-        .premium-section-card,
-        #cast .v9-cast-item,
-        #cast-list .cast-card.public-cast-card,
-        #gallery .public-gallery-item.premium-gallery-item,
-        .public-news-card,
-        .system-price-card,
-        .access-box,
-        .princess-info-list
-    ):hover,
+    html body.premium-design-system .card-premium:hover,
     html body.premium-design-system #recruit.premium-card-recruit.card-premium:hover,
     html body.premium-design-system .princess-home #instagram .instagram-brand-post.card-premium:hover,
     html body.premium-design-system .princess-home #gallery .premium-gallery-item.is-gallery-visible:hover{
@@ -13337,21 +13392,9 @@ html body.premium-design-system .premium-gallery-item.is-gallery-visible{
         transform:translateY(var(--premium-hover-lift)) !important;
     }
 
-    html body.premium-design-system :is(
-        .button-premium:not(.button-premium-hotspot),
-        a.reserve-btn,
-        button.reserve-btn,
-        .v9-cast-button,
-        .princess-pickup-button,
-        .public-profile-link
-    ):is(:hover,:focus-visible),
+    html body.premium-design-system .button-premium:not(.button-premium-hotspot):is(:hover,:focus-visible),
     html body.premium-design-system .princess-home #cast-list .public-profile-link:is(:hover,:focus-visible),
     html body.premium-design-system .princess-home #gallery .gallery-more .reserve-btn:is(:hover,:focus-visible){
-        box-shadow:var(--premium-shadow-hover) !important;
-        transform:translateY(var(--premium-hover-lift)) !important;
-    }
-
-    html body.premium-design-system .image-premium:hover{
         box-shadow:var(--premium-shadow-hover) !important;
         transform:translateY(var(--premium-hover-lift)) !important;
     }
@@ -13360,13 +13403,15 @@ html body.premium-design-system .premium-gallery-item.is-gallery-visible{
 @media(prefers-reduced-motion:reduce){
     html body.premium-design-system :is(
         .card-premium,
-        .premium-section-card,
         .glass-panel,
         .image-premium,
         .button-premium,
         .badge-premium,
         .reveal-card,
-        .premium-gallery-item
+        .premium-gallery-item,
+        input,
+        select,
+        textarea
     ){
         animation:none !important;
         transition:none !important;
