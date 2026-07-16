@@ -1,100 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>お問い合わせ｜Chou Chou</title>
-
-    <meta name="description" content="Chou Chouへのご意見・ご質問はこちらからお問い合わせください。">
-
-    <link rel="stylesheet" href="assets/css/style.css?v=11.3.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Chou Chouへのご予約・お問い合わせ"><title>Contact | Chou Chou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/style.css?v=13.0.0"><link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0"><link rel="stylesheet" href="assets/css/interior-v14.css?v=14.0.0">
 </head>
-
-<body class="premium-design-system">
-
-<header class="header">
-    <div class="header-inner">
-        <a href="index.html" class="logo">Chou Chou</a>
-
-        <nav class="nav">
-            <a href="index.html"><span data-i18n="nav.home">ホーム</span><small>HOME</small></a>
-            <a href="index.html#cast-list"><span data-i18n="nav.cast">キャスト</span><small>CAST</small></a>
-            <a href="index.html#cast"><span data-i18n="nav.schedule">出勤情報</span><small>SCHEDULE</small></a>
-            <a href="index.html#system"><span data-i18n="nav.system">料金システム</span><small>SYSTEM</small></a>
-            <a href="index.html#gallery"><span data-i18n="nav.gallery">ギャラリー</span><small>GALLERY</small></a>
-            <a href="index.html#access"><span data-i18n="nav.access">アクセス</span><small>ACCESS</small></a>
-            <a href="index.html#recruit"><span data-i18n="nav.recruit">求人情報</span><small>RECRUIT</small></a>
-            <a href="index.html#contact"><span data-i18n="nav.contact">お問い合わせ</span><small>CONTACT</small></a>
-        </nav>
-
-        <div class="language-switch" aria-label="Language">
-            <button type="button" data-lang="ja" class="is-active">JP</button>
-            <button type="button" data-lang="en">EN</button>
-            <button type="button" data-lang="zh">中文</button>
-        </div>
-    </div>
-</header>
-
-<main class="recruit-form-page contact-form-page">
-    <section class="princess-card recruit-form-card contact-form-card">
-        <div class="section-title">
-            <span data-i18n="contact.form.eyebrow">Contact</span>
-            <h1 data-i18n="contact.form.title">お問い合わせ</h1>
-        </div>
-
-        <p class="recruit-form-lead" data-i18n="contact.form.lead">
-            ご意見・ご質問などがございましたら、下記フォームよりお気軽にお問い合わせください。
-        </p>
-
-        <form id="contactForm" class="recruit-form contact-form">
-            <label>
-                <span data-i18n="contact.form.name">お名前</span>
-                <input type="text" name="name" required autocomplete="name">
-            </label>
-
-            <label>
-                <span data-i18n="contact.form.email">メールアドレス</span>
-                <input type="email" name="email" required autocomplete="email">
-            </label>
-
-            <label>
-                <span data-i18n="contact.form.phone">電話番号</span>
-                <input type="tel" name="phone" autocomplete="tel">
-            </label>
-
-            <label>
-                <span data-i18n="contact.form.type">お問い合わせ種別</span>
-                <select name="type" required>
-                    <option value="" data-i18n="form.select">選択してください</option>
-                    <option value="ご意見" data-i18n="contact.type.opinion">ご意見</option>
-                    <option value="ご質問" data-i18n="contact.type.question">ご質問</option>
-                    <option value="予約について" data-i18n="contact.type.reservation">予約について</option>
-                    <option value="その他" data-i18n="contact.type.other">その他</option>
-                </select>
-            </label>
-
-            <label class="recruit-form-wide">
-                <span data-i18n="contact.form.message">ご意見・ご質問内容</span>
-                <textarea name="message" rows="7" required></textarea>
-            </label>
-
-            <div class="recruit-form-actions">
-                <button type="submit" class="reserve-btn" data-i18n="form.submit">送信する</button>
-                <p id="contactFormStatus" class="recruit-form-status" aria-live="polite"></p>
-            </div>
-        </form>
+<body class="interior-page premium-design-system">
+  <header class="header"><div class="header-inner"><a href="index.html" class="logo">Chou Chou<small>すすきのガールズバー</small></a><nav class="nav" aria-label="メインナビゲーション"><a href="cast.html">CAST</a><a href="schedule.html">SCHEDULE</a><a href="system.html">SYSTEM</a><a href="gallery.html">GALLERY</a><a href="access.html">ACCESS</a><a href="recruit.html">RECRUIT</a></nav><a href="reservation.html" class="button-premium header-cta" data-site-link="webReservationUrl">WEB予約</a></div></header>
+  <main class="recruit-form-page contact-form-page">
+    <header class="interior-hero"><div class="section-title"><span>Contact</span><h1>お問い合わせ</h1></div><p>ご予約・ご質問は、ご都合のよい方法からお気軽にお問い合わせください。</p></header>
+    <section class="contact-channels" aria-label="お問い合わせ方法">
+      <a href="#" class="contact-channel card-premium" data-site-link="lineReservationUrl"><span>LINE</span><strong>LINEで予約・問い合わせ</strong></a>
+      <a href="tel:0110000000" class="contact-channel card-premium" data-site-phone="phoneNumber"><span>Phone</span><strong data-site-phone-text>011-XXX-XXXX</strong></a>
+      <a href="#contactForm" class="contact-channel card-premium"><span>Email</span><strong>メールフォーム<br>24時間受付</strong></a>
     </section>
-</main>
-
-<script type="module" src="assets/app.js?v=11.3.0"></script>
-<script type="module" src="assets/contact-form.js?v=6.4.0"></script>
-<script src="assets/design-system-v11.js?v=11.3.0"></script>
-
+    <section class="recruit-form-card contact-form-card glass-panel">
+      <div class="section-title"><span>Mail Form</span><h2>メールでのお問い合わせ</h2></div>
+      <p class="recruit-form-lead">ご意見・ご質問などがございましたら、下記フォームよりお送りください。</p>
+      <form id="contactForm" class="recruit-form contact-form">
+        <label><span>お名前</span><input type="text" name="name" required autocomplete="name"></label>
+        <label><span>メールアドレス</span><input type="email" name="email" required autocomplete="email"></label>
+        <label><span>電話番号</span><input type="tel" name="phone" autocomplete="tel"></label>
+        <label><span>お問い合わせ種別</span><select name="type" required><option value="">選択してください</option><option value="ご意見">ご意見</option><option value="ご質問">ご質問</option><option value="予約について">予約について</option><option value="その他">その他</option></select></label>
+        <label class="recruit-form-wide"><span>ご意見・ご質問内容</span><textarea name="message" rows="7" required></textarea></label>
+        <div class="recruit-form-actions"><button type="submit" class="button-premium button-primary">送信する</button><p id="contactFormStatus" class="recruit-form-status" aria-live="polite"></p></div>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="assets/app.js?v=14.0.0"></script><script type="module" src="assets/contact-form.js?v=14.0.0"></script><script src="assets/design-system-v11.js?v=11.3.0" defer></script>
 </body>
-
 </html>

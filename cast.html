@@ -1,54 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>CAST | Chou Chou</title>
-
-<link rel="stylesheet" href="assets/css/style.css?v=11.3.0">
-<link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cast | Chou Chou</title>
+  <meta name="description" content="すすきの Chou Chouのキャスト一覧">
+  <link rel="stylesheet" href="assets/css/style.css?v=13.0.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0">
+  <link rel="stylesheet" href="assets/css/interior-v14.css?v=14.0.0">
 </head>
-
-<body class="cast-detail-page premium-design-system">
-
-<main class="cast-detail">
-
-  <section class="cast-gallery" aria-label="キャスト写真">
-    <img id="castImage" class="cast-main-image" alt="">
-    <div id="castThumbnails" class="cast-thumbnails"></div>
-  </section>
-
-  <section class="profile-box">
-    <div class="section-title">
-      <span class="profile-label">Cast Profile</span>
-      <h1 id="castName"></h1>
+<body class="interior-page premium-design-system">
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Chou Chou<small>シュシュ</small></a>
+      <nav class="nav" aria-label="メインナビゲーション">
+        <a href="index.html">HOME</a><a href="cast.html" aria-current="page">CAST</a><a href="schedule.html">SCHEDULE</a><a href="system.html">SYSTEM</a><a href="gallery.html">GALLERY</a><a href="access.html">ACCESS</a><a href="recruit.html">RECRUIT</a><a href="contact.html">CONTACT</a>
+      </nav>
+      <a href="reservation.html" class="button-premium header-cta">WEB予約</a>
     </div>
+  </header>
 
-    <div class="profile-grid">
-      <p id="castAge"></p>
-      <p id="castHeight"></p>
-      <p id="castBirthday"></p>
-      <p id="castBloodType"></p>
-      <p id="castHobby"></p>
-      <p id="castDrink"></p>
-    </div>
+  <main class="interior-main">
+    <header class="interior-hero">
+      <div class="section-title"><span>Cast</span><h1>キャスト一覧</h1></div>
+      <p>Chou Chouでお迎えするキャストをご紹介します。写真を選択すると詳しいプロフィールをご覧いただけます。</p>
+    </header>
+    <section class="interior-panel" aria-label="キャスト一覧">
+      <div class="all-cast-grid interior-cast-grid">
+        <p class="no-cast">読み込み中...</p>
+      </div>
+    </section>
+  </main>
 
-    <p id="castMessage" class="profile-message"></p>
-
-    <div id="castTags" class="cast-tags"></div>
-    <div id="castSns" class="cast-sns"></div>
-
-    <a href="reservation.html" class="reserve-btn">
-      指名予約する
-    </a>
-  </section>
-
-</main>
-
-<script type="module" src="assets/cast-detail.js"></script>
-<script src="assets/design-system-v11.js?v=11.3.0"></script>
-
+  <script type="module" src="assets/app.js?v=14.0.0"></script>
+  <script type="module" src="assets/cast.js?v=14.0.0"></script>
+  <script src="assets/design-system-v11.js?v=11.3.0"></script>
 </body>
 </html>
