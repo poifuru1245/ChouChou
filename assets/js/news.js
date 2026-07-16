@@ -7,6 +7,7 @@ import { db } from "../app.js";
 
 const COLLECTION_NAME = "news";
 const DEFAULT_CATEGORY = "お知らせ";
+const NEW_PERIOD_DAYS = 14;
 
 const lists = [...document.querySelectorAll(".public-news-list")];
 
@@ -72,13 +73,18 @@ function updateNewsListState(list, itemCount) {
 
 function createNewsCard(item) {
   const article = document.createElement("article");
-  article.className = `public-news-card ${item.imageUrl ? "has-image" : "no-image"}`;
+  article.className = `public-news-card card-premium ${item.imageUrl ? "has-image" : "no-image"}`;
 
   const bodyPreview = createPreview(item.body, 120);
+  const publishedAt = getNewsTimestamp(item);
+  const dateLabel = formatNewsDate(publishedAt);
+  const newBadge = isNewItem(item, publishedAt)
+    ? `<span class="public-news-new badge-premium">NEW</span>`
+    : "";
   const imageMarkup = item.imageUrl
     ? `
       <div class="public-news-image">
-        <img src="${escapeAttribute(item.imageUrl)}" alt="${escapeAttribute(item.title)}" loading="lazy">
+        <img class="image-premium" src="${escapeAttribute(item.imageUrl)}" alt="${escapeAttribute(item.title)}" loading="lazy">
       </div>
     `
     : "";
@@ -94,8 +100,10 @@ function createNewsCard(item) {
     ${imageMarkup}
     <div class="public-news-body">
       <div class="public-news-meta">
-        <span class="public-news-category">${escapeHtml(item.category || DEFAULT_CATEGORY)}</span>
-        ${item.isPinned ? `<span class="public-news-pinned">PIN</span>` : ""}
+        <time class="public-news-date"${publishedAt ? ` datetime="${new Date(publishedAt).toISOString()}"` : ""}>${escapeHtml(dateLabel)}</time>
+        <span class="public-news-category badge-premium">${escapeHtml(item.category || DEFAULT_CATEGORY)}</span>
+        ${newBadge}
+        ${item.isPinned ? `<span class="public-news-pinned badge-premium">PIN</span>` : ""}
       </div>
       <h3>${escapeHtml(item.title)}</h3>
       ${bodyPreview ? `<p>${escapeHtml(bodyPreview)}</p>` : ""}
@@ -115,7 +123,8 @@ function normalizeNews(item) {
     linkUrl: item.linkUrl || "",
     category: item.category || DEFAULT_CATEGORY,
     isPublished: item.isPublished !== false,
-    isPinned: item.isPinned === true
+    isPinned: item.isPinned === true,
+    isNew: item.isNew === true
   };
 }
 
@@ -162,6 +171,45 @@ function getCreatedAtTime(item) {
   }
 
   return 0;
+}
+
+function getNewsTimestamp(item) {
+  return getTimestampValue(item?.createdAt) || getTimestampValue(item?.updatedAt);
+}
+
+function getTimestampValue(value) {
+  if (typeof value?.toMillis === "function") {
+    return value.toMillis();
+  }
+
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const timestamp = Date.parse(value);
+    return Number.isFinite(timestamp) ? timestamp : 0;
+  }
+
+  return 0;
+}
+
+function formatNewsDate(timestamp) {
+  if (!timestamp) return "----.--.--";
+
+  return new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date(timestamp)).replaceAll("/", ".");
+}
+
+function isNewItem(item, timestamp) {
+  if (item?.isNew === true) return true;
+  if (!timestamp) return false;
+
+  const age = Date.now() - timestamp;
+  return age >= 0 && age <= NEW_PERIOD_DAYS * 24 * 60 * 60 * 1000;
 }
 
 function createPreview(value, maxLength) {

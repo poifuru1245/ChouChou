@@ -132,7 +132,7 @@ todayCasts;
 const div =
 document.createElement("div");
 
-div.className = "v9-cast-item";
+div.className = "v9-cast-item card-premium";
 makeTodayScheduleCardClickable(div, createCastDetailUrl(cast));
 
 const image =
@@ -169,7 +169,7 @@ createScheduleFallbackCast(schedule);
 const div =
 document.createElement("div");
 
-div.className = "v9-cast-item";
+div.className = "v9-cast-item card-premium";
 makeTodayScheduleCardClickable(div, createCastDetailUrl(cast));
 
 const image =
@@ -237,7 +237,7 @@ createCastDetailUrl(cast);
 
 if(isScheduleList){
 
-div.className = "v9-cast-item";
+div.className = "v9-cast-item card-premium";
 makeTodayScheduleCardClickable(div, detailUrl);
 
 div.innerHTML = `
@@ -917,7 +917,7 @@ image
 : `<div class="v9-cast-no-image">NO IMAGE</div>`;
 
 return `
-  <div class="v9-cast-photo">
+  <div class="v9-cast-photo image-premium">
     ${imageMarkup}
 
   </div>
@@ -926,7 +926,7 @@ return `
     <div class="v9-cast-name-row">
       <h3>${escapeHtml(name)}</h3>
       <span class="v9-cast-name-en">${escapeHtml(toDisplayRomaji(cast))}</span>
-      <span class="v9-cast-status">本日出勤</span>
+      <span class="v9-cast-status badge-premium">本日出勤</span>
     </div>
 
     <dl class="v9-cast-meta">

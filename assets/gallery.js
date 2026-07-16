@@ -81,14 +81,14 @@ function renderGallery(items) {
 function createGalleryItem(item, options = {}) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "public-gallery-item";
+  button.className = "public-gallery-item card-premium";
   button.dataset.imageUrl = item.imageUrl || "";
   button.dataset.title = item.title || "";
   button.setAttribute("aria-label", item.title || "ギャラリー画像を表示");
   let lightboxItem = item;
 
   const imageMarkup = `
-    <img
+    <img class="image-premium"
       src="${escapeAttribute(item.imageUrl || "")}"
       alt="${escapeAttribute(item.title || "")}"
       loading="lazy"
@@ -106,7 +106,8 @@ function createGalleryItem(item, options = {}) {
     lightboxItem = { ...item, title };
     button.innerHTML = `
       ${imageMarkup}
-      <span class="public-gallery-category">${escapeHtml(category)}</span>
+      <span class="public-gallery-view" aria-hidden="true">VIEW</span>
+      <span class="public-gallery-category badge-premium">${escapeHtml(category)}</span>
       <span class="public-gallery-glass">
         <span class="public-gallery-title">${escapeHtml(title)}</span>
         <span class="public-gallery-description">${escapeHtml(description)}</span>
