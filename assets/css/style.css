@@ -13765,3 +13765,235 @@ html body.premium-design-system #recruit .recruit-v11-point-icon{
         gap:12px !important;
     }
 }
+
+/* =========================================================
+   Chou Chou Ver13 — Final Homepage Finish
+   Preserve the brand language while completing homepage UI.
+   ========================================================= */
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home{
+    --home-section-gap:120px;
+    --premium-transition:.3s ease;
+}
+
+@media(min-width:769px){
+    /* One consistent vertical rhythm across all homepage rows. */
+    html body.premium-design-system:not(.cast-detail-page) .princess-home > :is(
+        .princess-card-grid-top,
+        .princess-card-grid-middle,
+        .princess-card-grid-bottom
+    ){
+        margin-bottom:var(--home-section-gap) !important;
+    }
+
+    /* Today's Cast: full names, equal cards and a wider information area. */
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list-frame{
+        padding-right:10px !important;
+        padding-left:10px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list{
+        grid-auto-rows:158px !important;
+        gap:10px !important;
+        max-height:494px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item.card-premium{
+        grid-template-columns:156px minmax(0,1fr) !important;
+        align-items:center !important;
+        gap:10px !important;
+        width:100% !important;
+        height:158px !important;
+        min-height:158px !important;
+        padding:10px 12px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo.image-premium{
+        width:156px !important;
+        height:118px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile{
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        min-width:0 !important;
+        min-height:118px !important;
+        padding:0 !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row{
+        display:flex !important;
+        justify-content:center !important;
+        width:100% !important;
+        min-width:0 !important;
+        margin-bottom:6px !important;
+        text-align:center !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row h3{
+        display:block !important;
+        flex:1 1 auto !important;
+        width:100% !important;
+        min-width:0 !important;
+        max-width:none !important;
+        overflow:visible !important;
+        font-size:26px !important;
+        line-height:1.1 !important;
+        text-align:center !important;
+        text-overflow:clip !important;
+        white-space:normal !important;
+        word-break:keep-all !important;
+        overflow-wrap:normal !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-en{
+        display:none !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-status.badge-premium{
+        position:absolute !important;
+        top:15px !important;
+        right:auto !important;
+        left:17px !important;
+        z-index:3 !important;
+        margin:0 !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta{
+        width:100% !important;
+        gap:4px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta-row{
+        min-height:23px !important;
+    }
+
+    /* Concept: use more of the existing card without changing its artwork. */
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #concept.premium-card-concept{
+        padding:7px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #concept .ver6-card-image{
+        width:100% !important;
+        max-width:none !important;
+        transform:scale(1.025) !important;
+        transform-origin:center !important;
+    }
+
+    /* Access: add useful height and strengthen information hierarchy. */
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #access.premium-card-access{
+        min-height:796px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #access .luxury-access-box{
+        grid-template-rows:minmax(0,1fr) auto !important;
+        gap:18px !important;
+        height:100% !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #access .access-map iframe{
+        min-height:340px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #access .access-details{
+        gap:12px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #access .access-details p{
+        grid-template-columns:96px minmax(0,1fr) !important;
+        align-items:center !important;
+        gap:14px !important;
+        padding:10px 16px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #access .access-details p:first-child{
+        align-items:start !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #access .access-details :is(b,span){
+        line-height:1.65 !important;
+    }
+}
+
+/* Gallery: keep imagery edge-to-edge and reserve only a concise text panel. */
+html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .public-gallery-grid{
+    align-items:start !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .public-gallery-item.premium-gallery-item{
+    align-self:start !important;
+    height:auto !important;
+    min-height:0 !important;
+    aspect-ratio:auto !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .premium-gallery-item > img.image-premium{
+    display:block !important;
+    flex:0 0 auto !important;
+    width:100% !important;
+    margin:0 !important;
+    object-fit:cover !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .premium-gallery-item > .public-gallery-glass{
+    flex:0 0 auto !important;
+    min-height:64px !important;
+    padding:10px 11px 11px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .premium-gallery-item :is(
+    .public-gallery-title,
+    .public-gallery-description
+){
+    display:block !important;
+}
+
+/* Instagram already consumes the latest six records; keep its 3 x 2 contract explicit. */
+@media(min-width:681px){
+    html body.premium-design-system .princess-home #instagram .instagram-brand-grid{
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    }
+}
+
+html body.premium-design-system .princess-home #instagram .instagram-brand-photo,
+html body.premium-design-system .princess-home #instagram .instagram-brand-photo img{
+    aspect-ratio:1 / 1 !important;
+}
+
+@media(hover:hover) and (pointer:fine){
+    html body.premium-design-system .princess-home #instagram .instagram-brand-post:hover .instagram-brand-photo img,
+    html body.premium-design-system .princess-home #gallery .premium-gallery-item:is(:hover,:focus-visible) > img.image-premium{
+        transform:scale(1.035) !important;
+    }
+}
+
+/* A slightly smoother cadence for homepage hover and reveal motion. */
+html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
+    .card-premium,
+    .button-premium,
+    .image-premium,
+    .reveal-card,
+    .premium-gallery-item,
+    .instagram-brand-post,
+    img,
+    a,
+    button
+){
+    transition-duration:.3s !important;
+    transition-timing-function:ease !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home .premium-gallery-item.is-gallery-visible{
+    animation-duration:.3s !important;
+    animation-timing-function:ease !important;
+}
+
+@media(max-width:768px){
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row h3{
+        max-width:100% !important;
+        overflow:visible !important;
+        text-overflow:clip !important;
+        white-space:normal !important;
+    }
+}
