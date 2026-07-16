@@ -55,8 +55,10 @@ function renderNews(items) {
 
     const fragment = document.createDocumentFragment();
 
+    const fallbackLink = list.closest(".princess-home") ? "news.html" : "";
+
     visibleItems.forEach((item) => {
-      fragment.appendChild(createNewsCard(item));
+      fragment.appendChild(createNewsCard(item, fallbackLink));
     });
 
     list.innerHTML = "";
@@ -71,7 +73,7 @@ function updateNewsListState(list, itemCount) {
   list.classList.toggle("has-news-overflow", itemCount >= 4);
 }
 
-function createNewsCard(item) {
+function createNewsCard(item, fallbackLink = "") {
   const article = document.createElement("article");
   article.className = `public-news-card card-premium ${item.imageUrl ? "has-image" : "no-image"}`;
 
@@ -88,10 +90,12 @@ function createNewsCard(item) {
       </div>
     `
     : "";
-  const linkMarkup = item.linkUrl
+  const linkUrl = item.linkUrl || fallbackLink;
+  const isExternalLink = /^https?:\/\//i.test(linkUrl);
+  const linkMarkup = linkUrl
     ? `
-      <a class="public-news-link" href="${escapeAttribute(item.linkUrl)}" target="_blank" rel="noopener">
-        詳しく見る
+      <a class="public-news-link" href="${escapeAttribute(linkUrl)}"${isExternalLink ? ' target="_blank" rel="noopener"' : ""}>
+        続きを読む
       </a>
     `
     : "";

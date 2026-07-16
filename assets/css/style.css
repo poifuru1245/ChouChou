@@ -13632,3 +13632,136 @@ html body.premium-design-system .premium-gallery-item > .public-gallery-view{
         transition:none !important;
     }
 }
+
+/* =========================================================
+   Chou Chou Ver12.5 — Final Premium Polish
+   Preserve the current design while refining density and finish.
+   ========================================================= */
+
+@media(min-width:769px){
+    /* Shared card rhythm */
+    html body.premium-design-system:not(.cast-detail-page) .princess-home .premium-section-card{
+        padding-top:22px !important;
+        padding-bottom:22px !important;
+    }
+
+    /* Today's Cast */
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list-frame{
+        padding-right:18px !important;
+        padding-left:18px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item.card-premium{
+        grid-template-columns:148px minmax(0,1fr) !important;
+        gap:12px !important;
+        min-height:124px !important;
+        padding:10px 12px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo.image-premium{
+        width:148px !important;
+        height:100px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile{
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:space-between !important;
+        min-height:100px !important;
+        padding:2px 0 !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row{
+        gap:6px !important;
+        margin-bottom:5px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row h3{
+        flex:1 1 auto !important;
+        min-width:0 !important;
+        max-width:none !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+        white-space:nowrap !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-en{
+        flex:0 1 auto !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-status{
+        flex:0 0 auto !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta{
+        gap:4px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta-row{
+        min-height:23px !important;
+    }
+
+    /* News */
+    html body.premium-design-system:not(.cast-detail-page) .princess-home .premium-card-news .public-news-body{
+        display:flex !important;
+        flex-direction:column !important;
+        min-height:100% !important;
+        padding:15px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home .premium-card-news .public-news-card h3{
+        font-size:21px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home .premium-card-news .public-news-link{
+        align-self:flex-end !important;
+        margin:4px 0 0 auto !important;
+    }
+
+}
+
+html body.premium-design-system .princess-home #gallery .premium-gallery-item > img.image-premium{
+    aspect-ratio:1 / 1 !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .public-gallery-grid{
+    column-gap:14px !important;
+    row-gap:14px !important;
+}
+
+/* System */
+html body.premium-design-system:not(.cast-detail-page) .princess-home #system .system-price-row{
+    min-height:49px !important;
+    padding-top:9px !important;
+    padding-bottom:9px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #system .system-price-row strong{
+    font-weight:800 !important;
+}
+
+/* Recruit */
+html body.premium-design-system #recruit .recruit-v11-point-icon{
+    flex-basis:27px !important;
+    width:27px !important;
+    height:27px !important;
+    font-size:13px !important;
+}
+
+@media(hover:hover) and (pointer:fine){
+    html body.premium-design-system #recruit .recruit-v11-actions .button-premium:is(:hover,:focus-visible){
+        border-color:rgba(var(--premium-gold-rgb),.92) !important;
+        box-shadow:0 20px 38px rgba(111,59,86,.22),0 0 0 1px rgba(var(--premium-gold-rgb),.18),0 1px 0 rgba(255,255,255,.98) inset !important;
+        transform:translateY(-5px) !important;
+    }
+
+    html body.premium-design-system .premium-gallery-item:is(:hover,:focus-visible) > img.image-premium{
+        transform:scale(1.03) !important;
+    }
+}
+
+@media(max-width:768px){
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .public-gallery-grid{
+        gap:12px !important;
+    }
+}
