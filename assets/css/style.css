@@ -14399,3 +14399,187 @@ html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-c
 @media(hover:hover) and (pointer:fine){html body.premium-design-system:not(.cast-detail-page) .v6-favorite-button:hover{color:#b93e78 !important;background:linear-gradient(145deg,#fff4f9,#f7a9ca) !important;transform:translateY(-3px) !important}html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button:hover{border-color:rgba(198,154,72,.82) !important;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(246,180,210,.86)) !important;color:#8f3f67 !important;transform:translateY(-3px) !important}}
 @media(min-width:769px){html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-cast-actions{grid-template-columns:26px 52px !important;gap:6px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-favorite-button{width:26px !important;min-width:26px !important;max-width:26px !important;height:26px !important;min-height:26px !important;max-height:26px !important;font-size:12px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-cast-button{width:52px !important;max-width:52px !important;height:41px !important;min-height:41px !important;padding:0 3px 0 17px !important;font-size:8px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-icon{left:3px;width:14px;height:14px;border-radius:4px;font-size:4px}}
 @media(max-width:768px){html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{width:min(123px,100%) !important}}
+
+/* =========================================================
+   ChouChou Ver6.0 — Cast UI Completion Polish
+   Size, spacing and alignment only.
+   ========================================================= */
+html body.premium-design-system:not(.cast-detail-page) .v6-cast-actions{
+    grid-template-columns:31px minmax(0,141px) !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:9px !important;
+    min-height:41px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .v6-favorite-button{
+    align-self:center !important;
+    width:31px !important;
+    min-width:31px !important;
+    max-width:31px !important;
+    height:31px !important;
+    min-height:31px !important;
+    max-height:31px !important;
+    border-width:1px !important;
+    font-size:15px !important;
+    box-shadow:0 7px 17px rgba(111,48,78,.09),0 1px 0 rgba(255,255,255,.96) inset !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{
+    width:141px !important;
+    max-width:141px !important;
+    height:41px !important;
+    min-height:41px !important;
+    padding-right:24px !important;
+    padding-left:24px !important;
+    border-width:1px !important;
+    border-radius:999px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .v6-line-icon{
+    left:7px !important;
+}
+
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .public-profile-link{
+    height:41px !important;
+    min-height:41px !important;
+    border-width:1px !important;
+    border-radius:999px !important;
+    transform:translateY(14px) !important;
+}
+
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .v6-cast-actions{
+    margin-top:9px !important;
+    transform:translateY(14px) !important;
+}
+
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .public-cast-info{
+    min-height:245px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-image,
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v9-cast-image{
+    transform:scale(1.17) !important;
+    transform-origin:center top !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row h3{
+    font-size:27.3px !important;
+    letter-spacing:.075em !important;
+}
+
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v9-cast-name-row h3{
+    font-size:26px !important;
+    letter-spacing:.075em !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta-row,
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v9-cast-meta-row{
+    align-items:center !important;
+    min-height:28px !important;
+    padding-top:2px !important;
+    padding-bottom:2px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-meta-row :is(dt,dd),
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v9-cast-meta-row :is(dt,dd){
+    display:flex !important;
+    align-items:center !important;
+    min-height:20px !important;
+}
+
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v9-cast-meta-row{
+    grid-template-columns:64px minmax(0,1fr) !important;
+}
+
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v9-cast-meta-row dd{
+    white-space:nowrap !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-cast-actions.is-compact,
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-cast-actions.is-compact{
+    grid-template-columns:31px minmax(0,143px) !important;
+    max-width:183px !important;
+    gap:9px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-cast-actions.is-compact{
+    position:absolute !important;
+    right:auto !important;
+    bottom:8px !important;
+    left:50% !important;
+    margin:0 !important;
+    transform:translateX(-50%) !important;
+}
+
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-cast-actions.is-compact{
+    transform:translateX(-19px) !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-line-cast-button,
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-line-cast-button{
+    width:143px !important;
+    max-width:143px !important;
+}
+
+@media(min-width:769px){
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-cast-actions{
+        grid-template-columns:28px minmax(0,66px) !important;
+        gap:7px !important;
+        min-height:41px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-favorite-button{
+        width:28px !important;
+        min-width:28px !important;
+        max-width:28px !important;
+        height:28px !important;
+        min-height:28px !important;
+        max-height:28px !important;
+        font-size:13px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-cast-button{
+        width:66px !important;
+        max-width:66px !important;
+        padding-right:4px !important;
+        padding-left:19px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-icon{
+        left:2px !important;
+    }
+}
+
+@media(max-width:768px){
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-name-row h3{
+        font-size:26.25px !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{
+        width:min(141px,100%) !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-line-cast-button,
+    html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-line-cast-button{
+        width:min(143px,100%) !important;
+    }
+
+    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-cast-actions.is-compact{
+        bottom:7px !important;
+        left:50% !important;
+    }
+
+    html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .public-cast-info{
+        min-height:0 !important;
+    }
+
+    html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .public-profile-link,
+    html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .v6-cast-actions{
+        transform:translateY(10px) !important;
+    }
+
+    html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-cast-actions.is-compact{
+        transform:none !important;
+    }
+}

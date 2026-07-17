@@ -18,8 +18,8 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
 
 @media(min-width:769px){
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-list{
-    grid-auto-rows:184px !important;
-    max-height:572px !important;
+    grid-auto-rows:240px !important;
+    max-height:740px !important;
     gap:10px !important;
   }
 
@@ -27,12 +27,13 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
     grid-template-columns:168px minmax(0,1fr) !important;
     align-items:center !important;
     gap:8px !important;
-    height:184px !important;
-    min-height:184px !important;
+    height:240px !important;
+    min-height:240px !important;
     padding:34px 10px 8px !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo.image-premium{
+    align-self:start !important;
     width:168px !important;
     height:136px !important;
     min-height:136px !important;
@@ -48,7 +49,9 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile{
+    align-self:start !important;
     min-height:136px !important;
+    position:static !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-status.badge-premium{
@@ -318,16 +321,21 @@ html body.premium-design-system:not(.cast-detail-page) #contact .ver6-contact-li
 @media(max-width:768px){
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item.card-premium{
     grid-template-columns:132px minmax(0,1fr) !important;
-    min-height:172px !important;
+    min-height:226px !important;
     gap:8px !important;
     padding:33px 8px 7px !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo.image-premium{
+    align-self:start !important;
     width:132px !important;
     height:132px !important;
     min-height:132px !important;
     overflow:visible !important;
+  }
+
+  html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile{
+    align-self:start !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo :is(.v9-cast-image,.v9-cast-no-image){
