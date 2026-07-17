@@ -124,50 +124,51 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
 }
 
 html body.premium-design-system:not(.cast-detail-page) :is(
-  #cast.v9-today-card,
-  .princess-home #cast-list
-) .public-cast-badges{
+  #cast.v9-today-card .v9-cast-photo,
+  .princess-home #cast-list.premium-card-cast .public-cast-photo
+) > .public-cast-badges.cast-badge-layer{
   position:absolute !important;
-  top:-4px !important;
+  top:8px !important;
   right:auto !important;
-  left:5px !important;
+  left:8px !important;
   z-index:7 !important;
   display:flex !important;
-  flex-direction:row !important;
+  flex-direction:column !important;
+  flex-flow:column nowrap !important;
   align-items:flex-start !important;
   justify-content:flex-start !important;
-  width:calc(100% - 10px) !important;
+  width:32px !important;
   min-width:0 !important;
-  max-width:none !important;
-  gap:4px !important;
+  max-width:32px !important;
+  gap:2px !important;
   margin:0 !important;
   padding:0 !important;
   pointer-events:none !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) :is(
-  #cast.v9-today-card,
-  .princess-home #cast-list
-) .public-cast-badges .premium-cast-badge,
+  #cast.v9-today-card .v9-cast-photo,
+  .princess-home #cast-list.premium-card-cast .public-cast-photo
+) > .public-cast-badges.cast-badge-layer .premium-cast-badge,
 html body.premium-design-system:not(.cast-detail-page) :is(
-  #cast.v9-today-card,
-  .princess-home #cast-list
-) .public-cast-badges .premium-cast-badge-img,
+  #cast.v9-today-card .v9-cast-photo,
+  .princess-home #cast-list.premium-card-cast .public-cast-photo
+) > .public-cast-badges.cast-badge-layer .premium-cast-badge-img,
 html body.premium-design-system:not(.cast-detail-page) :is(
-  #cast.v9-today-card,
-  .princess-home #cast-list
-) .public-cast-badges img.premium-cast-badge-img-new,
+  #cast.v9-today-card .v9-cast-photo,
+  .princess-home #cast-list.premium-card-cast .public-cast-photo
+) > .public-cast-badges.cast-badge-layer img.premium-cast-badge-img-new,
 html body.premium-design-system:not(.cast-detail-page) :is(
-  #cast.v9-today-card,
-  .princess-home #cast-list
-) .public-cast-badges img.premium-cast-badge-img-recommended{
-  flex:0 0 44px !important;
-  width:44px !important;
-  min-width:44px !important;
-  max-width:44px !important;
-  height:29px !important;
-  min-height:29px !important;
-  max-height:29px !important;
+  #cast.v9-today-card .v9-cast-photo,
+  .princess-home #cast-list.premium-card-cast .public-cast-photo
+) > .public-cast-badges.cast-badge-layer img.premium-cast-badge-img-recommended{
+  flex:0 0 21px !important;
+  width:32px !important;
+  min-width:32px !important;
+  max-width:32px !important;
+  height:21px !important;
+  min-height:21px !important;
+  max-height:21px !important;
   margin:0 !important;
   padding:0 !important;
   overflow:hidden !important;
@@ -178,14 +179,15 @@ html body.premium-design-system:not(.cast-detail-page) :is(
   object-fit:cover !important;
   object-position:center !important;
   filter:drop-shadow(0 3px 5px rgba(111,59,86,.2)) !important;
+  transform:none !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) :is(
-  #cast.v9-today-card,
-  .princess-home #cast-list
-) .public-cast-badges .premium-cast-badge-recommended{
+  #cast.v9-today-card .v9-cast-photo,
+  .princess-home #cast-list.premium-card-cast .public-cast-photo
+) > .public-cast-badges.cast-badge-layer .premium-cast-badge-recommended{
   margin-right:0 !important;
-  margin-left:auto !important;
+  margin-left:0 !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) #recruit .recruit-v11-media{
@@ -267,22 +269,6 @@ html body.premium-design-system:not(.cast-detail-page) #contact .ver6-contact-li
     aspect-ratio:4 / 5 !important;
   }
 
-  html body.premium-design-system:not(.cast-detail-page) :is(
-    #cast.v9-today-card,
-    .princess-home #cast-list
-  ) .public-cast-badges .premium-cast-badge,
-  html body.premium-design-system:not(.cast-detail-page) :is(
-    #cast.v9-today-card,
-    .princess-home #cast-list
-  ) .public-cast-badges .premium-cast-badge-img{
-    flex-basis:38px !important;
-    width:38px !important;
-    min-width:38px !important;
-    max-width:38px !important;
-    height:25px !important;
-    min-height:25px !important;
-    max-height:25px !important;
-  }
 }
 
 @media(min-width:769px){
