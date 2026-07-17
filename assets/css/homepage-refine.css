@@ -261,12 +261,12 @@ html body.premium-design-system:not(.cast-detail-page) :is(
 }
 
 html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list.premium-card-cast .public-cast-photo > .public-cast-badges.cast-badge-layer{
-  top:10px !important;
-  left:10px !important;
+  top:8px !important;
+  left:8px !important;
   z-index:20 !important;
-  width:20px !important;
-  max-width:20px !important;
-  gap:2px !important;
+  width:34px !important;
+  max-width:34px !important;
+  gap:4px !important;
   overflow:visible !important;
 }
 
@@ -276,15 +276,15 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list
   img.premium-cast-badge-img-new,
   img.premium-cast-badge-img-recommended
 ){
-  flex:0 0 13px !important;
-  width:20px !important;
-  min-width:20px !important;
-  max-width:20px !important;
-  height:13px !important;
-  min-height:13px !important;
-  max-height:13px !important;
+  flex:0 0 34px !important;
+  width:34px !important;
+  min-width:34px !important;
+  max-width:34px !important;
+  height:34px !important;
+  min-height:34px !important;
+  max-height:34px !important;
   overflow:visible !important;
-  object-fit:contain !important;
+  object-fit:cover !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) #recruit .recruit-v11-media{

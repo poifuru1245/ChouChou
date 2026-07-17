@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0">
   <link rel="stylesheet" href="assets/css/interior-v14.css?v=14.0.0">
+  <link rel="stylesheet" href="assets/css/cast-detail-premium-v56.css?v=5.6.0">
 </head>
 <body class="interior-page cast-detail-page premium-design-system">
   <header class="header">
@@ -22,35 +23,51 @@
     </div>
   </header>
 
-  <main class="cast-detail">
-    <section class="cast-gallery" aria-label="キャスト写真スライダー">
-      <img id="castImage" class="cast-main-image" alt="">
-      <div id="castThumbnails" class="cast-thumbnails"></div>
+  <main class="cast-detail cast-detail-premium" aria-live="polite">
+    <section class="cast-gallery card-premium" aria-label="キャスト写真スライダー">
+      <div id="castSliderStage" class="cast-slider-stage" tabindex="0">
+        <img id="castImage" class="cast-main-image" alt="">
+        <button id="castSlidePrev" class="cast-slide-arrow cast-slide-prev" type="button" aria-label="前の写真">‹</button>
+        <button id="castSlideNext" class="cast-slide-arrow cast-slide-next" type="button" aria-label="次の写真">›</button>
+        <span id="castSlideCounter" class="cast-slide-counter" aria-hidden="true"></span>
+      </div>
+      <div id="castThumbnails" class="cast-thumbnails" aria-label="写真を選択"></div>
     </section>
 
-    <section class="profile-box">
-      <div class="section-title"><span class="profile-label">Cast Profile</span><h1 id="castName">Cast</h1></div>
-      <div class="profile-grid">
-        <p id="castAge"></p><p id="castHeight"></p><p id="castBirthday"></p><p id="castBloodType"></p><p id="castHobby"></p><p id="castDrink"></p>
+    <section class="profile-box card-premium">
+      <div class="section-title cast-profile-title"><span class="profile-label">Cast Profile</span><h1 id="castName">Cast</h1></div>
+      <dl id="castProfileGrid" class="profile-grid"></dl>
+      <div id="castMessagePanel" class="profile-message" hidden>
+        <span>MESSAGE</span>
+        <p id="castMessage"></p>
       </div>
-      <p id="castMessage" class="profile-message"></p>
       <div id="castTags" class="cast-tags"></div>
-      <div id="castSns" class="cast-sns"></div>
-      <div class="cast-next-schedule" aria-live="polite">
-        <span>NEXT SCHEDULE</span>
-        <strong id="castNextSchedule">出勤情報を確認中...</strong>
-      </div>
+      <div id="castSns" class="cast-sns" aria-label="SNS"></div>
+
+      <section class="cast-weekly-schedule glass-panel" aria-labelledby="castScheduleTitle">
+        <div class="cast-schedule-heading">
+          <span>Weekly Schedule</span>
+          <h2 id="castScheduleTitle">今週の出勤</h2>
+        </div>
+        <div id="castWeeklySchedule" class="cast-weekly-list">
+          <p class="cast-schedule-loading">出勤予定を確認中です...</p>
+        </div>
+      </section>
+
       <div class="cast-detail-actions">
-        <a href="#" class="button-premium button-primary" data-site-link="lineReservationUrl" target="_blank" rel="noopener">LINE予約</a>
-        <a href="reservation.html" class="button-premium">WEB予約</a>
         <button type="button" id="castFavoriteButton" class="button-premium favorite-toggle" aria-pressed="false">♡ お気に入りに登録</button>
       </div>
     </section>
   </main>
 
+  <nav class="cast-fixed-reservation" aria-label="予約メニュー">
+    <a href="reservation.html" class="button-premium cast-fixed-web">WEB予約</a>
+    <a href="#" class="button-premium button-primary cast-fixed-line" data-site-link="lineReservationUrl" target="_blank" rel="noopener">LINE予約</a>
+    <a href="tel:011-000-0000" class="button-premium cast-fixed-phone" data-site-phone="phoneNumber">電話する</a>
+  </nav>
+
   <script type="module" src="assets/app.js?v=14.0.0"></script>
-  <script type="module" src="assets/cast-detail.js?v=14.0.2"></script>
-  <script type="module" src="assets/cast-detail-v14.js?v=14.0.0"></script>
+  <script type="module" src="assets/cast-detail.js?v=5.6.0"></script>
   <script src="assets/design-system-v11.js?v=11.3.0"></script>
 </body>
 </html>

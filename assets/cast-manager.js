@@ -88,9 +88,12 @@
     bloodType: document.getElementById("cast-blood-type"),
     hobby: document.getElementById("cast-hobby"),
     favoriteDrink: document.getElementById("cast-drink"),
+    favoriteFood: document.getElementById("cast-food"),
+    charmPoint: document.getElementById("cast-charm-point"),
     message: document.getElementById("cast-message"),
     instagram: document.getElementById("cast-instagram"),
     x: document.getElementById("cast-x"),
+    line: document.getElementById("cast-line"),
     tiktok: document.getElementById("cast-tiktok"),
     tags: document.getElementById("cast-tags"),
     isNew: document.getElementById("cast-is-new"),
@@ -335,9 +338,12 @@
     elements.bloodType.value = cast?.bloodType || "";
     elements.hobby.value = cast?.hobby || "";
     elements.favoriteDrink.value = cast?.favoriteDrink || "";
+    elements.favoriteFood.value = cast?.favoriteFood || "";
+    elements.charmPoint.value = cast?.charmPoint || "";
     elements.message.value = cast?.message || "";
     elements.instagram.value = cast?.instagram || "";
     elements.x.value = cast?.x || "";
+    elements.line.value = cast?.line || "";
     elements.tiktok.value = cast?.tiktok || "";
     if (elements.isNew) elements.isNew.checked = isBadgeEnabled(cast?.isNew);
     if (elements.isRecommended) {
@@ -369,9 +375,12 @@
     elements.bloodType.value = "";
     elements.hobby.value = "";
     elements.favoriteDrink.value = "";
+    elements.favoriteFood.value = "";
+    elements.charmPoint.value = "";
     elements.message.value = "";
     elements.instagram.value = "";
     elements.x.value = "";
+    elements.line.value = "";
     elements.tiktok.value = "";
     elements.tags.value = "";
     if (elements.isNew) elements.isNew.checked = false;
@@ -408,11 +417,15 @@
         bloodType: formData.bloodType,
         hobby: formData.hobby,
         favoriteDrink: formData.favoriteDrink,
+        favoriteFood: formData.favoriteFood,
+        charmPoint: formData.charmPoint,
         message: formData.message,
         image,
         images,
+        galleryImages: images,
         instagram: formData.instagram,
         x: formData.x,
+        line: formData.line,
         tiktok: formData.tiktok,
         tags: formData.tags,
         isNew: formData.isNew,
@@ -1139,9 +1152,12 @@
       bloodType: elements.bloodType.value.trim(),
       hobby: elements.hobby.value.trim(),
       favoriteDrink: elements.favoriteDrink.value.trim(),
+      favoriteFood: elements.favoriteFood.value.trim(),
+      charmPoint: elements.charmPoint.value.trim(),
       message: elements.message.value.trim(),
       instagram: elements.instagram.value.trim(),
       x: elements.x.value.trim(),
+      line: elements.line.value.trim(),
       tiktok: elements.tiktok.value.trim(),
       tags: collectTags(),
       isNew: Boolean(elements.isNew?.checked),
@@ -1214,6 +1230,14 @@
       return { valid: false, message: "好きなお酒は80文字以内で入力してください。" };
     }
 
+    if (data.favoriteFood.length > 80) {
+      return { valid: false, message: "好きな食べ物は80文字以内で入力してください。" };
+    }
+
+    if (data.charmPoint.length > 120) {
+      return { valid: false, message: "チャームポイントは120文字以内で入力してください。" };
+    }
+
     if (data.message.length > 500) {
       return { valid: false, message: "メッセージは500文字以内で入力してください。" };
     }
@@ -1221,6 +1245,7 @@
     if (
       data.instagram.length > 300 ||
       data.x.length > 300 ||
+      data.line.length > 300 ||
       data.tiktok.length > 300
     ) {
       return { valid: false, message: "SNS URLは300文字以内で入力してください。" };
@@ -1351,7 +1376,8 @@
       if (state.editingId) {
         await updateDoc(doc(db, COLLECTION_NAME, state.editingId), {
           image: state.currentImage,
-          images: state.currentImages
+          images: state.currentImages,
+          galleryImages: state.currentImages
         });
 
         await loadCasts();
@@ -1393,11 +1419,15 @@
       bloodType: cast.bloodType || "",
       hobby: cast.hobby || "",
       favoriteDrink: cast.favoriteDrink || "",
+      favoriteFood: cast.favoriteFood || "",
+      charmPoint: cast.charmPoint || "",
       message: cast.message || "",
       image: getMainImage(cast),
       images: getCastImages(cast),
+      galleryImages: getCastImages(cast),
       instagram: cast.instagram || "",
       x: cast.x || "",
+      line: cast.line || "",
       tiktok: cast.tiktok || "",
       tags: getTags(cast),
       schedule: cast.schedule || "",
@@ -1411,15 +1441,16 @@
   }
 
   function getCastImages(cast) {
-    const images = Array.isArray(cast?.images)
-      ? cast.images.filter(Boolean)
-      : [];
+    const images = [
+      ...(Array.isArray(cast?.galleryImages) ? cast.galleryImages : []),
+      ...(Array.isArray(cast?.images) ? cast.images : [])
+    ].filter(Boolean);
 
     if (!images.length && cast?.image) {
       return [cast.image];
     }
 
-    return images.slice(0, 5);
+    return [...new Set(images)].slice(0, 5);
   }
 
   function getMainImage(cast) {
