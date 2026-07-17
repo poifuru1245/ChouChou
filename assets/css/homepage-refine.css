@@ -90,7 +90,7 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid > .cast-card.public-cast-card{
     height:auto !important;
-    min-height:640px !important;
+    min-height:570px !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-photo{
@@ -111,7 +111,7 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-info{
     gap:10px !important;
-    padding:16px 12px 14px !important;
+    padding:16px 12px 24px !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .premium-gallery-item > img.image-premium{
@@ -132,7 +132,7 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list
   display:flex !important;
   flex-direction:column !important;
   height:auto !important;
-  min-height:640px !important;
+  min-height:570px !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .public-cast-photo{
@@ -149,7 +149,7 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list
   flex-direction:column !important;
   min-height:0 !important;
   gap:10px !important;
-  padding:16px 12px 14px !important;
+  padding:16px 12px 24px !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list :is(
@@ -191,29 +191,6 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list
 html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card .public-profile-link{
   flex:0 0 auto !important;
   margin-top:auto !important;
-}
-
-html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list.premium-card-cast .public-cast-photo > .public-cast-badges.cast-badge-layer{
-  top:8px !important;
-  left:8px !important;
-  width:23px !important;
-  max-width:23px !important;
-  gap:2px !important;
-}
-
-html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list.premium-card-cast .public-cast-photo > .public-cast-badges.cast-badge-layer :is(
-  .premium-cast-badge,
-  .premium-cast-badge-img,
-  img.premium-cast-badge-img-new,
-  img.premium-cast-badge-img-recommended
-){
-  flex:0 0 15px !important;
-  width:23px !important;
-  min-width:23px !important;
-  max-width:23px !important;
-  height:15px !important;
-  min-height:15px !important;
-  max-height:15px !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) :is(
@@ -281,6 +258,33 @@ html body.premium-design-system:not(.cast-detail-page) :is(
 ) > .public-cast-badges.cast-badge-layer .premium-cast-badge-recommended{
   margin-right:0 !important;
   margin-left:0 !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list.premium-card-cast .public-cast-photo > .public-cast-badges.cast-badge-layer{
+  top:10px !important;
+  left:10px !important;
+  z-index:20 !important;
+  width:20px !important;
+  max-width:20px !important;
+  gap:2px !important;
+  overflow:visible !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list.premium-card-cast .public-cast-photo > .public-cast-badges.cast-badge-layer :is(
+  .premium-cast-badge,
+  .premium-cast-badge-img,
+  img.premium-cast-badge-img-new,
+  img.premium-cast-badge-img-recommended
+){
+  flex:0 0 13px !important;
+  width:20px !important;
+  min-width:20px !important;
+  max-width:20px !important;
+  height:13px !important;
+  min-height:13px !important;
+  max-height:13px !important;
+  overflow:visible !important;
+  object-fit:contain !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) #recruit .recruit-v11-media{
