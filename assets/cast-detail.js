@@ -93,7 +93,7 @@ function getCastFromParams() {
 function renderCast(cast) {
   const name = String(cast?.name || "Cast").trim();
 
-  document.title = `${name} | Chou Chou Cast Profile`;
+  updateSeoMetadata(cast, name);
   setText("castName", name);
   renderProfile(cast);
   renderMessage(cast?.message);
@@ -320,8 +320,7 @@ function renderSns(cast) {
   const wrap = document.getElementById("castSns");
   const links = [
     { key: "instagram", label: "Instagram", icon: "IG", value: cast?.instagram },
-    { key: "x", label: "X", icon: "X", value: cast?.x },
-    { key: "line", label: "LINE", icon: "LINE", value: cast?.line }
+    { key: "x", label: "X", icon: "X", value: cast?.x }
   ].map((item) => ({ ...item, url: normalizeSocialUrl(item.key, item.value) }))
     .filter((item) => item.url);
 
@@ -547,6 +546,27 @@ function normalizeSocialUrl(type, value) {
   if (type === "x") return `https://x.com/${encodeURIComponent(account)}`;
   if (type === "line") return `https://line.me/R/ti/p/${encodeURIComponent(text)}`;
   return "";
+}
+
+function updateSeoMetadata(cast, name) {
+  const profileSummary = [formatAge(cast?.age), formatHeight(cast?.height)]
+    .filter(Boolean)
+    .join("・");
+  const description = [
+    `Chou Chou（シュシュ）キャスト「${name}」のプロフィール。`,
+    profileSummary ? `${profileSummary}。` : "",
+    "写真ギャラリー、プロフィール、今週の出勤予定をご案内します。"
+  ].join("");
+  const title = `${name} | キャストプロフィール | Chou Chou`;
+
+  document.title = title;
+  setMetaContent("castMetaDescription", description);
+  setMetaContent("castOgTitle", title);
+  setMetaContent("castOgDescription", description);
+}
+
+function setMetaContent(id, value) {
+  document.getElementById(id)?.setAttribute("content", value);
 }
 
 function formatAge(value) {

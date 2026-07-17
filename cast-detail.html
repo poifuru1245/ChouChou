@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cast Profile | Chou Chou</title>
-  <meta name="description" content="Chou Chou キャストプロフィール">
+  <meta id="castMetaDescription" name="description" content="Chou Chou キャストプロフィール">
+  <meta id="castOgTitle" property="og:title" content="Cast Profile | Chou Chou">
+  <meta id="castOgDescription" property="og:description" content="Chou Chou キャストプロフィール">
+  <meta property="og:type" content="profile">
   <link rel="stylesheet" href="assets/css/style.css?v=13.0.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0">
   <link rel="stylesheet" href="assets/css/interior-v14.css?v=14.0.0">
-  <link rel="stylesheet" href="assets/css/cast-detail-premium-v56.css?v=5.6.0">
+  <link rel="stylesheet" href="assets/css/cast-detail-premium-v56.css?v=5.7.0">
 </head>
 <body class="interior-page cast-detail-page premium-design-system">
   <header class="header">
@@ -61,13 +64,13 @@
   </main>
 
   <nav class="cast-fixed-reservation" aria-label="予約メニュー">
-    <a href="reservation.html" class="button-premium cast-fixed-web">WEB予約</a>
     <a href="#" class="button-premium button-primary cast-fixed-line" data-site-link="lineReservationUrl" target="_blank" rel="noopener">LINE予約</a>
+    <a href="reservation.html" class="button-premium cast-fixed-web">WEB予約</a>
     <a href="tel:011-000-0000" class="button-premium cast-fixed-phone" data-site-phone="phoneNumber">電話する</a>
   </nav>
 
   <script type="module" src="assets/app.js?v=14.0.0"></script>
-  <script type="module" src="assets/cast-detail.js?v=5.6.0"></script>
+  <script type="module" src="assets/cast-detail.js?v=5.7.0"></script>
   <script src="assets/design-system-v11.js?v=11.3.0"></script>
 </body>
 </html>
