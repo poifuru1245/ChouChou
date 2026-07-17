@@ -18,6 +18,7 @@ import {
 import {
   getStorage
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import "./engagement.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsNdnnTSJUIS2eO7P_Ks8eAmtm8ManDhY",
@@ -736,21 +737,29 @@ async function setupSiteSettings() {
   try {
     const settingsSnapshot = await getDoc(doc(db, "settings", "site"));
     const settings = settingsSnapshot.exists() ? settingsSnapshot.data() : {};
-
-    applySiteLink("webReservationUrl", settings.webReservationUrl);
-    applySiteLink("lineReservationUrl", settings.lineReservationUrl);
-    applySiteLink("recruitUrl", settings.recruitUrl);
-    applySiteLink("contactFormUrl", settings.contactFormUrl);
-    applySiteLink("instagramUrl", settings.instagramUrl);
-    applySiteLink("xUrl", settings.xUrl);
-    applyPhoneLink(settings.phoneNumber);
-    applyGoogleMap(settings.googleMapUrl);
-    applyHeroImage(settings.heroImageUrl);
-    applyTextSetting("[data-site-business-hours]", settings.businessHours);
-    applyTextSetting("[data-site-closed-day]", settings.closedDay);
+    applySiteSettings(settings);
+    if("MutationObserver" in window){
+      new MutationObserver((mutations)=>{
+        if(mutations.some((mutation)=>[...mutation.addedNodes].some((node)=>node instanceof Element && (node.matches?.("[data-site-link],[data-site-phone]") || node.querySelector?.("[data-site-link],[data-site-phone]"))))) applySiteSettings(settings);
+      }).observe(document.body,{childList:true,subtree:true});
+    }
   } catch (error) {
     console.error("サイト設定読み込み失敗", error);
   }
+}
+
+function applySiteSettings(settings){
+  applySiteLink("webReservationUrl", settings.webReservationUrl);
+  applySiteLink("lineReservationUrl", settings.lineReservationUrl);
+  applySiteLink("recruitUrl", settings.recruitUrl);
+  applySiteLink("contactFormUrl", settings.contactFormUrl);
+  applySiteLink("instagramUrl", settings.instagramUrl);
+  applySiteLink("xUrl", settings.xUrl);
+  applyPhoneLink(settings.phoneNumber);
+  applyGoogleMap(settings.googleMapUrl);
+  applyHeroImage(settings.heroImageUrl);
+  applyTextSetting("[data-site-business-hours]", settings.businessHours);
+  applyTextSetting("[data-site-closed-day]", settings.closedDay);
 }
 
 function applySiteLink(key, value) {

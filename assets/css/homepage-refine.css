@@ -95,9 +95,9 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-photo{
     width:100% !important;
-    height:168px !important;
-    min-height:168px !important;
-    max-height:168px !important;
+    height:188px !important;
+    min-height:188px !important;
+    max-height:188px !important;
     aspect-ratio:auto !important;
     margin:0 !important;
   }
@@ -110,8 +110,8 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
   }
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-info{
-    gap:10px !important;
-    padding:16px 12px 24px !important;
+    gap:3px !important;
+    padding:10px 9px 15px !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .premium-gallery-item > img.image-premium{
@@ -148,8 +148,8 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list
   flex:1 1 auto !important;
   flex-direction:column !important;
   min-height:0 !important;
-  gap:10px !important;
-  padding:16px 12px 24px !important;
+  gap:3px !important;
+  padding:10px 9px 15px !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list :is(

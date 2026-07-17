@@ -69,9 +69,6 @@ scheduleSnapshot.forEach((docSnap)=>{
 
 });
 
-console.log("今日", today);
-console.log("出勤者", todayCasts);
-
   const snapshot =
     await getDocs(collection(db,"casts"));
 
@@ -90,9 +87,6 @@ console.log("出勤者", todayCasts);
 
   renderPrincessPickUp(casts);
   loadAllCasts(todayCasts);
-
-console.log("cast.js 起動");
-console.log(document.querySelector(".v9-cast-list, .cast-grid"));
 
   const list =
 document.querySelector(".v9-cast-list, .cast-grid");
@@ -176,7 +170,7 @@ const image =
 getMainImage(cast);
 
 div.innerHTML =
-createV9TodayCastMarkup(cast, formatSchedule(cast, schedule.time), image);
+createV9TodayCastMarkup(cast, formatSchedule(cast, schedule.time), image, schedule);
 
 list.appendChild(div);
 
@@ -208,8 +202,6 @@ renderedCount >= limit
 return;
 }
 
-    console.log("判定", cast.name);
-
 const todayCast =
 todayCasts.find((item)=>isScheduleForCast(item,cast));
 
@@ -226,7 +218,7 @@ const image =
 getMainImage(cast);
 const imageMarkup =
 image
-? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
+? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}" loading="lazy" decoding="async">`
 : `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
 const badgeMarkup =
 createCastBadgeMarkup(cast);
@@ -241,7 +233,7 @@ div.className = "v9-cast-item card-premium";
 makeTodayScheduleCardClickable(div, detailUrl);
 
 div.innerHTML = `
-  ${createV9TodayCastMarkup(cast, formatSchedule(cast, todayCast.time), image)}
+    ${createV9TodayCastMarkup(cast, formatSchedule(cast, todayCast.time), image, todayCast)}
 `;
 
 }else{
@@ -277,8 +269,6 @@ aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール
 `;
 
 }
-
-console.log("追加", cast.name);
 
     list.appendChild(div);
     renderedCount += 1;
@@ -327,8 +317,14 @@ getListLimit(list);
 
 list.innerHTML = "";
 
-casts
-.slice(0, limit ?? casts.length)
+const favoriteKeys = readFavoriteKeys();
+const visibleCasts = casts.filter((cast)=>cast?.isPublished !== false).filter((cast)=>{
+  if(list.dataset.favoritesOnly !== "true") return true;
+  return favoriteKeys.includes(String(cast?.id || cast?.name || ""));
+});
+
+visibleCasts
+.slice(0, limit ?? visibleCasts.length)
 .forEach((cast)=>{
 
 const div =
@@ -340,10 +336,11 @@ const image =
 getMainImage(cast);
 const imageMarkup =
 image
-? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}">`
+? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}" loading="lazy" decoding="async">`
 : `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
 const todaySchedule =
 todayCasts.find((schedule)=>isScheduleForCast(schedule,cast));
+const isToday = Boolean(todaySchedule || (!todayCasts.length && String(cast?.schedule || "").trim()));
 const badgeMarkup =
 createCastBadgeMarkup(cast);
 const detailUrl =
@@ -366,7 +363,7 @@ ${escapeHtml(formatAge(cast.age))} <span aria-hidden="true">◇</span>${escapeHt
 ${createCastListHobbyMarkup(cast)}
 
 <p class="public-cast-schedule-row">
-  ${todaySchedule ? '<span class="public-cast-today-label">TODAY</span>' : ""}
+  ${isToday ? '<span class="public-cast-today-label">TODAY</span>' : ""}
   <span class="public-cast-schedule-time">${escapeHtml(formatSchedule(cast,todaySchedule?.time))}</span>
 </p>
 
@@ -377,13 +374,20 @@ aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール
 <span>PROFILE</span>
 </a>
 
+${createCastEngagementActions(cast)}
+
 </div>
 `;
 
 makePublicCastCardClickable(div, detailUrl);
+applyCastSearchData(div, cast, isToday);
 list.appendChild(div);
 
 });
+
+if(!visibleCasts.length){
+  list.innerHTML = `<p class="no-cast v6-favorite-empty">${list.dataset.favoritesOnly === "true" ? "お気に入り登録したキャストはまだいません" : "キャスト情報を準備中です"}</p>`;
+}
 
 }
 
@@ -403,6 +407,15 @@ return `
 </p>
 `;
 
+}
+
+function readFavoriteKeys(){
+  try{
+    const value = JSON.parse(window.localStorage.getItem("chouchou-favorite-casts") || "[]");
+    return Array.isArray(value) ? value.map(String) : [];
+  }catch{
+    return [];
+  }
 }
 
 function getTokyoDateKey(date = new Date()){
@@ -637,7 +650,7 @@ getMainImage(cast);
 
 const imageMarkup =
 image
-? `<img class="princess-pickup-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}" loading="lazy">`
+? `<img class="princess-pickup-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}" loading="lazy" decoding="async">`
 : `<div class="princess-pickup-no-image">NO IMAGE</div>`;
 
 const detailUrl =
@@ -908,15 +921,17 @@ return `${formatAge(cast?.age)} / ${formatCup(cast)} / ${formatHeight(cast?.heig
 
 }
 
-function createV9TodayCastMarkup(cast, scheduleText, image = ""){
+function createV9TodayCastMarkup(cast, scheduleText, image = "", schedule = null){
 
 const name =
 cast?.name || "";
 
 const imageMarkup =
 image
-? `<img class="v9-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}">`
+? `<img class="v9-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}" loading="lazy" decoding="async">`
 : `<div class="v9-cast-no-image">NO IMAGE</div>`;
+
+const attendance = getTodayAttendanceState(scheduleText, schedule);
 
 return `
   <div class="v9-cast-photo image-premium">
@@ -928,7 +943,7 @@ return `
     <div class="v9-cast-name-row">
       <h3>${escapeHtml(name)}</h3>
       <span class="v9-cast-name-en">${escapeHtml(toDisplayRomaji(cast))}</span>
-      <span class="v9-cast-status badge-premium">本日出勤</span>
+      <span class="v9-cast-status badge-premium ${attendance.className}">${escapeHtml(attendance.label)}</span>
     </div>
 
     <dl class="v9-cast-meta">
@@ -944,10 +959,79 @@ return `
         <dt><span class="v9-meta-icon" aria-hidden="true">○</span><span>出勤時間</span></dt>
         <dd>${escapeHtml(scheduleText || "未定")}</dd>
       </div>
+      ${attendance.remaining ? `<div class="v9-cast-meta-row v6-remaining-time"><dt><span class="v9-meta-icon" aria-hidden="true">◷</span><span>残り</span></dt><dd>${escapeHtml(attendance.remaining)}</dd></div>` : ""}
     </dl>
+    ${createCastEngagementActions(cast, true)}
   </div>
 `;
 
+}
+
+function getTodayAttendanceState(scheduleText, schedule = null){
+  const time = String(schedule?.time || scheduleText || "").trim();
+  const startText = String(schedule?.start || schedule?.startTime || time.split(/[〜~～-]/)[0] || "").trim();
+  const endText = String(schedule?.end || schedule?.endTime || time.split(/[〜~～-]/)[1] || "").trim();
+  const startMinutes = parseShiftMinutes(startText);
+  const endMinutes = parseShiftMinutes(endText, true);
+  const now = getTokyoMinutesNow();
+
+  if(startMinutes === null) return { label:"本日出勤", className:"is-today", remaining:"" };
+  if(now < startMinutes){
+    const until = startMinutes - now;
+    return until <= 30
+      ? { label:"まもなく出勤", className:"is-soon", remaining:`あと${until}分` }
+      : { label:"本日出勤", className:"is-today", remaining:"" };
+  }
+  if(endMinutes !== null && now >= endMinutes){
+    return { label:"退勤済み", className:"is-finished", remaining:"" };
+  }
+  if(endMinutes !== null){
+    const remaining = Math.max(0,endMinutes-now);
+    const hours = Math.floor(remaining/60);
+    const minutes = remaining%60;
+    const text = hours > 0 ? `あと${hours}時間${minutes ? `${minutes}分` : ""}` : `あと${minutes}分`;
+    return { label:"本日出勤中", className:"is-working", remaining:text };
+  }
+  return { label:"本日出勤中", className:"is-working", remaining:"" };
+}
+
+function parseShiftMinutes(value, isEnd = false){
+  const text = String(value || "").trim().toUpperCase();
+  if(!text) return null;
+  if(text === "LAST") return 29 * 60;
+  const match = text.match(/(\d{1,2}):(\d{2})/);
+  if(!match) return null;
+  let minutes = Number(match[1]) * 60 + Number(match[2]);
+  if(isEnd && minutes < 12 * 60) minutes += 24 * 60;
+  return minutes;
+}
+
+function getTokyoMinutesNow(){
+  const parts = new Intl.DateTimeFormat("en-GB",{timeZone:TOKYO_TIME_ZONE,hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date());
+  const hour = Number(parts.find((part)=>part.type === "hour")?.value || 0);
+  const minute = Number(parts.find((part)=>part.type === "minute")?.value || 0);
+  return (hour < 12 ? hour + 24 : hour) * 60 + minute;
+}
+
+function createCastEngagementActions(cast, compact = false){
+  const id = String(cast?.id || cast?.name || "").trim();
+  if(!id) return "";
+  return `<div class="v6-cast-actions${compact ? " is-compact" : ""}">
+    <button type="button" class="v6-favorite-button" data-favorite-cast="${escapeAttribute(id)}" aria-label="${escapeAttribute(cast?.name || "キャスト")}をお気に入りに追加" aria-pressed="false">♡</button>
+    <a class="button-premium v6-line-cast-button" href="#" data-site-link="lineReservationUrl" data-cast-name="${escapeAttribute(cast?.name || "")}" target="_blank" rel="noopener"><span class="v6-line-icon" aria-hidden="true">LINE</span><span class="v6-line-label">LINE予約</span></a>
+  </div>`;
+}
+
+function applyCastSearchData(card, cast, isToday){
+  card.dataset.castId = String(cast?.id || cast?.name || "");
+  card.dataset.castName = String(cast?.name || "").toLowerCase();
+  card.dataset.castAge = String(cast?.age || "").replace(/\D/g,"");
+  card.dataset.castHeight = String(cast?.height || "").replace(/\D/g,"");
+  card.dataset.castBlood = String(cast?.bloodType || "").toLowerCase();
+  card.dataset.castHobby = String(cast?.hobby || "").toLowerCase();
+  card.dataset.castRecommended = String(isBadgeEnabled(cast?.isRecommended));
+  card.dataset.castNew = String(isBadgeEnabled(cast?.isNew));
+  card.dataset.castToday = String(isToday);
 }
 
 function toDisplayRomaji(cast){
@@ -970,7 +1054,8 @@ if(!card || !detailUrl) return;
 card.classList.add("today-schedule-link");
 card.setAttribute("role","link");
 card.setAttribute("tabindex","0");
-card.addEventListener("click",()=>{
+card.addEventListener("click",(event)=>{
+  if(event.target.closest("a,button,input,select,textarea,label")) return;
   window.location.href = detailUrl;
 });
 card.addEventListener("keydown",(event)=>{

@@ -9,7 +9,11 @@ import {
   doc,
   getDoc,
   getDocs,
-  getFirestore
+  getFirestore,
+  increment,
+  serverTimestamp,
+  setDoc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -40,8 +44,38 @@ async function initializeCastDetail() {
 
   renderCast(cast);
   setupFavorite(cast);
+  await recordCastView(cast);
   await loadWeeklySchedule(cast);
   document.body.classList.add("cast-detail-ready");
+}
+
+async function recordCastView(cast){
+  const castId=String(cast?.id||"").trim();
+  const output=document.getElementById("castViewCount");
+  const current=Number(cast?.viewCount||0);
+  if(output) output.textContent=current.toLocaleString("ja-JP");
+  if(!castId) return;
+  const today=getTokyoDateKey();
+  const sessionKey=`chouchou-view-${castId}-${today}`;
+  if(sessionStorage.getItem(sessionKey)) return;
+  try{
+    const weekKey=getWeekKey();
+    await Promise.all([
+      updateDoc(doc(db,"casts",castId),{viewCount:increment(1),lastViewedAt:serverTimestamp()}),
+      setDoc(doc(db,"castViews",`${castId}_${weekKey}`),{castId,castName:cast?.name||"",weekKey,count:increment(1),updatedAt:serverTimestamp()},{merge:true})
+    ]);
+    sessionStorage.setItem(sessionKey,"1");
+    if(output) output.textContent=(current+1).toLocaleString("ja-JP");
+  }catch(error){console.warn("閲覧数の保存をスキップしました",error);}
+}
+
+function getWeekKey(){
+  const today=getTokyoDateKey();
+  const [year,month,day]=today.split("-").map(Number);
+  const date=new Date(Date.UTC(year,month-1,day,12));
+  const mondayOffset=(date.getUTCDay()+6)%7;
+  date.setUTCDate(date.getUTCDate()-mondayOffset);
+  return date.toISOString().slice(0,10);
 }
 
 async function resolveCast() {
