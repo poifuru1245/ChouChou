@@ -89,8 +89,8 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
   }
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid > .cast-card.public-cast-card{
-    height:308px !important;
-    min-height:308px !important;
+    height:auto !important;
+    min-height:640px !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-photo{
@@ -110,8 +110,8 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
   }
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-info{
-    gap:4px !important;
-    padding:8px 9px 10px !important;
+    gap:10px !important;
+    padding:16px 12px 14px !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) .princess-home #gallery .premium-gallery-item > img.image-premium{
@@ -121,6 +121,99 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home :is(
     object-fit:cover !important;
     object-position:center !important;
   }
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid{
+  align-items:stretch !important;
+  grid-auto-rows:1fr !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid > .cast-card.public-cast-card{
+  display:flex !important;
+  flex-direction:column !important;
+  height:auto !important;
+  min-height:640px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .public-cast-photo{
+  flex:0 0 auto !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-image{
+  object-position:center top !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card > .cast-info.public-cast-info{
+  display:flex !important;
+  flex:1 1 auto !important;
+  flex-direction:column !important;
+  min-height:0 !important;
+  gap:10px !important;
+  padding:16px 12px 14px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list :is(
+  .public-cast-profile-line,
+  .public-cast-hobby,
+  .public-cast-schedule-row
+){
+  flex:0 0 auto !important;
+  margin:0 !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-hobby{
+  display:flex !important;
+  align-items:flex-start !important;
+  flex-wrap:wrap !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-hobby-value{
+  flex:1 1 52px !important;
+  min-width:0 !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  overflow-wrap:anywhere !important;
+  text-overflow:clip !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-schedule-row,
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-schedule-time{
+  max-width:100% !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  overflow-wrap:anywhere !important;
+  text-overflow:clip !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .cast-card.public-cast-card .public-profile-link{
+  flex:0 0 auto !important;
+  margin-top:auto !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list.premium-card-cast .public-cast-photo > .public-cast-badges.cast-badge-layer{
+  top:8px !important;
+  left:8px !important;
+  width:23px !important;
+  max-width:23px !important;
+  gap:2px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list.premium-card-cast .public-cast-photo > .public-cast-badges.cast-badge-layer :is(
+  .premium-cast-badge,
+  .premium-cast-badge-img,
+  img.premium-cast-badge-img-new,
+  img.premium-cast-badge-img-recommended
+){
+  flex:0 0 15px !important;
+  width:23px !important;
+  min-width:23px !important;
+  max-width:23px !important;
+  height:15px !important;
+  min-height:15px !important;
+  max-height:15px !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) :is(
