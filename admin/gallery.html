@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body class="admin-premium">
 
 <div class="admin-layout">
 
@@ -23,6 +23,8 @@
 <a href="schedule.html">出勤管理</a>
 <a href="news.html">お知らせ</a>
 <a href="gallery.html">ギャラリー</a>
+<a href="system.html">料金・メニュー</a>
+<a href="recruit.html">求人管理</a>
 <a href="settings.html">サイト設定</a>
 <a href="login.html">ログアウト</a>
 
@@ -36,6 +38,7 @@
 
   <div class="gallery-upload-form">
     <input type="text" id="galleryTitle" placeholder="タイトル（任意）">
+    <select id="galleryCategory"><option value="店内">店内</option><option value="VIP">VIP</option><option value="シャンパン">シャンパン</option><option value="イベント">イベント</option></select>
     <input type="file" id="galleryImages" accept="image/*" multiple>
     <button type="button" class="add-btn" id="uploadGallery">
       画像アップロード
@@ -61,7 +64,7 @@
 
 </div>
 
-<script type="module" src="../assets/app.js"></script>
+<script type="module" src="../assets/admin.js?v=5.8.0"></script>
 <script src="../assets/gallery-manager.js"></script>
 
 </body>

@@ -1,25 +1,12 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
 import {
-  getFirestore,
   collection,
   getDocs,
   doc,
   writeBatch,
-  serverTimestamp
+  serverTimestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCsNdnnTSJUIS2eO7P_Ks8eAmtm8ManDhY",
-  authDomain: "chouchou-susukino.firebaseapp.com",
-  projectId: "chouchou-susukino",
-  storageBucket: "chouchou-susukino.firebasestorage.app",
-  messagingSenderId: "611059453310",
-  appId: "1:611059453310:web:c693ea8a0ce465ac79b72f"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { db } from "./app.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 const DATE_RANGE_DAYS = 14;
@@ -1151,4 +1138,12 @@ function escapeAttribute(value) {
   return escapeHtml(value);
 }
 
-loadSchedule();
+let realtimeRefreshTimer = null;
+const queueRealtimeRefresh = () => {
+  clearTimeout(realtimeRefreshTimer);
+  realtimeRefreshTimer = setTimeout(() => {
+    if (!dirtyCells.size) loadSchedule();
+  }, 120);
+};
+onSnapshot(collection(db, "casts"), queueRealtimeRefresh, console.error);
+onSnapshot(collection(db, "schedules"), queueRealtimeRefresh, console.error);

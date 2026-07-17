@@ -9,6 +9,7 @@ import {
   collection,
   getDocs,
   getDoc,
+  onSnapshot,
   updateDoc,
   deleteDoc,
   doc
@@ -1029,6 +1030,58 @@ function setupHeroSlider() {
   }, 4800);
 }
 
+function setupManagedSystem() {
+  const homeList = document.querySelector("#system .system-price-card");
+  const interiorGroups = document.querySelector(".system-groups");
+  if (!homeList && !interiorGroups) return;
+
+  onSnapshot(collection(db, "systemItems"), (snapshot) => {
+    const items = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }))
+      .filter((item) => item.isPublished !== false)
+      .sort((a,b) => Number(a.displayOrder ?? 9999) - Number(b.displayOrder ?? 9999));
+    if (!items.length) return;
+
+    if (homeList) {
+      homeList.innerHTML = items.map((item) => `<div class="system-price-row"><span>${escapeHtml(item.label || "")}</span><strong>${escapeHtml(item.price || "")}</strong></div>`).join("");
+    }
+
+    if (interiorGroups) {
+      const labels = { fee:["Set Menu","セット料金"], drink:["Cast Drink","ドリンク"], champagne:["Champagne","シャンパンメニュー"] };
+      interiorGroups.innerHTML = ["fee","drink","champagne"].map((type) => {
+        const group = items.filter((item) => item.type === type);
+        if (!group.length) return "";
+        const [english,japanese] = labels[type];
+        return `<section class="system-group card-premium"><h2>${english}</h2><p class="system-group-label">${japanese}</p><dl class="system-menu-list">${group.map((item) => `<div><dt>${escapeHtml(item.label || "")}</dt><dd>${escapeHtml(item.price || "")}</dd></div>`).join("")}</dl></section>`;
+      }).join("");
+    }
+  }, (error) => console.error("料金リアルタイム読み込み失敗", error));
+}
+
+function setupManagedRecruit() {
+  const home = document.getElementById("recruit");
+  const interior = document.querySelector(".recruit-brand-layout");
+  if (!home && !interior) return;
+
+  onSnapshot(doc(db, "content", "recruit"), (snapshot) => {
+    if (!snapshot.exists()) return;
+    const data = snapshot.data();
+    const section = home || interior?.closest("section");
+    if (section) section.hidden = data.isPublished === false;
+    const title = home?.querySelector(".section-title h2") || interior?.querySelector("h2");
+    const lead = home?.querySelector(".recruit-v11-message") || interior?.querySelector("p");
+    const image = home?.querySelector(".recruit-v11-media img") || interior?.querySelector("img");
+    const benefits = home?.querySelector(".recruit-v11-points") || interior?.querySelector(".recruit-benefits");
+    const line = home?.querySelector(".recruit-v11-actions a:last-child") || interior?.querySelector(".interior-actions a:last-child");
+    if (title && data.title) title.textContent = data.title;
+    if (lead && (data.lead || data.description)) lead.textContent = data.lead || data.description;
+    if (image && data.imageUrl) image.src = data.imageUrl;
+    if (line && data.applicationLineUrl) line.href = data.applicationLineUrl;
+    if (benefits && Array.isArray(data.benefits) && data.benefits.length) {
+      benefits.innerHTML = data.benefits.map((benefit) => home ? `<li><span class="recruit-v11-point-icon" aria-hidden="true">✓</span><span>${escapeHtml(benefit)}</span></li>` : `<li>${escapeHtml(benefit)}</li>`).join("");
+    }
+  }, (error) => console.error("求人リアルタイム読み込み失敗", error));
+}
+
 loadReservations();
 loadRanking();
 loadTodayCast();
@@ -1038,3 +1091,5 @@ setupInstagramBrandGallery();
 setupPremiumHeader();
 setupRevealAnimations();
 setupHeroSlider();
+setupManagedSystem();
+setupManagedRecruit();

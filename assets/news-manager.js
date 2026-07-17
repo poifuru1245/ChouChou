@@ -5,6 +5,7 @@
 
 (async () => {
   const { db, storage } = await import("./app.js");
+  const { optimizeImage, getTokyoDateKey } = await import("./admin.js");
   const firestore = await import(
     "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
   );
@@ -15,6 +16,7 @@
   const {
     collection,
     getDocs,
+    onSnapshot,
     addDoc,
     updateDoc,
     deleteDoc,
@@ -55,6 +57,7 @@
     body: document.getElementById("newsBody"),
     category: document.getElementById("newsCategory"),
     linkUrl: document.getElementById("newsLinkUrl"),
+    publishDate: document.getElementById("newsPublishDate"),
     image: document.getElementById("newsImage"),
     published: document.getElementById("newsPublished"),
     pinned: document.getElementById("newsPinned"),
@@ -68,7 +71,18 @@
   if (!elements.grid) return;
 
   bindEvents();
-  await loadNews();
+  if (elements.publishDate) elements.publishDate.value = getTokyoDateKey();
+  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
+    if (state.isOrderDirty || state.isOrderSaving) return;
+    state.items = snapshot.docs.map((item) => normalizeNews({ id: item.id, ...item.data() }));
+    sortNewsItems(state.items);
+    renderNews();
+    state.savedOrder = getCurrentCardOrder();
+    setOrderDirty(false);
+  }, (error) => {
+    console.error("お知らせリアルタイム読み込み失敗", error);
+    elements.grid.innerHTML = "<p>お知らせの読み込みに失敗しました。</p>";
+  });
 
   function bindEvents() {
     elements.saveButton?.addEventListener("click", handleSave);
@@ -200,6 +214,8 @@
         category: formData.category || DEFAULT_CATEGORY,
         isPublished: formData.isPublished,
         isPinned: formData.isPinned,
+        publishDate: formData.publishDate,
+        isNew: false,
         updatedAt: serverTimestamp()
       };
 
@@ -230,6 +246,7 @@
       linkUrl: elements.linkUrl.value.trim(),
       isPublished: elements.published.checked,
       isPinned: elements.pinned.checked
+      ,publishDate: elements.publishDate?.value || getTokyoDateKey()
     };
   }
 
@@ -276,7 +293,8 @@
     const storagePath = createStoragePath(file);
     const storageRef = ref(storage, storagePath);
 
-    await uploadBytes(storageRef, file);
+    const optimizedFile = await optimizeImage(file, { maxWidth: 1600, maxHeight: 1200, quality: 0.84 });
+    await uploadBytes(storageRef, optimizedFile, { contentType: optimizedFile.type });
     const imageUrl = await getDownloadURL(storageRef);
 
     if (state.currentStoragePath) {
@@ -331,6 +349,7 @@
     elements.linkUrl.value = item.linkUrl || "";
     elements.published.checked = item.isPublished;
     elements.pinned.checked = item.isPinned;
+    if (elements.publishDate) elements.publishDate.value = item.publishDate || getTokyoDateKey();
     elements.image.value = "";
     elements.saveButton.textContent = "更新";
     showMessage("編集中です", "");
@@ -570,6 +589,7 @@
     elements.image.value = "";
     elements.published.checked = true;
     elements.pinned.checked = false;
+    if (elements.publishDate) elements.publishDate.value = getTokyoDateKey();
     elements.saveButton.textContent = "保存";
     showMessage("");
   }
@@ -647,6 +667,7 @@
       category: item.category || DEFAULT_CATEGORY,
       isPublished: item.isPublished !== false,
       isPinned: item.isPinned === true
+      ,publishDate: item.publishDate || ""
     };
   }
 

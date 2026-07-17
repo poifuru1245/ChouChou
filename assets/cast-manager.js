@@ -5,6 +5,7 @@
 
 (async () => {
   const { db, storage } = await import("./app.js");
+  const { optimizeImage } = await import("./admin.js");
   const firestore = await import(
     "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
   );
@@ -15,6 +16,7 @@
   const {
     collection,
     getDocs,
+    onSnapshot,
     addDoc,
     updateDoc,
     deleteDoc,
@@ -107,7 +109,18 @@
   setupOrderControls();
   setupTagOptions();
   bindEvents();
-  await loadCasts();
+  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
+    if (state.isOrderDirty || state.isOrderSaving) return;
+    const casts = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    sortCastsByDisplayOrder(casts);
+    state.allCasts = casts;
+    renderDashboard();
+    state.savedOrder = casts.map((cast) => cast.id).filter(Boolean);
+    setOrderDirty(false);
+  }, (error) => {
+    console.error("キャストリアルタイム読み込み失敗", error);
+    showError("キャスト情報の読み込みに失敗しました。");
+  });
 
   function bindEvents() {
     elements.openButton?.addEventListener("click", () => openForm());
@@ -1275,8 +1288,9 @@
     const uploads = files.map(async (file, index) => {
       if (!file) return currentImages[index] || "";
 
-      const storageRef = ref(storage, createStoragePath(file, index));
-      await uploadBytes(storageRef, file);
+      const optimizedFile = await optimizeImage(file, { maxWidth: 1600, maxHeight: 2000, quality: 0.86 });
+      const storageRef = ref(storage, createStoragePath(optimizedFile, index));
+      await uploadBytes(storageRef, optimizedFile, { contentType: optimizedFile.type });
       return getDownloadURL(storageRef);
     });
 

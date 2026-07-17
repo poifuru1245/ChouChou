@@ -1,6 +1,6 @@
 import {
   collection,
-  getDocs
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import { db } from "./app.js";
@@ -23,9 +23,8 @@ if (elements.grids.length) {
   bindLightboxEvents();
 }
 
-async function loadGallery() {
-  try {
-    const snapshot = await getDocs(collection(db, COLLECTION_NAME));
+function loadGallery() {
+  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
     const items = [];
 
     snapshot.forEach((docSnap) => {
@@ -37,12 +36,12 @@ async function loadGallery() {
 
     sortGalleryItems(items);
     renderGallery(items);
-  } catch (error) {
+  }, (error) => {
     console.error("ギャラリー読み込み失敗", error);
     elements.grids.forEach((grid) => {
       grid.innerHTML = `<p class="gallery-empty">ギャラリーの読み込みに失敗しました。</p>`;
     });
-  }
+  });
 }
 
 function renderGallery(items) {

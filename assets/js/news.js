@@ -1,6 +1,6 @@
 import {
   collection,
-  getDocs
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import { db } from "../app.js";
@@ -15,9 +15,8 @@ if (lists.length) {
   loadPublicNews();
 }
 
-async function loadPublicNews() {
-  try {
-    const snapshot = await getDocs(collection(db, COLLECTION_NAME));
+function loadPublicNews() {
+  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
     const items = [];
 
     snapshot.forEach((docSnap) => {
@@ -26,20 +25,20 @@ async function loadPublicNews() {
         ...docSnap.data()
       });
 
-      if (item.isPublished) {
+      if (item.isPublished && isPublishDateReached(item.publishDate)) {
         items.push(item);
       }
     });
 
     sortNewsItems(items);
     renderNews(items);
-  } catch (error) {
+  }, (error) => {
     console.error("公開お知らせ読み込み失敗", error);
     lists.forEach((list) => {
       updateNewsListState(list, 0);
       list.innerHTML = `<p class="public-news-empty">お知らせの読み込みに失敗しました。</p>`;
     });
-  }
+  });
 }
 
 function renderNews(items) {
@@ -178,7 +177,13 @@ function getCreatedAtTime(item) {
 }
 
 function getNewsTimestamp(item) {
-  return getTimestampValue(item?.createdAt) || getTimestampValue(item?.updatedAt);
+  return getTimestampValue(item?.publishDate) || getTimestampValue(item?.createdAt) || getTimestampValue(item?.updatedAt);
+}
+
+function isPublishDateReached(value) {
+  if (!value) return true;
+  const publishDate = Date.parse(`${value}T00:00:00+09:00`);
+  return !Number.isFinite(publishDate) || publishDate <= Date.now();
 }
 
 function getTimestampValue(value) {

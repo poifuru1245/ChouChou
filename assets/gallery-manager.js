@@ -5,6 +5,7 @@
 
 (async () => {
   const { db, storage } = await import("./app.js");
+  const { optimizeImage } = await import("./admin.js");
   const firestore = await import(
     "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
   );
@@ -15,6 +16,7 @@
   const {
     collection,
     getDocs,
+    onSnapshot,
     addDoc,
     updateDoc,
     deleteDoc,
@@ -47,6 +49,7 @@
   const elements = {
     grid: document.getElementById("galleryGrid"),
     title: document.getElementById("galleryTitle"),
+    category: document.getElementById("galleryCategory"),
     files: document.getElementById("galleryImages"),
     uploadButton: document.getElementById("uploadGallery"),
     message: document.getElementById("galleryMessage"),
@@ -57,7 +60,17 @@
   if (!elements.grid) return;
 
   bindEvents();
-  await loadGallery();
+  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
+    if (state.isOrderDirty || state.isOrderSaving) return;
+    state.items = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    sortGalleryItems(state.items);
+    renderGallery();
+    state.savedOrder = getCurrentCardOrder();
+    setOrderDirty(false);
+  }, (error) => {
+    console.error("ギャラリーリアルタイム読み込み失敗", error);
+    elements.grid.innerHTML = "<p>ギャラリーの読み込みに失敗しました。</p>";
+  });
 
   function bindEvents() {
     elements.uploadButton?.addEventListener("click", handleUpload);
@@ -137,6 +150,9 @@
       </button>
       <img src="${escapeAttribute(item.imageUrl || "")}" alt="${escapeAttribute(item.title || "")}">
       <div class="gallery-admin-card-body">
+        <select class="gallery-category-select" data-id="${item.id}">
+          ${["店内","VIP","シャンパン","イベント"].map((category) => `<option value="${category}" ${item.category === category ? "selected" : ""}>${category}</option>`).join("")}
+        </select>
         <input
           type="text"
           class="gallery-title-input"
@@ -146,7 +162,7 @@
         >
         <div class="gallery-card-buttons">
           <button type="button" class="edit-btn" data-action="save-title" data-id="${item.id}">
-            タイトル保存
+            内容を保存
           </button>
           <button type="button" class="delete-btn" data-action="delete" data-id="${item.id}">
             削除
@@ -163,6 +179,7 @@
 
     const files = [...elements.files?.files || []];
     const title = elements.title?.value.trim() || "";
+    const category = elements.category?.value || "店内";
     const validation = validateFiles(files);
 
     if (!validation.valid) {
@@ -177,14 +194,16 @@
       let nextOrder = await getNextDisplayOrder();
 
       for (const file of files) {
-        const storagePath = createStoragePath(file);
+        const optimizedFile = await optimizeImage(file, { maxWidth: 1800, maxHeight: 1800, quality: 0.86 });
+        const storagePath = createStoragePath(optimizedFile);
         const storageRef = ref(storage, storagePath);
 
-        await uploadBytes(storageRef, file);
+        await uploadBytes(storageRef, optimizedFile, { contentType: optimizedFile.type });
         const imageUrl = await getDownloadURL(storageRef);
 
         await addDoc(collection(db, COLLECTION_NAME), {
           title,
+          category,
           imageUrl,
           storagePath,
           displayOrder: nextOrder,
@@ -228,9 +247,9 @@
 
   function handleGridChange(event) {
     const target = event.target;
-    if (!(target instanceof HTMLInputElement)) return;
+    if (!(target instanceof HTMLInputElement) && !(target instanceof HTMLSelectElement)) return;
 
-    if (target.classList.contains("gallery-title-input")) {
+    if (target.classList.contains("gallery-title-input") || target.classList.contains("gallery-category-select")) {
       target.dataset.dirty = "true";
     }
   }
@@ -238,19 +257,24 @@
   async function saveTitle(id) {
     const input = elements.grid.querySelector(`.gallery-title-input[data-id="${cssEscape(id)}"]`);
     const nextTitle = input?.value.trim() || "";
+    const categoryInput = elements.grid.querySelector(`.gallery-category-select[data-id="${cssEscape(id)}"]`);
+    const nextCategory = categoryInput?.value || "店内";
     const item = state.items.find((entry) => entry.id === id);
 
-    if (!item || (item.title || "") === nextTitle) {
+    if (!item || ((item.title || "") === nextTitle && (item.category || "店内") === nextCategory)) {
       setMessage("変更はありません。");
       return;
     }
 
     try {
       await updateDoc(doc(db, COLLECTION_NAME, id), {
-        title: nextTitle
+        title: nextTitle,
+        category: nextCategory,
+        updatedAt: serverTimestamp()
       });
 
       item.title = nextTitle;
+      item.category = nextCategory;
       if (input) input.dataset.dirty = "false";
       setMessage("タイトルを保存しました", "success");
     } catch (error) {
