@@ -1,8 +1,14 @@
 import { subscribeCollection, subscribeDocument } from "./js/services/firestoreService.js";
 import { escapeHtml } from "./js/utils/dom.js";
 import { bootstrapPage } from "./js/pages/bootstrapPage.js";
+import { signOutUser, waitForAuthUser } from "./js/services/authService.js";
+import { canAccessAdminRoute, getUserAccessProfile, hasPermission, isActiveUser, permissionForAdminHref, roleLabel } from "./js/services/roleService.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
+
+document.documentElement.classList.add("rbac-pending");
+export const adminSession = await requireAdminAccess();
+document.documentElement.classList.remove("rbac-pending");
 
 export { subscribeCollection, subscribeDocument };
 
@@ -56,6 +62,49 @@ function setupAdminNavigation() {
     button.setAttribute("aria-expanded", String(open));
   });
   sidebar.insertBefore(button, sidebar.children[1] || null);
+}
+
+async function requireAdminAccess() {
+  try {
+    const user = await waitForAuthUser();
+    if (!user) return redirectAndHalt(`login.html?return=${encodeURIComponent(location.pathname.split("/").pop() || "dashboard.html")}`);
+    const profile = await getUserAccessProfile(user, { force:true });
+    if (!isActiveUser(profile)) return redirectAndHalt(`403.html?reason=${profile ? "inactive" : "profile"}`);
+    if (profile.role === "cast") return redirectAndHalt("../cast-portal.html");
+    if (!canAccessAdminRoute(profile)) return redirectAndHalt(`403.html?reason=permission&from=${encodeURIComponent(location.pathname.split("/").pop() || "")}`);
+    setupRoleAwareNavigation(profile);
+    return { user, profile };
+  } catch (error) {
+    console.error("管理画面認証確認失敗", error);
+    return redirectAndHalt("login.html?error=auth");
+  }
+}
+
+function setupRoleAwareNavigation(profile) {
+  const sidebar = document.querySelector(".sidebar");
+  if (!sidebar) return;
+  sidebar.querySelectorAll('a[href$=".html"]').forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    if (href === "login.html") return;
+    const permission = permissionForAdminHref(href);
+    if (permission && !hasPermission(profile, permission)) link.remove();
+  });
+  const panel = document.createElement("div");
+  panel.className = "admin-user-panel";
+  panel.innerHTML = `<span>LOGIN USER</span><strong>${escapeHtml(profile.displayName)}</strong><small>${escapeHtml(roleLabel(profile.role))}</small><button type="button">ログアウト</button>`;
+  panel.querySelector("button").addEventListener("click", logoutAdminUser);
+  sidebar.append(panel);
+  sidebar.querySelectorAll('a[href="login.html"]').forEach((link) => link.remove());
+}
+
+async function logoutAdminUser() {
+  try { await signOutUser(); }
+  finally { location.replace("login.html"); }
+}
+
+function redirectAndHalt(url) {
+  location.replace(url);
+  return new Promise(() => {});
 }
 
 function setupImagePreviews() {

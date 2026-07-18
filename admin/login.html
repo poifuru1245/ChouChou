@@ -1,15 +1,27 @@
-<form action="dashboard.html">
-
-<input
-type="email"
-placeholder="メールアドレス">
-
-<input
-type="password"
-placeholder="パスワード">
-
-<button type="submit">
-ログイン
-</button>
-
-</form>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>管理画面ログイン | Chou Chou</title>
+  <link rel="stylesheet" href="../assets/css/admin.css?v=rbac-1">
+</head>
+<body class="admin-auth-page">
+  <main class="admin-auth-shell">
+    <section class="admin-auth-card" aria-labelledby="adminLoginTitle">
+      <span>PRIVATE MANAGEMENT</span>
+      <h1 id="adminLoginTitle">Chou Chou</h1>
+      <p>管理画面ログイン</p>
+      <form id="adminLoginForm" novalidate>
+        <label class="admin-field"><span>メールアドレス</span><input name="email" type="email" autocomplete="username" required></label>
+        <label class="admin-field"><span>パスワード</span><input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
+        <button id="adminLoginButton" class="admin-primary-button" type="submit">ログイン</button>
+      </form>
+      <button id="adminPasswordReset" class="admin-auth-reset" type="button">パスワードをお忘れの方</button>
+      <p id="adminLoginMessage" class="admin-status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script type="module" src="../assets/admin-login.js?v=rbac-1"></script>
+</body>
+</html>

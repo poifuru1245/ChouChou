@@ -14,6 +14,7 @@ import {
   uploadOwnProfilePhoto
 } from "./js/services/castPortalService.js";
 import { calculateMonthlyPayroll } from "./js/services/payrollService.js";
+import { getUserAccessProfile, hasPermission, isActiveUser } from "./js/services/roleService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
 
 const PLACEHOLDER_IMAGE = "assets/images/cast-portal-placeholder.svg";
@@ -56,6 +57,11 @@ async function handleAuthState(user) {
   if (!user) return showLogin();
   showLoading("キャスト情報を確認しています...");
   try {
+    const accessProfile = await getUserAccessProfile(user, { force:true });
+    if (!isActiveUser(accessProfile) || accessProfile.role !== "cast" || !hasPermission(accessProfile, "cast-portal:own")) {
+      await signOutCast();
+      return showLogin("このアカウントにはキャストマイページの利用権限がありません。管理者へusersロールの確認をご依頼ください。", "error");
+    }
     const cast = await findCastForAuthenticatedUser(user);
     if (!cast) {
       await signOutCast();

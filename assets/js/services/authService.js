@@ -15,12 +15,26 @@ export function subscribeAuth(callback, onError = console.error) {
 }
 
 export async function signInCast(email, password) {
+  return signInUser(email, password);
+}
+
+export async function signInUser(email, password) {
   await ensurePersistence();
   return signInWithEmailAndPassword(auth, String(email || "").trim(), String(password || ""));
 }
 
 export function signOutCast() {
+  return signOutUser();
+}
+
+export function signOutUser() {
   return signOut(auth);
+}
+
+export function waitForAuthUser() {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => { unsubscribe(); resolve(user); }, reject);
+  });
 }
 
 export async function requestPasswordReset(email) {

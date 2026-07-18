@@ -11,7 +11,7 @@ import {
   updateReservation,
   updateReservationSchedule,
   updateReservationStatus
-} from "./js/services/reservationService.js";
+} from "./services/reservationService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
 
 const form = document.getElementById("reservationForm");

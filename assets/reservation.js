@@ -1,5 +1,5 @@
 import { getCollection } from "./js/services/firestoreService.js";
-import { createReservation } from "./js/services/reservationService.js";
+import { createReservation } from "./services/reservationService.js";
 import { announce } from "./js/utils/dom.js";
 
 const castList = [];

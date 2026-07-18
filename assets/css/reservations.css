@@ -1,0 +1,10 @@
+@import url("./admin.css?v=8.4.0");
+
+/*
+ * Ver8.4 予約管理専用エントリーポイント。
+ * 既存管理画面のデザインシステムを継承し、予約画面だけを独立して配信する。
+ */
+.reservations-admin-page{
+  --reservation-accent:#d86099;
+  --reservation-gold:#c29440;
+}

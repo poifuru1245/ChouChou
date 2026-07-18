@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>アクセス権限がありません | Chou Chou</title>
+  <link rel="stylesheet" href="../assets/css/admin.css?v=rbac-1">
+</head>
+<body class="admin-auth-page">
+  <main class="admin-auth-shell">
+    <section class="admin-auth-card admin-forbidden-card">
+      <span>ACCESS DENIED</span><strong>403</strong><h1>アクセス権限がありません</h1>
+      <p>このページを閲覧する権限がないか、アカウントが利用停止中です。</p>
+      <p id="forbiddenUser" class="admin-forbidden-user" aria-live="polite"></p>
+      <div class="admin-auth-actions"><a id="forbiddenHome" href="login.html">利用可能な画面へ</a><button id="forbiddenLogout" type="button">別のアカウントでログイン</button></div>
+    </section>
+  </main>
+  <script type="module" src="../assets/forbidden.js?v=rbac-1"></script>
+</body>
+</html>
