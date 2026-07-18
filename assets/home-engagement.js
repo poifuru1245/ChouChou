@@ -1,5 +1,4 @@
-import { collection, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db } from "./app.js";
+import { subscribeCollection, subscribeDocument } from "./js/services/firestoreService.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 const state = { schedules: [] };
@@ -15,8 +14,8 @@ function setupHomeSettings() {
   const instagramSection = document.getElementById("instagram");
   if (!eventSection && !instagramSection) return;
 
-  onSnapshot(doc(db, "settings", "site"), (snapshot) => {
-    const settings = snapshot.exists() ? snapshot.data() : {};
+  subscribeDocument("settings", "site", (data) => {
+    const settings = data || {};
     lastSiteSettings = settings;
     if (instagramSection) instagramSection.hidden = settings.instagramSectionEnabled === false;
     if (eventSection && !eventSection.dataset.managedEvent) renderEventBanner(settings, eventSection);
@@ -29,9 +28,9 @@ function setupHomeSettings() {
 function setupManagedEvents() {
   const section = document.getElementById("homeEventBanner");
   if (!section) return;
-  onSnapshot(collection(db, "events"), (snapshot) => {
+  subscribeCollection("events", (events) => {
     const now = Date.now();
-    const event = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }))
+    const event = events
       .filter((item) => item.isPublished !== false && isWithinDateTime(item.publishStart || item.startDate, item.publishEnd || item.endDate, now))
       .sort((a, b) => toMillis(b.publishStart || b.startDate || b.createdAt) - toMillis(a.publishStart || a.startDate || a.createdAt))[0];
     if (!event) {
@@ -82,9 +81,8 @@ function setupNewCasts() {
   const list = document.getElementById("newCastList");
   if (!section || !list) return;
 
-  onSnapshot(collection(db, "casts"), (snapshot) => {
-    const casts = snapshot.docs
-      .map((item) => ({ id: item.id, ...item.data() }))
+  subscribeCollection("casts", (rows) => {
+    const casts = rows
       .filter((cast) => cast.isPublished !== false && (isEnabled(cast.isNewcomer) || isEnabled(cast.isNew)))
       .sort(compareDisplayOrder)
       .slice(0, 3);
@@ -136,8 +134,8 @@ function setupAttendanceFlash() {
     output.dataset.count = String(upcomingKeys.size);
   };
 
-  onSnapshot(collection(db, "schedules"), (snapshot) => {
-    state.schedules = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+  subscribeCollection("schedules", (rows) => {
+    state.schedules = rows;
     render();
   }, (error) => {
     console.error("出勤速報の読み込みに失敗しました", error);

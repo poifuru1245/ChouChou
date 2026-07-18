@@ -1,4 +1,4 @@
-import { db } from "./app.js";
+import { db } from "./js/firebase/firebaseClient.js";
 import "./admin.js";
 import { addDoc, collection, deleteDoc, doc, onSnapshot, serverTimestamp, updateDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 

@@ -1,12 +1,11 @@
-import { collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db } from "./app.js";
+import { subscribeCollection } from "./js/services/firestoreService.js";
 
 const list = document.getElementById("weeklyRankingList");
 const state = { casts: [], views: [] };
 
 if(list){
-  onSnapshot(collection(db,"casts"),(snapshot)=>{state.casts=snapshot.docs.map((item)=>({id:item.id,...item.data()}));render();},showError);
-  onSnapshot(collection(db,"castViews"),(snapshot)=>{state.views=snapshot.docs.map((item)=>({id:item.id,...item.data()}));render();},(error)=>{console.warn("週間閲覧数を取得できませんでした",error);render();});
+  subscribeCollection("casts",(rows)=>{state.casts=rows;render();},showError);
+  subscribeCollection("castViews",(rows)=>{state.views=rows;render();},(error)=>{console.warn("週間閲覧数を取得できませんでした",error);render();});
 }
 
 function render(){

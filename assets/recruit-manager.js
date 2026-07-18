@@ -1,4 +1,4 @@
-import { db, storage } from "./app.js";
+import { db, storage } from "./js/firebase/firebaseClient.js";
 import { optimizeImage, subscribeDocument } from "./admin.js";
 import { doc, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getDownloadURL, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";

@@ -1,4 +1,4 @@
-import { db, storage } from "./app.js";
+import { db, storage } from "./js/firebase/firebaseClient.js";
 import { optimizeImage } from "./admin.js";
 import {
   doc,

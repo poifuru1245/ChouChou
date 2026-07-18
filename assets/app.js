@@ -1,38 +1,13 @@
-import {
-  initializeApp,
-  getApp,
-  getApps
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  getDoc,
-  onSnapshot,
-  updateDoc,
-  deleteDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import {
-  getStorage
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 import "./engagement.js?v=7.2.0";
+import { app, db, storage } from "./js/firebase/firebaseClient.js";
+import { getCollection, getDocument, removeDocument, subscribeCollection, subscribeDocument, updateDocument } from "./js/services/firestoreService.js";
+import { escapeAttribute, escapeHtml, setText } from "./js/utils/dom.js";
+import { setBusy, showPageError } from "./js/ui/pageState.js";
+import { bootstrapPage } from "./js/pages/bootstrapPage.js";
+import { loadingMarkup } from "./js/components/uiComponents.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCsNdnnTSJUIS2eO7P_Ks8eAmtm8ManDhY",
-  authDomain: "chouchou-susukino.firebaseapp.com",
-  projectId: "chouchou-susukino",
-  storageBucket: "chouchou-susukino.firebasestorage.app",
-  messagingSenderId: "611059453310",
-  appId: "1:611059453310:web:c693ea8a0ce465ac79b72f",
-  measurementId: "G-PR6J8WFEWL"
-};
-
-export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+export { app, db, storage };
+bootstrapPage({ pageName:"public" });
 
 let currentFilter = "today";
 let searchKeyword = "";
@@ -45,11 +20,13 @@ async function loadReservations() {
 
   if (!reservationList) return;
 
-  reservationList.innerHTML = "";
+  reservationList.innerHTML = loadingMarkup("予約情報を読み込み中...");
+  setBusy(reservationList, true, "予約情報を読み込み中");
   ranking = {};
 
   try {
-    const snapshot = await getDocs(collection(db, "reservations"));
+    const reservations = await getCollection("reservations", { force: true });
+    reservationList.innerHTML = "";
 
     let pending = 0;
     let confirmed = 0;
@@ -57,8 +34,7 @@ async function loadReservations() {
     let canceled = 0;
     const today = new Date().toLocaleDateString("sv-SE");
 
-    snapshot.forEach((docSnap) => {
-      const data = docSnap.data();
+    reservations.forEach((data) => {
 
       [data.cast1, data.cast2, data.cast3].forEach((cast) => {
         if (!cast || cast === "なし") return;
@@ -76,7 +52,7 @@ async function loadReservations() {
 
       reservationList.insertAdjacentHTML(
         "beforeend",
-        createReservationCard(docSnap.id, data, status)
+        createReservationCard(data.id, data, status)
       );
     });
 
@@ -84,12 +60,14 @@ async function loadReservations() {
     setText("countConfirmed", `${confirmed}件`);
     setText("countVisited", `${visited}件`);
     setText("countCanceled", `${canceled}件`);
-    setText("reservationCount", `${snapshot.size}件`);
+    setText("reservationCount", `${reservations.length}件`);
 
     renderReservationRanking();
   } catch (error) {
     console.error("予約読み込み失敗", error);
-    reservationList.innerHTML = "予約情報の読み込みに失敗しました。";
+    showPageError(reservationList, "予約情報の読み込みに失敗しました。通信状況をご確認ください。");
+  } finally {
+    setBusy(reservationList, false);
   }
 }
 
@@ -158,15 +136,7 @@ async function loadRanking() {
   rankingList.innerHTML = "";
 
   try {
-    const snapshot = await getDocs(collection(db, "casts"));
-    const casts = [];
-
-    snapshot.forEach((docSnap) => {
-      casts.push({
-        id: docSnap.id,
-        ...docSnap.data()
-      });
-    });
+    const casts = await getCollection("casts");
 
     casts
       .sort((a, b) => Number(b.nominate || 0) - Number(a.nominate || 0))
@@ -197,17 +167,9 @@ async function loadTodayCast() {
   if (!wrap) return;
 
   try {
-    const snapshot = await getDocs(collection(db, "casts"));
-    const casts = [];
+    const casts = await getCollection("casts");
 
     wrap.innerHTML = "";
-
-    snapshot.forEach((item) => {
-      casts.push({
-        id: item.id,
-        ...item.data()
-      });
-    });
 
     sortCastsByDisplayOrder(casts);
 
@@ -253,7 +215,7 @@ document.addEventListener("click", async (event) => {
     if (!id || !confirm("削除しますか？")) return;
 
     try {
-      await deleteDoc(doc(db, "reservations", id));
+      await removeDocument("reservations", id);
       await loadReservations();
     } catch (error) {
       console.error("予約削除失敗", error);
@@ -284,7 +246,7 @@ document.addEventListener("click", async (event) => {
   if (!statusClass) return;
 
   try {
-    await updateDoc(doc(db, "reservations", id), {
+    await updateDocument("reservations", id, {
       status: statusMap[statusClass]
     });
     await loadReservations();
@@ -308,24 +270,6 @@ document.getElementById("searchReservation")?.addEventListener("input", (event) 
   searchKeyword = event.target.value.toLowerCase();
   loadReservations();
 });
-
-function setText(id, value) {
-  const element = document.getElementById(id);
-  if (element) element.textContent = value;
-}
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function escapeAttribute(value) {
-  return escapeHtml(value).replaceAll("`", "&#096;");
-}
 
 function sortCastsByDisplayOrder(casts) {
   casts.sort((a, b) => {
@@ -735,8 +679,7 @@ async function setupSiteSettings() {
   if (!configurableElements.length) return;
 
   try {
-    const settingsSnapshot = await getDoc(doc(db, "settings", "site"));
-    const settings = settingsSnapshot.exists() ? settingsSnapshot.data() : {};
+    const settings = await getDocument("settings", "site") || {};
     applySiteSettings(settings);
     if("MutationObserver" in window){
       new MutationObserver((mutations)=>{
@@ -915,16 +858,11 @@ async function setupInstagramBrandGallery() {
   grid.dataset.instagramState = "loading";
 
   try {
-    const snapshot = await getDocs(collection(db, "gallery"));
+    const galleryItems = await getCollection("gallery");
     const limit = Number(grid.dataset.limit || 6);
     const posts = [];
 
-    snapshot.forEach((docSnap) => {
-      const post = {
-        id: docSnap.id,
-        ...docSnap.data()
-      };
-
+    galleryItems.forEach((post) => {
       if (post.imageUrl) posts.push(post);
     });
 
@@ -1044,8 +982,8 @@ function setupManagedSystem() {
   const interiorGroups = document.querySelector(".system-groups");
   if (!homeList && !interiorGroups) return;
 
-  onSnapshot(collection(db, "systemItems"), (snapshot) => {
-    const items = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }))
+  subscribeCollection("systemItems", (rows) => {
+    const items = rows
       .filter((item) => item.isPublished !== false)
       .sort((a,b) => Number(a.displayOrder ?? 9999) - Number(b.displayOrder ?? 9999));
     if (!items.length) return;
@@ -1071,9 +1009,8 @@ function setupManagedRecruit() {
   const interior = document.querySelector(".recruit-brand-layout");
   if (!home && !interior) return;
 
-  onSnapshot(doc(db, "content", "recruit"), (snapshot) => {
-    if (!snapshot.exists()) return;
-    const data = snapshot.data();
+  subscribeDocument("content", "recruit", (data) => {
+    if (!data) return;
     const section = home || interior?.closest("section");
     if (section) section.hidden = data.isPublished === false;
     const title = home?.querySelector(".section-title h2") || interior?.querySelector("h2");

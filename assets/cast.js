@@ -1,52 +1,23 @@
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  onSnapshot
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getCollection, subscribeCollection } from "./js/services/firestoreService.js";
+import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
+import { setBusy, showPageError } from "./js/ui/pageState.js";
+import { bootstrapPage } from "./js/pages/bootstrapPage.js";
+import { imageMarkup as createImageMarkup, skeletonMarkup } from "./js/components/uiComponents.js";
+import { getCastImages, getCastTags as getTags, getMainCastImage as getMainImage, isEnabledFlag as isBadgeEnabled, sortCastsByDisplayOrder } from "./js/services/castService.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCsNdnnTSJUIS2eO7P_Ks8eAmtm8ManDhY",
-  authDomain: "chouchou-susukino.firebaseapp.com",
-  projectId: "chouchou-susukino",
-  storageBucket: "chouchou-susukino.firebasestorage.app",
-  messagingSenderId: "611059453310",
-  appId: "1:611059453310:web:c693ea8a0ce465ac79b72f"
-};
-
-import {
-  initializeApp,
-  getApps,
-  getApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-const app =
-getApps().length
- ? getApp()
- : initializeApp(firebaseConfig);
-
-const db = getFirestore(app);
+bootstrapPage({ pageName:"cast" });
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 
 async function loadCasts() {
 
-const scheduleSnapshot =
-await getDocs(
-  collection(db,"schedules")
-);
+const schedules = await getCollection("schedules", { force: true });
 
 const today =
 getTokyoDateKey();
 
 const todayCasts = [];
 
-scheduleSnapshot.forEach((docSnap)=>{
-
-  const schedule = {
-    id: docSnap.id,
-    ...docSnap.data()
-  };
+schedules.forEach((schedule)=>{
 
   const scheduleDate =
   getScheduleDateKey(schedule);
@@ -70,26 +41,13 @@ scheduleSnapshot.forEach((docSnap)=>{
 
 });
 
-  const snapshot =
-    await getDocs(collection(db,"casts"));
-
-  const casts = [];
-
-  snapshot.forEach((docSnap)=>{
-
-    const cast = {
-      id: docSnap.id,
-      ...docSnap.data()
-    };
-
-    if (cast.isPublished !== false) casts.push(cast);
-
-  });
+  const casts = (await getCollection("casts", { force: true }))
+    .filter((cast) => cast.isPublished !== false);
 
   sortCastsByDisplayOrder(casts);
 
   renderPrincessPickUp(casts);
-  loadAllCasts(todayCasts);
+  loadAllCasts(todayCasts, casts);
 
   const list =
 document.querySelector(".v9-cast-list, .cast-grid");
@@ -219,10 +177,7 @@ if(!todayCast){
 
 const image =
 getMainImage(cast);
-const imageMarkup =
-image
-? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}" loading="lazy" decoding="async">`
-: `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
+const imageMarkup = createImageMarkup({ src:image, alt:cast.name || "", className:"public-cast-image", fallbackClassName:"cast-card-no-image public-cast-image" });
 const badgeMarkup =
 createCastBadgeMarkup(cast);
 const tagsMarkup =
@@ -295,28 +250,29 @@ let realtimeRefreshTimer = null;
 function queueRealtimeCastRefresh() {
   window.clearTimeout(realtimeRefreshTimer);
   realtimeRefreshTimer = window.setTimeout(() => {
-    loadCasts().catch((error) => console.error("キャスト表示更新失敗", error));
+    const roots = document.querySelectorAll(".v9-cast-list, .cast-grid, .all-cast-grid");
+    roots.forEach((root) => {
+      setBusy(root, true, "キャスト情報を読み込み中");
+      if (!root.children.length || root.textContent.trim() === "読み込み中...") root.innerHTML = skeletonMarkup(3);
+    });
+    loadCasts()
+      .catch(showCastLoadError)
+      .finally(() => roots.forEach((root) => setBusy(root, false)));
   }, 80);
 }
 
-onSnapshot(collection(db, "casts"), queueRealtimeCastRefresh, console.error);
-onSnapshot(collection(db, "schedules"), queueRealtimeCastRefresh, console.error);
+function showCastLoadError(error) {
+  console.error("キャスト表示更新失敗", error);
+  const target = document.querySelector(".v9-cast-list, .cast-grid, .all-cast-grid");
+  showPageError(target, "キャスト情報を読み込めませんでした。通信状況をご確認ください。");
+}
 
-async function loadAllCasts(todayCasts = []){
+subscribeCollection("casts", queueRealtimeCastRefresh, showCastLoadError);
+subscribeCollection("schedules", queueRealtimeCastRefresh, showCastLoadError);
 
-const snapshot =
-await getDocs(collection(db,"casts"));
+async function loadAllCasts(todayCasts = [], suppliedCasts = null){
 
-const casts = [];
-
-snapshot.forEach((docSnap)=>{
-
-casts.push({
-id: docSnap.id,
-...docSnap.data()
-});
-
-});
+const casts = suppliedCasts ? [...suppliedCasts] : await getCollection("casts");
 
 sortCastsByDisplayOrder(casts);
 
@@ -347,10 +303,7 @@ div.className = "cast-card public-cast-card";
 
 const image =
 getMainImage(cast);
-const imageMarkup =
-image
-? `<img class="public-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}" loading="lazy" decoding="async">`
-: `<div class="cast-card-no-image public-cast-image">NO IMAGE</div>`;
+const imageMarkup = createImageMarkup({ src:image, alt:cast.name || "", className:"public-cast-image", fallbackClassName:"cast-card-no-image public-cast-image" });
 const todaySchedule =
 todayCasts.find((schedule)=>isScheduleForCast(schedule,cast));
 const isToday = Boolean(todaySchedule || (!todayCasts.length && String(cast?.schedule || "").trim()));
@@ -661,10 +614,7 @@ return;
 const image =
 getMainImage(cast);
 
-const imageMarkup =
-image
-? `<img class="princess-pickup-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(cast.name || "")}" loading="lazy" decoding="async">`
-: `<div class="princess-pickup-no-image">NO IMAGE</div>`;
+const imageMarkup = createImageMarkup({ src:image, alt:cast.name || "", className:"princess-pickup-image", fallbackClassName:"princess-pickup-no-image" });
 
 const detailUrl =
 createCastDetailUrl(cast);
@@ -784,84 +734,6 @@ cast?.catchCopy ||
 
 }
 
-function sortCastsByDisplayOrder(casts){
-
-casts.sort((a,b)=>{
-
-const aOrder =
-getNumericDisplayOrder(a);
-
-const bOrder =
-getNumericDisplayOrder(b);
-
-if(
-aOrder !== null &&
-bOrder !== null
-){
-return aOrder - bOrder;
-}
-
-if(aOrder !== null) return -1;
-if(bOrder !== null) return 1;
-
-return String(a.name || "")
-.localeCompare(
-String(b.name || ""),
-"ja"
-);
-
-});
-
-}
-
-function getNumericDisplayOrder(cast){
-
-const order =
-cast?.displayOrder;
-
-if(
-order === undefined ||
-order === null ||
-order === ""
-){
-return null;
-}
-
-const numericOrder =
-Number(order);
-
-return Number.isFinite(numericOrder)
-? numericOrder
-: null;
-
-}
-
-function getCastImages(cast){
-
-const images =
-Array.isArray(cast?.images)
-? cast.images.filter(Boolean)
-: [];
-
-if(
-images.length === 0 &&
-cast?.image
-){
-return [cast.image];
-}
-
-return images.slice(0,5);
-
-}
-
-function getMainImage(cast){
-
-return cast?.image ||
-getCastImages(cast)[0] ||
-"";
-
-}
-
 function createCastDetailUrl(cast){
 
 const params =
@@ -940,10 +812,7 @@ function createV9TodayCastMarkup(cast, scheduleText, image = "", schedule = null
 const name =
 cast?.name || "";
 
-const imageMarkup =
-image
-? `<img class="v9-cast-image" src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}" loading="lazy" decoding="async">`
-: `<div class="v9-cast-no-image">NO IMAGE</div>`;
+const imageMarkup = createImageMarkup({ src:image, alt:name, className:"v9-cast-image", fallbackClassName:"v9-cast-no-image" });
 
 const attendance = getTodayAttendanceState(scheduleText, schedule);
 
@@ -1188,17 +1057,6 @@ return `
 }
 
 
-function isBadgeEnabled(value){
-
-return value === true ||
-value === "true" ||
-value === 1 ||
-value === "1" ||
-value === "on" ||
-value === "yes";
-
-}
-
 function createNewBadgeImage(){
 
 return `
@@ -1225,25 +1083,6 @@ loading="lazy">
 
 }
 
-function getTags(cast){
-
-if(Array.isArray(cast?.tags)){
-return cast.tags
-.map((tag)=>String(tag).trim())
-.filter(Boolean);
-}
-
-if(typeof cast?.tags === "string"){
-return cast.tags
-.split(",")
-.map((tag)=>tag.trim())
-.filter(Boolean);
-}
-
-return [];
-
-}
-
 function createPublicTagMarkup(cast){
 
 const tags =
@@ -1258,23 +1097,5 @@ return `
 ${tags.map((tag)=>`<span>${escapeHtml(tag)}</span>`).join("")}
 </div>
 `;
-
-}
-
-function escapeHtml(value){
-
-return String(value)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
-function escapeAttribute(value){
-
-return escapeHtml(value)
-.replaceAll("`","&#096;");
 
 }

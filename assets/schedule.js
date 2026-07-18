@@ -6,7 +6,7 @@ import {
   serverTimestamp,
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db } from "./app.js";
+import { db } from "./js/firebase/firebaseClient.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 const DATE_RANGE_DAYS = 14;

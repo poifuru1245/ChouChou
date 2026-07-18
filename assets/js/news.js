@@ -1,9 +1,4 @@
-import {
-  collection,
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import { db } from "../app.js";
+import { subscribeCollection } from "./services/firestoreService.js";
 
 const COLLECTION_NAME = "news";
 const DEFAULT_CATEGORY = "お知らせ";
@@ -16,14 +11,11 @@ if (lists.length) {
 }
 
 function loadPublicNews() {
-  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
+  subscribeCollection(COLLECTION_NAME, (rows) => {
     const items = [];
 
-    snapshot.forEach((docSnap) => {
-      const item = normalizeNews({
-        id: docSnap.id,
-        ...docSnap.data()
-      });
+    rows.forEach((row) => {
+      const item = normalizeNews(row);
 
       if (item.isPublished && isPublishDateReached(item.publishDate) && !isPublishDateEnded(item.publishEndDate)) {
         items.push(item);

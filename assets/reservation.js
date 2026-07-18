@@ -1,44 +1,14 @@
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-console.log("reservation.js 読み込み成功");
+import { addDocument, getCollection } from "./js/services/firestoreService.js";
+import { announce } from "./js/utils/dom.js";
 
 const castList = [];
 const reservationParams = new URLSearchParams(window.location.search);
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCsNdnnTSJUIS2eO7P_Ks8eAmtm8ManDhY",
-  authDomain: "chouchou-susukino.firebaseapp.com",
-  projectId: "chouchou-susukino",
-  storageBucket: "chouchou-susukino.firebasestorage.app",
-  messagingSenderId: "611059453310",
-  appId: "1:611059453310:web:c693ea8a0ce465ac79b72f"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 async function loadCasts(){
 
-  const snapshot = await getDocs(
-    collection(db,"casts")
-  );
+  const casts = await getCollection("casts");
 
-  console.log(snapshot.size);
-
-  snapshot.forEach((docSnap)=>{
-
-  const cast = { id: docSnap.id, ...docSnap.data() };
-
-  console.log(cast);
+  casts.forEach((cast)=>{
 
   if(cast.isPublished !== false) castList.push(cast);
 
@@ -169,7 +139,10 @@ document
 
 });
 
-loadCasts();
+loadCasts().catch((error) => {
+  console.error("キャスト読み込み失敗", error);
+  announce("キャスト情報を読み込めませんでした。指名なしで予約できます。", "error");
+});
 
 console.log("END");
 
@@ -213,18 +186,17 @@ document
 
   try{
 
-    await addDoc(
-      collection(db,"reservations"),
-      reservationData
-    );
+    await addDocument("reservations", reservationData);
 
     alert("予約を送信しました");
+    announce("予約を送信しました。");
 
   }catch(error){
 
     console.error(error);
 
-    alert("送信失敗");
+    alert("予約の送信に失敗しました。通信状況をご確認ください。");
+    announce("予約の送信に失敗しました。通信状況をご確認ください。", "error");
 
   }
 

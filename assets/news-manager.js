@@ -4,7 +4,7 @@
 // =====================================
 
 (async () => {
-  const { db, storage } = await import("./app.js");
+  const { db, storage } = await import("./js/firebase/firebaseClient.js");
   const { optimizeImage, getTokyoDateKey } = await import("./admin.js");
   const firestore = await import(
     "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"

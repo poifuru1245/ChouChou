@@ -472,6 +472,11 @@ body.premium-design-system.interior-page .interior-cast-grid > .public-cast-card
    The shared component layer consumes only these values.
    ========================================================= */
 :root{
+    --primary-color:#d95f9d;
+    --accent-color:#fff0f7;
+    --gold:#c89a43;
+    --radius:24px;
+    --shadow:0 12px 28px rgba(111,59,86,.14),0 1px 0 rgba(255,255,255,.94) inset;
     --premium-gold:#c89a43;
     --premium-gold-rgb:200,154,67;
     --premium-ink:#6f3b56;
@@ -486,10 +491,6 @@ body.premium-design-system.interior-page .interior-cast-grid > .public-cast-card
     --premium-space-card:24px;
     --premium-space-action:20px;
     --premium-button-height:48px;
-    --premium-transition:.25s ease;
-    --premium-shadow:0 14px 30px rgba(111,59,86,.16),0 1px 0 rgba(255,255,255,.94) inset;
-    --premium-shadow-hover:0 21px 42px rgba(111,59,86,.23),0 0 0 1px rgba(var(--premium-gold-rgb),.16),0 1px 0 rgba(255,255,255,.96) inset;
-    --premium-glass:linear-gradient(145deg,rgba(255,255,255,.9),rgba(255,236,246,.72) 54%,rgba(255,252,254,.88));
 }
 
 /* =========================================================
@@ -13679,6 +13680,18 @@ body.premium-design-system .princess-home #instagram .instagram-brand-action{
     --premium-control-shadow:inset 0 1px 0 rgba(255,255,255,.9);
     --premium-control-shadow-focus:0 0 0 3px rgba(235,126,180,.22),inset 0 1px 0 rgba(255,255,255,.94);
 }
+
+/* ChouChou Ver7.5 shared loading, image and error states */
+.ui-loading{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;color:var(--premium-ink,#6f3b56)}
+.ui-spinner{width:20px;height:20px;border:2px solid rgba(var(--premium-gold-rgb,200,154,67),.28);border-top-color:var(--gold,#c89a43);border-radius:50%;animation:ui-spin .8s linear infinite}
+.ui-skeleton-card{display:block;min-height:180px;border-radius:var(--radius,24px);background:linear-gradient(90deg,rgba(255,255,255,.56),rgba(255,226,240,.72),rgba(255,255,255,.56));background-size:220% 100%;animation:ui-skeleton 1.25s ease-in-out infinite}
+.ui-image-fallback{display:grid;place-items:center;width:100%;min-height:120px;background:linear-gradient(145deg,#fff9fc,#f8edf3);color:#8b6074;font-size:12px;letter-spacing:.12em}
+.ui-error{color:#8f294e;background:rgba(255,241,246,.92);border:1px solid rgba(177,55,99,.28);border-radius:14px;padding:12px 14px;line-height:1.7}
+.ui-announcer{position:fixed;left:50%;bottom:24px;z-index:10000;max-width:min(90vw,520px);transform:translateX(-50%);padding:11px 18px;border:1px solid rgba(var(--premium-gold-rgb,200,154,67),.42);border-radius:999px;background:rgba(255,255,255,.94);box-shadow:var(--shadow);color:var(--premium-ink,#6f3b56);font-weight:700}
+.ui-announcer:empty{display:none}.ui-announcer[data-type="error"]{color:#8f294e}
+@keyframes ui-spin{to{transform:rotate(360deg)}}
+@keyframes ui-skeleton{to{background-position:-220% 0}}
+@media(prefers-reduced-motion:reduce){.ui-spinner,.ui-skeleton-card{animation:none}}
 
 html body.premium-design-system{
     font-kerning:normal;

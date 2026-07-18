@@ -1,23 +1,10 @@
-import { db } from "./app.js";
-import {
-  collection,
-  doc,
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { subscribeCollection, subscribeDocument } from "./js/services/firestoreService.js";
+import { escapeHtml } from "./js/utils/dom.js";
+import { bootstrapPage } from "./js/pages/bootstrapPage.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 
-export function subscribeCollection(name, onData, onError = console.error) {
-  return onSnapshot(collection(db, name), (snapshot) => {
-    onData(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })));
-  }, onError);
-}
-
-export function subscribeDocument(collectionName, documentId, onData, onError = console.error) {
-  return onSnapshot(doc(db, collectionName, documentId), (snapshot) => {
-    onData(snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null);
-  }, onError);
-}
+export { subscribeCollection, subscribeDocument };
 
 export function getTokyoDateKey(date = new Date()) {
   return new Intl.DateTimeFormat("sv-SE", {
@@ -47,11 +34,11 @@ export async function optimizeImage(file, options = {}) {
   context.drawImage(bitmap, 0, 0, width, height);
   bitmap.close?.();
 
-  const outputType = file.type === "image/png" ? "image/webp" : "image/jpeg";
+  const outputType = "image/webp";
   const blob = await new Promise((resolve, reject) => {
     canvas.toBlob((result) => result ? resolve(result) : reject(new Error("画像圧縮に失敗しました。")), outputType, quality);
   });
-  const extension = outputType === "image/webp" ? "webp" : "jpg";
+  const extension = "webp";
   const baseName = file.name.replace(/\.[^.]+$/, "").replace(/[^\w-]/g, "_") || "image";
   return new File([blob], `${baseName}.${extension}`, { type: outputType, lastModified: Date.now() });
 }
@@ -233,12 +220,7 @@ function setDashboardValue(id, value) {
   if (element) element.textContent = value;
 }
 
-function escapeHtml(value) {
-  const node = document.createElement("div");
-  node.textContent = String(value ?? "");
-  return node.innerHTML;
-}
-
+bootstrapPage({ pageName:"admin" });
 setupAdminNavigation();
 setupImagePreviews();
 setupDashboard();

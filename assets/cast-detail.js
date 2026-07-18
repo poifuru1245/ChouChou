@@ -1,32 +1,12 @@
-import {
-  initializeApp,
-  getApp,
-  getApps
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getCollection, getDocument, increment, serverTimestamp, setDocument, updateDocument } from "./js/services/firestoreService.js";
+import { loadingMarkup, tagMarkup } from "./js/components/uiComponents.js";
+import { setModalOpen, trapModalFocus } from "./js/components/modal.js";
+import { compareCastsByDisplayOrder as compareCastDisplayOrder, getCastImages, getCastTags as getTags, isEnabledFlag as isBadgeEnabled } from "./js/services/castService.js";
+import { escapeAttribute, escapeHtml, setText } from "./js/utils/dom.js";
+import { setBusy, showPageError } from "./js/ui/pageState.js";
+import { bootstrapPage } from "./js/pages/bootstrapPage.js";
 
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  getFirestore,
-  increment,
-  serverTimestamp,
-  setDoc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCsNdnnTSJUIS2eO7P_Ks8eAmtm8ManDhY",
-  authDomain: "chouchou-susukino.firebaseapp.com",
-  projectId: "chouchou-susukino",
-  storageBucket: "chouchou-susukino.firebasestorage.app",
-  messagingSenderId: "611059453310",
-  appId: "1:611059453310:web:c693ea8a0ce465ac79b72f"
-};
-
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const db = getFirestore(app);
+bootstrapPage({ pageName:"cast-detail" });
 const params = new URLSearchParams(window.location.search);
 const sliderState = {
   images: [],
@@ -68,8 +48,8 @@ async function recordCastView(cast){
   try{
     const weekKey=getWeekKey();
     await Promise.all([
-      updateDoc(doc(db,"casts",castId),{viewCount:increment(1),lastViewedAt:serverTimestamp()}),
-      setDoc(doc(db,"castViews",`${castId}_${weekKey}`),{castId,castName:cast?.name||"",weekKey,count:increment(1),updatedAt:serverTimestamp()},{merge:true})
+      updateDocument("casts",castId,{viewCount:increment(1),lastViewedAt:serverTimestamp()}),
+      setDocument("castViews",`${castId}_${weekKey}`,{castId,castName:cast?.name||"",weekKey,count:increment(1),updatedAt:serverTimestamp()},{merge:true})
     ]);
     sessionStorage.setItem(sessionKey,"1");
     if(output) output.textContent=(current+1).toLocaleString("ja-JP");
@@ -90,14 +70,8 @@ async function resolveCast() {
 
   if (id) {
     try {
-      const snapshot = await getDoc(doc(db, "casts", id));
-
-      if (snapshot.exists()) {
-        return {
-          id: snapshot.id,
-          ...snapshot.data()
-        };
-      }
+      const cast = await getDocument("casts", id);
+      if (cast) return cast;
     } catch (error) {
       console.error("キャスト詳細読み込み失敗", error);
     }
@@ -327,9 +301,7 @@ function openLightbox() {
   const lightbox = document.getElementById("castLightbox");
   if (!lightbox || !sliderState.images.length) return;
   sliderState.returnFocus = document.activeElement;
-  lightbox.hidden = false;
-  lightbox.setAttribute("aria-hidden", "false");
-  document.body.classList.add("is-cast-lightbox-open");
+  setModalOpen(lightbox, true, { bodyClass:"is-cast-lightbox-open" });
   showLightboxSlide(sliderState.currentIndex);
   document.getElementById("castLightboxClose")?.focus();
 }
@@ -337,10 +309,7 @@ function openLightbox() {
 function closeLightbox() {
   const lightbox = document.getElementById("castLightbox");
   if (!lightbox || lightbox.hidden) return;
-  lightbox.hidden = true;
-  lightbox.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("is-cast-lightbox-open");
-  if (sliderState.returnFocus instanceof HTMLElement) sliderState.returnFocus.focus();
+  setModalOpen(lightbox, false, { bodyClass:"is-cast-lightbox-open", returnFocus:sliderState.returnFocus });
 }
 
 function showLightboxSlide(index) {
@@ -362,20 +331,7 @@ function handleLightboxKeydown(event) {
   }
   if (event.key === "ArrowLeft") showLightboxSlide(sliderState.currentIndex - 1);
   if (event.key === "ArrowRight") showLightboxSlide(sliderState.currentIndex + 1);
-  if (event.key !== "Tab") return;
-
-  const lightbox = document.getElementById("castLightbox");
-  const controls = [...lightbox.querySelectorAll("button:not([hidden])")];
-  if (!controls.length) return;
-  const first = controls[0];
-  const last = controls[controls.length - 1];
-  if (event.shiftKey && document.activeElement === first) {
-    event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && document.activeElement === last) {
-    event.preventDefault();
-    first.focus();
-  }
+  trapModalFocus(event, document.getElementById("castLightbox"));
 }
 
 function renderNoImagePlaceholder(imageElement) {
@@ -435,12 +391,7 @@ function renderTags(tags) {
 
   if (!wrap) return;
 
-  wrap.innerHTML = "";
-  tags.forEach((tag) => {
-    const span = document.createElement("span");
-    span.textContent = tag;
-    wrap.appendChild(span);
-  });
+  wrap.innerHTML = tagMarkup(tags, "tag-premium");
   wrap.hidden = tags.length === 0;
 }
 
@@ -475,11 +426,12 @@ async function loadWeeklySchedule(cast) {
   if (!output) return;
 
   try {
-    const snapshot = await getDocs(collection(db, "schedules"));
+    setBusy(output, true, "今週の出勤予定を読み込み中");
+    output.innerHTML = loadingMarkup("今週の出勤予定を読み込み中...");
+    const scheduleRows = await getCollection("schedules");
     const schedules = [];
 
-    snapshot.forEach((scheduleDoc) => {
-      const schedule = scheduleDoc.data();
+    scheduleRows.forEach((schedule) => {
       const dateKey = getScheduleDateKey(schedule);
 
       if (dateKey && isScheduleForCast(schedule, cast)) {
@@ -495,6 +447,9 @@ async function loadWeeklySchedule(cast) {
   } catch (error) {
     console.error("週間出勤読み込み失敗", error);
     renderWeeklySchedule(days, [], true);
+    showPageError(output, "出勤予定を取得できませんでした。お問い合わせください。");
+  } finally {
+    setBusy(output, false);
   }
 }
 
@@ -572,10 +527,9 @@ async function loadRelatedCasts(currentCast) {
   if (!section || !list) return;
 
   try {
-    const snapshot = await getDocs(collection(db, "casts"));
+    const castRows = await getCollection("casts");
     const currentTags = new Set(getTags(currentCast));
-    const casts = snapshot.docs
-      .map((item) => ({ id: item.id, ...item.data() }))
+    const casts = castRows
       .filter((cast) => cast.isPublished !== false)
       .filter((cast) => String(cast.id) !== String(currentCast?.id || ""))
       .filter((cast) => getCastImages(cast).length)
@@ -597,43 +551,11 @@ function relatedCastScore(cast, currentTags) {
   return (isBadgeEnabled(cast?.isRecommended) ? 100 : 0) + tagMatches * 10 + (isBadgeEnabled(cast?.isNew) ? 1 : 0);
 }
 
-function compareCastDisplayOrder(a, b) {
-  const aOrder = numericDisplayOrder(a?.displayOrder);
-  const bOrder = numericDisplayOrder(b?.displayOrder);
-  if (aOrder !== null && bOrder !== null) return aOrder - bOrder;
-  if (aOrder !== null) return -1;
-  if (bOrder !== null) return 1;
-  return String(a?.name || "").localeCompare(String(b?.name || ""), "ja");
-}
-
-function numericDisplayOrder(value) {
-  if (value === undefined || value === null || value === "") return null;
-  const number = Number(value);
-  return Number.isFinite(number) ? number : null;
-}
-
 function createRelatedCastMarkup(cast) {
   const name = String(cast?.name || "CAST").trim();
   const image = getCastImages(cast)[0];
   const detailUrl = `cast-detail.html?id=${encodeURIComponent(cast.id)}&name=${encodeURIComponent(name)}`;
   return `<article class="cast-related-card card-premium"><a href="${escapeAttribute(detailUrl)}" aria-label="${escapeAttribute(name)}のプロフィールを見る"><div class="cast-related-photo"><img src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}" loading="lazy" decoding="async">${isBadgeEnabled(cast?.isRecommended) ? '<span class="badge-premium">おすすめ</span>' : ""}</div><div class="cast-related-info"><h3>${escapeHtml(name)}</h3><span aria-hidden="true"></span><strong>プロフィールを見る</strong></div></a></article>`;
-}
-
-function getCastImages(cast) {
-  const candidates = [
-    cast?.image,
-    cast?.imageUrl,
-    cast?.mainImage,
-    cast?.photo,
-    cast?.photoUrl,
-    cast?.profileImage,
-    cast?.galleryImages,
-    cast?.images,
-    cast?.photos,
-    cast?.imageUrls
-  ].flatMap(normalizeImageValue);
-
-  return [...new Set(candidates.map((value) => String(value).trim()).filter(Boolean))].slice(0, 5);
 }
 
 function normalizeImageValue(value) {
@@ -659,12 +581,6 @@ function normalizeImageValue(value) {
 
 function parseImageParam(value) {
   return normalizeImageValue(value).slice(0, 5);
-}
-
-function getTags(cast) {
-  if (Array.isArray(cast?.tags)) return cast.tags.map(String).map((tag) => tag.trim()).filter(Boolean);
-  if (typeof cast?.tags === "string") return parseTags(cast.tags);
-  return [];
 }
 
 function parseTags(value) {
@@ -813,26 +729,4 @@ function formatAge(value) {
 function formatHeight(value) {
   const text = String(value || "").trim();
   return text ? (/cm$/i.test(text) ? text : `${text}cm`) : "";
-}
-
-function isBadgeEnabled(value) {
-  return value === true || value === "true" || value === 1 || value === "1" || value === "on" || value === "yes";
-}
-
-function setText(id, value) {
-  const element = document.getElementById(id);
-  if (element) element.textContent = String(value || "");
-}
-
-function escapeAttribute(value) {
-  return escapeHtml(value).replaceAll("`", "&#096;");
-}
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }

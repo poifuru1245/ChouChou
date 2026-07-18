@@ -40,6 +40,11 @@
 
 /* ChouChou Ver5.8 Premium Admin System */
 :root{
+  --primary-color:#d95f9d;
+  --accent-color:#fff3f8;
+  --gold:#c69a48;
+  --radius:20px;
+  --shadow:0 18px 42px rgba(111,48,78,.12);
   --admin-gold:#c69a48;
   --admin-pink:#d95f9d;
   --admin-ink:#63364d;
@@ -47,6 +52,10 @@
   --admin-border:rgba(198,154,72,.34);
   --admin-shadow:0 18px 42px rgba(111,48,78,.12);
 }
+
+.ui-image-fallback{display:grid;place-items:center;width:100%;min-height:120px;border-radius:14px;background:linear-gradient(145deg,#fff9fc,#f8edf3);color:#80576a;font-size:12px;letter-spacing:.12em}
+.ui-error{color:#8f294e;background:rgba(255,241,246,.94);border:1px solid rgba(177,55,99,.28);border-radius:14px;padding:12px 14px;line-height:1.7}
+.ui-announcer{position:fixed;left:50%;bottom:24px;z-index:10000;max-width:min(90vw,520px);transform:translateX(-50%);padding:11px 18px;border:1px solid var(--admin-border);border-radius:999px;background:rgba(255,255,255,.96);box-shadow:var(--shadow);color:var(--admin-ink);font-weight:700}.ui-announcer:empty{display:none}
 
 body.admin-premium{
   min-height:100vh;

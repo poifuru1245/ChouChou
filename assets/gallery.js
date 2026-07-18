@@ -1,9 +1,4 @@
-import {
-  collection,
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import { db } from "./app.js";
+import { subscribeCollection } from "./js/services/firestoreService.js";
 
 const COLLECTION_NAME = "gallery";
 
@@ -30,15 +25,7 @@ if (elements.grids.length) {
 }
 
 function loadGallery() {
-  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
-    const items = [];
-
-    snapshot.forEach((docSnap) => {
-      items.push({
-        id: docSnap.id,
-        ...docSnap.data()
-      });
-    });
+  subscribeCollection(COLLECTION_NAME, (items) => {
 
     sortGalleryItems(items);
     renderGallery(items.filter((item) => item.isPublished !== false));
