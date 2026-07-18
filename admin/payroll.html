@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>給与管理 | Chou Chou</title>
+  <link rel="stylesheet" href="../assets/css/admin.css?v=8.1.0">
+</head>
+<body class="admin-premium">
+  <div class="admin-layout">
+    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a href="sales.html">売上管理</a><a class="active" href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="login.html">ログアウト</a></aside>
+    <main class="main payroll-admin-page">
+      <header class="admin-page-head"><div><h1>給与管理</h1><p>売上・出勤データと給与設定から、月次給与を自動計算します。</p></div><label class="admin-field payroll-month-field"><span>営業月</span><input id="payrollMonth" type="month"></label></header>
+
+      <section class="payroll-summary-grid" aria-label="給与集計">
+        <article class="admin-stat-card admin-premium-card"><span>MONTH SALES</span><strong id="payrollSalesTotal">¥0</strong><small>月間売上</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>WORK HOURS</span><strong id="payrollHoursTotal">0h</strong><small>勤務時間</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>GROSS PAY</span><strong id="payrollGrossTotal">¥0</strong><small>総支給額</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>DEDUCTIONS</span><strong id="payrollDeductionTotal">¥0</strong><small>控除額</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>NET PAY</span><strong id="payrollNetTotal">¥0</strong><small>差引支給額</small></article>
+      </section>
+
+      <section class="admin-editor-panel payroll-settings-panel">
+        <div class="payroll-panel-heading"><div><span>PAYROLL SETTINGS</span><h2>給与・バック設定</h2></div><button id="togglePayrollSettings" type="button" aria-expanded="true">設定を閉じる</button></div>
+        <form id="payrollSettingsForm" class="payroll-settings-form" novalidate>
+          <label class="admin-field"><span>基本時給（円）</span><input name="baseHourlyRate" type="number" min="0" max="999999" step="1" required></label>
+          <label class="admin-field"><span>本指名バック（円／件）</span><input name="honmeiBack" type="number" min="0" max="999999" step="1" required></label>
+          <label class="admin-field"><span>場内バック（円／件）</span><input name="jounaiBack" type="number" min="0" max="999999" step="1" required></label>
+          <label class="admin-field"><span>同伴バック（円／件）</span><input name="douhanBack" type="number" min="0" max="999999" step="1" required></label>
+          <label class="admin-field"><span>ドリンクバック（%）</span><input name="drinkBack" type="number" min="0" max="100" step="0.1" required></label>
+          <label class="admin-field"><span>ボトルバック（%）</span><input name="bottleBack" type="number" min="0" max="100" step="0.1" required></label>
+          <label class="admin-field"><span>シャンパンバック（%）</span><input name="champagneBack" type="number" min="0" max="100" step="0.1" required></label>
+          <label class="admin-field"><span>その他バック（%）</span><input name="otherBack" type="number" min="0" max="100" step="0.1" required></label>
+          <label class="admin-field"><span>交通費（円／勤務日）</span><input name="transportation" type="number" min="0" max="999999" step="1" required></label>
+
+          <div class="payroll-deduction-editor is-wide">
+            <div><h3>控除項目</h3><button id="addPayrollDeduction" type="button">控除項目を追加</button></div>
+            <div id="payrollDeductionRows" class="payroll-deduction-rows"></div>
+          </div>
+          <div class="admin-inline-actions is-wide"><button id="savePayrollSettings" class="admin-primary-button" type="submit">給与設定を保存</button></div>
+        </form>
+        <p id="payrollSettingsMessage" class="admin-status" aria-live="polite"></p>
+      </section>
+
+      <section class="admin-editor-panel payroll-list-panel">
+        <div class="payroll-panel-heading"><div><span>MONTHLY PAYROLL</span><h2>キャスト別給与一覧</h2></div><strong id="payrollResultCount">0名</strong></div>
+        <p class="payroll-calculation-note">勤務時間は出勤管理の開始・終了時刻から計算します。「LAST」は翌1:00として計算し、時刻未登録は基本給へ含めません。</p>
+        <div id="payrollList" class="payroll-list" aria-live="polite"><span class="ui-loading">給与情報を読み込み中...</span></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="payrollDetailModal" class="payroll-modal" role="dialog" aria-modal="true" aria-labelledby="payrollDetailTitle" hidden>
+    <div class="payroll-modal-card admin-premium-card">
+      <button id="closePayrollDetail" class="payroll-modal-close" type="button" aria-label="給与明細を閉じる">×</button>
+      <div id="payrollDetailContent"></div>
+    </div>
+  </div>
+  <script type="module" src="../assets/payroll.js?v=8.1.0"></script>
+</body>
+</html>

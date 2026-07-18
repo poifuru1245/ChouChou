@@ -3410,3 +3410,387 @@ body.is-modal-open{
     width:100%;
   }
 }
+
+/* ChouChou Ver8.1 — payroll management */
+.payroll-admin-page{
+  display:grid;
+  gap:26px;
+  min-width:0;
+}
+
+.payroll-admin-page > *,
+.payroll-list,
+.payroll-table-wrap{
+  min-width:0;
+}
+
+.payroll-admin-page .admin-page-head{
+  align-items:end;
+  margin-bottom:0;
+}
+
+.payroll-month-field{
+  width:min(260px,100%);
+}
+
+.payroll-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:16px;
+}
+
+.payroll-summary-grid .admin-stat-card{
+  min-height:138px;
+}
+
+.payroll-settings-panel,
+.payroll-list-panel{
+  padding:clamp(20px,3vw,30px);
+}
+
+.payroll-panel-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:22px;
+}
+
+.payroll-panel-heading > div > span,
+.payroll-statement header > span{
+  display:block;
+  margin-bottom:5px;
+  color:var(--admin-gold);
+  font:700 12px/1.4 "Cormorant Garamond",serif;
+  letter-spacing:.15em;
+}
+
+.payroll-panel-heading h2,
+.payroll-statement h2{
+  margin:0;
+  color:#71364f;
+  font-family:"Noto Serif JP",serif;
+}
+
+.payroll-panel-heading > button,
+.payroll-deduction-editor > div > button,
+.payroll-detail-button,
+.payroll-deduction-row > button{
+  min-height:40px;
+  border:1px solid var(--admin-border);
+  border-radius:999px;
+  background:rgba(255,255,255,.88);
+  color:#884b69;
+  font-weight:800;
+  padding:0 16px;
+  cursor:pointer;
+}
+
+.payroll-settings-form{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+
+.payroll-settings-form > .is-wide{
+  grid-column:1/-1;
+}
+
+.payroll-deduction-editor{
+  display:grid;
+  gap:14px;
+  margin-top:10px;
+  padding:18px;
+  border:1px solid rgba(198,154,72,.24);
+  border-radius:18px;
+  background:rgba(255,255,255,.52);
+}
+
+.payroll-deduction-editor > div:first-child{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.payroll-deduction-editor h3{
+  margin:0;
+  color:#71364f;
+}
+
+.payroll-deduction-rows{
+  display:grid;
+  gap:12px;
+}
+
+.payroll-deduction-row{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr auto;
+  align-items:end;
+  gap:12px;
+  padding:14px;
+  border:1px solid rgba(198,154,72,.2);
+  border-radius:16px;
+  background:rgba(255,255,255,.7);
+}
+
+.payroll-deduction-row > button{
+  color:#a03e65;
+}
+
+.payroll-calculation-note{
+  margin:-5px 0 18px;
+  padding:11px 14px;
+  border-left:3px solid var(--admin-gold);
+  background:rgba(255,249,238,.72);
+  color:#8a6644;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.payroll-table-wrap{
+  width:100%;
+  overflow-x:auto;
+  border:1px solid rgba(198,154,72,.24);
+  border-radius:18px;
+  background:rgba(255,255,255,.68);
+}
+
+.payroll-table{
+  width:100%;
+  min-width:1120px;
+  border-collapse:collapse;
+}
+
+.payroll-table th,
+.payroll-table td{
+  padding:14px 15px;
+  border-bottom:1px solid rgba(198,154,72,.18);
+  color:#71364f;
+  text-align:left;
+  vertical-align:middle;
+  white-space:nowrap;
+}
+
+.payroll-table th{
+  background:linear-gradient(135deg,rgba(255,238,247,.88),rgba(255,250,244,.88));
+  color:#9b6a25;
+  font-size:12px;
+}
+
+.payroll-table tbody tr:hover{
+  background:rgba(255,235,245,.5);
+}
+
+.payroll-table tbody tr:last-child td{
+  border-bottom:0;
+}
+
+.payroll-table td.is-net-pay{
+  color:#9b6a25;
+  font-weight:900;
+}
+
+.payroll-table td > strong,
+.payroll-table td > small{
+  display:block;
+}
+
+.payroll-warning{
+  margin-top:4px;
+  color:#b36b37;
+}
+
+.payroll-empty{
+  margin:0;
+  padding:30px;
+  border:1px dashed var(--admin-border);
+  border-radius:16px;
+  color:#9f6680;
+  text-align:center;
+}
+
+.payroll-modal{
+  position:fixed;
+  inset:0;
+  z-index:1200;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:rgba(72,26,48,.38);
+  backdrop-filter:blur(8px);
+}
+
+.payroll-modal[hidden]{
+  display:none;
+}
+
+.payroll-modal-card{
+  position:relative;
+  width:min(720px,100%);
+  max-height:calc(100vh - 40px);
+  overflow:auto;
+  padding:clamp(24px,4vw,38px);
+}
+
+.payroll-modal-close{
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:40px;
+  height:40px;
+  border:1px solid var(--admin-border);
+  border-radius:50%;
+  background:#fff;
+  color:#884b69;
+  font-size:24px;
+  cursor:pointer;
+}
+
+.payroll-statement header{
+  padding-right:48px;
+}
+
+.payroll-statement header p{
+  margin:8px 0 0;
+  color:#a36b85;
+}
+
+.payroll-statement-meta{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin:22px 0;
+}
+
+.payroll-statement-meta > div{
+  display:grid;
+  gap:5px;
+  padding:12px;
+  border:1px solid rgba(198,154,72,.2);
+  border-radius:14px;
+  background:rgba(255,255,255,.68);
+}
+
+.payroll-statement-meta dt{
+  color:#a36b85;
+  font-size:11px;
+  font-weight:800;
+}
+
+.payroll-statement-meta dd{
+  margin:0;
+  color:#71364f;
+  font-weight:900;
+}
+
+.payroll-statement-warning{
+  margin:0 0 16px;
+  padding:10px 13px;
+  border-radius:12px;
+  background:#fff6df;
+  color:#9a6331;
+  font-size:13px;
+}
+
+.payroll-statement table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.payroll-statement th,
+.payroll-statement td{
+  padding:11px 13px;
+  border-bottom:1px solid rgba(198,154,72,.2);
+}
+
+.payroll-statement th{
+  color:#81526a;
+  text-align:left;
+}
+
+.payroll-statement td{
+  color:#71364f;
+  font-weight:800;
+  text-align:right;
+}
+
+.payroll-statement tr.is-subtotal{
+  background:rgba(255,239,247,.7);
+}
+
+.payroll-statement tr.is-total{
+  background:linear-gradient(135deg,rgba(255,229,242,.9),rgba(255,247,226,.88));
+}
+
+.payroll-statement tr.is-total th,
+.payroll-statement tr.is-total td{
+  color:#9b6a25;
+  font-size:18px;
+}
+
+@media(max-width:1180px){
+  .payroll-summary-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(max-width:820px){
+  .payroll-admin-page{
+    gap:18px;
+  }
+
+  .payroll-admin-page .admin-page-head,
+  .payroll-panel-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .payroll-summary-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+
+  .payroll-settings-form{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .payroll-deduction-row{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .payroll-statement-meta{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:520px){
+  .payroll-summary-grid,
+  .payroll-settings-form,
+  .payroll-deduction-row{
+    grid-template-columns:1fr;
+  }
+
+  .payroll-deduction-editor > div:first-child{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .payroll-deduction-row > button,
+  .payroll-settings-form .admin-primary-button{
+    width:100%;
+  }
+
+  .payroll-table-wrap{
+    margin-inline:-2px;
+    width:calc(100% + 4px);
+  }
+
+  .payroll-modal{
+    padding:10px;
+  }
+
+  .payroll-modal-card{
+    max-height:calc(100vh - 20px);
+  }
+}
