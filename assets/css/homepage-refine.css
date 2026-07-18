@@ -46,8 +46,17 @@ html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-c
   position:relative !important;
   top:auto !important;
   z-index:2 !important;
-  padding-top:20px !important;
-  padding-bottom:30px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  box-sizing:border-box !important;
+  width:100% !important;
+  padding:25px 32px 32px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-button-wrap .v9-cast-button{
+  margin-right:auto !important;
+  margin-left:auto !important;
 }
 
 @media(min-width:769px){
@@ -67,19 +76,30 @@ html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-c
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo.image-premium{
-    align-self:start !important;
+    align-self:center !important;
+    justify-self:center !important;
+    box-sizing:border-box !important;
     width:156px !important;
     height:176px !important;
     min-height:176px !important;
+    padding:5px !important;
     overflow:hidden !important;
-    background:rgba(255,250,252,.74) !important;
+    border-radius:var(--premium-radius-image) !important;
+    background:linear-gradient(145deg,rgba(255,255,255,.68),rgba(255,239,248,.44)) !important;
+    box-shadow:0 8px 18px rgba(111,59,86,.09),0 1px 0 rgba(255,255,255,.9) inset !important;
+    -webkit-backdrop-filter:blur(8px) !important;
+    backdrop-filter:blur(8px) !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo :is(.v9-cast-image,.v9-cast-no-image){
+    display:block !important;
     width:100% !important;
     height:100% !important;
-    object-fit:contain !important;
+    margin:auto !important;
+    border-radius:calc(var(--premium-radius-image) - 5px) !important;
+    object-fit:cover !important;
     object-position:center top !important;
+    clip-path:inset(0 round calc(var(--premium-radius-image) - 5px)) !important;
     transform:none !important;
   }
 
@@ -308,6 +328,26 @@ html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list
   overflow:visible !important;
 }
 
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast.v9-today-card .v9-cast-photo > .public-cast-badges.cast-badge-layer{
+  width:38px !important;
+  max-width:38px !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .princess-home #cast.v9-today-card .v9-cast-photo > .public-cast-badges.cast-badge-layer :is(
+  .premium-cast-badge,
+  .premium-cast-badge-img,
+  img.premium-cast-badge-img-new,
+  img.premium-cast-badge-img-recommended
+){
+  flex-basis:24.5px !important;
+  width:38px !important;
+  min-width:38px !important;
+  max-width:38px !important;
+  height:24.5px !important;
+  min-height:24.5px !important;
+  max-height:24.5px !important;
+}
+
 html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list.premium-card-cast .public-cast-photo > .public-cast-badges.cast-badge-layer :is(
   .premium-cast-badge,
   .premium-cast-badge-img,
@@ -363,11 +403,19 @@ html body.premium-design-system:not(.cast-detail-page) #contact .ver6-contact-li
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo.image-premium{
-    align-self:start !important;
+    align-self:center !important;
+    justify-self:center !important;
+    box-sizing:border-box !important;
     width:132px !important;
     height:160px !important;
     min-height:160px !important;
+    padding:5px !important;
     overflow:hidden !important;
+    border-radius:var(--premium-radius-image) !important;
+    background:linear-gradient(145deg,rgba(255,255,255,.68),rgba(255,239,248,.44)) !important;
+    box-shadow:0 8px 18px rgba(111,59,86,.09),0 1px 0 rgba(255,255,255,.9) inset !important;
+    -webkit-backdrop-filter:blur(8px) !important;
+    backdrop-filter:blur(8px) !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile{
@@ -375,10 +423,14 @@ html body.premium-design-system:not(.cast-detail-page) #contact .ver6-contact-li
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo :is(.v9-cast-image,.v9-cast-no-image){
+    display:block !important;
     width:100% !important;
     height:100% !important;
-    object-fit:contain !important;
+    margin:auto !important;
+    border-radius:calc(var(--premium-radius-image) - 5px) !important;
+    object-fit:cover !important;
     object-position:center top !important;
+    clip-path:inset(0 round calc(var(--premium-radius-image) - 5px)) !important;
     transform:none !important;
   }
 
