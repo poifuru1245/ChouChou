@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>ユーザー管理 | Chou Chou</title>
+  <link rel="stylesheet" href="../assets/css/users.css?v=1.5.0">
+</head>
+<body class="admin-premium">
+  <div class="admin-layout">
+    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a href="reservations.html">予約管理</a><a href="sales.html">売上管理</a><a href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a class="active" href="users.html">ユーザー管理</a><a href="login.html">ログアウト</a></aside>
+    <main class="main users-admin-page">
+      <header class="users-page-head"><div><span>ACCOUNT CONTROL</span><h1>ユーザー管理</h1><p>オーナー・店長・スタッフ・キャストのログインアカウントを安全に管理します。</p></div><button id="openUserEditor" class="admin-primary-button" type="button">＋ ユーザーを追加</button></header>
+
+      <section class="users-summary-grid" aria-label="ユーザー集計">
+        <article class="admin-stat-card admin-premium-card"><span>ALL USERS</span><strong id="userTotalCount">--</strong><small>登録ユーザー</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>OWNERS</span><strong id="userOwnerCount">--</strong><small>オーナー</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>TEAM</span><strong id="userTeamCount">--</strong><small>店長・スタッフ</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>CAST</span><strong id="userCastCount">--</strong><small>キャスト</small></article>
+        <article class="admin-stat-card admin-premium-card is-inactive"><span>INACTIVE</span><strong id="userInactiveCount">--</strong><small>無効アカウント</small></article>
+      </section>
+
+      <section class="admin-editor-panel users-list-panel">
+        <div class="users-panel-heading"><div><span>USER DIRECTORY</span><h2>ユーザー一覧</h2></div><strong id="userResultCount">0件</strong></div>
+        <div class="users-toolbar">
+          <label class="admin-field"><span>検索</span><input id="userSearch" type="search" placeholder="名前・メールアドレス"></label>
+          <label class="admin-field"><span>ロール</span><select id="userRoleFilter"><option value="">すべて</option><option value="owner">owner</option><option value="manager">manager</option><option value="staff">staff</option><option value="cast">cast</option></select></label>
+          <label class="admin-field"><span>状態</span><select id="userStatusFilter"><option value="">すべて</option><option value="active">有効</option><option value="inactive">無効</option></select></label>
+          <label class="admin-field"><span>並び替え</span><select id="userSort"><option value="created-desc">作成日（新しい順）</option><option value="last-login-desc">最終ログイン（新しい順）</option><option value="name-asc">名前順</option><option value="role-asc">ロール順</option></select></label>
+          <button id="refreshUsers" type="button">再読み込み</button>
+        </div>
+        <div id="userList" class="users-table-wrap" aria-live="polite"><span class="ui-loading">ユーザー情報を読み込み中...</span></div>
+      </section>
+      <p id="usersMessage" class="admin-status" aria-live="polite"></p>
+    </main>
+  </div>
+
+  <div id="userEditorModal" class="users-modal" role="dialog" aria-modal="true" aria-labelledby="userEditorTitle" hidden>
+    <div class="users-modal-card admin-premium-card">
+      <button class="users-modal-close" type="button" data-close-user-editor aria-label="閉じる">×</button>
+      <span>ACCOUNT EDITOR</span><h2 id="userEditorTitle">ユーザーを追加</h2>
+      <form id="userForm" class="users-form-grid" novalidate>
+        <label class="admin-field"><span>氏名 *</span><input name="displayName" type="text" maxlength="80" required></label>
+        <label class="admin-field"><span>メールアドレス *</span><input name="email" type="email" maxlength="200" required></label>
+        <label id="temporaryPasswordField" class="admin-field is-wide"><span>仮パスワード *</span><input name="password" type="password" minlength="8" maxlength="128" autocomplete="new-password"><small>8文字以上。初回ログイン後に変更するようお伝えください。</small></label>
+        <label class="admin-field"><span>ロール *</span><select name="role" required><option value="owner">owner</option><option value="manager">manager</option><option value="staff">staff</option><option value="cast">cast</option></select></label>
+        <label class="admin-field"><span>状態 *</span><select name="status"><option value="active">有効</option><option value="inactive">無効</option></select></label>
+        <label id="castLinkField" class="admin-field is-wide" hidden><span>紐付けるキャスト</span><select name="castId"><option value="">キャストを選択</option></select><small>選択したcastsドキュメントへauthUidを自動登録します。</small></label>
+        <div class="admin-inline-actions is-wide"><button id="saveUser" class="admin-primary-button" type="submit">ユーザーを作成</button><button type="button" data-close-user-editor>キャンセル</button></div>
+      </form>
+      <p id="userFormMessage" class="admin-status" aria-live="polite"></p>
+    </div>
+  </div>
+  <script type="module" src="../assets/users.js?v=1.5.0"></script>
+</body>
+</html>

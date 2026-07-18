@@ -10,6 +10,8 @@ import {
 import { subscribeCollection } from "./js/services/firestoreService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
 import { setBusy, showPageError } from "./js/ui/pageState.js";
+import { reservationsForCustomer, subscribeCustomers } from "./services/customerService.js";
+import { linkReservationToCustomer, subscribeReservations, updateReservationStatus } from "./services/reservationService.js";
 
 const COUNT_FIELDS = ["customerCount", "honmeiCount", "jounaiCount", "douhanCount"];
 const form = document.getElementById("salesForm");
@@ -18,7 +20,7 @@ const message = document.getElementById("salesMessage");
 const castSelect = form?.elements.castId;
 const historySelect = document.getElementById("salesHistoryCast");
 const deleteModal = document.getElementById("salesDeleteModal");
-const state = { casts:[], sales:[], editingId:"", pendingDeleteId:"", period:"today", search:"", sort:"date-desc" };
+const state = { casts:[], customers:[], reservations:[], sales:[], editingId:"", pendingDeleteId:"", period:"today", search:"", sort:"date-desc" };
 
 if (form && list) initialize();
 
@@ -27,6 +29,8 @@ function initialize() {
   bindEvents();
   setBusy(list, true, "売上情報を読み込み中");
   subscribeCollection("casts", handleCasts, handleLoadError);
+  subscribeCustomers((rows) => { state.customers = rows.sort((a, b) => a.name.localeCompare(b.name, "ja")); renderCustomerOptions(); renderReservationOptions(); }, handleLoadError);
+  subscribeReservations((rows) => { state.reservations = rows; renderReservationOptions(); }, handleLoadError);
   subscribeSales((rows) => {
     state.sales = rows.sort(compareByUpdatedAt);
     setBusy(list, false);
@@ -36,6 +40,9 @@ function initialize() {
 
 function bindEvents() {
   form.addEventListener("submit", saveSale);
+  form.elements.customerId.addEventListener("change", renderReservationOptions);
+  form.elements.date.addEventListener("change", renderReservationOptions);
+  form.elements.reservationId.addEventListener("change", applyReservationToSale);
   document.getElementById("resetSales")?.addEventListener("click", () => { resetForm(); setMessage(""); });
   document.getElementById("cancelSalesEdit")?.addEventListener("click", resetForm);
   document.querySelectorAll("[data-period]").forEach((button) => button.addEventListener("click", () => setPeriod(button.dataset.period)));
@@ -56,25 +63,60 @@ function handleCasts(rows) {
   render();
 }
 
+function renderCustomerOptions() {
+  const select = form.elements.customerId;
+  const selected = select.value;
+  select.innerHTML = `<option value="">顧客を選択</option>${state.customers.map((customer) => `<option value="${escapeAttribute(customer.id)}">${escapeHtml(customer.name || "名称未設定")}${customer.phone ? `（${escapeHtml(customer.phone)}）` : ""}</option>`).join("")}`;
+  select.value = selected;
+}
+
+function renderReservationOptions() {
+  const select = form.elements.reservationId;
+  const selected = select.value;
+  const customerId = form.elements.customerId.value;
+  const date = form.elements.date.value;
+  const customer = state.customers.find((item) => item.id === customerId);
+  const related = customer ? reservationsForCustomer(state.reservations, customer) : state.reservations;
+  const rows = related.filter((item) => (!date || item.visitDate === date) && !["キャンセル", "無断キャンセル"].includes(item.status));
+  select.innerHTML = `<option value="">予約を選択（任意）</option>${rows.sort((a, b) => `${b.visitDate}T${b.visitTime}`.localeCompare(`${a.visitDate}T${a.visitTime}`)).map((item) => `<option value="${escapeAttribute(item.id)}">${escapeHtml(`${formatDate(item.visitDate)} ${item.visitTime} ${item.customerName}様 / ${item.nominationCastName || "指名なし"} / ${item.status}`)}</option>`).join("")}`;
+  select.value = rows.some((item) => item.id === selected) ? selected : "";
+}
+
+function applyReservationToSale() {
+  const reservation = state.reservations.find((item) => item.id === form.elements.reservationId.value);
+  if (!reservation) return;
+  form.elements.date.value = reservation.visitDate;
+  if (reservation.customerId) form.elements.customerId.value = reservation.customerId;
+  if (reservation.nominationCastId) form.elements.castId.value = reservation.nominationCastId;
+}
+
 async function saveSale(event) {
   event.preventDefault();
   const payload = collectFormData();
   const validation = validate(payload);
   if (!validation.valid) return setMessage(validation.message, "error");
-  if (findDuplicateSalesRecord(state.sales, payload, state.editingId)) return setMessage("同じ営業日・キャストの売上は既に登録されています。既存データを編集してください。", "error");
+  if (findDuplicateSalesRecord(state.sales, payload, state.editingId)) return setMessage("同じ営業日・キャスト・顧客の売上は既に登録されています。既存データを編集してください。", "error");
 
   const button = document.getElementById("saveSales");
   const wasEditing = Boolean(state.editingId);
+  let salesSaved = false;
   button.disabled = true;
   setMessage("保存中...");
   try {
     if (state.editingId) await updateSalesRecord(state.editingId, payload);
     else await createSalesRecord(payload);
+    salesSaved = true;
+    if (payload.reservationId) {
+      const reservation = state.reservations.find((item) => item.id === payload.reservationId);
+      const customer = state.customers.find((item) => item.id === payload.customerId);
+      if (customer && reservation?.customerId !== customer.id) await linkReservationToCustomer(payload.reservationId, customer);
+      await updateReservationStatus(payload.reservationId, "完了");
+    }
     resetForm();
     setMessage(wasEditing ? "売上を更新しました。" : "売上を保存しました。", "success");
   } catch (error) {
     console.error("売上保存失敗", error);
-    setMessage("保存に失敗しました。入力内容、通信状況、Firestoreの権限をご確認ください。", "error");
+    setMessage(salesSaved ? "売上は保存されましたが、予約完了・来店集計を更新できませんでした。関連予約を確認して再度保存してください。" : "保存に失敗しました。入力内容、通信状況、Firestoreの権限をご確認ください。", "error");
   } finally {
     button.disabled = false;
   }
@@ -84,10 +126,17 @@ function collectFormData() {
   const data = new FormData(form);
   const castId = String(data.get("castId") || "");
   const cast = state.casts.find((item) => item.id === castId);
+  const customerId = String(data.get("customerId") || "");
+  const customer = state.customers.find((item) => item.id === customerId);
   const payload = {
     date:String(data.get("date") || ""),
     castId,
     castName:String(cast?.name || ""),
+    customerId,
+    customerName:String(customer?.name || ""),
+    customerPhone:String(customer?.phone || ""),
+    customerLineId:String(customer?.lineId || ""),
+    reservationId:String(data.get("reservationId") || ""),
     attendance:true,
     memo:String(data.get("memo") || "").trim()
   };
@@ -97,6 +146,7 @@ function collectFormData() {
 
 function validate(payload) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(payload.date)) return invalid("営業日を選択してください。");
+  if (!payload.customerId || !state.customers.some((customer) => customer.id === payload.customerId)) return invalid("顧客を選択してください。");
   if (!payload.castId || !state.casts.some((cast) => cast.id === payload.castId)) return invalid("キャストを選択してください。");
   for (const field of SALES_NUMBER_FIELDS) {
     if (!String(form.elements[field]?.value ?? "").trim()) return invalid(`${fieldLabel(field)}を入力してください。`);
@@ -119,6 +169,9 @@ function handleListAction(event) {
 function editSale(sale) {
   state.editingId = sale.id;
   form.elements.date.value = sale.date;
+  form.elements.customerId.value = sale.customerId;
+  renderReservationOptions();
+  form.elements.reservationId.value = sale.reservationId;
   form.elements.castId.value = sale.castId;
   SALES_NUMBER_FIELDS.forEach((field) => { form.elements[field].value = sale[field]; });
   form.elements.memo.value = sale.memo;
@@ -134,6 +187,7 @@ function resetForm() {
   state.editingId = "";
   form.reset();
   form.elements.date.value = getTokyoDateKey();
+  renderReservationOptions();
   SALES_NUMBER_FIELDS.filter((field) => field !== "sales").forEach((field) => { form.elements[field].value = "0"; });
   document.getElementById("salesFormTitle").textContent = "営業実績を入力";
   document.getElementById("saveSales").textContent = "売上を保存";
@@ -202,8 +256,8 @@ function renderSummary() {
 }
 
 function createSalesTable(rows) {
-  const body = rows.map((item) => `<tr><td><time datetime="${escapeAttribute(item.date)}">${escapeHtml(formatDate(item.date))}</time></td><td>${escapeHtml(item.castName || getCastName(item.castId))}</td><td class="is-money">${yen(item.sales)}</td><td>${item.customerCount}名</td><td>${item.honmeiCount}</td><td>${item.jounaiCount}</td><td>${item.douhanCount}</td><td><div class="admin-item-actions"><button type="button" data-action="edit" data-id="${escapeAttribute(item.id)}">編集</button><button type="button" data-action="delete" data-id="${escapeAttribute(item.id)}">削除</button></div></td></tr>`).join("");
-  return `<div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>営業日</th><th>キャスト</th><th>売上</th><th>来客</th><th>本指名</th><th>場内</th><th>同伴</th><th>操作</th></tr></thead><tbody>${body}</tbody></table></div>`;
+  const body = rows.map((item) => `<tr><td><time datetime="${escapeAttribute(item.date)}">${escapeHtml(formatDate(item.date))}</time></td><td>${item.customerId ? `<a href="customer-detail.html?id=${encodeURIComponent(item.customerId)}">${escapeHtml(item.customerName || getCustomerName(item.customerId))}</a>` : "<small>旧データ（未紐付け）</small>"}</td><td>${escapeHtml(item.castName || getCastName(item.castId))}</td><td class="is-money">${yen(item.sales)}</td><td>${item.customerCount}名</td><td>${item.honmeiCount}</td><td>${item.jounaiCount}</td><td>${item.douhanCount}</td><td><div class="admin-item-actions"><button type="button" data-action="edit" data-id="${escapeAttribute(item.id)}">編集</button><button type="button" data-action="delete" data-id="${escapeAttribute(item.id)}">削除</button></div></td></tr>`).join("");
+  return `<div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>営業日</th><th>顧客</th><th>キャスト</th><th>売上</th><th>来客</th><th>本指名</th><th>場内</th><th>同伴</th><th>操作</th></tr></thead><tbody>${body}</tbody></table></div>`;
 }
 
 function renderCastHistory() {
@@ -225,7 +279,7 @@ function getFilteredSales() {
   const rows = state.sales.filter((item) => {
     const periodMatch = exactDate ? item.date === exactDate : state.period === "today" ? item.date === today : state.period === "month" ? item.date.startsWith(today.slice(0, 7)) : (!from || item.date >= from) && (!to || item.date <= to);
     const castMatch = !castId || item.castId === castId;
-    const searchMatch = !state.search || `${item.castName || getCastName(item.castId)} ${item.memo}`.toLowerCase().includes(state.search);
+    const searchMatch = !state.search || `${item.customerName || getCustomerName(item.customerId)} ${item.castName || getCastName(item.castId)} ${item.memo}`.toLowerCase().includes(state.search);
     return periodMatch && castMatch && searchMatch;
   });
   return rows.sort(compareVisibleSales);
@@ -254,6 +308,7 @@ function compareByUpdatedAt(a, b) { return getTime(b.updatedAt || b.createdAt) -
 function compareCastOrder(a, b) { return Number(a.displayOrder ?? 9999) - Number(b.displayOrder ?? 9999) || String(a.name || "").localeCompare(String(b.name || ""), "ja"); }
 function getTime(value) { if (typeof value?.toMillis === "function") return value.toMillis(); return Date.parse(value) || 0; }
 function getCastName(id) { return state.casts.find((cast) => cast.id === id)?.name || "名称未設定"; }
+function getCustomerName(id) { return state.customers.find((customer) => customer.id === id)?.name || "名称未設定"; }
 function sum(rows, field) { return rows.reduce((total, item) => total + safeInteger(item[field]), 0); }
 function parseFormNumber(value) { const raw = String(value ?? "").trim(); return raw === "" ? Number.NaN : Number(raw); }
 function safeInteger(value) { const number = Number(value); return Number.isFinite(number) ? Math.trunc(number) : 0; }

@@ -83,6 +83,7 @@ async function requireAdminAccess() {
 function setupRoleAwareNavigation(profile) {
   const sidebar = document.querySelector(".sidebar");
   if (!sidebar) return;
+  ensureAdminMenuLink(sidebar, "customers.html", "顧客管理", "reservations.html");
   sidebar.querySelectorAll('a[href$=".html"]').forEach((link) => {
     const href = link.getAttribute("href") || "";
     if (href === "login.html") return;
@@ -95,6 +96,16 @@ function setupRoleAwareNavigation(profile) {
   panel.querySelector("button").addEventListener("click", logoutAdminUser);
   sidebar.append(panel);
   sidebar.querySelectorAll('a[href="login.html"]').forEach((link) => link.remove());
+}
+
+function ensureAdminMenuLink(sidebar, href, label, afterHref) {
+  if (sidebar.querySelector(`a[href="${href}"]`)) return;
+  const link = document.createElement("a");
+  link.href = href;
+  link.textContent = label;
+  if (location.pathname.endsWith(`/${href}`) || (href === "customers.html" && location.pathname.endsWith("/customer-detail.html"))) link.classList.add("active");
+  const anchor = sidebar.querySelector(`a[href="${afterHref}"]`);
+  anchor?.after(link);
 }
 
 async function logoutAdminUser() {

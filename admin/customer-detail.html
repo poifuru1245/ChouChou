@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>顧客詳細 | Chou Chou</title>
+  <link rel="stylesheet" href="../assets/css/customer-detail.css?v=3.0.0">
+</head>
+<body class="admin-premium">
+  <div class="admin-layout">
+    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a href="reservations.html">予約管理</a><a class="active" href="customers.html">顧客管理</a><a href="sales.html">売上管理</a><a href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="users.html">ユーザー管理</a><a href="login.html">ログアウト</a></aside>
+    <main class="main customer-detail-page">
+      <header class="customer-detail-head"><div><a href="customers.html">← 顧客一覧へ</a><span>GUEST 360° PROFILE</span><h1 id="customerDetailName">顧客詳細</h1><p id="customerDetailSubtitle">顧客情報を読み込み中です。</p></div><a id="customerReservationLink" class="admin-primary-button" href="reservations.html">＋ 予約を登録</a></header>
+      <div id="customerDetailStatus" class="customer-detail-loading" aria-live="polite">顧客・予約・売上情報を読み込み中...</div>
+      <div id="customerDetailBody" hidden>
+        <section id="customerMetricGrid" class="customer-metric-grid" aria-label="顧客集計"></section>
+        <div class="customer-detail-layout">
+          <div class="customer-detail-main">
+            <section class="customer-glass-card"><div class="customer-panel-heading"><span>ACTIVITY TIMELINE</span><h2>来店タイムライン</h2></div><div id="customerTimeline" class="customer-timeline"></div></section>
+            <section class="customer-glass-card"><div class="customer-panel-heading"><span>RESERVATIONS</span><h2>予約一覧</h2></div><div id="customerReservationHistory" class="customer-history-table"></div></section>
+            <section class="customer-glass-card"><div class="customer-panel-heading"><span>SALES HISTORY</span><h2>売上履歴</h2></div><div id="customerSalesHistory" class="customer-history-table"></div></section>
+          </div>
+          <aside class="customer-detail-aside">
+            <section class="customer-glass-card"><div class="customer-panel-heading"><span>PROFILE</span><h2>基本情報</h2></div><dl id="customerProfileList" class="customer-profile-list"></dl></section>
+            <section class="customer-glass-card"><div class="customer-panel-heading"><span>CAST RELATION</span><h2>キャスト連携</h2></div><div id="customerCastRelations"></div></section>
+            <section class="customer-glass-card"><div class="customer-panel-heading"><span>MEMO</span><h2>メモ</h2></div><p id="customerMemo" class="customer-detail-memo"></p></section>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="../assets/customer-detail-admin.js?v=3.0.0"></script>
+</body>
+</html>

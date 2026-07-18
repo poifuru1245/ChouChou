@@ -8,7 +8,7 @@
 </head>
 <body class="admin-premium">
   <div class="admin-layout">
-    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a href="reservations.html">予約管理</a><a class="active" href="sales.html">売上管理</a><a href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="login.html">ログアウト</a></aside>
+    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a href="reservations.html">予約管理</a><a class="active" href="sales.html">売上管理</a><a href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="users.html">ユーザー管理</a><a href="login.html">ログアウト</a></aside>
     <main class="main sales-admin-page">
       <header class="admin-page-head"><div><h1>売上管理</h1><p>キャストごとの営業実績を記録し、売上・指名・来客数を自動集計します。</p></div></header>
 
@@ -25,6 +25,8 @@
         <div class="sales-panel-heading"><div><span>DAILY INPUT</span><h2 id="salesFormTitle">営業実績を入力</h2></div><button id="resetSales" type="button">入力をリセット</button></div>
         <form id="salesForm" class="sales-form-grid" novalidate>
           <label class="admin-field"><span>営業日 *</span><input name="date" type="date" required></label>
+          <label class="admin-field"><span>顧客 *</span><select name="customerId" required><option value="">顧客を選択</option></select></label>
+          <label class="admin-field is-wide"><span>関連予約</span><select name="reservationId"><option value="">予約を選択（任意）</option></select><small>予約を選択して保存すると、その予約を「完了」にし来店回数を更新します。</small></label>
           <label class="admin-field"><span>キャスト *</span><select name="castId" required><option value="">キャストを選択</option></select></label>
           <label class="admin-field"><span>売上 *</span><input name="sales" type="number" min="0" max="999999999" step="1" inputmode="numeric" required></label>
           <label class="admin-field"><span>来客人数 *</span><input name="customerCount" type="number" min="0" max="9999" step="1" inputmode="numeric" required></label>
@@ -50,7 +52,7 @@
           <label class="admin-field"><span>開始日</span><input id="salesDateFrom" type="date" disabled></label>
           <label class="admin-field"><span>終了日</span><input id="salesDateTo" type="date" disabled></label>
           <label class="admin-field"><span>キャスト</span><select id="salesCastFilter"><option value="">すべてのキャスト</option></select></label>
-          <label class="admin-field"><span>キーワード</span><input id="salesSearch" type="search" placeholder="キャスト名・メモ"></label>
+          <label class="admin-field"><span>キーワード</span><input id="salesSearch" type="search" placeholder="顧客名・キャスト名・メモ"></label>
           <label class="admin-field"><span>並び替え</span><select id="salesSort"><option value="date-desc">営業日（新しい順）</option><option value="date-asc">営業日（古い順）</option><option value="sales-desc">売上（高い順）</option><option value="sales-asc">売上（低い順）</option><option value="cast-asc">キャスト名順</option></select></label>
         </div>
         <div id="salesList" class="sales-list" aria-live="polite"><span class="ui-loading">読み込み中...</span></div>

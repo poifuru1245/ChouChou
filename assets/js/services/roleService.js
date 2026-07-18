@@ -11,8 +11,8 @@ export const ROLE_LABELS = Object.freeze({
 
 // 権限追加時はこの表へpermissionを追加する。各画面へロール条件を分散させない。
 const ROLE_PERMISSIONS = Object.freeze({
-  owner:new Set(["admin:dashboard", "cast:edit", "schedule:edit", "reservations:edit", "sales:edit", "payroll:edit", "news:edit", "events:edit", "gallery:edit", "system:edit", "recruit:edit", "settings:edit", "ranking:view", "cast-portal:own"]),
-  manager:new Set(["admin:dashboard", "cast:edit", "schedule:edit", "reservations:edit", "sales:edit"]),
+  owner:new Set(["admin:dashboard", "cast:edit", "schedule:edit", "reservations:edit", "customers:edit", "sales:edit", "payroll:edit", "news:edit", "events:edit", "gallery:edit", "system:edit", "recruit:edit", "settings:edit", "users:manage", "ranking:view", "cast-portal:own"]),
+  manager:new Set(["admin:dashboard", "cast:edit", "schedule:edit", "reservations:edit", "customers:edit", "sales:edit"]),
   staff:new Set(["reservations:edit", "news:edit"]),
   cast:new Set(["cast-portal:own"])
 });
@@ -22,6 +22,8 @@ const ADMIN_ROUTE_PERMISSIONS = Object.freeze({
   "cast.html":"cast:edit",
   "schedule.html":"schedule:edit",
   "reservations.html":"reservations:edit",
+  "customers.html":"customers:edit",
+  "customer-detail.html":"customers:edit",
   "sales.html":"sales:edit",
   "payroll.html":"payroll:edit",
   "news.html":"news:edit",
@@ -30,6 +32,7 @@ const ADMIN_ROUTE_PERMISSIONS = Object.freeze({
   "system.html":"system:edit",
   "recruit.html":"recruit:edit",
   "settings.html":"settings:edit",
+  "users.html":"users:manage",
   "ranking.html":"ranking:view"
 });
 

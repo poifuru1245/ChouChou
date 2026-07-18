@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>顧客管理 | Chou Chou</title>
+  <link rel="stylesheet" href="../assets/css/customers.css?v=2.0.0">
+</head>
+<body class="admin-premium">
+  <div class="admin-layout">
+    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a href="reservations.html">予約管理</a><a class="active" href="customers.html">顧客管理</a><a href="sales.html">売上管理</a><a href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="users.html">ユーザー管理</a><a href="login.html">ログアウト</a></aside>
+
+    <main class="main customers-admin-page">
+      <header class="customers-page-head">
+        <div><span>GUEST RELATIONSHIP</span><h1>顧客管理</h1><p>お客様情報と来店・予約・売上・指名履歴をひとつの顧客台帳で管理します。</p></div>
+        <button id="openCustomerEditor" class="admin-primary-button" type="button">＋ 顧客を登録</button>
+      </header>
+
+      <section class="customers-summary-grid" aria-label="顧客集計">
+        <article class="admin-stat-card admin-premium-card"><span>ALL GUESTS</span><strong id="customerTotalCount">--</strong><small>登録顧客</small></article>
+        <article class="admin-stat-card admin-premium-card is-vip"><span>VIP</span><strong id="customerVipCount">--</strong><small>VIP顧客</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>REPEAT</span><strong id="customerRepeatCount">--</strong><small>リピーター</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>VISITS</span><strong id="customerVisitCount">--</strong><small>累計来店</small></article>
+      </section>
+
+      <section class="admin-editor-panel customers-list-panel">
+        <div class="customers-panel-heading"><div><span>GUEST DIRECTORY</span><h2>顧客一覧</h2></div><strong id="customerResultCount">0件</strong></div>
+        <div class="customers-toolbar">
+          <label class="admin-field"><span>検索</span><input id="customerSearch" type="search" placeholder="名前・かな・電話・LINE"></label>
+          <label class="admin-field"><span>ランク</span><select id="customerRankFilter"><option value="">すべて</option><option>VIP</option><option>Gold</option><option>Silver</option><option>Regular</option></select></label>
+          <label class="admin-field"><span>担当キャスト</span><select id="customerCastFilter"><option value="">すべて</option></select></label>
+          <label class="admin-field"><span>最終来店（開始）</span><input id="customerLastVisitFrom" type="date"></label>
+          <label class="admin-field"><span>最終来店（終了）</span><input id="customerLastVisitTo" type="date"></label>
+          <label class="admin-field"><span>並び替え</span><select id="customerSort"><option value="last-desc">最終来店（新しい順）</option><option value="visits-desc">来店回数（多い順）</option><option value="created-desc">登録日（新しい順）</option><option value="name-asc">名前順</option></select></label>
+        </div>
+        <div id="customerList" class="customers-table-wrap" aria-live="polite"><span class="ui-loading">顧客情報を読み込み中...</span></div>
+      </section>
+      <p id="customersMessage" class="admin-status" aria-live="polite"></p>
+    </main>
+  </div>
+
+  <div id="customerEditorModal" class="customers-modal" role="dialog" aria-modal="true" aria-labelledby="customerEditorTitle" hidden>
+    <div class="customers-modal-card admin-premium-card">
+      <button class="customers-modal-close" type="button" data-close-customer-editor aria-label="閉じる">×</button>
+      <span>GUEST EDITOR</span><h2 id="customerEditorTitle">顧客を登録</h2>
+      <form id="customerForm" class="customers-form-grid" novalidate>
+        <label class="admin-field"><span>氏名 *</span><input name="name" type="text" maxlength="100" required></label>
+        <label class="admin-field"><span>ふりがな</span><input name="kana" type="text" maxlength="100"></label>
+        <label class="admin-field"><span>ニックネーム</span><input name="nickname" type="text" maxlength="100"></label>
+        <label class="admin-field"><span>ランク</span><select name="rank"><option>VIP</option><option>Gold</option><option>Silver</option><option selected>Regular</option></select></label>
+        <label class="admin-field"><span>電話番号</span><input name="phone" type="tel" maxlength="40"></label>
+        <label class="admin-field"><span>LINE ID</span><input name="lineId" type="text" maxlength="100"></label>
+        <label class="admin-field"><span>誕生日</span><input name="birthday" type="date"></label>
+        <label class="admin-field"><span>職業</span><input name="occupation" type="text" maxlength="100"></label>
+        <label class="admin-field"><span>初回来店</span><input name="firstVisit" type="date"></label>
+        <label class="admin-field"><span>最終来店</span><input name="lastVisit" type="date"></label>
+        <label class="admin-field"><span>来店回数</span><input name="visitCount" type="number" min="0" step="1" value="0"></label>
+        <label class="admin-field"><span>担当キャスト</span><select name="assignedCastId"><option value="">未設定</option></select></label>
+        <fieldset class="customer-favorites-field is-wide"><legend>お気に入りキャスト</legend><div id="customerFavoriteCasts" class="customer-cast-options"><span>キャスト情報を読み込み中...</span></div></fieldset>
+        <label class="admin-field is-wide"><span>メモ</span><textarea name="memo" maxlength="3000" placeholder="接客時の注意事項、好み、会話内容など"></textarea></label>
+        <div class="admin-inline-actions is-wide"><button id="saveCustomer" class="admin-primary-button" type="submit">顧客を保存</button><button type="button" data-close-customer-editor>キャンセル</button></div>
+      </form>
+      <p id="customerFormMessage" class="admin-status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div id="customerDetailModal" class="customers-modal" role="dialog" aria-modal="true" aria-labelledby="customerDetailTitle" hidden>
+    <div class="customers-modal-card customers-detail-card admin-premium-card">
+      <button class="customers-modal-close" type="button" data-close-customer-detail aria-label="閉じる">×</button>
+      <span>GUEST PROFILE</span><h2 id="customerDetailTitle">顧客詳細</h2>
+      <div id="customerDetailContent"></div>
+      <div class="admin-inline-actions"><button id="editCustomerFromDetail" class="admin-primary-button" type="button">顧客情報を編集</button><button type="button" data-close-customer-detail>閉じる</button></div>
+    </div>
+  </div>
+
+  <script type="module" src="../assets/customers.js?v=2.0.0"></script>
+</body>
+</html>

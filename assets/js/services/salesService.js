@@ -44,7 +44,7 @@ export function deleteSalesRecord(id) {
 }
 
 export function findDuplicateSalesRecord(rows, payload, excludedId = "") {
-  return rows.find((row) => row.id !== excludedId && row.date === payload.date && row.castId === payload.castId) || null;
+  return rows.find((row) => row.id !== excludedId && row.date === payload.date && row.castId === payload.castId && String(row.customerId || "") === String(payload.customerId || "")) || null;
 }
 
 export function normalizeSalesRecord(row) {
@@ -54,6 +54,11 @@ export function normalizeSalesRecord(row) {
     date:String(row.date || "").slice(0, 10),
     castId:String(row.castId || ""),
     castName:String(row.castName || ""),
+    customerId:String(row.customerId || ""),
+    customerName:String(row.customerName || ""),
+    customerPhone:String(row.customerPhone || row.phone || ""),
+    customerLineId:String(row.customerLineId || row.lineId || ""),
+    reservationId:String(row.reservationId || ""),
     attendance:row.attendance !== false,
     sales:toInteger(row.sales),
     customerCount:toInteger(row.customerCount),
@@ -75,6 +80,11 @@ function pickSalesFields(payload) {
     date:String(payload.date || "").slice(0, 10),
     castId:String(payload.castId || ""),
     castName:String(payload.castName || ""),
+    customerId:String(payload.customerId || "").trim(),
+    customerName:String(payload.customerName || "").trim(),
+    customerPhone:String(payload.customerPhone || payload.phone || "").trim(),
+    customerLineId:String(payload.customerLineId || payload.lineId || "").trim(),
+    reservationId:String(payload.reservationId || "").trim(),
     attendance:payload.attendance !== false,
     memo:String(payload.memo || "").trim()
   };

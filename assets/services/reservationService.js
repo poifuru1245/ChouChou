@@ -5,6 +5,7 @@ import {
   subscribeCollection,
   updateDocument
 } from "../js/services/firestoreService.js";
+import { completeCustomerVisit } from "./customerService.js";
 
 export const RESERVATION_STATUSES = Object.freeze(["受付", "確認済", "来店", "会計済", "完了", "キャンセル", "無断キャンセル"]);
 export const ACTIVE_RESERVATION_STATUSES = new Set(["受付", "確認済", "来店", "会計済"]);
@@ -35,7 +36,18 @@ export function updateReservationSchedule(id, visitDate, visitTime) {
   });
 }
 
+export function linkReservationToCustomer(id, customer = {}) {
+  return updateDocument("reservations", id, {
+    customerId:String(customer.customerId || customer.id || ""),
+    customerName:cleanText(customer.name || customer.customerName, 100),
+    phone:cleanText(customer.phone, 40),
+    lineId:cleanText(customer.lineId, 100),
+    updatedAt:serverTimestamp()
+  });
+}
+
 export function updateReservationStatus(id, status) {
+  if (normalizeStatus(status) === "完了") return completeCustomerVisit(id);
   return updateDocument("reservations", id, {
     reservationId:id,
     status:normalizeStatus(status),
@@ -56,6 +68,7 @@ export function normalizeReservation(row = {}) {
     ...row,
     id:String(row.id || row.reservationId || ""),
     reservationId:String(row.reservationId || row.id || ""),
+    customerId:cleanText(row.customerId, 100),
     customerName,
     phone:cleanText(row.phone, 40),
     lineId:cleanText(row.lineId, 100),
@@ -74,6 +87,7 @@ export function normalizeReservation(row = {}) {
 export function prepareReservation(input = {}) {
   const normalized = normalizeReservation(input);
   return {
+    customerId:normalized.customerId,
     customerName:normalized.customerName,
     phone:normalized.phone,
     lineId:normalized.lineId,
@@ -104,10 +118,11 @@ export function reservationDateTime(item) {
 }
 
 export function getCustomerHistory(reservations, target) {
+  const customerId = String(target?.customerId || "");
   const phone = digits(target?.phone);
   const lineId = String(target?.lineId || "").trim().toLowerCase();
-  if (!phone && !lineId) return [];
-  return reservations.filter((item) => item.id !== target.id && ((phone && digits(item.phone) === phone) || (lineId && String(item.lineId || "").trim().toLowerCase() === lineId))).sort((a, b) => String(b.visitDate).localeCompare(String(a.visitDate)) || String(b.visitTime).localeCompare(String(a.visitTime)));
+  if (!customerId && !phone && !lineId) return [];
+  return reservations.filter((item) => item.id !== target.id && ((customerId && item.customerId === customerId) || (phone && digits(item.phone) === phone) || (lineId && String(item.lineId || "").trim().toLowerCase() === lineId))).sort((a, b) => String(b.visitDate).localeCompare(String(a.visitDate)) || String(b.visitTime).localeCompare(String(a.visitTime)));
 }
 
 // キャスト詳細・ダッシュボードから同じ集計を再利用できる公開インターフェース。

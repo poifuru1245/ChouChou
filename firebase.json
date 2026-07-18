@@ -1,10 +1,15 @@
 {
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22"
+  },
   "hosting": {
     "site": "chouchou-susukino",
     "public": ".",
     "ignore": [
       "firebase.json",
       "firebase-debug.log",
+      "functions/**",
       "**/.*",
       "**/node_modules/**",
       "届出書/**",

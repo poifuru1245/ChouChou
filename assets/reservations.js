@@ -6,6 +6,7 @@ import {
   createReservation,
   deleteReservation,
   getCustomerHistory,
+  linkReservationToCustomer,
   reservationDateTime,
   subscribeReservations,
   updateReservation,
@@ -13,6 +14,7 @@ import {
   updateReservationStatus
 } from "./services/reservationService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
+import { createCustomer, findMatchingCustomer, subscribeCustomers } from "./services/customerService.js";
 
 const form = document.getElementById("reservationForm");
 const list = document.getElementById("reservationList");
@@ -20,9 +22,10 @@ const editorModal = document.getElementById("reservationEditorModal");
 const detailModal = document.getElementById("reservationDetailModal");
 const DISMISSED_KEY = "chouchouReservationDismissedNotifications";
 const state = {
-  reservations:[], casts:[], period:"today", view:"table", sort:"date-asc", search:"", status:"",
+  reservations:[], casts:[], customers:[], period:"today", view:"table", sort:"date-asc", search:"", status:"",
   editingId:"", selectedId:"", calendarView:"week", calendarDate:getTokyoDateKey(),
-  known:new Map(), eventNotifications:[], dismissed:new Set(readJson(DISMISSED_KEY, [])), initialized:false
+  known:new Map(), eventNotifications:[], dismissed:new Set(readJson(DISMISSED_KEY, [])), initialized:false,
+  queryCustomerId:new URLSearchParams(location.search).get("customerId") || ""
 };
 
 initialize();
@@ -31,6 +34,7 @@ function initialize() {
   bindEvents();
   resetForm();
   subscribeCollection("casts", handleCasts, handleLoadError);
+  subscribeCustomers((rows) => { state.customers = rows.sort((a, b) => a.name.localeCompare(b.name, "ja")); renderCustomerOptions(); applyQueryCustomer(); }, handleLoadError);
   subscribeReservations(handleReservations, handleLoadError);
   window.setInterval(() => { renderSummary(); renderNotifications(); }, 60000);
 }
@@ -38,6 +42,8 @@ function initialize() {
 function bindEvents() {
   document.getElementById("openReservationEditor").addEventListener("click", () => openEditor());
   form.addEventListener("submit", saveReservation);
+  form.elements.customerId.addEventListener("change", applySelectedCustomer);
+  ["customerName", "phone", "lineId"].forEach((field) => form.elements[field].addEventListener("blur", matchCustomerFromInput));
   document.querySelectorAll("[data-close-reservation-modal]").forEach((button) => button.addEventListener("click", closeEditor));
   document.querySelectorAll("[data-close-reservation-detail]").forEach((button) => button.addEventListener("click", closeDetail));
   editorModal.addEventListener("click", (event) => { if (event.target === editorModal) closeEditor(); });
@@ -69,6 +75,43 @@ function bindEvents() {
 function handleCasts(rows) {
   state.casts = rows.filter((item) => item.isPublished !== false).sort((a, b) => Number(a.displayOrder ?? 9999) - Number(b.displayOrder ?? 9999));
   renderCastOptions();
+}
+
+function renderCustomerOptions() {
+  const selected = form.elements.customerId.value;
+  form.elements.customerId.innerHTML = `<option value="">入力内容から自動検索</option>${state.customers.map((customer) => `<option value="${escapeAttribute(customer.id)}">${escapeHtml(customer.name || "名称未設定")}${customer.phone ? `（${escapeHtml(customer.phone)}）` : ""}</option>`).join("")}`;
+  form.elements.customerId.value = selected;
+}
+
+function applySelectedCustomer() {
+  const customer = state.customers.find((item) => item.id === form.elements.customerId.value);
+  if (!customer) return;
+  form.elements.customerName.value = customer.name;
+  form.elements.phone.value = customer.phone;
+  form.elements.lineId.value = customer.lineId;
+  setCustomerMatchStatus(`${customer.name}様の顧客データへ紐付けます。`, "matched");
+}
+
+function applyQueryCustomer() {
+  if (!state.queryCustomerId) return;
+  const customer = state.customers.find((item) => item.id === state.queryCustomerId);
+  state.queryCustomerId = "";
+  if (!customer) return setMessage("指定された顧客情報が見つかりませんでした。", "error");
+  openEditor();
+  form.elements.customerId.value = customer.id;
+  applySelectedCustomer();
+}
+
+function matchCustomerFromInput() {
+  if (form.elements.customerId.value) return;
+  const match = findMatchingCustomer(state.customers, {
+    customerName:form.elements.customerName.value,
+    phone:form.elements.phone.value,
+    lineId:form.elements.lineId.value
+  });
+  if (!match) return setCustomerMatchStatus("既存顧客は見つかりません。保存時に新規顧客として登録できます。", "new");
+  form.elements.customerId.value = match.id;
+  applySelectedCustomer();
 }
 
 function handleReservations(rows) {
@@ -173,17 +216,34 @@ function handleListClick(event) {
 async function handleListChange(event) {
   const select = event.target.closest('select[data-action="status"]');
   if (!select) return;
+  const reservation = findReservation(select.dataset.id);
   select.disabled = true;
-  try { await updateReservationStatus(select.dataset.id, select.value); setMessage("ステータスを更新しました。", "success"); }
-  catch (error) { console.error("予約ステータス更新失敗", error); setMessage("ステータスを更新できませんでした。", "error"); }
+  try {
+    if (select.value === "完了" && reservation) await ensureReservationCustomer(reservation);
+    await updateReservationStatus(select.dataset.id, select.value);
+    setMessage(select.value === "完了" ? "来店完了として顧客の来店情報を更新しました。" : "ステータスを更新しました。", "success");
+  }
+  catch (error) { console.error("予約ステータス更新失敗", error); select.value = reservation?.status || "受付"; setMessage(error?.message === "customer-creation-canceled" ? "顧客登録がキャンセルされたため、完了処理は行っていません。" : "ステータスを更新できませんでした。", "error"); }
   finally { select.disabled = false; }
+}
+
+async function ensureReservationCustomer(reservation) {
+  if (reservation.customerId) return reservation.customerId;
+  let customer = findMatchingCustomer(state.customers, reservation);
+  if (!customer) {
+    if (!window.confirm(`${reservation.customerName}様を顧客台帳へ登録して来店完了にしますか？`)) throw new Error("customer-creation-canceled");
+    const id = await createCustomer({ name:reservation.customerName, phone:reservation.phone, lineId:reservation.lineId, rank:"Regular", visitCount:0, favoriteCastIds:[], assignedCastId:reservation.nominationCastId || "" });
+    customer = { id, customerId:id, name:reservation.customerName, phone:reservation.phone, lineId:reservation.lineId };
+  }
+  await linkReservationToCustomer(reservation.id, customer);
+  return customer.id;
 }
 
 function openEditor(reservation = null) {
   state.editingId = reservation?.id || "";
   resetForm();
   if (reservation) {
-    ["customerName", "phone", "lineId", "source", "visitDate", "visitTime", "peopleCount", "course", "nominationCastId", "status", "memo"].forEach((field) => { form.elements[field].value = reservation[field] ?? ""; });
+    ["customerId", "customerName", "phone", "lineId", "source", "visitDate", "visitTime", "peopleCount", "course", "nominationCastId", "status", "memo"].forEach((field) => { form.elements[field].value = reservation[field] ?? ""; });
     document.getElementById("reservationEditorTitle").textContent = "予約を編集";
     document.getElementById("saveReservation").textContent = "変更を保存";
   }
@@ -192,7 +252,7 @@ function openEditor(reservation = null) {
 
 function closeEditor() { editorModal.hidden = true; document.body.classList.remove("is-modal-open"); setFormMessage(""); }
 
-function resetForm() { form.reset(); form.elements.visitDate.value = getTokyoDateKey(); form.elements.peopleCount.value = "1"; form.elements.status.value = "受付"; document.getElementById("reservationEditorTitle").textContent = "予約を登録"; document.getElementById("saveReservation").textContent = "予約を保存"; }
+function resetForm() { form.reset(); form.elements.visitDate.value = getTokyoDateKey(); form.elements.peopleCount.value = "1"; form.elements.status.value = "受付"; document.getElementById("reservationEditorTitle").textContent = "予約を登録"; document.getElementById("saveReservation").textContent = "予約を保存"; setCustomerMatchStatus("電話番号・LINE ID・名前から既存顧客を照合します。", ""); }
 
 async function saveReservation(event) {
   event.preventDefault();
@@ -200,9 +260,43 @@ async function saveReservation(event) {
   const error = validateReservation(payload);
   if (error) return setFormMessage(error, "error");
   const button = document.getElementById("saveReservation"); button.disabled = true; setFormMessage("保存中...");
-  try { if (state.editingId) await updateReservation(state.editingId, payload); else await createReservation(payload); closeEditor(); setMessage(state.editingId ? "予約を更新しました。" : "予約を登録しました。", "success"); }
-  catch (saveError) { console.error("予約保存失敗", saveError); setFormMessage("保存できませんでした。入力内容、通信状況、Firestoreの権限をご確認ください。", "error"); }
+  try {
+    await resolveReservationCustomer(payload);
+    const savedId = state.editingId || await createReservation(payload);
+    if (state.editingId) await updateReservation(state.editingId, payload);
+    if (payload.status === "完了") await updateReservationStatus(savedId, "完了");
+    closeEditor();
+    setMessage(state.editingId ? "予約を更新しました。" : "予約と顧客情報を登録しました。", "success");
+  }
+  catch (saveError) {
+    if (saveError?.message === "customer-creation-canceled") return setFormMessage("顧客登録がキャンセルされたため、予約は保存していません。", "error");
+    console.error("予約保存失敗", saveError);
+    setFormMessage("保存できませんでした。入力内容、通信状況、Firestoreの権限をご確認ください。", "error");
+  }
   finally { button.disabled = false; }
+}
+
+async function resolveReservationCustomer(payload) {
+  if (payload.customerId) return payload.customerId;
+  const match = findMatchingCustomer(state.customers, payload);
+  if (match) {
+    payload.customerId = match.id;
+    payload.customerName = match.name || payload.customerName;
+    payload.phone = match.phone || payload.phone;
+    payload.lineId = match.lineId || payload.lineId;
+    return match.id;
+  }
+  if (!window.confirm(`${payload.customerName}様は顧客台帳に未登録です。\n新規顧客として登録して予約へ紐付けますか？`)) throw new Error("customer-creation-canceled");
+  payload.customerId = await createCustomer({
+    name:payload.customerName,
+    phone:payload.phone,
+    lineId:payload.lineId,
+    rank:"Regular",
+    visitCount:0,
+    favoriteCastIds:[],
+    assignedCastId:payload.nominationCastId || ""
+  });
+  return payload.customerId;
 }
 
 function collectForm() {
@@ -228,7 +322,7 @@ function renderDetail() {
   if (!item) return closeDetail();
   const history = getCustomerHistory(state.reservations, item);
   document.getElementById("reservationDetailTitle").textContent = `${item.customerName || "名称未設定"} 様`;
-  document.getElementById("reservationDetailContent").innerHTML = `<div class="reservation-detail-summary"><div><span>来店日時</span><strong>${escapeHtml(formatDate(item.visitDate))} ${escapeHtml(item.visitTime || "未定")}</strong></div><div><span>ステータス</span><strong>${escapeHtml(item.status)}</strong></div><div><span>指名キャスト</span><strong>${escapeHtml(item.nominationCastName || "指名なし")}</strong></div><div><span>過去利用回数</span><strong>${history.filter((row) => row.status === "完了").length}回</strong></div></div><dl class="reservation-detail-list"><div><dt>電話番号</dt><dd>${escapeHtml(item.phone || "未登録")}</dd></div><div><dt>LINE ID</dt><dd>${escapeHtml(item.lineId || "未登録")}</dd></div><div><dt>人数</dt><dd>${item.peopleCount}名</dd></div><div><dt>コース</dt><dd>${escapeHtml(item.course || "未設定")}</dd></div><div><dt>受付経路</dt><dd>${escapeHtml(item.source)}</dd></div><div><dt>メモ</dt><dd>${escapeHtml(item.memo || "なし")}</dd></div></dl><section class="reservation-guest-history"><h3>来店履歴</h3>${history.length ? `<ul>${history.slice(0, 10).map((row) => `<li><time>${escapeHtml(formatDate(row.visitDate))}</time><span>${escapeHtml(row.nominationCastName || "指名なし")}</span><em>${escapeHtml(row.status)}</em></li>`).join("")}</ul>` : "<p>過去の利用履歴はありません。</p>"}</section>`;
+  document.getElementById("reservationDetailContent").innerHTML = `${item.customerId ? `<a class="reservation-crm-link" href="customer-detail.html?id=${encodeURIComponent(item.customerId)}">顧客360°プロフィールを開く →</a>` : ""}<div class="reservation-detail-summary"><div><span>来店日時</span><strong>${escapeHtml(formatDate(item.visitDate))} ${escapeHtml(item.visitTime || "未定")}</strong></div><div><span>ステータス</span><strong>${escapeHtml(item.status)}</strong></div><div><span>指名キャスト</span><strong>${escapeHtml(item.nominationCastName || "指名なし")}</strong></div><div><span>過去利用回数</span><strong>${history.filter((row) => row.status === "完了").length}回</strong></div></div><dl class="reservation-detail-list"><div><dt>電話番号</dt><dd>${escapeHtml(item.phone || "未登録")}</dd></div><div><dt>LINE ID</dt><dd>${escapeHtml(item.lineId || "未登録")}</dd></div><div><dt>人数</dt><dd>${item.peopleCount}名</dd></div><div><dt>コース</dt><dd>${escapeHtml(item.course || "未設定")}</dd></div><div><dt>受付経路</dt><dd>${escapeHtml(item.source)}</dd></div><div><dt>メモ</dt><dd>${escapeHtml(item.memo || "なし")}</dd></div></dl><section class="reservation-guest-history"><h3>来店履歴</h3>${history.length ? `<ul>${history.slice(0, 10).map((row) => `<li><time>${escapeHtml(formatDate(row.visitDate))}</time><span>${escapeHtml(row.nominationCastName || "指名なし")}</span><em>${escapeHtml(row.status)}</em></li>`).join("")}</ul>` : "<p>過去の利用履歴はありません。</p>"}</section>`;
 }
 
 function editSelectedReservation() { const item = findReservation(state.selectedId); closeDetail(); if (item) openEditor(item); }
@@ -284,8 +378,8 @@ function persistDismissed() { localStorage.setItem(DISMISSED_KEY, JSON.stringify
 function exportCsv() {
   const rows = getFilteredReservations();
   if (!rows.length) return setMessage("出力する予約がありません。", "error");
-  const headers = ["予約ID", "お客様名", "電話番号", "LINE ID", "来店日", "来店時間", "人数", "コース", "指名キャスト", "ステータス", "受付経路", "メモ"];
-  const fields = rows.map((item) => [item.reservationId || item.id, item.customerName, item.phone, item.lineId, item.visitDate, item.visitTime, item.peopleCount, item.course, item.nominationCastName, item.status, item.source, item.memo]);
+  const headers = ["予約ID", "顧客ID", "お客様名", "電話番号", "LINE ID", "来店日", "来店時間", "人数", "コース", "指名キャスト", "ステータス", "受付経路", "メモ"];
+  const fields = rows.map((item) => [item.reservationId || item.id, item.customerId, item.customerName, item.phone, item.lineId, item.visitDate, item.visitTime, item.peopleCount, item.course, item.nominationCastName, item.status, item.source, item.memo]);
   const csv = `\uFEFF${[headers, ...fields].map((row) => row.map(csvCell).join(",")).join("\r\n")}`;
   const url = URL.createObjectURL(new Blob([csv], { type:"text/csv;charset=utf-8" })); const anchor = document.createElement("a"); anchor.href = url; anchor.download = `chouchou-reservations-${getTokyoDateKey()}.csv`; anchor.click(); URL.revokeObjectURL(url);
 }
@@ -312,4 +406,5 @@ function readJson(key, fallback) { try { return JSON.parse(localStorage.getItem(
 function setText(id, value) { const element = document.getElementById(id); if (element) element.textContent = String(value); }
 function setMessage(text, type = "") { const element = document.getElementById("reservationMessage"); element.textContent = text; element.dataset.type = type; }
 function setFormMessage(text, type = "") { const element = document.getElementById("reservationFormMessage"); element.textContent = text; element.dataset.type = type; }
+function setCustomerMatchStatus(text, type = "") { const element = document.getElementById("customerMatchStatus"); if (!element) return; element.textContent = text; element.dataset.type = type; }
 function handleLoadError(error) { console.error("予約管理読み込み失敗", error); list.innerHTML = '<p class="reservation-empty">予約情報を読み込めませんでした。通信状況とFirestoreの権限をご確認ください。</p>'; setMessage("データの読み込みに失敗しました。", "error"); }

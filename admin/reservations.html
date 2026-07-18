@@ -8,7 +8,7 @@
 </head>
 <body class="admin-premium">
   <div class="admin-layout">
-    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a class="active" href="reservations.html">予約管理</a><a href="sales.html">売上管理</a><a href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="login.html">ログアウト</a></aside>
+    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a class="active" href="reservations.html">予約管理</a><a href="sales.html">売上管理</a><a href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="users.html">ユーザー管理</a><a href="login.html">ログアウト</a></aside>
 
     <main class="main reservations-admin-page">
       <header class="reservation-page-head">
@@ -60,6 +60,7 @@
       <button class="reservation-modal-close" type="button" data-close-reservation-modal aria-label="閉じる">×</button>
       <span>RESERVATION EDITOR</span><h2 id="reservationEditorTitle">予約を登録</h2>
       <form id="reservationForm" class="reservation-form-grid" novalidate>
+        <label class="admin-field is-wide"><span>顧客台帳</span><select name="customerId"><option value="">入力内容から自動検索</option></select><small id="customerMatchStatus">電話番号・LINE ID・名前から既存顧客を照合します。</small></label>
         <label class="admin-field"><span>お客様名 *</span><input name="customerName" type="text" maxlength="100" required></label>
         <label class="admin-field"><span>電話番号</span><input name="phone" type="tel" maxlength="40"></label>
         <label class="admin-field"><span>LINE ID</span><input name="lineId" type="text" maxlength="100"></label>
