@@ -1018,7 +1018,7 @@ function createCastEngagementActions(cast, compact = false){
   if(!id) return "";
   return `<div class="v6-cast-actions${compact ? " is-compact" : ""}">
     <button type="button" class="v6-favorite-button" data-favorite-cast="${escapeAttribute(id)}" aria-label="${escapeAttribute(cast?.name || "キャスト")}をお気に入りに追加" aria-pressed="false">♡</button>
-    <a class="button-premium v6-line-cast-button" href="#" data-site-link="lineReservationUrl" data-cast-name="${escapeAttribute(cast?.name || "")}" target="_blank" rel="noopener"><span class="v6-line-content"><span class="v6-line-icon" aria-hidden="true">LINE</span><span class="v6-line-label">LINE予約</span></span></a>
+    <a class="button-premium v6-line-cast-button" href="#" data-site-link="lineReservationUrl" data-cast-name="${escapeAttribute(cast?.name || "")}" target="_blank" rel="noopener"><span class="v6-line-content"><svg class="v6-line-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.25c-5.11 0-9.25 3.45-9.25 7.7 0 2.64 1.63 5.09 4.28 6.49l-.72 3.31 3.63-2.23c.68.1 1.37.15 2.06.15 5.11 0 9.25-3.46 9.25-7.72S17.11 3.25 12 3.25Z"/><circle cx="8.25" cy="11" r="1"/><circle cx="12" cy="11" r="1"/><circle cx="15.75" cy="11" r="1"/></svg><span class="v6-line-label">LINE予約</span></span></a>
   </div>`;
 }
 
