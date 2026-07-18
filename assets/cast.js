@@ -325,7 +325,7 @@ const visibleCasts = casts.filter((cast)=>cast?.isPublished !== false).filter((c
 
 visibleCasts
 .slice(0, limit ?? visibleCasts.length)
-.forEach((cast)=>{
+.forEach((cast,castIndex)=>{
 
 const div =
 document.createElement("div");
@@ -380,7 +380,7 @@ ${createCastEngagementActions(cast)}
 `;
 
 makePublicCastCardClickable(div, detailUrl);
-applyCastSearchData(div, cast, isToday);
+applyCastSearchData(div, cast, isToday, castIndex);
 list.appendChild(div);
 
 });
@@ -1022,16 +1022,44 @@ function createCastEngagementActions(cast, compact = false){
   </div>`;
 }
 
-function applyCastSearchData(card, cast, isToday){
+function applyCastSearchData(card, cast, isToday, originalIndex = 0){
+  const age = String(cast?.age || "").replace(/\D/g,"");
+  const height = String(cast?.height || "").replace(/\D/g,"");
+  const bloodType = String(cast?.bloodType || cast?.blood || "");
+  const message = String(cast?.message || cast?.comment || cast?.profileMessage || cast?.catchphrase || "");
+  const displayOrder = Number(cast?.displayOrder);
+
   card.dataset.castId = String(cast?.id || cast?.name || "");
-  card.dataset.castName = String(cast?.name || "").toLowerCase();
-  card.dataset.castAge = String(cast?.age || "").replace(/\D/g,"");
-  card.dataset.castHeight = String(cast?.height || "").replace(/\D/g,"");
-  card.dataset.castBlood = String(cast?.bloodType || "").toLowerCase();
-  card.dataset.castHobby = String(cast?.hobby || "").toLowerCase();
+  card.dataset.castName = normalizeCastSearchValue(cast?.name);
+  card.dataset.castAge = age;
+  card.dataset.castHeight = height;
+  card.dataset.castBlood = normalizeCastSearchValue(bloodType);
+  card.dataset.castHobby = normalizeCastSearchValue(cast?.hobby);
+  card.dataset.castMessage = normalizeCastSearchValue(message);
   card.dataset.castRecommended = String(isBadgeEnabled(cast?.isRecommended));
   card.dataset.castNew = String(isBadgeEnabled(cast?.isNew));
   card.dataset.castToday = String(isToday);
+  card.dataset.castOrder = String(Number.isFinite(displayOrder) ? displayOrder : originalIndex);
+  card.dataset.castOriginalIndex = String(originalIndex);
+  card.dataset.castSearchText = normalizeCastSearchValue([
+    cast?.name,
+    toDisplayRomaji(cast),
+    age,
+    age ? `${age}歳` : "",
+    height,
+    height ? `${height}cm` : "",
+    bloodType,
+    bloodType ? `${bloodType.replace(/型$/u,"")}型` : "",
+    cast?.hobby,
+    message
+  ].filter(Boolean).join(" "));
+}
+
+function normalizeCastSearchValue(value){
+  return String(value || "")
+    .normalize("NFKC")
+    .trim()
+    .toLocaleLowerCase("ja");
 }
 
 function toDisplayRomaji(cast){

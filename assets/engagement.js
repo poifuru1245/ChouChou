@@ -62,29 +62,118 @@ function setupCastSearch(){
   const form = document.querySelector("[data-cast-search]");
   const grid = document.querySelector(".interior-cast-grid");
   if(!form || !grid) return;
-  const filter = ()=>{
-    const data = new FormData(form);
-    const name = normalize(data.get("name"));
-    const age = String(data.get("age") || "").replace(/\D/g,"");
-    const height = String(data.get("height") || "").replace(/\D/g,"");
-    const blood = normalize(data.get("bloodType"));
-    const hobby = normalize(data.get("hobby"));
-    const flags = ["recommended","new","today"];
-    let count = 0;
-    grid.querySelectorAll(".public-cast-card").forEach((card)=>{
-      const visible = (!name || card.dataset.castName?.includes(name)) && (!age || card.dataset.castAge === age) && (!height || card.dataset.castHeight === height) && (!blood || card.dataset.castBlood?.includes(blood)) && (!hobby || card.dataset.castHobby?.includes(hobby)) && flags.every((flag)=>data.get(flag) !== "on" || card.dataset[`cast${flag[0].toUpperCase()}${flag.slice(1)}`] === "true");
-      card.hidden = !visible;
-      if(visible) count += 1;
-    });
-    const output = document.getElementById("castSearchCount");
-    if(output) output.textContent = `${count}名`; 
-    const empty = document.getElementById("castSearchEmpty");
-    if(empty) empty.hidden = count !== 0;
+
+  const countOutput = document.getElementById("castSearchCount");
+  const emptyOutput = document.getElementById("castSearchEmpty");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  let knownCardCount = 0;
+  let frameId = 0;
+  let filterVersion = 0;
+
+  const readNumber = (card,key)=>{
+    const rawValue = card.dataset[key];
+    if(rawValue === undefined || rawValue === "") return Number.POSITIVE_INFINITY;
+    const value = Number(rawValue);
+    return Number.isFinite(value) && value >= 0 ? value : Number.POSITIVE_INFINITY;
   };
-  form.addEventListener("input",filter);
-  form.addEventListener("change",filter);
-  form.addEventListener("reset",()=>setTimeout(filter));
-  new MutationObserver(filter).observe(grid,{childList:true});
+
+  const baseOrder = (left,right)=>
+    readNumber(left,"castOrder") - readNumber(right,"castOrder") ||
+    readNumber(left,"castOriginalIndex") - readNumber(right,"castOriginalIndex");
+
+  const flagOrder = (key)=>(left,right)=>
+    Number(right.dataset[key] === "true") - Number(left.dataset[key] === "true") ||
+    baseOrder(left,right);
+
+  const comparators = {
+    recommended:flagOrder("castRecommended"),
+    new:flagOrder("castNew"),
+    name:(left,right)=>left.dataset.castName.localeCompare(right.dataset.castName,"ja") || baseOrder(left,right),
+    age:(left,right)=>readNumber(left,"castAge") - readNumber(right,"castAge") || baseOrder(left,right),
+    height:(left,right)=>readNumber(left,"castHeight") - readNumber(right,"castHeight") || baseOrder(left,right),
+    today:flagOrder("castToday")
+  };
+
+  const animateVisibility = (card,visible,version)=>{
+    card.getAnimations?.().forEach((animation)=>animation.cancel());
+
+    if(reducedMotion.matches){
+      card.hidden = !visible;
+      return;
+    }
+
+    if(visible){
+      const wasHidden = card.hidden;
+      card.hidden = false;
+      if(wasHidden){
+        card.animate(
+          [{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"translateY(0)"}],
+          {duration:250,easing:"ease",fill:"both"}
+        );
+      }
+      return;
+    }
+
+    if(card.hidden) return;
+    const animation = card.animate(
+      [{opacity:1,transform:"translateY(0)"},{opacity:0,transform:"translateY(8px)"}],
+      {duration:160,easing:"ease",fill:"both"}
+    );
+    animation.finished.then(()=>{
+      if(version === filterVersion) card.hidden = true;
+    }).catch(()=>{});
+  };
+
+  const filter = ()=>{
+    frameId = 0;
+    filterVersion += 1;
+    const currentVersion = filterVersion;
+    const data = new FormData(form);
+    const keyword = normalize(data.get("keyword"));
+    const cards = [...grid.querySelectorAll(".public-cast-card")];
+    const selectedDecades = [
+      data.get("twenties") === "on" ? 20 : null,
+      data.get("thirties") === "on" ? 30 : null
+    ].filter(Number.isFinite);
+    const matches = new Set(cards.filter((card)=>{
+      const age = Number(card.dataset.castAge);
+      const matchesDecade = !selectedDecades.length || selectedDecades.some((start)=>age >= start && age < start + 10);
+      return (!keyword || card.dataset.castSearchText?.includes(keyword)) &&
+        (data.get("recommended") !== "on" || card.dataset.castRecommended === "true") &&
+        (data.get("new") !== "on" || card.dataset.castNew === "true") &&
+        (data.get("today") !== "on" || card.dataset.castToday === "true") &&
+        matchesDecade;
+    }));
+    const comparator = comparators[String(data.get("sort") || "recommended")] || comparators.recommended;
+
+    cards.sort(comparator);
+    const fragment = document.createDocumentFragment();
+    cards.forEach((card)=>{
+      animateVisibility(card,matches.has(card),currentVersion);
+      fragment.appendChild(card);
+    });
+    grid.appendChild(fragment);
+
+    if(countOutput) countOutput.textContent = `${cards.length}名中${matches.size}名表示`;
+    if(emptyOutput) emptyOutput.hidden = matches.size !== 0;
+  };
+
+  const scheduleFilter = ()=>{
+    if(frameId) cancelAnimationFrame(frameId);
+    frameId = requestAnimationFrame(filter);
+  };
+
+  form.addEventListener("input",scheduleFilter);
+  form.addEventListener("change",scheduleFilter);
+  form.addEventListener("reset",()=>setTimeout(scheduleFilter));
+  new MutationObserver(()=>{
+    const currentCardCount = grid.querySelectorAll(".public-cast-card").length;
+    if(currentCardCount === knownCardCount) return;
+    knownCardCount = currentCardCount;
+    scheduleFilter();
+  }).observe(grid,{childList:true});
+  knownCardCount = grid.querySelectorAll(".public-cast-card").length;
+  scheduleFilter();
 }
 
 function setupRevealMotion(){
