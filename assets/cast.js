@@ -1018,7 +1018,7 @@ function createCastEngagementActions(cast, compact = false){
   if(!id) return "";
   return `<div class="v6-cast-actions${compact ? " is-compact" : ""}">
     <button type="button" class="v6-favorite-button" data-favorite-cast="${escapeAttribute(id)}" aria-label="${escapeAttribute(cast?.name || "キャスト")}をお気に入りに追加" aria-pressed="false">♡</button>
-    <a class="button-premium v6-line-cast-button" href="#" data-site-link="lineReservationUrl" data-cast-name="${escapeAttribute(cast?.name || "")}" target="_blank" rel="noopener"><span class="v6-line-icon" aria-hidden="true">LINE</span><span class="v6-line-label">LINE予約</span></a>
+    <a class="button-premium v6-line-cast-button" href="#" data-site-link="lineReservationUrl" data-cast-name="${escapeAttribute(cast?.name || "")}" target="_blank" rel="noopener"><span class="v6-line-content"><span class="v6-line-icon" aria-hidden="true">LINE</span><span class="v6-line-label">LINE予約</span></span></a>
   </div>`;
 }
 

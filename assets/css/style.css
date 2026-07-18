@@ -44,7 +44,7 @@
 .v6-cast-actions{display:grid;grid-template-columns:46px 1fr;gap:8px;width:100%;margin-top:10px}.v6-cast-actions.is-compact{grid-template-columns:40px minmax(94px,1fr);max-width:180px;margin-top:8px}
 .v6-favorite-button{display:grid;place-items:center;min-width:40px;min-height:40px;border:1px solid rgba(198,154,72,.46);border-radius:50%;background:rgba(255,255,255,.86);color:#c16d93;font-size:23px;line-height:1;cursor:pointer;box-shadow:0 7px 16px rgba(114,46,78,.11);transition:transform .25s ease,color .25s ease,box-shadow .25s ease}
 .v6-favorite-button.is-favorite{color:#c23f7b;background:linear-gradient(145deg,#fff,#ffe6f1)}
-.v6-line-cast-button{display:flex;align-items:center;justify-content:center;min-height:40px !important;height:40px !important;padding:0 13px !important;font-size:12px !important;text-decoration:none}
+.v6-line-cast-button{display:flex;flex-flow:row nowrap;align-items:center;justify-content:center;min-height:40px !important;height:40px !important;padding:0 22px !important;font-size:12px !important;text-decoration:none;white-space:nowrap}
 .v6-remaining-time dd{color:#b16f2a !important;font-weight:800 !important}.v9-cast-status.is-working{background:linear-gradient(135deg,#d45490,#b93a75) !important;color:#fff !important}.v9-cast-status.is-soon{background:linear-gradient(135deg,#f1cf8b,#c69843) !important;color:#653b21 !important}.v9-cast-status.is-finished{background:rgba(116,96,106,.82) !important;color:#fff !important}
 .v6-cast-view-count{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin:18px 0 0;color:#92677c;font-size:13px}.v6-cast-view-count strong{color:#a87535;font:700 22px/1 "Cormorant Garamond",serif}
 .v6-favorite-page-actions{display:flex;justify-content:center;margin:-8px 0 30px}.v6-favorite-empty{grid-column:1/-1}
@@ -14590,13 +14590,14 @@ html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-c
 /* ChouChou Ver6.0 — Premium Button Brush-up */
 html body.premium-design-system:not(.cast-detail-page) .v6-cast-actions{grid-template-columns:29px minmax(0,123px) !important;gap:10px !important}
 html body.premium-design-system:not(.cast-detail-page) .v6-favorite-button{width:29px !important;min-width:29px !important;max-width:29px !important;height:29px !important;min-height:29px !important;max-height:29px !important;border:1px solid rgba(198,154,72,.68) !important;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,226,240,.76)) !important;color:#c582a2 !important;font-size:14px !important;font-weight:400 !important;text-shadow:none !important;box-shadow:0 5px 13px rgba(110,49,78,.09),0 1px 0 rgba(255,255,255,.96) inset !important}
-html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{position:relative !important;display:grid !important;place-items:center !important;width:123px !important;min-width:0 !important;max-width:123px !important;height:41px !important;min-height:41px !important;padding:0 20px !important;overflow:hidden !important;border:1px solid rgba(198,154,72,.62) !important;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,232,243,.7)) !important;color:#9d5075 !important;backdrop-filter:blur(10px) !important;box-shadow:0 7px 17px rgba(111,48,78,.09),0 1px 0 rgba(255,255,255,.96) inset !important;text-align:center !important}
-html body.premium-design-system:not(.cast-detail-page) .v6-line-icon{position:absolute;top:50%;left:10px;display:grid;place-items:center;width:24px;height:18px;border:1px solid rgba(198,154,72,.55);border-radius:6px;background:rgba(255,255,255,.72);color:#b35f88;font:700 6px/1 "Cormorant Garamond",serif;letter-spacing:.03em;transform:translateY(-50%)}
-html body.premium-design-system:not(.cast-detail-page) .v6-line-label{display:block;width:100%;text-align:center;white-space:nowrap}
+html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{display:flex !important;flex-flow:row nowrap !important;align-items:center !important;justify-content:center !important;width:123px !important;min-width:0 !important;max-width:123px !important;height:41px !important;min-height:41px !important;padding:0 22px !important;overflow:hidden !important;border:1px solid rgba(198,154,72,.62) !important;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(255,232,243,.7)) !important;color:#9d5075 !important;backdrop-filter:blur(10px) !important;box-shadow:0 7px 17px rgba(111,48,78,.09),0 1px 0 rgba(255,255,255,.96) inset !important;text-align:center !important;white-space:nowrap !important}
+html body.premium-design-system:not(.cast-detail-page) .v6-line-content{display:inline-flex;flex:0 0 auto;flex-flow:row nowrap;align-items:center;justify-content:center;width:max-content;margin:0 auto;gap:12px;white-space:nowrap}
+html body.premium-design-system:not(.cast-detail-page) .v6-line-icon{position:static;display:grid;place-items:center;width:18px;height:18px;flex:0 0 18px;margin:0;border:1px solid rgba(198,154,72,.55);border-radius:6px;background:rgba(255,255,255,.72);color:#b35f88;font:700 6px/1 "Cormorant Garamond",serif;letter-spacing:.03em}
+html body.premium-design-system:not(.cast-detail-page) .v6-line-label{display:block;flex:0 0 auto;width:auto;margin:0;line-height:1;text-align:center;white-space:nowrap}
 html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .public-cast-today-label,html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .public-cast-today-label{font-size:8.5px !important}
 html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-image,html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v9-cast-image{transform:scale(1.06) !important;transform-origin:center top !important}
 @media(hover:hover) and (pointer:fine){html body.premium-design-system:not(.cast-detail-page) .v6-favorite-button:hover{color:#b93e78 !important;background:linear-gradient(145deg,#fff4f9,#f7a9ca) !important;transform:translateY(-3px) !important}html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button:hover{border-color:rgba(198,154,72,.82) !important;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(246,180,210,.86)) !important;color:#8f3f67 !important;transform:translateY(-3px) !important}}
-@media(min-width:769px){html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-cast-actions{grid-template-columns:26px 52px !important;gap:6px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-favorite-button{width:26px !important;min-width:26px !important;max-width:26px !important;height:26px !important;min-height:26px !important;max-height:26px !important;font-size:12px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-cast-button{width:52px !important;max-width:52px !important;height:41px !important;min-height:41px !important;padding:0 3px 0 17px !important;font-size:8px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-icon{left:3px;width:14px;height:14px;border-radius:4px;font-size:4px}}
+@media(min-width:769px){html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-cast-actions{grid-template-columns:26px 124px !important;gap:6px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-favorite-button{width:26px !important;min-width:26px !important;max-width:26px !important;height:26px !important;min-height:26px !important;max-height:26px !important;font-size:12px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-cast-button{width:124px !important;max-width:124px !important;height:41px !important;min-height:41px !important;padding:0 22px !important;font-size:8px !important}html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-icon{width:18px;height:18px;border-radius:4px;font-size:4.5px}}
 @media(max-width:768px){html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{width:min(123px,100%) !important}}
 
 /* =========================================================
@@ -14629,14 +14630,10 @@ html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{
     max-width:141px !important;
     height:41px !important;
     min-height:41px !important;
-    padding-right:24px !important;
-    padding-left:24px !important;
+    padding-right:22px !important;
+    padding-left:22px !important;
     border-width:1px !important;
     border-radius:999px !important;
-}
-
-html body.premium-design-system:not(.cast-detail-page) .v6-line-icon{
-    left:7px !important;
 }
 
 html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .public-profile-link{
@@ -14723,7 +14720,7 @@ html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-s
 
 @media(min-width:769px){
     html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-cast-actions{
-        grid-template-columns:28px minmax(0,66px) !important;
+        grid-template-columns:28px minmax(0,124px) !important;
         gap:7px !important;
         min-height:41px !important;
     }
@@ -14739,14 +14736,10 @@ html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-s
     }
 
     html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-cast-button{
-        width:66px !important;
-        max-width:66px !important;
-        padding-right:4px !important;
-        padding-left:19px !important;
-    }
-
-    html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-icon{
-        left:2px !important;
+        width:124px !important;
+        max-width:124px !important;
+        padding-right:22px !important;
+        padding-left:22px !important;
     }
 }
 
@@ -14780,71 +14773,5 @@ html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-s
 
     html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-cast-actions.is-compact{
         transform:none !important;
-    }
-}
-
-/* ChouChou Ver6.2 — LINE reservation button alignment */
-html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{
-    position:static !important;
-    display:flex !important;
-    flex-flow:row nowrap !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:12px !important;
-    padding-right:22px !important;
-    padding-left:22px !important;
-    white-space:nowrap !important;
-}
-
-html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button .v6-line-icon{
-    position:static !important;
-    top:auto !important;
-    left:auto !important;
-    width:18px !important;
-    height:18px !important;
-    flex:0 0 auto !important;
-    flex-shrink:0 !important;
-    align-self:center !important;
-    margin:0 !important;
-    transform:none !important;
-}
-
-html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button .v6-line-label{
-    position:static !important;
-    display:block !important;
-    flex:0 0 auto !important;
-    width:auto !important;
-    min-width:0 !important;
-    margin:0 !important;
-    line-height:1 !important;
-    text-align:center !important;
-    white-space:nowrap !important;
-    transform:none !important;
-}
-
-@media(min-width:769px){
-    html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-cast-actions{
-        grid-template-columns:28px minmax(0,124px) !important;
-    }
-
-    html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-cast-button{
-        width:124px !important;
-        max-width:124px !important;
-        padding-right:22px !important;
-        padding-left:22px !important;
-    }
-
-    html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .v6-line-cast-button .v6-line-icon{
-        width:18px !important;
-        height:18px !important;
-        border-radius:4px !important;
-        font-size:4.5px !important;
-    }
-}
-
-@media(max-width:768px){
-    html body.premium-design-system:not(.cast-detail-page) .v6-line-cast-button{
-        padding-right:22px !important;
-        padding-left:22px !important;
     }
 }

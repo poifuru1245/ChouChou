@@ -187,7 +187,7 @@ function setupRevealMotion(){
 
 function setupPerformanceCache(){
   if("serviceWorker" in navigator && location.protocol.startsWith("http")){
-    window.addEventListener("load",()=>navigator.serviceWorker.register("/service-worker.js?v=6.0.0",{scope:"/"}).catch((error)=>console.warn("キャッシュ初期化をスキップしました",error)),{once:true});
+    window.addEventListener("load",()=>navigator.serviceWorker.register("/service-worker.js?v=6.2.3",{scope:"/"}).catch((error)=>console.warn("キャッシュ初期化をスキップしました",error)),{once:true});
   }
 }
 
