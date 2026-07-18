@@ -309,10 +309,10 @@ body.interior-page .interior-schedule-list{
 body.interior-page .interior-schedule-list .v9-cast-item{
   position:relative;
   display:grid !important;
-  grid-template-columns:150px minmax(0,1fr) !important;
+  grid-template-columns:160px minmax(0,1fr) !important;
   align-items:center;
   gap:18px !important;
-  min-height:170px !important;
+  min-height:220px !important;
   padding:16px !important;
   border:1px solid rgba(var(--premium-gold-rgb),.5) !important;
   border-radius:var(--premium-radius-card) !important;
@@ -321,11 +321,29 @@ body.interior-page .interior-schedule-list .v9-cast-item{
   transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease !important;
 }
 
+body.interior-page .interior-schedule-list .v9-cast-media{
+  align-self:stretch;
+  display:grid !important;
+  grid-template-rows:136px 34px !important;
+  align-content:center;
+  justify-items:center;
+  width:160px;
+  min-width:0;
+  gap:6px;
+}
+
+body.interior-page .interior-schedule-list .v9-cast-media > .v6-cast-actions.is-compact{
+  align-self:center !important;
+  justify-self:center !important;
+  margin:0 !important;
+}
+
 body.interior-page .interior-schedule-list .v9-cast-photo{
   width:150px !important;
   height:136px !important;
   overflow:hidden;
   border-radius:var(--premium-radius-image) !important;
+  transform:none !important;
 }
 
 body.interior-page .interior-schedule-list .v9-cast-photo :is(img,.v9-cast-no-image){
@@ -859,8 +877,9 @@ body.interior-page .recruit-form-actions{grid-column:1 / -1;display:flex;flex-di
   body.interior-page .interior-cast-grid .public-cast-hobby{display:none !important;}
   body.interior-page .interior-cast-grid .public-profile-link{min-width:0;height:44px !important;min-height:44px !important;padding-inline:10px !important;font-size:11px;}
   body.interior-page .interior-schedule-list{grid-template-columns:1fr !important;}
-  body.interior-page .interior-schedule-list .v9-cast-item{grid-template-columns:116px minmax(0,1fr) !important;gap:12px !important;min-height:150px !important;padding:12px !important;}
-  body.interior-page .interior-schedule-list .v9-cast-photo{width:116px !important;height:126px !important;}
+  body.interior-page .interior-schedule-list .v9-cast-item{grid-template-columns:158px minmax(0,1fr) !important;gap:12px !important;min-height:190px !important;padding:12px !important;}
+  body.interior-page .interior-schedule-list .v9-cast-media{grid-template-rows:126px 34px !important;width:158px !important;gap:6px !important;}
+  body.interior-page .interior-schedule-list .v9-cast-photo{width:150px !important;height:126px !important;}
   body.interior-page.cast-detail-page .cast-detail{grid-template-columns:1fr;}
   body.interior-page.cast-detail-page .cast-gallery{position:static;}
   body.interior-page.cast-detail-page :is(.cast-gallery,.profile-box){padding:16px !important;}

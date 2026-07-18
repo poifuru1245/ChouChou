@@ -14694,28 +14694,45 @@ html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-s
 
 html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-cast-actions.is-compact,
 html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-cast-actions.is-compact{
-    grid-template-columns:31px minmax(0,143px) !important;
-    max-width:183px !important;
-    gap:9px !important;
+    grid-template-columns:28px 124px !important;
+    width:158px !important;
+    max-width:158px !important;
+    height:34px !important;
+    min-height:34px !important;
+    align-items:center !important;
+    gap:6px !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-cast-actions.is-compact{
-    position:absolute !important;
-    right:auto !important;
-    bottom:8px !important;
-    left:50% !important;
-    margin:0 !important;
-    transform:translateX(-50%) !important;
+    position:static !important;
+    inset:auto !important;
+    margin:0 auto !important;
+    transform:none !important;
 }
 
 html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-cast-actions.is-compact{
-    transform:translateX(-19px) !important;
+    margin:0 auto !important;
+    transform:none !important;
+}
+
+html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-cast-actions.is-compact .v6-favorite-button,
+html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-cast-actions.is-compact .v6-favorite-button{
+    width:28px !important;
+    min-width:28px !important;
+    max-width:28px !important;
+    height:28px !important;
+    min-height:28px !important;
+    max-height:28px !important;
 }
 
 html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-line-cast-button,
 html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-line-cast-button{
-    width:143px !important;
-    max-width:143px !important;
+    width:124px !important;
+    max-width:124px !important;
+    height:34px !important;
+    min-height:34px !important;
+    padding-right:12px !important;
+    padding-left:12px !important;
 }
 
 @media(min-width:769px){
@@ -14752,14 +14769,12 @@ html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-s
         width:min(141px,100%) !important;
     }
 
-    html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-line-cast-button,
-    html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-schedule-list .v6-line-cast-button{
-        width:min(143px,100%) !important;
-    }
-
     html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v6-cast-actions.is-compact{
-        bottom:7px !important;
-        left:50% !important;
+        position:static !important;
+        inset:auto !important;
+        margin-right:auto !important;
+        margin-left:auto !important;
+        transform:none !important;
     }
 
     html body.premium-design-system.interior-page:not(.cast-detail-page) .interior-cast-grid .public-cast-info{

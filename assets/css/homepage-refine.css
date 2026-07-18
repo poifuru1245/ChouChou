@@ -80,8 +80,8 @@ html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-c
     justify-self:center !important;
     box-sizing:border-box !important;
     width:156px !important;
-    height:176px !important;
-    min-height:176px !important;
+    height:158px !important;
+    min-height:158px !important;
     padding:5px !important;
     overflow:hidden !important;
     border-radius:var(--premium-radius-image) !important;
@@ -89,6 +89,24 @@ html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-c
     box-shadow:0 8px 18px rgba(111,59,86,.09),0 1px 0 rgba(255,255,255,.9) inset !important;
     -webkit-backdrop-filter:blur(8px) !important;
     backdrop-filter:blur(8px) !important;
+    transform:none !important;
+  }
+
+  html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-media{
+    align-self:stretch !important;
+    display:grid !important;
+    grid-template-rows:158px 34px !important;
+    align-content:center !important;
+    justify-items:center !important;
+    width:168px !important;
+    min-width:0 !important;
+    gap:6px !important;
+  }
+
+  html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-media > .v6-cast-actions.is-compact{
+    align-self:center !important;
+    justify-self:center !important;
+    margin:0 !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-photo :is(.v9-cast-image,.v9-cast-no-image){
@@ -460,8 +478,8 @@ html body.premium-design-system:not(.cast-detail-page) #contact .ver6-contact-li
 
 @media(max-width:768px){
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-item.card-premium{
-    grid-template-columns:132px minmax(0,1fr) !important;
-    min-height:226px !important;
+    grid-template-columns:158px minmax(0,1fr) !important;
+    min-height:240px !important;
     height:auto !important;
     gap:8px !important;
     padding:33px 8px 7px !important;
@@ -471,7 +489,7 @@ html body.premium-design-system:not(.cast-detail-page) #contact .ver6-contact-li
     align-self:center !important;
     justify-self:center !important;
     box-sizing:border-box !important;
-    width:132px !important;
+    width:150px !important;
     height:160px !important;
     min-height:160px !important;
     padding:5px !important;
@@ -481,6 +499,24 @@ html body.premium-design-system:not(.cast-detail-page) #contact .ver6-contact-li
     box-shadow:0 8px 18px rgba(111,59,86,.09),0 1px 0 rgba(255,255,255,.9) inset !important;
     -webkit-backdrop-filter:blur(8px) !important;
     backdrop-filter:blur(8px) !important;
+    transform:none !important;
+  }
+
+  html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-media{
+    align-self:stretch !important;
+    display:grid !important;
+    grid-template-rows:160px 34px !important;
+    align-content:center !important;
+    justify-items:center !important;
+    width:158px !important;
+    min-width:0 !important;
+    gap:6px !important;
+  }
+
+  html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-media > .v6-cast-actions.is-compact{
+    align-self:center !important;
+    justify-self:center !important;
+    margin:0 !important;
   }
 
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-profile{

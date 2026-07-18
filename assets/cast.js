@@ -934,9 +934,12 @@ image
 const attendance = getTodayAttendanceState(scheduleText, schedule);
 
 return `
-  <div class="v9-cast-photo image-premium">
-    ${imageMarkup}
-    ${createCastBadgeMarkup(cast)}
+  <div class="v9-cast-media">
+    <div class="v9-cast-photo image-premium">
+      ${imageMarkup}
+      ${createCastBadgeMarkup(cast)}
+    </div>
+    ${createCastEngagementActions(cast, true)}
   </div>
 
   <div class="v9-cast-profile">
@@ -961,7 +964,6 @@ return `
       </div>
       ${attendance.remaining ? `<div class="v9-cast-meta-row v6-remaining-time"><dt><span class="v9-meta-icon" aria-hidden="true">◷</span><span>残り</span></dt><dd>${escapeHtml(attendance.remaining)}</dd></div>` : ""}
     </dl>
-    ${createCastEngagementActions(cast, true)}
   </div>
 `;
 
