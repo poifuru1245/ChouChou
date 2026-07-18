@@ -186,13 +186,13 @@ function getNewsTimestamp(item) {
 
 function isPublishDateReached(value) {
   if (!value) return true;
-  const publishDate = Date.parse(`${value}T00:00:00+09:00`);
+  const publishDate = Date.parse(String(value).includes("T") ? value : `${value}T00:00:00+09:00`);
   return !Number.isFinite(publishDate) || publishDate <= Date.now();
 }
 
 function isPublishDateEnded(value) {
   if (!value) return false;
-  const endDate = Date.parse(`${value}T23:59:59+09:00`);
+  const endDate = Date.parse(String(value).includes("T") ? value : `${value}T23:59:59+09:00`);
   return Number.isFinite(endDate) && endDate < Date.now();
 }
 

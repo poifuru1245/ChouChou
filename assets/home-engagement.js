@@ -3,8 +3,10 @@ import { db } from "./app.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 const state = { schedules: [] };
+let lastSiteSettings = {};
 
 setupHomeSettings();
+setupManagedEvents();
 setupNewCasts();
 setupAttendanceFlash();
 
@@ -15,13 +17,35 @@ function setupHomeSettings() {
 
   onSnapshot(doc(db, "settings", "site"), (snapshot) => {
     const settings = snapshot.exists() ? snapshot.data() : {};
+    lastSiteSettings = settings;
     if (instagramSection) instagramSection.hidden = settings.instagramSectionEnabled === false;
-    renderEventBanner(settings, eventSection);
+    if (eventSection && !eventSection.dataset.managedEvent) renderEventBanner(settings, eventSection);
   }, (error) => {
     console.error("ホーム表示設定の読み込みに失敗しました", error);
     if (eventSection) eventSection.hidden = true;
   });
 }
+
+function setupManagedEvents() {
+  const section = document.getElementById("homeEventBanner");
+  if (!section) return;
+  onSnapshot(collection(db, "events"), (snapshot) => {
+    const now = Date.now();
+    const event = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }))
+      .filter((item) => item.isPublished !== false && isWithinDateTime(item.publishStart || item.startDate, item.publishEnd || item.endDate, now))
+      .sort((a, b) => toMillis(b.publishStart || b.startDate || b.createdAt) - toMillis(a.publishStart || a.startDate || a.createdAt))[0];
+    if (!event) {
+      delete section.dataset.managedEvent;
+      renderEventBanner(lastSiteSettings, section);
+      return;
+    }
+    section.dataset.managedEvent = "true";
+    renderEventBanner({ eventBannerEnabled: true, eventBannerTitle: event.title, eventBannerImageUrl: event.imageUrl, eventBannerLink: event.linkUrl, eventBannerStartDate: "", eventBannerEndDate: "" }, section);
+  }, (error) => console.warn("イベント管理データの読み込みに失敗しました", error));
+}
+
+function toMillis(value) { if (!value) return 0; if (typeof value.toMillis === "function") return value.toMillis(); const time = Date.parse(value); return Number.isFinite(time) ? time : 0; }
+function isWithinDateTime(start, end, now) { const startTime = toMillis(start); const endTime = toMillis(end); return (!startTime || startTime <= now) && (!endTime || endTime >= now); }
 
 function renderEventBanner(settings, section) {
   if (!section) return;
@@ -61,7 +85,7 @@ function setupNewCasts() {
   onSnapshot(collection(db, "casts"), (snapshot) => {
     const casts = snapshot.docs
       .map((item) => ({ id: item.id, ...item.data() }))
-      .filter((cast) => cast.isPublished !== false && isEnabled(cast.isNew))
+      .filter((cast) => cast.isPublished !== false && (isEnabled(cast.isNewcomer) || isEnabled(cast.isNew)))
       .sort(compareDisplayOrder)
       .slice(0, 3);
 

@@ -78,6 +78,19 @@
     elements.grid.addEventListener("click", handleGridClick);
     elements.grid.addEventListener("change", handleGridChange);
     elements.grid.addEventListener("pointerdown", handleDragStart);
+    const panel = document.querySelector(".gallery-admin-panel");
+    panel?.addEventListener("dragover", (event) => { if ([...event.dataTransfer?.items || []].some((item) => item.kind === "file")) { event.preventDefault(); panel.classList.add("is-file-dragover"); } });
+    panel?.addEventListener("dragleave", () => panel.classList.remove("is-file-dragover"));
+    panel?.addEventListener("drop", (event) => {
+      panel.classList.remove("is-file-dragover");
+      const files = [...event.dataTransfer?.files || []].filter((file) => file.type.startsWith("image/"));
+      if (!files.length || !elements.files) return;
+      event.preventDefault();
+      const transfer = new DataTransfer();
+      files.forEach((file) => transfer.items.add(file));
+      elements.files.files = transfer.files;
+      setMessage(`${files.length}枚の画像を選択しました。アップロードを押してください。`);
+    });
 
     window.addEventListener("beforeunload", (event) => {
       if (!state.isOrderDirty) return;
@@ -150,6 +163,7 @@
       </button>
       <img src="${escapeAttribute(item.imageUrl || "")}" alt="${escapeAttribute(item.title || "")}">
       <div class="gallery-admin-card-body">
+        <button type="button" class="cast-quick-toggle ${item.isPublished === false ? "" : "is-active"}" data-action="toggle-published" data-id="${item.id}">${item.isPublished === false ? "非公開" : "公開中"}</button>
         <select class="gallery-category-select" data-id="${item.id}">
           ${["店内","VIP","イベント","シャンパン","その他"].map((category) => `<option value="${category}" ${item.category === category ? "selected" : ""}>${category}</option>`).join("")}
         </select>
@@ -207,6 +221,7 @@
           imageUrl,
           storagePath,
           displayOrder: nextOrder,
+          isPublished: true,
           createdAt: serverTimestamp()
         });
 
@@ -242,6 +257,10 @@
 
     if (button.dataset.action === "delete") {
       await deleteGalleryItem(id);
+    }
+    if (button.dataset.action === "toggle-published") {
+      const item = state.items.find((entry) => entry.id === id);
+      await updateDoc(doc(db, COLLECTION_NAME, id), { isPublished: item?.isPublished === false, updatedAt: serverTimestamp() });
     }
   }
 

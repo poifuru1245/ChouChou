@@ -100,6 +100,7 @@
     tiktok: document.getElementById("cast-tiktok"),
     tags: document.getElementById("cast-tags"),
     isNew: document.getElementById("cast-is-new"),
+    isNewcomer: document.getElementById("cast-is-newcomer"),
     isRecommended: document.getElementById("cast-is-recommended"),
     tagOptions: document.getElementById("castTagOptions")
   };
@@ -174,6 +175,14 @@
 
       if (button.dataset.action === "toggle-recommended") {
         await toggleCastField(id, "isRecommended");
+      }
+
+      if (button.dataset.action === "toggle-newcomer") {
+        await toggleCastField(id, "isNewcomer");
+      }
+
+      if (button.dataset.action === "set-rank") {
+        await setPopularityRank(id, Number(button.dataset.rank));
       }
 
       if (button.dataset.action === "toggle-published") {
@@ -292,6 +301,8 @@
         <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isRecommended) ? "is-active" : ""}" data-action="toggle-recommended" data-id="${cast.id}" aria-pressed="${isBadgeEnabled(cast.isRecommended)}">
           おすすめ
         </button>
+        <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isNewcomer) ? "is-active" : ""}" data-action="toggle-newcomer" data-id="${cast.id}" aria-pressed="${isBadgeEnabled(cast.isNewcomer)}">新人</button>
+        ${[1, 2, 3].map((rank) => `<button type="button" class="cast-quick-toggle ${Number(cast.popularityRank) === rank ? "is-active" : ""}" data-action="set-rank" data-rank="${rank}" data-id="${cast.id}" aria-pressed="${Number(cast.popularityRank) === rank}">No.${rank}</button>`).join("")}
         <button type="button" class="cast-quick-toggle ${isPublished ? "is-active" : ""}" data-action="toggle-published" data-id="${cast.id}" aria-pressed="${isPublished}">
           ${isPublished ? "公開中" : "非公開"}
         </button>
@@ -342,6 +353,8 @@
           </button>
           <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isNew) ? "is-active" : ""}" data-action="toggle-new" data-id="${cast.id}">NEW</button>
           <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isRecommended) ? "is-active" : ""}" data-action="toggle-recommended" data-id="${cast.id}">おすすめ</button>
+          <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isNewcomer) ? "is-active" : ""}" data-action="toggle-newcomer" data-id="${cast.id}">新人</button>
+          ${[1, 2, 3].map((rank) => `<button type="button" class="cast-quick-toggle ${Number(cast.popularityRank) === rank ? "is-active" : ""}" data-action="set-rank" data-rank="${rank}" data-id="${cast.id}">No.${rank}</button>`).join("")}
           <button type="button" class="cast-quick-toggle ${isCastPublished(cast) ? "is-active" : ""}" data-action="toggle-published" data-id="${cast.id}">${isCastPublished(cast) ? "公開中" : "非公開"}</button>
           <button type="button" class="delete-btn" data-action="delete" data-id="${cast.id}" data-name="${escapeAttribute(cast.name || "")}">
             削除
@@ -389,6 +402,7 @@
     if (elements.lineReservationEnabled) elements.lineReservationEnabled.checked = cast?.lineReservationEnabled !== false;
     elements.tiktok.value = cast?.tiktok || "";
     if (elements.isNew) elements.isNew.checked = isBadgeEnabled(cast?.isNew);
+    if (elements.isNewcomer) elements.isNewcomer.checked = isBadgeEnabled(cast?.isNewcomer);
     if (elements.isRecommended) {
       elements.isRecommended.checked = isBadgeEnabled(cast?.isRecommended);
     }
@@ -428,6 +442,7 @@
     elements.tiktok.value = "";
     elements.tags.value = "";
     if (elements.isNew) elements.isNew.checked = false;
+    if (elements.isNewcomer) elements.isNewcomer.checked = false;
     if (elements.isRecommended) elements.isRecommended.checked = false;
     setSelectedTags([]);
 
@@ -474,6 +489,7 @@
         tiktok: formData.tiktok,
         tags: formData.tags,
         isNew: formData.isNew,
+        isNewcomer: formData.isNewcomer,
         isRecommended: formData.isRecommended,
         schedule: formData.schedule
       };
@@ -515,6 +531,23 @@
     } catch (error) {
       console.error("キャスト表示設定更新失敗", error);
       showError("表示設定の更新に失敗しました。");
+    }
+  }
+
+  async function setPopularityRank(id, rank) {
+    const selected = state.allCasts.find((item) => item.id === id);
+    if (!selected || ![1, 2, 3].includes(rank)) return;
+    const nextRank = Number(selected.popularityRank) === rank ? null : rank;
+    try {
+      const batch = writeBatch(db);
+      state.allCasts.forEach((cast) => {
+        if (cast.id === id) batch.update(doc(db, COLLECTION_NAME, cast.id), { popularityRank: nextRank });
+        else if (nextRank && Number(cast.popularityRank) === nextRank) batch.update(doc(db, COLLECTION_NAME, cast.id), { popularityRank: null });
+      });
+      await batch.commit();
+    } catch (error) {
+      console.error("人気順位更新失敗", error);
+      showError("人気順位の更新に失敗しました。");
     }
   }
 
@@ -1222,6 +1255,7 @@
       tiktok: elements.tiktok.value.trim(),
       tags: collectTags(),
       isNew: Boolean(elements.isNew?.checked),
+      isNewcomer: Boolean(elements.isNewcomer?.checked),
       isRecommended: Boolean(elements.isRecommended?.checked),
       schedule: ""
     };
@@ -1497,6 +1531,8 @@
       displayOrder: getNumericDisplayOrder(cast),
       isPublished: isCastPublished(cast),
       isNew: isBadgeEnabled(cast.isNew),
+      isNewcomer: isBadgeEnabled(cast.isNewcomer),
+      popularityRank: [1, 2, 3].includes(Number(cast.popularityRank)) ? Number(cast.popularityRank) : null,
       isRecommended: isBadgeEnabled(cast.isRecommended),
       badgeText: cast.badgeText || "",
       nickname: cast.nickname || ""

@@ -4,6 +4,11 @@
     box-sizing:border-box;
 }
 
+/* ChouChou Ver7.4 content management */
+.gallery-admin-panel.is-file-dragover{outline:2px dashed #d6a85f;outline-offset:4px;background:rgba(255,255,255,.82);box-shadow:0 12px 34px rgba(177,83,124,.16)}
+.admin-card-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;border:1px solid rgba(198,151,70,.38)}
+.admin-item-card small{display:block;margin:.65rem 0;color:#81576a;line-height:1.6}
+
 .cast-reservation-toggle{
   display:flex;
   align-items:center;

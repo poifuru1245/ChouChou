@@ -1082,7 +1082,7 @@ function setupManagedRecruit() {
     const benefits = home?.querySelector(".recruit-v11-points") || interior?.querySelector(".recruit-benefits");
     const line = home?.querySelector(".recruit-v11-actions a:last-child") || interior?.querySelector(".interior-actions a:last-child");
     if (title && data.title) title.textContent = data.title;
-    if (lead && (data.lead || data.description)) lead.textContent = data.lead || data.description;
+    if (lead && (data.lead || data.description || data.hourlyWage)) lead.textContent = [data.hourlyWage, data.lead, data.description].filter(Boolean).join("｜");
     if (image && data.imageUrl) image.src = data.imageUrl;
     if (line && data.applicationLineUrl) line.href = data.applicationLineUrl;
     if (benefits && Array.isArray(data.benefits) && data.benefits.length) {

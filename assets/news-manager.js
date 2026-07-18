@@ -72,7 +72,7 @@
   if (!elements.grid) return;
 
   bindEvents();
-  if (elements.publishDate) elements.publishDate.value = getTokyoDateKey();
+  if (elements.publishDate) elements.publishDate.value = `${getTokyoDateKey()}T00:00`;
   onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
     if (state.isOrderDirty || state.isOrderSaving) return;
     state.items = snapshot.docs.map((item) => normalizeNews({ id: item.id, ...item.data() }));
@@ -151,12 +151,11 @@
     card.className = "news-admin-card";
     card.dataset.id = item.id;
 
-    const today = getTokyoDateKey();
     const status = !item.isPublished
       ? "非公開"
-      : item.publishDate && item.publishDate > today
+      : item.publishDate && getScheduleTime(item.publishDate, false) > Date.now()
         ? "公開予約"
-        : item.publishEndDate && item.publishEndDate < today
+        : item.publishEndDate && getScheduleTime(item.publishEndDate, true) < Date.now()
           ? "公開終了"
           : "公開中";
     const pinned = item.isPinned ? "固定中" : "通常";
@@ -363,8 +362,8 @@
     elements.linkUrl.value = item.linkUrl || "";
     elements.published.checked = item.isPublished;
     elements.pinned.checked = item.isPinned;
-    if (elements.publishDate) elements.publishDate.value = item.publishDate || getTokyoDateKey();
-    if (elements.publishEndDate) elements.publishEndDate.value = item.publishEndDate || "";
+    if (elements.publishDate) elements.publishDate.value = normalizeDateTimeLocal(item.publishDate || `${getTokyoDateKey()}T00:00`);
+    if (elements.publishEndDate) elements.publishEndDate.value = normalizeDateTimeLocal(item.publishEndDate || "");
     elements.image.value = "";
     elements.saveButton.textContent = "更新";
     showMessage("編集中です", "");
@@ -604,7 +603,7 @@
     elements.image.value = "";
     elements.published.checked = true;
     elements.pinned.checked = false;
-    if (elements.publishDate) elements.publishDate.value = getTokyoDateKey();
+    if (elements.publishDate) elements.publishDate.value = `${getTokyoDateKey()}T00:00`;
     if (elements.publishEndDate) elements.publishEndDate.value = "";
     elements.saveButton.textContent = "保存";
     showMessage("");
@@ -686,6 +685,20 @@
       publishDate: item.publishDate || "",
       publishEndDate: item.publishEndDate || item.endDate || ""
     };
+  }
+
+  function normalizeDateTimeLocal(value) {
+    const text = String(value || "");
+    if (!text) return "";
+    return text.includes("T") ? text.slice(0, 16) : `${text.slice(0, 10)}T00:00`;
+  }
+
+  function getScheduleTime(value, endOfDay) {
+    const text = String(value || "");
+    if (!text) return endOfDay ? Number.POSITIVE_INFINITY : 0;
+    const normalized = text.includes("T") ? text : `${text}T${endOfDay ? "23:59:59" : "00:00:00"}+09:00`;
+    const time = Date.parse(normalized);
+    return Number.isFinite(time) ? time : 0;
   }
 
   function sortNewsItems(items) {

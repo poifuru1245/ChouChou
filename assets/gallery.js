@@ -41,7 +41,7 @@ function loadGallery() {
     });
 
     sortGalleryItems(items);
-    renderGallery(items);
+    renderGallery(items.filter((item) => item.isPublished !== false));
   }, (error) => {
     console.error("ギャラリー読み込み失敗", error);
     elements.grids.forEach((grid) => {

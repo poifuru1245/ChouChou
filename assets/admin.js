@@ -88,7 +88,7 @@ function setupDashboard() {
   const grid = document.getElementById("dashboardStats");
   if (!grid) return;
 
-  const state = { casts: [], schedules: [], news: [], gallery: [] };
+  const state = { casts: [], schedules: [], news: [], gallery: [], events: [], reservations: [] };
   const render = () => {
     const today = getTokyoDateKey();
     const todaySchedules = state.schedules
@@ -96,11 +96,15 @@ function setupDashboard() {
       .filter((item) => !isInactiveSchedule(item));
     const attendance = classifyTodayAttendance(todaySchedules);
     const publishedNews = state.news.filter((item) => isNewsVisibleToday(item, today));
+    const publishedEvents = state.events.filter((item) => isContentVisibleNow(item));
+    const weeklyReservations = state.reservations.filter((item) => isCurrentWeek(item.createdAt || item.reservationDate || item.date));
 
     setDashboardValue("todayAttendanceCount", `${attendance.total.size}名`);
     setDashboardValue("castCount", `${state.casts.length}名`);
     setDashboardValue("newsCount", `${publishedNews.length}件`);
-    setDashboardValue("galleryCount", `${state.gallery.length}枚`);
+    setDashboardValue("eventCount", `${publishedEvents.length}件`);
+    setDashboardValue("galleryCount", `${state.gallery.filter((item) => item.isPublished !== false).length}枚`);
+    setDashboardValue("weeklyReservationCount", state.reservations.length ? `${weeklyReservations.length}件` : "--");
     setDashboardValue("finishedAttendanceCount", `${attendance.finished.size}名`);
     setDashboardValue("upcomingAttendanceCount", `${attendance.upcoming.size}名`);
     setDashboardValue("workingAttendanceCount", `${attendance.working.size}名`);
@@ -117,6 +121,35 @@ function setupDashboard() {
   subscribeCollection("schedules", (items) => { state.schedules = items; render(); });
   subscribeCollection("news", (items) => { state.news = items; render(); });
   subscribeCollection("gallery", (items) => { state.gallery = items; render(); });
+  subscribeCollection("events", (items) => { state.events = items; render(); }, () => { state.events = []; render(); });
+  subscribeCollection("reservations", (items) => { state.reservations = items; render(); }, () => { state.reservations = []; render(); });
+}
+
+function toDate(value) {
+  if (!value) return null;
+  if (typeof value.toDate === "function") return value.toDate();
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function isCurrentWeek(value) {
+  const date = toDate(value);
+  if (!date) return false;
+  const now = new Date();
+  const start = new Date(now);
+  start.setHours(0, 0, 0, 0);
+  start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
+  const end = new Date(start);
+  end.setDate(end.getDate() + 7);
+  return date >= start && date < end;
+}
+
+function isContentVisibleNow(item) {
+  if (item.isPublished === false) return false;
+  const now = Date.now();
+  const start = toDate(item.publishStart || item.startDate || item.publishDate)?.getTime();
+  const end = toDate(item.publishEnd || item.endDate || item.publishEndDate)?.getTime();
+  return (!start || start <= now) && (!end || end >= now);
 }
 
 function classifyTodayAttendance(schedules, date = new Date()) {
@@ -192,9 +225,7 @@ function getTokyoMinutes(date = new Date()) {
 
 function isNewsVisibleToday(item, today) {
   if (item.isPublished === false) return false;
-  const start = String(item.publishDate || "").slice(0, 10);
-  const end = String(item.publishEndDate || item.endDate || "").slice(0, 10);
-  return (!start || start <= today) && (!end || end >= today);
+  return isContentVisibleNow({ startDate: item.publishDate, endDate: item.publishEndDate || item.endDate });
 }
 
 function setDashboardValue(id, value) {

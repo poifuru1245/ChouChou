@@ -13,7 +13,7 @@ function render(){
   if(!state.casts.length) return;
   const weekKey = getWeekKey();
   const counts = new Map(state.views.filter((item)=>item.weekKey===weekKey).map((item)=>[String(item.castId||""),Number(item.count||0)]));
-  const ranked = state.casts.filter((cast)=>cast.isPublished!==false && getImage(cast)).map((cast)=>({cast,count:counts.get(cast.id) ?? Number(cast.weeklyViews ?? cast.viewCount ?? 0)})).sort((a,b)=>b.count-a.count || Number(a.cast.displayOrder??9999)-Number(b.cast.displayOrder??9999)).slice(0,3);
+  const ranked = state.casts.filter((cast)=>cast.isPublished!==false && getImage(cast)).map((cast)=>({cast,count:counts.get(cast.id) ?? Number(cast.weeklyViews ?? cast.viewCount ?? 0)})).sort((a,b)=>{const ar=Number(a.cast.popularityRank);const br=Number(b.cast.popularityRank);const av=[1,2,3].includes(ar);const bv=[1,2,3].includes(br);if(av&&bv)return ar-br;if(av)return -1;if(bv)return 1;return b.count-a.count || Number(a.cast.displayOrder??9999)-Number(b.cast.displayOrder??9999);}).slice(0,3);
   if(!ranked.length){list.innerHTML='<p class="no-cast">ランキングを準備中です。</p>';return;}
   list.innerHTML=ranked.map(({cast,count},index)=>{
     const name=String(cast.name||"CAST").trim();
