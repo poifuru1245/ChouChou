@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#71364f">
+  <title>キャストマイページ | Chou Chou</title>
+  <link rel="manifest" href="cast-portal.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Serif+JP:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/cast-portal.css?v=8.3.0">
+</head>
+<body class="cast-portal-page">
+  <section id="castPortalLoading" class="cast-portal-loading" aria-live="polite"><div><span>Chou Chou</span><i></i><p>マイページを確認しています...</p></div></section>
+
+  <main id="castPortalLogin" class="cast-portal-login" hidden>
+    <div class="cast-portal-login-card portal-glass-card">
+      <span>CAST PRIVATE LOUNGE</span><h1>Chou Chou</h1><p>キャスト専用マイページ</p>
+      <form id="castPortalLoginForm" novalidate>
+        <label><span>メールアドレス</span><input name="email" type="email" autocomplete="username" required></label>
+        <label><span>パスワード</span><input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
+        <button id="castPortalLoginButton" type="submit">ログイン</button>
+      </form>
+      <button id="castPortalPasswordReset" class="portal-text-button" type="button">パスワードをお忘れの方</button>
+      <p id="castPortalLoginMessage" class="portal-message" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <div id="castPortalApp" class="cast-portal-app" hidden>
+    <header class="cast-portal-header">
+      <div class="cast-portal-brand"><span>Chou Chou</span><small>CAST PRIVATE LOUNGE</small></div>
+      <div class="cast-portal-account"><img id="castPortalAvatar" src="assets/images/cast-portal-placeholder.svg" alt=""><div><strong id="castPortalHeaderName">キャスト</strong><small>MY PAGE</small></div><button id="castPortalLogout" type="button">ログアウト</button></div>
+    </header>
+
+    <nav class="cast-portal-nav" aria-label="マイページメニュー">
+      <button class="is-active" type="button" data-portal-tab="home"><span>♕</span>ホーム</button>
+      <button type="button" data-portal-tab="shift"><span>◇</span>シフト</button>
+      <button type="button" data-portal-tab="sales"><span>¥</span>売上</button>
+      <button type="button" data-portal-tab="ranking"><span>Ⅰ</span>順位</button>
+      <button type="button" data-portal-tab="payroll"><span>▢</span>給与</button>
+      <button type="button" data-portal-tab="news"><span>✧</span>お知らせ<em id="castPortalUnreadBadge" hidden>0</em></button>
+      <button type="button" data-portal-tab="profile"><span>○</span>プロフィール</button>
+    </nav>
+
+    <div class="cast-portal-content">
+      <section class="cast-portal-section is-active" data-portal-section="home">
+        <header class="portal-section-head"><div><span>WELCOME BACK</span><h1><b id="castPortalWelcomeName">キャスト</b>さん、お疲れさまです</h1><p id="castPortalTodayLabel"></p></div></header>
+        <div class="portal-home-stats">
+          <article class="portal-glass-card"><span>TODAY</span><strong id="portalTodaySchedule">--</strong><small>今日の出勤時間</small></article>
+          <article class="portal-glass-card"><span>NEXT SHIFT</span><strong id="portalNextSchedule">--</strong><small>次回出勤</small></article>
+          <article class="portal-glass-card"><span>WORK DAYS</span><strong id="portalMonthWorkDays">--</strong><small>今月勤務日数</small></article>
+          <article class="portal-glass-card"><span>MONTH SALES</span><strong id="portalMonthSales">--</strong><small>今月売上</small></article>
+          <article class="portal-glass-card is-payroll"><span>ESTIMATED PAY</span><strong id="portalEstimatedPayroll">--</strong><small>今月給与予定</small></article>
+        </div>
+        <div class="portal-home-grid">
+          <article class="portal-panel portal-glass-card"><div class="portal-panel-head"><h2>直近の出勤予定</h2><button type="button" data-open-tab="shift">すべて見る</button></div><ul id="portalUpcomingSchedule" class="portal-simple-list"><li class="portal-skeleton"></li><li class="portal-skeleton"></li></ul></article>
+          <article class="portal-panel portal-glass-card"><div class="portal-panel-head"><h2>最新のお知らせ</h2><button type="button" data-open-tab="news">すべて見る</button></div><ul id="portalHomeNews" class="portal-simple-list"><li class="portal-skeleton"></li><li class="portal-skeleton"></li></ul></article>
+        </div>
+      </section>
+
+      <section class="cast-portal-section" data-portal-section="shift" hidden>
+        <header class="portal-section-head"><div><span>MY SCHEDULE</span><h1>シフト</h1><p>出勤予定と提出状況を確認できます。</p></div><label><span>表示月</span><input id="portalShiftMonth" type="month"></label></header>
+        <article class="portal-panel portal-glass-card"><div class="portal-panel-head"><h2>今月カレンダー</h2><span class="portal-calendar-legend"><i></i>出勤予定 <i></i>承認待ち</span></div><div id="portalShiftCalendar" class="portal-calendar"></div></article>
+        <div class="portal-two-column">
+          <article class="portal-panel portal-glass-card"><div class="portal-panel-head"><h2>シフト希望提出</h2></div><form id="portalShiftRequestForm" class="portal-form" novalidate><label><span>希望日 *</span><input name="date" type="date" required></label><div class="portal-form-row"><label><span>開始 *</span><input name="start" type="time" required></label><label><span>終了 *</span><input name="end" type="time" required></label></div><label><span>メモ</span><textarea name="memo" maxlength="300" placeholder="希望や連絡事項"></textarea></label><button type="submit">希望を提出</button></form><p id="portalShiftMessage" class="portal-message" aria-live="polite"></p></article>
+          <article class="portal-panel portal-glass-card"><div class="portal-panel-head"><h2>提出済み・承認待ち</h2></div><ul id="portalShiftRequests" class="portal-request-list"></ul></article>
+        </div>
+      </section>
+
+      <section class="cast-portal-section" data-portal-section="sales" hidden>
+        <header class="portal-section-head"><div><span>MY SALES</span><h1>売上</h1><p>営業日ごとの実績を確認できます。</p></div><label><span>表示月</span><input id="portalSalesMonth" type="month"></label></header>
+        <article class="portal-panel portal-glass-card"><div id="portalSalesList" class="portal-table-wrap"></div></article>
+      </section>
+
+      <section class="cast-portal-section" data-portal-section="ranking" hidden>
+        <header class="portal-section-head"><div><span>MY RANKING</span><h1>ランキング</h1><p>月間順位と直近の推移を表示します。</p></div><label><span>表示月</span><input id="portalRankingMonth" type="month"></label></header>
+        <div id="portalRankingGrid" class="portal-ranking-grid"></div>
+      </section>
+
+      <section class="cast-portal-section" data-portal-section="payroll" hidden>
+        <header class="portal-section-head"><div><span>MY PAYROLL</span><h1>給与</h1><p>今月の支給予定額と過去の給与履歴を確認できます。</p></div><label><span>表示月</span><input id="portalPayrollMonth" type="month"></label></header>
+        <div id="portalPayrollSummary" class="portal-payroll-summary"></div>
+        <article class="portal-panel portal-glass-card"><div class="portal-panel-head"><h2>過去の給与履歴</h2><span>PDF明細対応予定</span></div><div id="portalPayrollHistory" class="portal-table-wrap"></div></article>
+      </section>
+
+      <section class="cast-portal-section" data-portal-section="news" hidden>
+        <header class="portal-section-head"><div><span>CAST INFORMATION</span><h1>お知らせ</h1><p>店舗からの連絡を確認できます。</p></div></header>
+        <div id="portalAnnouncementList" class="portal-announcement-list"></div>
+      </section>
+
+      <section class="cast-portal-section" data-portal-section="profile" hidden>
+        <header class="portal-section-head"><div><span>MY PROFILE</span><h1>プロフィール編集</h1><p>公開プロフィールに表示する内容を編集できます。</p></div></header>
+        <article class="portal-profile-card portal-glass-card">
+          <div class="portal-photo-editor"><img id="portalProfilePreview" src="assets/images/cast-portal-placeholder.svg" alt="プロフィール写真"><label><span>写真を変更</span><input id="portalProfilePhoto" type="file" accept="image/jpeg,image/png,image/webp"></label><small>JPEG・PNG・WebP、8MB以内</small></div>
+          <form id="portalProfileForm" class="portal-form" novalidate><label><span>自己紹介</span><textarea name="message" maxlength="300"></textarea></label><label><span>趣味</span><input name="hobby" type="text" maxlength="80"></label><label><span>好きなお酒</span><input name="favoriteDrink" type="text" maxlength="80"></label><label><span>Instagram</span><input name="instagram" type="text" maxlength="300"></label><label><span>X</span><input name="x" type="text" maxlength="300"></label><label><span>LINE</span><input name="line" type="text" maxlength="300"></label><button type="submit">プロフィールを保存</button></form>
+          <p id="portalProfileMessage" class="portal-message" aria-live="polite"></p>
+        </article>
+      </section>
+    </div>
+  </div>
+  <script type="module" src="assets/cast-portal.js?v=8.3.0"></script>
+</body>
+</html>

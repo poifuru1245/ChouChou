@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="title">
+  <title id="title">Chou Chouプロフィール画像</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffafc"/><stop offset="1" stop-color="#f8dce9"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2d38e"/><stop offset=".5" stop-color="#bd8838"/><stop offset="1" stop-color="#f5dda4"/></linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="60" fill="url(#bg)"/>
+  <circle cx="200" cy="200" r="145" fill="none" stroke="#dca1bb" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M126 210l24-78 50 48 50-48 24 78-28 42h-92z" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linejoin="round"/>
+  <circle cx="150" cy="130" r="9" fill="#d6a651"/><circle cx="200" cy="176" r="9" fill="#d6a651"/><circle cx="250" cy="130" r="9" fill="#d6a651"/>
+  <text x="200" y="295" text-anchor="middle" fill="#7b3d59" font-family="serif" font-size="28" letter-spacing="5">CHOU CHOU</text>
+</svg>

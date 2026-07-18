@@ -1,0 +1,11 @@
+{
+  "name": "Chou Chou キャストマイページ",
+  "short_name": "ChouChou Cast",
+  "start_url": "/cast-portal.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff5f9",
+  "theme_color": "#71364f",
+  "lang": "ja",
+  "description": "Chou Chouキャスト専用マイページ"
+}

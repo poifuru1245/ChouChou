@@ -1,5 +1,5 @@
-const CACHE_NAME = "chouchou-v75-static-1";
-const CORE_ASSETS = ["./","./index.html","./cast.html","./schedule.html","./favorite.html","./favorites.html","./assets/css/style.css","./assets/css/design-system-v11.css","./assets/css/engagement-v72.css","./assets/engagement.js","./assets/home-engagement.js"];
+const CACHE_NAME = "chouchou-v83-static-1";
+const CORE_ASSETS = ["./","./index.html","./cast.html","./schedule.html","./favorite.html","./favorites.html","./cast-portal.html","./cast-portal.webmanifest","./assets/css/style.css","./assets/css/design-system-v11.css","./assets/css/engagement-v72.css","./assets/css/cast-portal.css","./assets/engagement.js","./assets/home-engagement.js","./assets/cast-portal.js","./assets/images/cast-portal-placeholder.svg"];
 self.addEventListener("install",(event)=>event.waitUntil(caches.open(CACHE_NAME).then((cache)=>cache.addAll(CORE_ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",(event)=>event.waitUntil(caches.keys().then((keys)=>Promise.all(keys.filter((key)=>key!==CACHE_NAME).map((key)=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",(event)=>{
