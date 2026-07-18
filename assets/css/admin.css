@@ -3277,3 +3277,136 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     flex-direction:column;
   }
 }
+
+/* ChouChou Ver8.0 Phase1 — sales table and confirmation modal */
+.sales-list{
+  display:block;
+}
+
+.sales-table-wrap{
+  width:100%;
+  overflow-x:auto;
+  border:1px solid rgba(198,154,72,.24);
+  border-radius:18px;
+  background:rgba(255,255,255,.68);
+}
+
+.sales-table{
+  width:100%;
+  min-width:900px;
+  border-collapse:collapse;
+}
+
+.sales-table th,
+.sales-table td{
+  padding:14px 15px;
+  border-bottom:1px solid rgba(198,154,72,.18);
+  color:#71364f;
+  text-align:left;
+  vertical-align:middle;
+  white-space:nowrap;
+}
+
+.sales-table th{
+  background:linear-gradient(135deg,rgba(255,238,247,.88),rgba(255,250,244,.88));
+  color:#9b6a25;
+  font-size:12px;
+  letter-spacing:.04em;
+}
+
+.sales-table tbody tr{
+  transition:background .2s ease;
+}
+
+.sales-table tbody tr:hover{
+  background:rgba(255,235,245,.5);
+}
+
+.sales-table tbody tr:last-child td{
+  border-bottom:0;
+}
+
+.sales-table td.is-money{
+  color:#9b6a25;
+  font-weight:900;
+}
+
+.sales-table .admin-item-actions{
+  flex-wrap:nowrap;
+  margin-top:0;
+}
+
+.sales-modal{
+  position:fixed;
+  inset:0;
+  z-index:1200;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:rgba(72,26,48,.36);
+  backdrop-filter:blur(8px);
+}
+
+.sales-modal[hidden]{
+  display:none;
+}
+
+.sales-modal-card{
+  width:min(460px,100%);
+  padding:clamp(24px,4vw,34px);
+}
+
+.sales-modal-card > span{
+  color:var(--admin-gold);
+  font:700 12px/1.4 "Cormorant Garamond",serif;
+  letter-spacing:.15em;
+}
+
+.sales-modal-card h2{
+  margin:8px 0 12px;
+  color:#71364f;
+  font-family:"Noto Serif JP",serif;
+}
+
+.sales-modal-card p{
+  margin:0;
+  color:#8d5a72;
+  line-height:1.8;
+}
+
+.sales-modal-card #cancelSalesDelete{
+  min-height:48px;
+  border:1px solid var(--admin-border);
+  border-radius:999px;
+  background:#fff;
+  color:#884b69;
+  font-weight:800;
+  padding:0 22px;
+  cursor:pointer;
+}
+
+body.is-modal-open{
+  overflow:hidden;
+}
+
+@media(max-width:1100px){
+  .sales-filter-toolbar{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(max-width:520px){
+  .sales-filter-toolbar{
+    grid-template-columns:1fr;
+  }
+
+  .sales-table-wrap{
+    margin-inline:-2px;
+    width:calc(100% + 4px);
+  }
+
+  .sales-modal-card .admin-inline-actions,
+  .sales-modal-card .admin-inline-actions button{
+    width:100%;
+  }
+}

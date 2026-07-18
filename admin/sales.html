@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>売上管理 | Chou Chou</title>
-  <link rel="stylesheet" href="../assets/css/admin.css?v=8.0.0">
+  <link rel="stylesheet" href="../assets/css/admin.css?v=8.0.1">
 </head>
 <body class="admin-premium">
   <div class="admin-layout">
     <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a class="active" href="sales.html">売上管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="login.html">ログアウト</a></aside>
     <main class="main sales-admin-page">
-      <header class="admin-page-head"><div><h1>売上管理</h1><p>営業終了後の実績を入力し、売上・指名・同伴を自動集計します。</p></div></header>
+      <header class="admin-page-head"><div><h1>売上管理</h1><p>キャストごとの営業実績を記録し、売上・指名・来客数を自動集計します。</p></div></header>
 
       <section class="sales-summary-grid" aria-label="売上集計">
         <article class="admin-stat-card admin-premium-card"><span>TODAY SALES</span><strong id="salesTodayTotal">¥0</strong><small>今日売上</small></article>
         <article class="admin-stat-card admin-premium-card"><span>MONTH SALES</span><strong id="salesMonthTotal">¥0</strong><small>今月売上</small></article>
-        <article class="admin-stat-card admin-premium-card"><span>AVERAGE</span><strong id="salesAverageSpend">¥0</strong><small>平均客単価（今月）</small></article>
-        <article class="admin-stat-card admin-premium-card"><span>HONMEI</span><strong id="salesHonmeiTotal">0</strong><small>本指名数</small></article>
-        <article class="admin-stat-card admin-premium-card"><span>JOUNAI</span><strong id="salesJounaiTotal">0</strong><small>場内数</small></article>
-        <article class="admin-stat-card admin-premium-card"><span>DOUHAN</span><strong id="salesDouhanTotal">0</strong><small>同伴数</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>HONMEI</span><strong id="salesHonmeiTotal">0</strong><small>本指名合計</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>JOUNAI</span><strong id="salesJounaiTotal">0</strong><small>場内合計</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>DOUHAN</span><strong id="salesDouhanTotal">0</strong><small>同伴合計</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>CUSTOMERS</span><strong id="salesCustomerTotal">0</strong><small>来客人数</small></article>
       </section>
 
       <section class="admin-editor-panel sales-editor-panel">
@@ -27,14 +27,15 @@
           <label class="admin-field"><span>営業日 *</span><input name="date" type="date" required></label>
           <label class="admin-field"><span>キャスト *</span><select name="castId" required><option value="">キャストを選択</option></select></label>
           <label class="admin-field"><span>売上 *</span><input name="sales" type="number" min="0" max="999999999" step="1" inputmode="numeric" required></label>
-          <label class="admin-field"><span>接客人数 *</span><input name="customerCount" type="number" min="0" max="9999" step="1" inputmode="numeric" required></label>
-          <label class="admin-field"><span>本指名</span><input name="honmei" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0"></label>
-          <label class="admin-field"><span>場内</span><input name="jounai" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0"></label>
-          <label class="admin-field"><span>同伴</span><input name="douhan" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0"></label>
-          <label class="admin-field"><span>延長</span><input name="extension" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0"></label>
-          <label class="admin-field"><span>ドリンク</span><input name="drink" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0"></label>
-          <label class="admin-field"><span>ボトル</span><input name="bottle" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0"></label>
-          <label class="admin-field"><span>シャンパン</span><input name="champagne" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0"></label>
+          <label class="admin-field"><span>来客人数 *</span><input name="customerCount" type="number" min="0" max="9999" step="1" inputmode="numeric" required></label>
+          <label class="admin-field"><span>本指名 *</span><input name="honmeiCount" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0" required></label>
+          <label class="admin-field"><span>場内 *</span><input name="jounaiCount" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0" required></label>
+          <label class="admin-field"><span>同伴 *</span><input name="douhanCount" type="number" min="0" max="9999" step="1" inputmode="numeric" value="0" required></label>
+          <label class="admin-field"><span>延長売上 *</span><input name="extensionSales" type="number" min="0" max="999999999" step="1" inputmode="numeric" value="0" required></label>
+          <label class="admin-field"><span>ドリンク売上 *</span><input name="drinkSales" type="number" min="0" max="999999999" step="1" inputmode="numeric" value="0" required></label>
+          <label class="admin-field"><span>ボトル売上 *</span><input name="bottleSales" type="number" min="0" max="999999999" step="1" inputmode="numeric" value="0" required></label>
+          <label class="admin-field"><span>シャンパン売上 *</span><input name="champagneSales" type="number" min="0" max="999999999" step="1" inputmode="numeric" value="0" required></label>
+          <label class="admin-field"><span>その他売上 *</span><input name="otherSales" type="number" min="0" max="999999999" step="1" inputmode="numeric" value="0" required></label>
           <label class="admin-field is-wide"><span>メモ</span><textarea name="memo" maxlength="500" placeholder="特記事項があれば入力してください"></textarea></label>
           <div class="admin-inline-actions is-wide"><button class="admin-primary-button" type="submit" id="saveSales">売上を保存</button><button id="cancelSalesEdit" type="button" hidden>編集をキャンセル</button></div>
         </form>
@@ -45,9 +46,12 @@
         <div class="sales-panel-heading"><div><span>SALES HISTORY</span><h2>売上一覧</h2></div><strong id="salesResultCount">0件</strong></div>
         <div class="sales-filter-toolbar" aria-label="売上検索条件">
           <div class="sales-period-buttons" role="group" aria-label="期間"><button type="button" data-period="today" class="is-active">今日</button><button type="button" data-period="month">今月</button><button type="button" data-period="custom">期間指定</button></div>
+          <label class="admin-field"><span>営業日</span><input id="salesExactDate" type="date"></label>
           <label class="admin-field"><span>開始日</span><input id="salesDateFrom" type="date" disabled></label>
           <label class="admin-field"><span>終了日</span><input id="salesDateTo" type="date" disabled></label>
-          <label class="admin-field"><span>検索</span><input id="salesSearch" type="search" placeholder="キャスト名・メモ"></label>
+          <label class="admin-field"><span>キャスト</span><select id="salesCastFilter"><option value="">すべてのキャスト</option></select></label>
+          <label class="admin-field"><span>キーワード</span><input id="salesSearch" type="search" placeholder="キャスト名・メモ"></label>
+          <label class="admin-field"><span>並び替え</span><select id="salesSort"><option value="date-desc">営業日（新しい順）</option><option value="date-asc">営業日（古い順）</option><option value="sales-desc">売上（高い順）</option><option value="sales-asc">売上（低い順）</option><option value="cast-asc">キャスト名順</option></select></label>
         </div>
         <div id="salesList" class="sales-list" aria-live="polite"><span class="ui-loading">読み込み中...</span></div>
       </section>
@@ -58,6 +62,13 @@
       </section>
     </main>
   </div>
-  <script type="module" src="../assets/sales.js?v=8.0.0"></script>
+
+  <div id="salesDeleteModal" class="sales-modal" role="dialog" aria-modal="true" aria-labelledby="salesDeleteTitle" hidden>
+    <div class="sales-modal-card admin-premium-card">
+      <span>CONFIRM</span><h2 id="salesDeleteTitle">売上データを削除しますか？</h2><p id="salesDeleteDescription"></p>
+      <div class="admin-inline-actions"><button id="cancelSalesDelete" type="button">キャンセル</button><button id="confirmSalesDelete" class="admin-primary-button" type="button">削除する</button></div>
+    </div>
+  </div>
+  <script type="module" src="../assets/sales.js?v=8.0.1"></script>
 </body>
 </html>
