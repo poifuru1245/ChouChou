@@ -2968,3 +2968,312 @@ box-shadow:0 2px 10px rgba(0,0,0,.1);
     height:12px;
   }
 }
+
+/* ChouChou Ver8.0 — sales management */
+.sales-admin-page{
+  display:grid;
+  gap:26px;
+}
+
+.sales-admin-page .admin-page-head{
+  margin-bottom:0;
+}
+
+.sales-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.sales-editor-panel,
+.sales-list-panel,
+.sales-history-panel{
+  padding:clamp(20px,3vw,30px);
+}
+
+.sales-panel-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:22px;
+}
+
+.sales-panel-heading > div > span{
+  display:block;
+  margin-bottom:5px;
+  color:var(--admin-gold);
+  font:700 12px/1.4 "Cormorant Garamond",serif;
+  letter-spacing:.15em;
+}
+
+.sales-panel-heading h2,
+.sales-record-head h3{
+  margin:0;
+  color:#71364f;
+  font-family:"Noto Serif JP",serif;
+}
+
+.sales-panel-heading > button,
+.sales-period-buttons button,
+.sales-admin-page #cancelSalesEdit{
+  min-height:40px;
+  border:1px solid var(--admin-border);
+  border-radius:999px;
+  background:rgba(255,255,255,.82);
+  color:#884b69;
+  font-weight:800;
+  padding:0 16px;
+  cursor:pointer;
+}
+
+.sales-form-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+
+.sales-filter-toolbar{
+  display:grid;
+  grid-template-columns:auto repeat(3,minmax(150px,1fr));
+  align-items:end;
+  gap:14px;
+  margin-bottom:22px;
+}
+
+.sales-period-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.sales-period-buttons button.is-active{
+  border-color:var(--admin-gold);
+  background:linear-gradient(135deg,#d95f9d,#b7437c);
+  color:#fff;
+  box-shadow:0 8px 18px rgba(165,54,108,.16);
+}
+
+.sales-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+
+.sales-record-card{
+  padding:20px;
+}
+
+.sales-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.sales-record-head time{
+  color:#a56d88;
+  font-size:12px;
+  font-weight:800;
+}
+
+.sales-record-head h3{
+  margin-top:5px;
+  font-size:20px;
+}
+
+.sales-record-head > strong{
+  flex:0 0 auto;
+  color:#9b6a25;
+  font:700 clamp(22px,2.5vw,30px)/1.2 "Cormorant Garamond","Noto Serif JP",serif;
+}
+
+.sales-record-metrics{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin:18px 0 0;
+}
+
+.sales-record-metrics > div{
+  padding:9px 7px;
+  border:1px solid rgba(198,154,72,.2);
+  border-radius:12px;
+  background:rgba(255,255,255,.62);
+  text-align:center;
+}
+
+.sales-record-metrics dt{
+  color:#a36b85;
+  font-size:11px;
+  font-weight:800;
+}
+
+.sales-record-metrics dd{
+  margin:4px 0 0;
+  color:#71364f;
+  font-weight:900;
+}
+
+.sales-record-memo{
+  margin:14px 0 0;
+  padding:11px 13px;
+  border-radius:12px;
+  background:rgba(255,255,255,.64);
+  color:#80576a;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+
+.sales-empty{
+  grid-column:1/-1;
+  margin:0;
+  padding:28px;
+  border:1px dashed var(--admin-border);
+  border-radius:16px;
+  color:#9f6680;
+  text-align:center;
+}
+
+.sales-history-select{
+  width:min(280px,100%);
+}
+
+.sales-cast-history > p{
+  margin:0;
+  color:#9f6680;
+}
+
+.sales-cast-totals{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.sales-cast-totals > div{
+  display:grid;
+  gap:6px;
+  padding:16px;
+  border:1px solid rgba(198,154,72,.24);
+  border-radius:16px;
+  background:rgba(255,255,255,.66);
+}
+
+.sales-cast-totals span{
+  color:#a36b85;
+  font-size:12px;
+  font-weight:800;
+}
+
+.sales-cast-totals strong{
+  color:#71364f;
+  font-size:21px;
+}
+
+.sales-history-table-wrap{
+  overflow-x:auto;
+  border:1px solid rgba(198,154,72,.22);
+  border-radius:16px;
+}
+
+.sales-history-table{
+  width:100%;
+  min-width:560px;
+  border-collapse:collapse;
+  background:rgba(255,255,255,.62);
+}
+
+.sales-history-table th,
+.sales-history-table td{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(198,154,72,.18);
+  text-align:left;
+  white-space:nowrap;
+}
+
+.sales-history-table th{
+  color:#9b6a25;
+  font-size:12px;
+}
+
+.sales-history-table tr:last-child td{
+  border-bottom:0;
+}
+
+@media(max-width:1100px){
+  .sales-form-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .sales-filter-toolbar{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .sales-period-buttons{
+    grid-column:1/-1;
+  }
+
+  .sales-list{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:820px){
+  .sales-admin-page{
+    gap:18px;
+  }
+
+  .sales-summary-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+
+  .sales-form-grid,
+  .sales-filter-toolbar{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .sales-panel-heading{
+    align-items:flex-start;
+  }
+
+  .sales-history-panel .sales-panel-heading{
+    flex-direction:column;
+  }
+
+  .sales-cast-totals{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:520px){
+  .sales-summary-grid,
+  .sales-form-grid,
+  .sales-filter-toolbar{
+    grid-template-columns:1fr;
+  }
+
+  .sales-period-buttons{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .sales-period-buttons button{
+    padding:0 8px;
+  }
+
+  .sales-record-head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .sales-record-metrics{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .sales-panel-heading:not(.sales-history-panel .sales-panel-heading){
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
