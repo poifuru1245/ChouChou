@@ -166,7 +166,8 @@ function getPremiumGalleryTitle(item, category) {
     CHAMPAGNE: "Champagne Selection",
     EVENT: "Special Event",
     LOUNGE: "Private Lounge",
-    INTERIOR: "Main Floor"
+    INTERIOR: "Main Floor",
+    その他: "Chou Chou Gallery"
   };
 
   return fallbackTitles[category] || "Chou Chou Gallery";
@@ -187,7 +188,8 @@ function getPremiumGalleryDescription(item, category) {
     CHAMPAGNE: "華やかな時間を彩るセレクション。",
     EVENT: "特別な夜を演出するイベントシーン。",
     LOUNGE: "上質なくつろぎを叶えるラウンジ。",
-    INTERIOR: "やさしい光に包まれたメインフロア。"
+    INTERIOR: "やさしい光に包まれたメインフロア。",
+    その他: "Chou Chouの特別な一枚。"
   };
 
   return fallbackDescriptions[category] || fallbackDescriptions.INTERIOR;

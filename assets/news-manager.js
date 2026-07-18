@@ -58,6 +58,7 @@
     category: document.getElementById("newsCategory"),
     linkUrl: document.getElementById("newsLinkUrl"),
     publishDate: document.getElementById("newsPublishDate"),
+    publishEndDate: document.getElementById("newsPublishEndDate"),
     image: document.getElementById("newsImage"),
     published: document.getElementById("newsPublished"),
     pinned: document.getElementById("newsPinned"),
@@ -150,7 +151,14 @@
     card.className = "news-admin-card";
     card.dataset.id = item.id;
 
-    const status = item.isPublished ? "公開中" : "非公開";
+    const today = getTokyoDateKey();
+    const status = !item.isPublished
+      ? "非公開"
+      : item.publishDate && item.publishDate > today
+        ? "公開予約"
+        : item.publishEndDate && item.publishEndDate < today
+          ? "公開終了"
+          : "公開中";
     const pinned = item.isPinned ? "固定中" : "通常";
     const bodyPreview = createPreview(item.body, 90);
     const imageMarkup = item.imageUrl
@@ -215,6 +223,7 @@
         isPublished: formData.isPublished,
         isPinned: formData.isPinned,
         publishDate: formData.publishDate,
+        publishEndDate: formData.publishEndDate,
         isNew: false,
         updatedAt: serverTimestamp()
       };
@@ -245,8 +254,9 @@
       category: elements.category.value.trim(),
       linkUrl: elements.linkUrl.value.trim(),
       isPublished: elements.published.checked,
-      isPinned: elements.pinned.checked
-      ,publishDate: elements.publishDate?.value || getTokyoDateKey()
+      isPinned: elements.pinned.checked,
+      publishDate: elements.publishDate?.value || getTokyoDateKey(),
+      publishEndDate: elements.publishEndDate?.value || ""
     };
   }
 
@@ -269,6 +279,10 @@
 
     if (data.linkUrl.length > 500) {
       return { valid: false, message: "リンクURLは500文字以内で入力してください。" };
+    }
+
+    if (data.publishEndDate && data.publishDate && data.publishEndDate < data.publishDate) {
+      return { valid: false, message: "公開終了日は公開開始日以降に設定してください。" };
     }
 
     const file = elements.image.files?.[0] || null;
@@ -350,6 +364,7 @@
     elements.published.checked = item.isPublished;
     elements.pinned.checked = item.isPinned;
     if (elements.publishDate) elements.publishDate.value = item.publishDate || getTokyoDateKey();
+    if (elements.publishEndDate) elements.publishEndDate.value = item.publishEndDate || "";
     elements.image.value = "";
     elements.saveButton.textContent = "更新";
     showMessage("編集中です", "");
@@ -590,6 +605,7 @@
     elements.published.checked = true;
     elements.pinned.checked = false;
     if (elements.publishDate) elements.publishDate.value = getTokyoDateKey();
+    if (elements.publishEndDate) elements.publishEndDate.value = "";
     elements.saveButton.textContent = "保存";
     showMessage("");
   }
@@ -666,8 +682,9 @@
       linkUrl: item.linkUrl || "",
       category: item.category || DEFAULT_CATEGORY,
       isPublished: item.isPublished !== false,
-      isPinned: item.isPinned === true
-      ,publishDate: item.publishDate || ""
+      isPinned: item.isPinned === true,
+      publishDate: item.publishDate || "",
+      publishEndDate: item.publishEndDate || item.endDate || ""
     };
   }
 

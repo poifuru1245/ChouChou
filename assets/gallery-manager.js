@@ -151,7 +151,7 @@
       <img src="${escapeAttribute(item.imageUrl || "")}" alt="${escapeAttribute(item.title || "")}">
       <div class="gallery-admin-card-body">
         <select class="gallery-category-select" data-id="${item.id}">
-          ${["店内","VIP","シャンパン","イベント"].map((category) => `<option value="${category}" ${item.category === category ? "selected" : ""}>${category}</option>`).join("")}
+          ${["店内","VIP","イベント","シャンパン","その他"].map((category) => `<option value="${category}" ${item.category === category ? "selected" : ""}>${category}</option>`).join("")}
         </select>
         <input
           type="text"

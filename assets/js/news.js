@@ -25,7 +25,7 @@ function loadPublicNews() {
         ...docSnap.data()
       });
 
-      if (item.isPublished && isPublishDateReached(item.publishDate)) {
+      if (item.isPublished && isPublishDateReached(item.publishDate) && !isPublishDateEnded(item.publishEndDate)) {
         items.push(item);
       }
     });
@@ -127,7 +127,8 @@ function normalizeNews(item) {
     category: item.category || DEFAULT_CATEGORY,
     isPublished: item.isPublished !== false,
     isPinned: item.isPinned === true,
-    isNew: item.isNew === true
+    isNew: item.isNew === true,
+    publishEndDate: item.publishEndDate || item.endDate || ""
   };
 }
 
@@ -184,6 +185,12 @@ function isPublishDateReached(value) {
   if (!value) return true;
   const publishDate = Date.parse(`${value}T00:00:00+09:00`);
   return !Number.isFinite(publishDate) || publishDate <= Date.now();
+}
+
+function isPublishDateEnded(value) {
+  if (!value) return false;
+  const endDate = Date.parse(`${value}T23:59:59+09:00`);
+  return Number.isFinite(endDate) && endDate < Date.now();
 }
 
 function getTimestampValue(value) {

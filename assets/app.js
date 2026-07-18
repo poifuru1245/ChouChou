@@ -1055,8 +1055,8 @@ function setupManagedSystem() {
     }
 
     if (interiorGroups) {
-      const labels = { fee:["Set Menu","セット料金"], drink:["Cast Drink","ドリンク"], champagne:["Champagne","シャンパンメニュー"] };
-      interiorGroups.innerHTML = ["fee","drink","champagne"].map((type) => {
+      const labels = { fee:["Set Menu","セット料金"], extension:["Extension","延長料金"], drink:["Cast Drink","ドリンク"], champagne:["Champagne","シャンパンメニュー"] };
+      interiorGroups.innerHTML = ["fee","extension","drink","champagne"].map((type) => {
         const group = items.filter((item) => item.type === type);
         if (!group.length) return "";
         const [english,japanese] = labels[type];

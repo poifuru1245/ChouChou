@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>お知らせ管理</title>
 
-<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/admin.css?v=6.3.0">
 
 </head>
 
@@ -47,7 +47,8 @@
       <option>キャンペーン</option>
     </select>
     <input type="url" id="newsLinkUrl" placeholder="リンクURL（任意）">
-    <label class="admin-field"><span>公開日</span><input type="date" id="newsPublishDate"></label>
+    <label class="admin-field"><span>公開開始日</span><input type="date" id="newsPublishDate"></label>
+    <label class="admin-field"><span>公開終了日</span><input type="date" id="newsPublishEndDate"></label>
     <input type="file" id="newsImage" accept="image/*">
   </div>
 
@@ -62,6 +63,7 @@
       <input type="checkbox" id="newsPinned">
       固定表示
     </label>
+    <span class="news-auto-new-note">公開開始日から14日間はNEWを自動表示します。</span>
   </div>
 
   <div class="form-buttons news-form-buttons">
@@ -86,8 +88,8 @@
 
 </div>
 
-<script type="module" src="../assets/admin.js?v=5.8.0"></script>
-<script src="../assets/news-manager.js"></script>
+<script type="module" src="../assets/admin.js?v=6.3.0"></script>
+<script src="../assets/news-manager.js?v=6.3.0"></script>
 
 </body>
 </html>

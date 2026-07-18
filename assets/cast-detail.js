@@ -354,7 +354,8 @@ function renderSns(cast) {
   const wrap = document.getElementById("castSns");
   const links = [
     { key: "instagram", label: "Instagram", icon: "IG", value: cast?.instagram },
-    { key: "x", label: "X", icon: "X", value: cast?.x }
+    { key: "x", label: "X", icon: "X", value: cast?.x },
+    { key: "line", label: "LINE", icon: "LINE", value: cast?.line }
   ].map((item) => ({ ...item, url: normalizeSocialUrl(item.key, item.value) }))
     .filter((item) => item.url);
 
@@ -578,7 +579,7 @@ function normalizeSocialUrl(type, value) {
   const account = text.replace(/^@/, "");
   if (type === "instagram") return `https://www.instagram.com/${encodeURIComponent(account)}/`;
   if (type === "x") return `https://x.com/${encodeURIComponent(account)}`;
-  if (type === "line") return `https://line.me/R/ti/p/${encodeURIComponent(text)}`;
+  if (type === "line") return `https://line.me/R/ti/p/${encodeURIComponent(account)}`;
   return "";
 }
 

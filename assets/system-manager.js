@@ -39,6 +39,6 @@ list?.addEventListener("drop", async (event) => { event.preventDefault(); const 
 function render(){ list.innerHTML=items.map(item=>`<article class="admin-item-card admin-premium-card" draggable="true" data-id="${escapeAttr(item.id)}"><span class="admin-category-badge">${typeLabel(item.type)}</span><h3>${escapeHtml(item.label)}</h3><p>${escapeHtml(item.price)}</p><p>${item.isPublished===false?"非公開":"公開中"}</p><div class="admin-item-actions"><button class="admin-drag-handle" type="button">☰ 並び替え</button><button data-action="edit" data-id="${escapeAttr(item.id)}">編集</button><button data-action="toggle" data-id="${escapeAttr(item.id)}">${item.isPublished===false?"公開":"非公開"}</button><button data-action="delete" data-id="${escapeAttr(item.id)}">削除</button></div></article>`).join("") || "<p>料金・メニューはまだ登録されていません。</p>"; }
 function reset(){ editingId=""; form.reset(); form.elements.isPublished.checked=true; }
 function setMessage(text,type=""){ message.textContent=text; message.dataset.type=type; }
-function typeLabel(type){ return ({fee:"料金",drink:"ドリンク",champagne:"シャンパン"})[type]||type; }
+function typeLabel(type){ return ({fee:"料金",extension:"延長料金",drink:"ドリンク",champagne:"シャンパン"})[type]||type; }
 function escapeHtml(value){ const e=document.createElement("div");e.textContent=String(value??"");return e.innerHTML; }
 function escapeAttr(value){ return escapeHtml(value).replaceAll('"',"&quot;"); }

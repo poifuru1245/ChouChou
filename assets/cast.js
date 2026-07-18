@@ -1,7 +1,8 @@
 import {
   getFirestore,
   collection,
-  getDocs
+  getDocs,
+  onSnapshot
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -76,10 +77,12 @@ scheduleSnapshot.forEach((docSnap)=>{
 
   snapshot.forEach((docSnap)=>{
 
-    casts.push({
+    const cast = {
       id: docSnap.id,
       ...docSnap.data()
-    });
+    };
+
+    if (cast.isPublished !== false) casts.push(cast);
 
   });
 
@@ -287,7 +290,17 @@ aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール
 
 }
 
-loadCasts();
+let realtimeRefreshTimer = null;
+
+function queueRealtimeCastRefresh() {
+  window.clearTimeout(realtimeRefreshTimer);
+  realtimeRefreshTimer = window.setTimeout(() => {
+    loadCasts().catch((error) => console.error("キャスト表示更新失敗", error));
+  }, 80);
+}
+
+onSnapshot(collection(db, "casts"), queueRealtimeCastRefresh, console.error);
+onSnapshot(collection(db, "schedules"), queueRealtimeCastRefresh, console.error);
 
 async function loadAllCasts(todayCasts = []){
 

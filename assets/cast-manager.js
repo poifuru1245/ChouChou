@@ -167,6 +167,18 @@
         openForm(id, cast);
       }
 
+      if (button.dataset.action === "toggle-new") {
+        await toggleCastField(id, "isNew");
+      }
+
+      if (button.dataset.action === "toggle-recommended") {
+        await toggleCastField(id, "isRecommended");
+      }
+
+      if (button.dataset.action === "toggle-published") {
+        await toggleCastField(id, "isPublished");
+      }
+
       if (button.dataset.action === "delete") {
         await handleDelete(id, button.dataset.name || "キャスト");
       }
@@ -267,8 +279,20 @@
         <p class="cast-card-message">メッセージ：${escapeHtml(cast.message || "-")}</p>
       </div>
       <div class="card-buttons">
+        <a class="preview-btn" href="../cast-detail.html?id=${encodeURIComponent(cast.id)}" target="_blank" rel="noopener">
+          プレビュー
+        </a>
         <button type="button" class="edit-btn" data-action="edit" data-id="${cast.id}" data-cast="${castJson}">
           編集
+        </button>
+        <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isNew) ? "is-active" : ""}" data-action="toggle-new" data-id="${cast.id}" aria-pressed="${isBadgeEnabled(cast.isNew)}">
+          NEW
+        </button>
+        <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isRecommended) ? "is-active" : ""}" data-action="toggle-recommended" data-id="${cast.id}" aria-pressed="${isBadgeEnabled(cast.isRecommended)}">
+          おすすめ
+        </button>
+        <button type="button" class="cast-quick-toggle ${isPublished ? "is-active" : ""}" data-action="toggle-published" data-id="${cast.id}" aria-pressed="${isPublished}">
+          ${isPublished ? "公開中" : "非公開"}
         </button>
         <button type="button" class="delete-btn" data-action="delete" data-id="${cast.id}" data-name="${escapeAttribute(cast.name || "")}">
           削除
@@ -311,9 +335,13 @@
       </div>
       <div class="card-buttons">
         ${cast.id ? `
+          <a class="preview-btn" href="../cast-detail.html?id=${encodeURIComponent(cast.id)}" target="_blank" rel="noopener">プレビュー</a>
           <button type="button" class="edit-btn" data-action="edit" data-id="${cast.id}" data-cast="${safeEncodeCast(cast)}">
             編集
           </button>
+          <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isNew) ? "is-active" : ""}" data-action="toggle-new" data-id="${cast.id}">NEW</button>
+          <button type="button" class="cast-quick-toggle ${isBadgeEnabled(cast.isRecommended) ? "is-active" : ""}" data-action="toggle-recommended" data-id="${cast.id}">おすすめ</button>
+          <button type="button" class="cast-quick-toggle ${isCastPublished(cast) ? "is-active" : ""}" data-action="toggle-published" data-id="${cast.id}">${isCastPublished(cast) ? "公開中" : "非公開"}</button>
           <button type="button" class="delete-btn" data-action="delete" data-id="${cast.id}" data-name="${escapeAttribute(cast.name || "")}">
             削除
           </button>
@@ -469,6 +497,21 @@
     }
 
     await addDoc(collection(db, COLLECTION_NAME), payload);
+  }
+
+  async function toggleCastField(id, fieldName) {
+    const cast = state.allCasts.find((item) => item.id === id);
+    if (!cast) return;
+    const current = fieldName === "isPublished" ? isCastPublished(cast) : isBadgeEnabled(cast[fieldName]);
+
+    try {
+      await updateDoc(doc(db, COLLECTION_NAME, id), { [fieldName]: !current });
+      cast[fieldName] = !current;
+      renderDashboard();
+    } catch (error) {
+      console.error("キャスト表示設定更新失敗", error);
+      showError("表示設定の更新に失敗しました。");
+    }
   }
 
   async function handleDelete(id, name) {

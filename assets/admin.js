@@ -88,29 +88,28 @@ function setupDashboard() {
   const grid = document.getElementById("dashboardStats");
   if (!grid) return;
 
-  const state = { casts: [], schedules: [], news: [], gallery: [], recruit: null };
+  const state = { casts: [], schedules: [], news: [], gallery: [] };
   const render = () => {
     const today = getTokyoDateKey();
-    const publishedCasts = state.casts.filter((item) => item.isPublished !== false);
-    const workingIds = new Set(state.schedules.filter((item) => {
-      const date = String(item.date || item.dateKey || "").slice(0, 10);
-      const isOff = item.isOff === true || item.status === "off" || item.start === "__OFF__";
-      return date === today && !isOff && Boolean(item.start || item.time || item.startTime);
-    }).map((item) => item.castId || item.castName));
+    const todaySchedules = state.schedules
+      .filter((item) => getScheduleDateKey(item) === today)
+      .filter((item) => !isInactiveSchedule(item));
+    const attendance = classifyTodayAttendance(todaySchedules);
+    const publishedNews = state.news.filter((item) => isNewsVisibleToday(item, today));
 
-    setDashboardValue("todayAttendanceCount", `${workingIds.size}名`);
-    setDashboardValue("castCount", `${publishedCasts.length}名`);
-    setDashboardValue("newsCount", `${state.news.length}件`);
+    setDashboardValue("todayAttendanceCount", `${attendance.total.size}名`);
+    setDashboardValue("castCount", `${state.casts.length}名`);
+    setDashboardValue("newsCount", `${publishedNews.length}件`);
     setDashboardValue("galleryCount", `${state.gallery.length}枚`);
-    setDashboardValue("recruitStatus", state.recruit?.isPublished === false ? "非公開" : "公開中");
+    setDashboardValue("finishedAttendanceCount", `${attendance.finished.size}名`);
+    setDashboardValue("upcomingAttendanceCount", `${attendance.upcoming.size}名`);
+    setDashboardValue("workingAttendanceCount", `${attendance.working.size}名`);
 
     const list = document.getElementById("dashboardTodayList");
     if (list) {
-      const names = state.schedules.filter((item) => String(item.date || item.dateKey || "").slice(0, 10) === today)
-        .filter((item) => item.isOff !== true && item.status !== "off" && item.start !== "__OFF__")
-        .map((item) => item.castName || state.casts.find((cast) => cast.id === item.castId)?.name)
-        .filter(Boolean);
-      list.innerHTML = names.length ? names.map((name) => `<li>${escapeHtml(name)}</li>`).join("") : "<li>本日の出勤登録はありません。</li>";
+      list.innerHTML = todaySchedules.length
+        ? todaySchedules.map((item) => createAttendanceListItem(item, state.casts, attendance.statusByKey)).join("")
+        : "<li>本日の出勤登録はありません。</li>";
     }
   };
 
@@ -118,7 +117,84 @@ function setupDashboard() {
   subscribeCollection("schedules", (items) => { state.schedules = items; render(); });
   subscribeCollection("news", (items) => { state.news = items; render(); });
   subscribeCollection("gallery", (items) => { state.gallery = items; render(); });
-  subscribeDocument("content", "recruit", (item) => { state.recruit = item; render(); });
+}
+
+function classifyTodayAttendance(schedules, date = new Date()) {
+  const now = getTokyoMinutes(date);
+  const result = {
+    total: new Set(),
+    finished: new Set(),
+    upcoming: new Set(),
+    working: new Set(),
+    statusByKey: new Map()
+  };
+
+  schedules.forEach((schedule, index) => {
+    const key = getSchedulePersonKey(schedule, index);
+    const start = parseTimeToMinutes(schedule.start || schedule.startTime || schedule.time);
+    const end = parseTimeToMinutes(schedule.end || schedule.endTime);
+    let status = "upcoming";
+
+    if (start === null) {
+      status = "upcoming";
+    } else {
+      const normalizedNow = now < 12 * 60 && start >= 18 * 60 ? now + 24 * 60 : now;
+      const normalizedEnd = end === null ? start + 12 * 60 : (end <= start ? end + 24 * 60 : end);
+      status = normalizedNow < start ? "upcoming" : (normalizedNow >= normalizedEnd ? "finished" : "working");
+    }
+
+    result.total.add(key);
+    result[status].add(key);
+    result.statusByKey.set(key, status);
+  });
+
+  return result;
+}
+
+function createAttendanceListItem(schedule, casts, statusByKey) {
+  const key = getSchedulePersonKey(schedule);
+  const name = schedule.castName || casts.find((cast) => cast.id === schedule.castId)?.name || "名称未設定";
+  const start = schedule.start || schedule.startTime || schedule.time || "未定";
+  const end = schedule.end || schedule.endTime || "";
+  const status = statusByKey.get(key) || "upcoming";
+  const labels = { finished: "退勤済み", upcoming: "まもなく出勤", working: "出勤中" };
+  return `<li><span>${escapeHtml(name)}</span><small>${escapeHtml(end ? `${start}〜${end}` : start)}</small><em class="admin-attendance-status is-${status}">${labels[status]}</em></li>`;
+}
+
+function getSchedulePersonKey(schedule, fallback = "") {
+  return String(schedule.castId || schedule.castName || schedule.id || fallback);
+}
+
+function getScheduleDateKey(schedule) {
+  return String(schedule.date || schedule.dateKey || schedule.workDate || "").slice(0, 10);
+}
+
+function isInactiveSchedule(schedule) {
+  return schedule.isOff === true || schedule.status === "off" || schedule.start === "__OFF__";
+}
+
+function parseTimeToMinutes(value) {
+  const match = String(value || "").match(/(\d{1,2}):(\d{2})/);
+  if (!match) return null;
+  return Number(match[1]) * 60 + Number(match[2]);
+}
+
+function getTokyoMinutes(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: TOKYO_TIME_ZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23"
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return Number(values.hour) * 60 + Number(values.minute);
+}
+
+function isNewsVisibleToday(item, today) {
+  if (item.isPublished === false) return false;
+  const start = String(item.publishDate || "").slice(0, 10);
+  const end = String(item.publishEndDate || item.endDate || "").slice(0, 10);
+  return (!start || start <= today) && (!end || end >= today);
 }
 
 function setDashboardValue(id, value) {
