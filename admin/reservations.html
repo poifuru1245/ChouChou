@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>予約管理 | Chou Chou</title>
+  <link rel="stylesheet" href="../assets/css/admin.css?v=8.4.0">
+</head>
+<body class="admin-premium">
+  <div class="admin-layout">
+    <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a class="active" href="reservations.html">予約管理</a><a href="sales.html">売上管理</a><a href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="login.html">ログアウト</a></aside>
+
+    <main class="main reservations-admin-page">
+      <header class="reservation-page-head">
+        <div><span>RESERVATION CONCIERGE</span><h1>予約管理</h1><p>LINE・WEB・電話予約を一元管理し、来店から完了までリアルタイムで確認できます。</p></div>
+        <div class="reservation-head-actions"><button id="exportReservationsCsv" type="button">CSV出力</button><button id="openReservationEditor" class="admin-primary-button" type="button">＋ 予約を登録</button></div>
+      </header>
+
+      <section class="reservation-summary-grid" aria-label="予約状況">
+        <article class="admin-stat-card admin-premium-card"><span>TODAY</span><strong id="reservationTodayCount">0</strong><small>本日の予約</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>PEOPLE</span><strong id="reservationTodayPeople">0</strong><small>本日の来店予定人数</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>WAITING</span><strong id="reservationWaitingCount">0</strong><small>確認待ち</small></article>
+        <article class="admin-stat-card admin-premium-card"><span>IN STORE</span><strong id="reservationVisitedCount">0</strong><small>来店中</small></article>
+        <article class="admin-stat-card admin-premium-card is-notification"><span>NOTICES</span><strong id="reservationNotificationCount">0</strong><small>未確認通知</small></article>
+      </section>
+
+      <div class="reservation-workspace">
+        <section class="admin-editor-panel reservation-main-panel">
+          <div class="reservation-panel-heading"><div><span>BOOKING LIST</span><h2>予約一覧</h2></div><strong id="reservationResultCount">0件</strong></div>
+          <div class="reservation-filter-toolbar">
+            <div class="reservation-period-buttons" role="group" aria-label="表示期間"><button class="is-active" type="button" data-reservation-period="today">今日</button><button type="button" data-reservation-period="tomorrow">明日</button><button type="button" data-reservation-period="week">今週</button><button type="button" data-reservation-period="month">今月</button><button type="button" data-reservation-period="custom">期間指定</button></div>
+            <label class="admin-field"><span>開始日</span><input id="reservationDateFrom" type="date" disabled></label>
+            <label class="admin-field"><span>終了日</span><input id="reservationDateTo" type="date" disabled></label>
+            <label class="admin-field"><span>ステータス</span><select id="reservationStatusFilter"><option value="">すべて</option><option>受付</option><option>確認済</option><option>来店</option><option>会計済</option><option>完了</option><option>キャンセル</option><option>無断キャンセル</option></select></label>
+            <label class="admin-field"><span>検索</span><input id="reservationSearch" type="search" placeholder="お客様・電話・キャスト"></label>
+            <label class="admin-field"><span>並び替え</span><select id="reservationSort"><option value="date-asc">来店日時（近い順）</option><option value="date-desc">来店日時（新しい順）</option><option value="created-desc">受付（新しい順）</option><option value="name-asc">お客様名順</option></select></label>
+            <div class="reservation-view-buttons" role="group" aria-label="表示形式"><button class="is-active" type="button" data-reservation-view="table">テーブル</button><button type="button" data-reservation-view="card">カード</button></div>
+          </div>
+          <div id="reservationList" class="reservation-list" aria-live="polite"><span class="ui-loading">予約情報を読み込み中...</span></div>
+        </section>
+
+        <aside class="admin-editor-panel reservation-notification-panel">
+          <div class="reservation-panel-heading"><div><span>NOTIFICATION CENTER</span><h2>通知センター</h2></div><button id="clearReservationNotifications" type="button">すべて確認</button></div>
+          <ul id="reservationNotifications" class="reservation-notification-list"><li class="ui-loading">通知を確認中...</li></ul>
+        </aside>
+      </div>
+
+      <section class="admin-editor-panel reservation-calendar-panel">
+        <div class="reservation-panel-heading"><div><span>RESERVATION CALENDAR</span><h2>カレンダー</h2></div><div class="reservation-calendar-actions"><button id="reservationCalendarPrev" type="button" aria-label="前の期間">‹</button><strong id="reservationCalendarLabel"></strong><button id="reservationCalendarNext" type="button" aria-label="次の期間">›</button><div role="group" aria-label="カレンダー表示"><button type="button" data-calendar-view="day">日</button><button class="is-active" type="button" data-calendar-view="week">週</button><button type="button" data-calendar-view="month">月</button></div></div></div>
+        <p class="reservation-calendar-note">予約カードを日付・時間枠へドラッグすると来店日時を変更できます。</p>
+        <div id="reservationCalendar" class="reservation-calendar" aria-live="polite"></div>
+      </section>
+
+      <p id="reservationMessage" class="admin-status" aria-live="polite"></p>
+    </main>
+  </div>
+
+  <div id="reservationEditorModal" class="reservation-modal" role="dialog" aria-modal="true" aria-labelledby="reservationEditorTitle" hidden>
+    <div class="reservation-modal-card admin-premium-card">
+      <button class="reservation-modal-close" type="button" data-close-reservation-modal aria-label="閉じる">×</button>
+      <span>RESERVATION EDITOR</span><h2 id="reservationEditorTitle">予約を登録</h2>
+      <form id="reservationForm" class="reservation-form-grid" novalidate>
+        <label class="admin-field"><span>お客様名 *</span><input name="customerName" type="text" maxlength="100" required></label>
+        <label class="admin-field"><span>電話番号</span><input name="phone" type="tel" maxlength="40"></label>
+        <label class="admin-field"><span>LINE ID</span><input name="lineId" type="text" maxlength="100"></label>
+        <label class="admin-field"><span>受付経路</span><select name="source"><option>WEB</option><option>LINE</option><option>電話</option><option>店頭</option><option>その他</option></select></label>
+        <label class="admin-field"><span>来店日 *</span><input name="visitDate" type="date" required></label>
+        <label class="admin-field"><span>来店時間 *</span><input name="visitTime" type="time" required></label>
+        <label class="admin-field"><span>人数 *</span><input name="peopleCount" type="number" min="1" max="99" step="1" value="1" required></label>
+        <label class="admin-field"><span>コース</span><input name="course" type="text" maxlength="100"></label>
+        <label class="admin-field"><span>指名キャスト</span><select name="nominationCastId"><option value="">指名なし</option></select></label>
+        <label class="admin-field"><span>ステータス</span><select name="status"><option>受付</option><option>確認済</option><option>来店</option><option>会計済</option><option>完了</option><option>キャンセル</option><option>無断キャンセル</option></select></label>
+        <label class="admin-field is-wide"><span>メモ</span><textarea name="memo" maxlength="1000"></textarea></label>
+        <div class="admin-inline-actions is-wide"><button id="saveReservation" class="admin-primary-button" type="submit">予約を保存</button><button type="button" data-close-reservation-modal>キャンセル</button></div>
+      </form>
+      <p id="reservationFormMessage" class="admin-status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div id="reservationDetailModal" class="reservation-modal" role="dialog" aria-modal="true" aria-labelledby="reservationDetailTitle" hidden>
+    <div class="reservation-modal-card reservation-detail-card admin-premium-card">
+      <button class="reservation-modal-close" type="button" data-close-reservation-detail aria-label="閉じる">×</button>
+      <span>GUEST DETAILS</span><h2 id="reservationDetailTitle">予約詳細</h2>
+      <div id="reservationDetailContent"></div>
+      <div class="admin-inline-actions"><button id="editReservationFromDetail" class="admin-primary-button" type="button">予約を編集</button><button id="deleteReservationFromDetail" type="button">削除</button><button type="button" data-close-reservation-detail>閉じる</button></div>
+    </div>
+  </div>
+
+  <script type="module" src="../assets/reservations.js?v=8.4.0"></script>
+</body>
+</html>

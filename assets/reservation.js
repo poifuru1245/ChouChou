@@ -1,4 +1,5 @@
-import { addDocument, getCollection } from "./js/services/firestoreService.js";
+import { getCollection } from "./js/services/firestoreService.js";
+import { createReservation } from "./js/services/reservationService.js";
 import { announce } from "./js/utils/dom.js";
 
 const castList = [];
@@ -150,43 +151,30 @@ document
 .getElementById("reserveBtn")
 .addEventListener("click", async ()=>{
 
+  const castSelect = document.getElementById("cast1");
+  const selectedOption = castSelect.options[castSelect.selectedIndex];
   const reservationData = {
-
-    name:
-    document.getElementById("name").value,
-
-    phone:
-    document.getElementById("phone").value,
-
-    date:
-    document.getElementById("date").value,
-
-    time:
-    document.getElementById("time").value,
-
-    people:
-    document.getElementById("people").value,
-
-    cast1:
-    document.getElementById("cast1").value,
-
-    cast2:
-    document.getElementById("cast2").value,
-
-    cast3:
-    document.getElementById("cast3").value,
-
-    request:
-    document.getElementById("request").value,
-
-    createdAt:
-    new Date().toISOString()
-
+    customerName:document.getElementById("name").value.trim(),
+    phone:document.getElementById("phone").value.trim(),
+    visitDate:document.getElementById("date").value,
+    visitTime:document.getElementById("time").value,
+    peopleCount:Number(document.getElementById("people").value),
+    nominationCastId:selectedOption?.dataset.castId || "",
+    nominationCastName:castSelect.value,
+    status:"受付",
+    source:"WEB",
+    memo:[document.getElementById("request").value, document.getElementById("cast2").value && `追加指名: ${document.getElementById("cast2").value}`, document.getElementById("cast3").value && `追加指名: ${document.getElementById("cast3").value}`].filter(Boolean).join("\n")
   };
+
+  if(!reservationData.customerName || !reservationData.phone || !reservationData.visitDate){
+    alert("お名前・電話番号・来店日を入力してください。");
+    announce("お名前・電話番号・来店日を入力してください。", "error");
+    return;
+  }
 
   try{
 
-    await addDocument("reservations", reservationData);
+    await createReservation(reservationData);
 
     alert("予約を送信しました");
     announce("予約を送信しました。");
