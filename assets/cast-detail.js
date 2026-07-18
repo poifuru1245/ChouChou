@@ -32,7 +32,10 @@ const sliderState = {
   images: [],
   currentIndex: 0,
   touchStartX: 0,
-  touchStartY: 0
+  touchStartY: 0,
+  lightboxTouchStartX: 0,
+  lightboxTouchStartY: 0,
+  returnFocus: null
 };
 
 initializeCastDetail();
@@ -46,7 +49,10 @@ async function initializeCastDetail() {
   setupFavorite(cast);
   setupCastReservations(cast);
   await recordCastView(cast);
-  await loadWeeklySchedule(cast);
+  await Promise.all([
+    loadWeeklySchedule(cast),
+    loadRelatedCasts(cast)
+  ]);
   document.body.classList.add("cast-detail-ready");
 }
 
@@ -189,6 +195,7 @@ function renderSlider(images, name) {
   const thumbnails = document.getElementById("castThumbnails");
   const prev = document.getElementById("castSlidePrev");
   const next = document.getElementById("castSlideNext");
+  const expand = document.getElementById("castImageExpand");
   const hasMultiple = images.length > 1;
 
   if (thumbnails) {
@@ -208,6 +215,7 @@ function renderSlider(images, name) {
 
   if (prev) prev.hidden = !hasMultiple;
   if (next) next.hidden = !hasMultiple;
+  if (expand) expand.hidden = images.length === 0;
 
   showSlide(0, false, name);
 }
@@ -255,6 +263,7 @@ function showSlide(index, animate = true, fallbackName = "") {
 
 function setupSliderControls() {
   const stage = document.getElementById("castSliderStage");
+  const lightbox = document.getElementById("castLightbox");
 
   document.getElementById("castSlidePrev")?.addEventListener("click", () => {
     showSlide(sliderState.currentIndex - 1);
@@ -267,6 +276,12 @@ function setupSliderControls() {
     if (event.key === "ArrowLeft") showSlide(sliderState.currentIndex - 1);
     if (event.key === "ArrowRight") showSlide(sliderState.currentIndex + 1);
   });
+
+  stage?.addEventListener("click", (event) => {
+    if (event.target !== document.getElementById("castImage") || !sliderState.images.length) return;
+    openLightbox();
+  });
+  document.getElementById("castImageExpand")?.addEventListener("click", openLightbox);
 
   stage?.addEventListener("touchstart", (event) => {
     const touch = event.changedTouches[0];
@@ -284,6 +299,83 @@ function setupSliderControls() {
     if (Math.abs(distanceX) < 45 || Math.abs(distanceX) <= Math.abs(distanceY)) return;
     showSlide(sliderState.currentIndex + (distanceX < 0 ? 1 : -1));
   }, { passive: true });
+
+  document.getElementById("castLightboxClose")?.addEventListener("click", closeLightbox);
+  document.getElementById("castLightboxPrev")?.addEventListener("click", () => showLightboxSlide(sliderState.currentIndex - 1));
+  document.getElementById("castLightboxNext")?.addEventListener("click", () => showLightboxSlide(sliderState.currentIndex + 1));
+
+  lightbox?.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  lightbox?.addEventListener("keydown", handleLightboxKeydown);
+  lightbox?.addEventListener("touchstart", (event) => {
+    const touch = event.changedTouches[0];
+    sliderState.lightboxTouchStartX = touch.clientX;
+    sliderState.lightboxTouchStartY = touch.clientY;
+  }, { passive: true });
+  lightbox?.addEventListener("touchend", (event) => {
+    if (sliderState.images.length < 2) return;
+    const touch = event.changedTouches[0];
+    const distanceX = touch.clientX - sliderState.lightboxTouchStartX;
+    const distanceY = touch.clientY - sliderState.lightboxTouchStartY;
+    if (Math.abs(distanceX) < 45 || Math.abs(distanceX) <= Math.abs(distanceY)) return;
+    showLightboxSlide(sliderState.currentIndex + (distanceX < 0 ? 1 : -1));
+  }, { passive: true });
+}
+
+function openLightbox() {
+  const lightbox = document.getElementById("castLightbox");
+  if (!lightbox || !sliderState.images.length) return;
+  sliderState.returnFocus = document.activeElement;
+  lightbox.hidden = false;
+  lightbox.setAttribute("aria-hidden", "false");
+  document.body.classList.add("is-cast-lightbox-open");
+  showLightboxSlide(sliderState.currentIndex);
+  document.getElementById("castLightboxClose")?.focus();
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById("castLightbox");
+  if (!lightbox || lightbox.hidden) return;
+  lightbox.hidden = true;
+  lightbox.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("is-cast-lightbox-open");
+  if (sliderState.returnFocus instanceof HTMLElement) sliderState.returnFocus.focus();
+}
+
+function showLightboxSlide(index) {
+  const image = document.getElementById("castLightboxImage");
+  const counter = document.getElementById("castLightboxCounter");
+  const total = sliderState.images.length;
+  if (!image || !total) return;
+  sliderState.currentIndex = (index + total) % total;
+  image.src = sliderState.images[sliderState.currentIndex];
+  image.alt = `${document.getElementById("castName")?.textContent || "キャスト"} ${sliderState.currentIndex + 1}枚目`;
+  if (counter) counter.textContent = `${sliderState.currentIndex + 1} / ${total}`;
+  showSlide(sliderState.currentIndex, false);
+}
+
+function handleLightboxKeydown(event) {
+  if (event.key === "Escape") {
+    closeLightbox();
+    return;
+  }
+  if (event.key === "ArrowLeft") showLightboxSlide(sliderState.currentIndex - 1);
+  if (event.key === "ArrowRight") showLightboxSlide(sliderState.currentIndex + 1);
+  if (event.key !== "Tab") return;
+
+  const lightbox = document.getElementById("castLightbox");
+  const controls = [...lightbox.querySelectorAll("button:not([hidden])")];
+  if (!controls.length) return;
+  const first = controls[0];
+  const last = controls[controls.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 }
 
 function renderNoImagePlaceholder(imageElement) {
@@ -474,6 +566,59 @@ function setupCastReservations(cast) {
   lineButton.replaceChildren(content);
 }
 
+async function loadRelatedCasts(currentCast) {
+  const section = document.getElementById("relatedCasts");
+  const list = document.getElementById("relatedCastList");
+  if (!section || !list) return;
+
+  try {
+    const snapshot = await getDocs(collection(db, "casts"));
+    const currentTags = new Set(getTags(currentCast));
+    const casts = snapshot.docs
+      .map((item) => ({ id: item.id, ...item.data() }))
+      .filter((cast) => cast.isPublished !== false)
+      .filter((cast) => String(cast.id) !== String(currentCast?.id || ""))
+      .filter((cast) => getCastImages(cast).length)
+      .sort((a, b) => relatedCastScore(b, currentTags) - relatedCastScore(a, currentTags) || compareCastDisplayOrder(a, b))
+      .slice(0, 3);
+
+    section.hidden = casts.length === 0;
+    list.innerHTML = casts.length
+      ? casts.map(createRelatedCastMarkup).join("")
+      : '<p class="cast-related-state">おすすめキャストを準備中です。</p>';
+  } catch (error) {
+    console.error("関連キャスト読み込み失敗", error);
+    section.hidden = true;
+  }
+}
+
+function relatedCastScore(cast, currentTags) {
+  const tagMatches = getTags(cast).filter((tag) => currentTags.has(tag)).length;
+  return (isBadgeEnabled(cast?.isRecommended) ? 100 : 0) + tagMatches * 10 + (isBadgeEnabled(cast?.isNew) ? 1 : 0);
+}
+
+function compareCastDisplayOrder(a, b) {
+  const aOrder = numericDisplayOrder(a?.displayOrder);
+  const bOrder = numericDisplayOrder(b?.displayOrder);
+  if (aOrder !== null && bOrder !== null) return aOrder - bOrder;
+  if (aOrder !== null) return -1;
+  if (bOrder !== null) return 1;
+  return String(a?.name || "").localeCompare(String(b?.name || ""), "ja");
+}
+
+function numericDisplayOrder(value) {
+  if (value === undefined || value === null || value === "") return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function createRelatedCastMarkup(cast) {
+  const name = String(cast?.name || "CAST").trim();
+  const image = getCastImages(cast)[0];
+  const detailUrl = `cast-detail.html?id=${encodeURIComponent(cast.id)}&name=${encodeURIComponent(name)}`;
+  return `<article class="cast-related-card card-premium"><a href="${escapeAttribute(detailUrl)}" aria-label="${escapeAttribute(name)}のプロフィールを見る"><div class="cast-related-photo"><img src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}" loading="lazy" decoding="async">${isBadgeEnabled(cast?.isRecommended) ? '<span class="badge-premium">おすすめ</span>' : ""}</div><div class="cast-related-info"><h3>${escapeHtml(name)}</h3><span aria-hidden="true"></span><strong>プロフィールを見る</strong></div></a></article>`;
+}
+
 function getCastImages(cast) {
   const candidates = [
     cast?.image,
@@ -611,17 +756,49 @@ function updateSeoMetadata(cast, name) {
   const profileSummary = [formatAge(cast?.age), formatHeight(cast?.height)]
     .filter(Boolean)
     .join("・");
+  const message = String(cast?.message || "").replace(/\s+/g, " ").trim().slice(0, 80);
   const description = [
     `Chou Chou（シュシュ）キャスト「${name}」のプロフィール。`,
     profileSummary ? `${profileSummary}。` : "",
-    "写真ギャラリー、プロフィール、今週の出勤予定をご案内します。"
+    message ? `${message} ` : "",
+    "写真ギャラリー、プロフィール、今週の出勤予定、指名予約をご案内します。"
   ].join("");
   const title = `${name} | キャストプロフィール | Chou Chou`;
+  const image = getCastImages(cast)[0] || "";
+  const canonicalUrl = cast?.id
+    ? `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(cast.id)}`
+    : window.location.href;
 
   document.title = title;
   setMetaContent("castMetaDescription", description);
   setMetaContent("castOgTitle", title);
   setMetaContent("castOgDescription", description);
+  setMetaContent("castOgImage", image);
+  setMetaContent("castOgUrl", canonicalUrl);
+  setMetaContent("castTwitterTitle", title);
+  setMetaContent("castTwitterDescription", description);
+  setMetaContent("castTwitterImage", image);
+  document.getElementById("castCanonical")?.setAttribute("href", canonicalUrl);
+  updateStructuredData(cast, name, description, image, canonicalUrl);
+}
+
+function updateStructuredData(cast, name, description, image, url) {
+  let script = document.getElementById("castStructuredData");
+  if (!script) {
+    script = document.createElement("script");
+    script.id = "castStructuredData";
+    script.type = "application/ld+json";
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name,
+    description,
+    image: image || undefined,
+    url,
+    worksFor: { "@type": "Organization", name: "Chou Chou" }
+  });
 }
 
 function setMetaContent(id, value) {

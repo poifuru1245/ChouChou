@@ -439,6 +439,83 @@ body.cast-detail-page .cast-fixed-phone{
   }
 }
 
+/* ChouChou Ver7.3 — premium cast detail experience */
+body.cast-detail-page .cast-slider-stage{cursor:zoom-in;}
+body.cast-detail-page .cast-slider-stage :is(.cast-slide-arrow,.cast-image-expand){cursor:pointer;}
+body.cast-detail-page .cast-image-expand{position:absolute;bottom:14px;left:14px;z-index:9;min-width:54px;height:34px;padding:0 12px;border:1px solid rgba(var(--premium-gold-rgb),.62);border-radius:999px;background:rgba(255,250,252,.78);color:#8c4168;font-size:10px;font-weight:700;letter-spacing:.08em;box-shadow:0 8px 20px rgba(111,59,86,.14);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+body.cast-detail-page.is-cast-lightbox-open{overflow:hidden;}
+
+body.cast-detail-page .cast-related{
+  width:min(1180px,calc(100% - 40px));
+  margin:0 auto 150px;
+  padding:40px;
+  border:1px solid rgba(var(--premium-gold-rgb),.62);
+  border-radius:30px;
+  background:linear-gradient(145deg,rgba(255,255,255,.76),rgba(255,230,242,.56));
+  box-shadow:0 22px 48px rgba(127,54,91,.14),0 1px 0 rgba(255,255,255,.92) inset;
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+}
+
+body.cast-detail-page .cast-related[hidden]{display:none !important;}
+body.cast-detail-page .cast-related-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:28px;}
+body.cast-detail-page .cast-related-card{overflow:hidden;border:1px solid rgba(var(--premium-gold-rgb),.5);border-radius:24px;background:rgba(255,250,253,.78);box-shadow:0 14px 32px rgba(111,47,77,.11);transition:transform .3s ease,box-shadow .3s ease;}
+body.cast-detail-page .cast-related-card>a{display:block;color:inherit;text-decoration:none;}
+body.cast-detail-page .cast-related-photo{position:relative;aspect-ratio:4/5;overflow:hidden;background:rgba(255,255,255,.6);}
+body.cast-detail-page .cast-related-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .35s ease;}
+body.cast-detail-page .cast-related-photo .badge-premium{position:absolute;top:13px;left:13px;padding:7px 12px;border-radius:999px;background:rgba(255,247,251,.8);color:#a44470;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+body.cast-detail-page .cast-related-info{padding:20px;text-align:center;}
+body.cast-detail-page .cast-related-info h3{margin:0;color:var(--premium-ink);font-size:23px;letter-spacing:.12em;}
+body.cast-detail-page .cast-related-info>span{display:block;width:70px;height:1px;margin:12px auto;background:linear-gradient(90deg,transparent,var(--premium-gold),transparent);}
+body.cast-detail-page .cast-related-info strong{color:#9a4b70;font-size:11px;letter-spacing:.08em;}
+body.cast-detail-page .cast-related-state{grid-column:1/-1;margin:0;padding:24px;color:var(--premium-muted);text-align:center;}
+
+body.cast-detail-page .cast-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:grid;
+  grid-template-columns:minmax(48px,1fr) minmax(0,1100px) minmax(48px,1fr);
+  align-items:center;
+  gap:16px;
+  padding:34px;
+  background:rgba(45,18,33,.86);
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
+  touch-action:pan-y;
+}
+body.cast-detail-page .cast-lightbox[hidden]{display:none !important;}
+body.cast-detail-page .cast-lightbox-title{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+body.cast-detail-page .cast-lightbox-figure{grid-column:2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;min-width:0;margin:0;}
+body.cast-detail-page .cast-lightbox-figure img{display:block;max-width:100%;max-height:calc(100vh - 100px);border:1px solid rgba(var(--premium-gold-rgb),.72);border-radius:20px;object-fit:contain;box-shadow:0 26px 70px rgba(0,0,0,.42);}
+body.cast-detail-page .cast-lightbox-figure figcaption{min-width:58px;padding:7px 12px;border:1px solid rgba(var(--premium-gold-rgb),.56);border-radius:999px;background:rgba(255,247,251,.76);color:#7d3b5c;font-size:11px;font-weight:700;text-align:center;}
+body.cast-detail-page :is(.cast-lightbox-close,.cast-lightbox-arrow){display:grid;place-items:center;border:1px solid rgba(var(--premium-gold-rgb),.72);border-radius:50%;background:rgba(255,247,251,.78);color:#7d3b5c;box-shadow:0 12px 30px rgba(0,0,0,.22);cursor:pointer;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+body.cast-detail-page .cast-lightbox-close{position:absolute;top:20px;right:20px;width:48px;height:48px;font-size:28px;}
+body.cast-detail-page .cast-lightbox-arrow{width:52px;height:52px;font-family:"Cormorant Garamond",serif;font-size:36px;}
+body.cast-detail-page .cast-lightbox-prev{grid-column:1;justify-self:end;}
+body.cast-detail-page .cast-lightbox-next{grid-column:3;justify-self:start;}
+body.cast-detail-page :is(.cast-lightbox-close,.cast-lightbox-arrow):focus-visible{outline:3px solid rgba(255,255,255,.9);outline-offset:3px;}
+
+@media(hover:hover) and (pointer:fine){
+  body.cast-detail-page .cast-related-card:hover{box-shadow:0 20px 44px rgba(111,47,77,.18);transform:translateY(-4px);}
+  body.cast-detail-page .cast-related-card:hover img{transform:scale(1.035);}
+  body.cast-detail-page :is(.cast-lightbox-close,.cast-lightbox-arrow):hover{background:#fff;transform:translateY(-2px);}
+}
+
+@media(max-width:768px){
+  body.cast-detail-page .cast-related{width:calc(100% - 24px);margin-bottom:118px;padding:26px 14px;border-radius:24px;}
+  body.cast-detail-page .cast-related-grid{grid-template-columns:1fr;max-width:340px;margin-right:auto;margin-left:auto;gap:16px;}
+  body.cast-detail-page .cast-lightbox{grid-template-columns:44px minmax(0,1fr) 44px;gap:7px;padding:64px 8px 24px;}
+  body.cast-detail-page .cast-lightbox-figure img{max-height:calc(100vh - 130px);border-radius:14px;}
+  body.cast-detail-page .cast-lightbox-close{top:max(12px,env(safe-area-inset-top));right:12px;width:42px;height:42px;}
+  body.cast-detail-page .cast-lightbox-arrow{width:40px;height:40px;font-size:30px;}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.cast-detail-page .cast-related-card,
+  body.cast-detail-page .cast-related-photo img{transition:none !important;}
+}
+
 @media(max-width:980px){
   body.cast-detail-page .cast-detail-premium{
     grid-template-columns:1fr;

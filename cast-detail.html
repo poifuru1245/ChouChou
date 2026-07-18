@@ -7,13 +7,20 @@
   <meta id="castMetaDescription" name="description" content="Chou Chou キャストプロフィール">
   <meta id="castOgTitle" property="og:title" content="Cast Profile | Chou Chou">
   <meta id="castOgDescription" property="og:description" content="Chou Chou キャストプロフィール">
+  <meta id="castOgImage" property="og:image" content="">
+  <meta id="castOgUrl" property="og:url" content="">
   <meta property="og:type" content="profile">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta id="castTwitterTitle" name="twitter:title" content="Cast Profile | Chou Chou">
+  <meta id="castTwitterDescription" name="twitter:description" content="Chou Chou キャストプロフィール">
+  <meta id="castTwitterImage" name="twitter:image" content="">
+  <link id="castCanonical" rel="canonical" href="">
   <link rel="stylesheet" href="assets/css/style.css?v=7.1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0">
   <link rel="stylesheet" href="assets/css/interior-v14.css?v=14.0.0">
-  <link rel="stylesheet" href="assets/css/cast-detail-premium-v56.css?v=5.7.0">
+  <link rel="stylesheet" href="assets/css/cast-detail-premium-v56.css?v=7.3.0">
 </head>
 <body class="interior-page cast-detail-page premium-design-system">
   <header class="header">
@@ -28,10 +35,11 @@
 
   <main class="cast-detail cast-detail-premium" aria-live="polite">
     <section class="cast-gallery card-premium" aria-label="キャスト写真スライダー">
-      <div id="castSliderStage" class="cast-slider-stage" tabindex="0">
+      <div id="castSliderStage" class="cast-slider-stage" tabindex="0" role="region" aria-roledescription="カルーセル" aria-label="キャスト写真。左右キーで写真を切り替えられます">
         <img id="castImage" class="cast-main-image" alt="">
         <button id="castSlidePrev" class="cast-slide-arrow cast-slide-prev" type="button" aria-label="前の写真">‹</button>
         <button id="castSlideNext" class="cast-slide-arrow cast-slide-next" type="button" aria-label="次の写真">›</button>
+        <button id="castImageExpand" class="cast-image-expand" type="button" aria-label="現在の写真を拡大表示">拡大</button>
         <span id="castSlideCounter" class="cast-slide-counter" aria-hidden="true"></span>
       </div>
       <div id="castThumbnails" class="cast-thumbnails" aria-label="写真を選択"></div>
@@ -64,6 +72,22 @@
     </section>
   </main>
 
+  <section id="relatedCasts" class="cast-related card-premium" aria-labelledby="relatedCastsTitle">
+    <div class="section-title"><span>Recommended Cast</span><h2 id="relatedCastsTitle">おすすめキャスト</h2><span class="section-divider" aria-hidden="true"></span></div>
+    <div id="relatedCastList" class="cast-related-grid" aria-live="polite"><p class="cast-related-state">おすすめキャストを読み込み中です...</p></div>
+  </section>
+
+  <div id="castLightbox" class="cast-lightbox" role="dialog" aria-modal="true" aria-labelledby="castLightboxTitle" aria-hidden="true" hidden>
+    <h2 id="castLightboxTitle" class="cast-lightbox-title">写真を拡大表示</h2>
+    <button type="button" id="castLightboxClose" class="cast-lightbox-close" aria-label="拡大表示を閉じる">×</button>
+    <button type="button" id="castLightboxPrev" class="cast-lightbox-arrow cast-lightbox-prev" aria-label="前の写真">‹</button>
+    <figure class="cast-lightbox-figure">
+      <img id="castLightboxImage" src="" alt="">
+      <figcaption id="castLightboxCounter"></figcaption>
+    </figure>
+    <button type="button" id="castLightboxNext" class="cast-lightbox-arrow cast-lightbox-next" aria-label="次の写真">›</button>
+  </div>
+
   <nav class="cast-fixed-reservation" aria-label="予約メニュー">
     <a href="#" class="button-premium button-primary cast-fixed-line v71-cast-reservation-button" data-site-link="lineReservationUrl" target="_blank" rel="noopener">LINE指名予約</a>
     <a href="reservation.html" class="button-premium cast-fixed-web">WEB予約</a>
@@ -71,7 +95,7 @@
   </nav>
 
   <script type="module" src="assets/app.js?v=7.2.0"></script>
-  <script type="module" src="assets/cast-detail.js?v=7.1.0"></script>
+  <script type="module" src="assets/cast-detail.js?v=7.3.0"></script>
   <script src="assets/design-system-v11.js?v=11.3.0"></script>
 </body>
 </html>
