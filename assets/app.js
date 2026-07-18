@@ -844,7 +844,7 @@ function toGoogleMapEmbedUrl(url) {
 }
 
 function setupRevealAnimations() {
-  const selector = ".premium-section-card, .ver6-contact-image-section, .cast-card, .news-card, .gallery-card";
+  const selector = ".premium-section-card, #cast.v9-today-card, .ver6-contact-image-section, .cast-card, .news-card, .gallery-card";
   const revealRoot = document.querySelector(".princess-home") || document.body;
   const targets = revealRoot.querySelectorAll(selector);
 

@@ -181,6 +181,71 @@ html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-c
   }
 }
 
+/* ChouChou Ver6.1 Homepage Interaction Polish */
+html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6{
+  --v61-hero-parallax:0px;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 .hero-slider-track{
+  opacity:0;
+  transform:translate3d(0,var(--v61-hero-parallax),0) scale(1.025);
+  transition:opacity 1.4s ease,transform .18s linear;
+  will-change:transform,opacity;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6.is-v61-ready .hero-slider-track{
+  opacity:1;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 > .hero-link{
+  overflow:hidden;
+  border-radius:28px;
+  transition:transform .25s ease,filter .25s ease;
+}
+
+html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 > .hero-link::after{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid rgba(198,161,91,.58);
+  border-radius:inherit;
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,224,239,.14));
+  box-shadow:0 10px 24px rgba(111,59,86,.12);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+
+@media(hover:hover) and (pointer:fine){
+  html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 > .hero-link:hover{
+    transform:translateY(-4px) scale(1.012);
+    filter:brightness(1.025);
+  }
+
+  html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 > .hero-link:hover::after{
+    opacity:1;
+  }
+}
+
+@media(max-width:768px){
+  html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 .hero-slider-track{
+    transform:none;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 .hero-slider-track{
+    opacity:1;
+    transform:none;
+    transition:none;
+  }
+
+  html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 > .hero-link,
+  html body.premium-design-system:not(.cast-detail-page) .hero.hero-ver6 > .hero-link::after{
+    transition:none;
+  }
+}
+
 html body.premium-design-system:not(.cast-detail-page) .princess-home #cast-list .all-cast-grid{
   align-items:stretch !important;
   grid-auto-rows:1fr !important;

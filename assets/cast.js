@@ -983,16 +983,16 @@ function getTodayAttendanceState(scheduleText, schedule = null){
       : { label:"本日出勤", className:"is-today", remaining:"" };
   }
   if(endMinutes !== null && now >= endMinutes){
-    return { label:"退勤済み", className:"is-finished", remaining:"" };
+    return { label:"本日終了", className:"is-finished", remaining:"" };
   }
   if(endMinutes !== null){
     const remaining = Math.max(0,endMinutes-now);
     const hours = Math.floor(remaining/60);
     const minutes = remaining%60;
     const text = hours > 0 ? `あと${hours}時間${minutes ? `${minutes}分` : ""}` : `あと${minutes}分`;
-    return { label:"本日出勤中", className:"is-working", remaining:text };
+    return { label:"出勤中", className:"is-working", remaining:text };
   }
-  return { label:"本日出勤中", className:"is-working", remaining:"" };
+  return { label:"出勤中", className:"is-working", remaining:"" };
 }
 
 function parseShiftMinutes(value, isEnd = false){

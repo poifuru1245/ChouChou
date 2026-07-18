@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gallery | Chou Chou</title>
   <meta name="description" content="すすきのキャバクラ Chou Chou の店内ギャラリー">
-  <link rel="stylesheet" href="assets/css/style.css?v=13.0.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=14.0.1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0">
@@ -29,14 +29,19 @@
     </section>
   </main>
 
-  <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+  <div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="ギャラリー画像" aria-hidden="true">
     <button type="button" class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="閉じる">×</button>
     <button type="button" class="gallery-lightbox-backdrop" id="galleryLightboxBackdrop" aria-label="閉じる"></button>
-    <div class="gallery-lightbox-content"><img id="galleryLightboxImage" src="" alt=""><p id="galleryLightboxTitle"></p></div>
+    <div class="gallery-lightbox-content">
+      <button type="button" class="gallery-lightbox-nav gallery-lightbox-prev" id="galleryLightboxPrev" aria-label="前の画像">‹</button>
+      <img id="galleryLightboxImage" src="" alt="">
+      <button type="button" class="gallery-lightbox-nav gallery-lightbox-next" id="galleryLightboxNext" aria-label="次の画像">›</button>
+      <p id="galleryLightboxTitle"></p>
+    </div>
   </div>
 
-  <script type="module" src="assets/app.js?v=14.0.0"></script>
-  <script type="module" src="assets/gallery.js?v=14.0.0"></script>
+  <script type="module" src="assets/app.js?v=14.0.1"></script>
+  <script type="module" src="assets/gallery.js?v=14.0.1"></script>
   <script src="assets/design-system-v11.js?v=11.3.0"></script>
 </body>
 </html>
