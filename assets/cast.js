@@ -885,6 +885,7 @@ params.set("message",cast.message || "");
 params.set("instagram",cast.instagram || "");
 params.set("x",cast.x || "");
 params.set("line",cast.line || "");
+params.set("lineReservationEnabled",cast.lineReservationEnabled === false ? "false" : "true");
 params.set("tiktok",cast.tiktok || "");
 params.set("galleryImages",JSON.stringify(getCastImages(cast)));
 params.set("isNew",isBadgeEnabled(cast.isNew) ? "true" : "");
@@ -1031,10 +1032,23 @@ function getTokyoMinutesNow(){
 function createCastEngagementActions(cast, compact = false){
   const id = String(cast?.id || cast?.name || "").trim();
   if(!id) return "";
-  return `<div class="v6-cast-actions${compact ? " is-compact" : ""}">
+  const name = String(cast?.name || "キャスト").trim();
+  const lineEnabled = cast?.lineReservationEnabled !== false;
+  const webUrl = createCastWebReservationUrl(cast);
+  const lineMarkup = lineEnabled ? `<a class="button-premium v6-line-cast-button v71-cast-reservation-button" href="#" data-site-link="lineReservationUrl" data-line-cast-name="${escapeAttribute(name)}" target="_blank" rel="noopener" aria-label="${escapeAttribute(name)}ちゃんを指名してLINE予約"><span class="v6-line-content"><svg class="v6-line-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.25c-5.11 0-9.25 3.45-9.25 7.7 0 2.64 1.63 5.09 4.28 6.49l-.72 3.31 3.63-2.23c.68.1 1.37.15 2.06.15 5.11 0 9.25-3.46 9.25-7.72S17.11 3.25 12 3.25Z"/><circle cx="8.25" cy="11" r="1"/><circle cx="12" cy="11" r="1"/><circle cx="15.75" cy="11" r="1"/></svg><span class="v6-line-label">${escapeHtml(name)}ちゃんを指名 LINE予約</span></span></a>` : "";
+  const webMarkup = compact ? "" : `<a class="button-premium v71-web-cast-button v71-cast-reservation-button" href="${escapeAttribute(webUrl)}" aria-label="${escapeAttribute(name)}さんを指名してWEB予約">WEB予約</a>`;
+  return `<div class="v6-cast-actions${compact ? " is-compact" : ""}${lineEnabled ? "" : " is-line-disabled"}">
     <button type="button" class="v6-favorite-button" data-favorite-cast="${escapeAttribute(id)}" data-favorite-cast-name="${escapeAttribute(cast?.name || "キャスト")}" aria-label="${escapeAttribute(cast?.name || "キャスト")}をお気に入りに登録" aria-pressed="false">♡</button>
-    <a class="button-premium v6-line-cast-button" href="#" data-site-link="lineReservationUrl" data-cast-name="${escapeAttribute(cast?.name || "")}" target="_blank" rel="noopener"><span class="v6-line-content"><svg class="v6-line-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.25c-5.11 0-9.25 3.45-9.25 7.7 0 2.64 1.63 5.09 4.28 6.49l-.72 3.31 3.63-2.23c.68.1 1.37.15 2.06.15 5.11 0 9.25-3.46 9.25-7.72S17.11 3.25 12 3.25Z"/><circle cx="8.25" cy="11" r="1"/><circle cx="12" cy="11" r="1"/><circle cx="15.75" cy="11" r="1"/></svg><span class="v6-line-label">LINE予約</span></span></a>
+    ${lineMarkup}
+    ${webMarkup}
   </div>`;
+}
+
+function createCastWebReservationUrl(cast){
+  const params = new URLSearchParams();
+  if(cast?.id) params.set("castId",String(cast.id));
+  if(cast?.name) params.set("castName",String(cast.name));
+  return `reservation.html?${params.toString()}`;
 }
 
 function applyCastSearchData(card, cast, isToday, originalIndex = 0){

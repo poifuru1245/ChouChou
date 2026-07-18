@@ -96,6 +96,7 @@
     instagram: document.getElementById("cast-instagram"),
     x: document.getElementById("cast-x"),
     line: document.getElementById("cast-line"),
+    lineReservationEnabled: document.getElementById("cast-line-reservation-enabled"),
     tiktok: document.getElementById("cast-tiktok"),
     tags: document.getElementById("cast-tags"),
     isNew: document.getElementById("cast-is-new"),
@@ -385,6 +386,7 @@
     elements.instagram.value = cast?.instagram || "";
     elements.x.value = cast?.x || "";
     elements.line.value = cast?.line || "";
+    if (elements.lineReservationEnabled) elements.lineReservationEnabled.checked = cast?.lineReservationEnabled !== false;
     elements.tiktok.value = cast?.tiktok || "";
     if (elements.isNew) elements.isNew.checked = isBadgeEnabled(cast?.isNew);
     if (elements.isRecommended) {
@@ -422,6 +424,7 @@
     elements.instagram.value = "";
     elements.x.value = "";
     elements.line.value = "";
+    if (elements.lineReservationEnabled) elements.lineReservationEnabled.checked = true;
     elements.tiktok.value = "";
     elements.tags.value = "";
     if (elements.isNew) elements.isNew.checked = false;
@@ -467,6 +470,7 @@
         instagram: formData.instagram,
         x: formData.x,
         line: formData.line,
+        lineReservationEnabled: formData.lineReservationEnabled,
         tiktok: formData.tiktok,
         tags: formData.tags,
         isNew: formData.isNew,
@@ -1214,6 +1218,7 @@
       instagram: elements.instagram.value.trim(),
       x: elements.x.value.trim(),
       line: elements.line.value.trim(),
+      lineReservationEnabled: elements.lineReservationEnabled?.checked !== false,
       tiktok: elements.tiktok.value.trim(),
       tags: collectTags(),
       isNew: Boolean(elements.isNew?.checked),
@@ -1485,6 +1490,7 @@
       instagram: cast.instagram || "",
       x: cast.x || "",
       line: cast.line || "",
+      lineReservationEnabled: cast.lineReservationEnabled !== false,
       tiktok: cast.tiktok || "",
       tags: getTags(cast),
       schedule: cast.schedule || "",

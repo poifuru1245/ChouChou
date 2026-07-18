@@ -44,6 +44,7 @@ async function initializeCastDetail() {
 
   renderCast(cast);
   setupFavorite(cast);
+  setupCastReservations(cast);
   await recordCastView(cast);
   await loadWeeklySchedule(cast);
   document.body.classList.add("cast-detail-ready");
@@ -117,6 +118,7 @@ function getCastFromParams() {
     instagram: params.get("instagram") || "",
     x: params.get("x") || "",
     line: params.get("line") || "",
+    lineReservationEnabled: params.get("lineReservationEnabled") !== "false",
     tags: parseTags(params.get("tags") || ""),
     isNew: isBadgeEnabled(params.get("isNew")),
     isRecommended: isBadgeEnabled(params.get("isRecommended")),
@@ -436,6 +438,40 @@ function setupFavorite(cast) {
   button.dataset.favoriteLabelInactive = "♡ お気に入りに登録";
   button.dataset.favoriteLabelActive = "♥ お気に入り登録済み";
   window.dispatchEvent(new CustomEvent("chouchou:favorites-render"));
+}
+
+function setupCastReservations(cast) {
+  const name = String(cast?.name || "キャスト").trim();
+  const enabled = cast?.lineReservationEnabled !== false;
+  const lineButton = document.querySelector(".cast-fixed-line");
+  const params = new URLSearchParams();
+  if (cast?.id) params.set("castId", String(cast.id));
+  if (name) params.set("castName", name);
+  const webUrl = `reservation.html?${params.toString()}`;
+
+  document.querySelectorAll('a[href^="reservation.html"]').forEach((link) => {
+    link.href = webUrl;
+    link.dataset.castReservationName = name;
+  });
+
+  if (!lineButton) return;
+  lineButton.hidden = !enabled;
+  if (!enabled) return;
+  lineButton.dataset.lineCastName = name;
+  lineButton.dataset.lineMessage = `${name}さんを指名して予約したいです。\n\n希望日時：\n\n人数：\n\nご質問：`;
+  lineButton.setAttribute("aria-label", `${name}ちゃんを指名してLINE予約`);
+  const content = document.createElement("span");
+  content.className = "v6-line-content";
+  const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  icon.setAttribute("class", "v6-line-icon");
+  icon.setAttribute("viewBox", "0 0 24 24");
+  icon.setAttribute("aria-hidden", "true");
+  icon.innerHTML = '<path d="M12 3.25c-5.11 0-9.25 3.45-9.25 7.7 0 2.64 1.63 5.09 4.28 6.49l-.72 3.31 3.63-2.23c.68.1 1.37.15 2.06.15 5.11 0 9.25-3.46 9.25-7.72S17.11 3.25 12 3.25Z"/><circle cx="8.25" cy="11" r="1"/><circle cx="12" cy="11" r="1"/><circle cx="15.75" cy="11" r="1"/>';
+  const label = document.createElement("span");
+  label.className = "v6-line-label";
+  label.textContent = `${name}ちゃんを指名 LINE予約`;
+  content.append(icon, label);
+  lineButton.replaceChildren(content);
 }
 
 function getCastImages(cast) {

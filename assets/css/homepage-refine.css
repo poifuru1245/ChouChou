@@ -95,7 +95,7 @@ html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-c
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-media{
     align-self:stretch !important;
     display:grid !important;
-    grid-template-rows:158px 34px !important;
+    grid-template-rows:158px 44px !important;
     align-content:center !important;
     justify-items:center !important;
     width:168px !important;
@@ -505,7 +505,7 @@ html body.premium-design-system:not(.cast-detail-page) #contact .ver6-contact-li
   html body.premium-design-system:not(.cast-detail-page) #cast.v9-today-card .v9-cast-media{
     align-self:stretch !important;
     display:grid !important;
-    grid-template-rows:160px 34px !important;
+    grid-template-rows:160px 44px !important;
     align-content:center !important;
     justify-items:center !important;
     width:158px !important;

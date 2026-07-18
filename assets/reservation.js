@@ -12,6 +12,7 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 console.log("reservation.js 読み込み成功");
 
 const castList = [];
+const reservationParams = new URLSearchParams(window.location.search);
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsNdnnTSJUIS2eO7P_Ks8eAmtm8ManDhY",
@@ -35,11 +36,11 @@ async function loadCasts(){
 
   snapshot.forEach((docSnap)=>{
 
-  const cast = docSnap.data();
+  const cast = { id: docSnap.id, ...docSnap.data() };
 
   console.log(cast);
 
-  castList.push(cast);
+  if(cast.isPublished !== false) castList.push(cast);
 
 });
 
@@ -63,7 +64,7 @@ console.log("select確認", selects);
     castList.forEach((cast)=>{
 
       select.innerHTML += `
-        <option value="${cast.name}">
+        <option value="${escapeAttribute(cast.name || "")}" data-cast-id="${escapeAttribute(cast.id || "")}">
           ${cast.name}
         </option>
       `;
@@ -72,6 +73,26 @@ console.log("select確認", selects);
 
   });
 
+  applyRequestedCast();
+
+}
+
+function applyRequestedCast(){
+  const requestedId = String(reservationParams.get("castId") || "").trim();
+  const requestedName = String(reservationParams.get("castName") || reservationParams.get("cast") || "").trim();
+  if(!requestedId && !requestedName) return;
+
+  const cast = castList.find((item)=>requestedId && item.id === requestedId) ||
+    castList.find((item)=>requestedName && item.name === requestedName);
+  const select = document.getElementById("cast1");
+  if(!cast || !select) return;
+
+  select.value = cast.name || "";
+  const notice = document.getElementById("selectedCastNotice");
+  if(notice){
+    notice.textContent = `${cast.name}さんを指名キャストに設定しました。`;
+    notice.hidden = false;
+  }
 }
 
 function sortCastsByDisplayOrder(casts){
@@ -124,6 +145,14 @@ return Number.isFinite(numericOrder)
 ? numericOrder
 : null;
 
+}
+
+function escapeAttribute(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
 }
 
 document

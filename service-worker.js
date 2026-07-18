@@ -1,4 +1,4 @@
-const CACHE_NAME = "chouchou-v7-static-1";
+const CACHE_NAME = "chouchou-v71-static-1";
 const CORE_ASSETS = ["./","./index.html","./cast.html","./schedule.html","./favorite.html","./favorites.html","./assets/css/style.css","./assets/css/design-system-v11.css","./assets/engagement.js"];
 self.addEventListener("install",(event)=>event.waitUntil(caches.open(CACHE_NAME).then((cache)=>cache.addAll(CORE_ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",(event)=>event.waitUntil(caches.keys().then((keys)=>Promise.all(keys.filter((key)=>key!==CACHE_NAME).map((key)=>caches.delete(key)))).then(()=>self.clients.claim())));

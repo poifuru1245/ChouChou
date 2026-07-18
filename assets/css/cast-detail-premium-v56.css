@@ -550,3 +550,47 @@ body.cast-detail-page .cast-fixed-phone{
   from{opacity:.72;transform:scale(1.025);}
   to{opacity:1;transform:scale(1);}
 }
+
+/* ChouChou Ver7.1 — cast-specific reservation */
+body.cast-detail-page .cast-fixed-reservation :is(.cast-fixed-line,.cast-fixed-web){
+  border-color:rgba(var(--premium-gold-rgb),.78) !important;
+  background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(255,220,238,.88)) !important;
+  color:#87375c !important;
+  box-shadow:0 9px 22px rgba(111,48,78,.14),0 1px 0 rgba(255,255,255,.96) inset !important;
+  white-space:normal;
+  line-height:1.35;
+  text-align:center;
+}
+
+body.cast-detail-page .cast-fixed-line .v6-line-content{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  max-width:100%;
+  gap:10px;
+}
+
+body.cast-detail-page .cast-fixed-line .v6-line-icon{
+  display:block;
+  flex:0 0 18px;
+  width:18px;
+  height:18px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+body.cast-detail-page .cast-fixed-line .v6-line-label{
+  min-width:0;
+  line-height:1.35;
+}
+
+@media(hover:hover) and (pointer:fine){
+  body.cast-detail-page .cast-fixed-reservation :is(.cast-fixed-line,.cast-fixed-web):hover{
+    border-color:rgba(var(--premium-gold-rgb),.96) !important;
+    box-shadow:0 13px 28px rgba(111,48,78,.2),0 0 16px rgba(237,191,211,.28) !important;
+    transform:translateY(-3px) !important;
+  }
+}

@@ -3,9 +3,59 @@ const FAVORITES_KEY = "chouchou-favorite-casts";
 if(!location.pathname.includes("/admin/")){
   setupPremiumLoading();
   setupFavorites();
+  setupCastLineReservations();
   setupCastSearch();
   setupRevealMotion();
   setupPerformanceCache();
+}
+
+function setupCastLineReservations(){
+  let hideTimer = 0;
+  const loading = document.createElement("div");
+  loading.id = "lineReservationLoading";
+  loading.className = "v71-line-loading";
+  loading.setAttribute("role","status");
+  loading.setAttribute("aria-live","polite");
+  loading.setAttribute("aria-hidden","true");
+  loading.innerHTML = `<span class="v71-line-loading-mark" aria-hidden="true"></span><span>LINEを起動しています</span>`;
+  document.body.appendChild(loading);
+
+  const hideLoading = ()=>{
+    window.clearTimeout(hideTimer);
+    loading.classList.remove("is-visible");
+    loading.setAttribute("aria-hidden","true");
+  };
+
+  document.addEventListener("click",(event)=>{
+    const link = event.target.closest("a[data-line-cast-name]");
+    if(!link) return;
+    const name = String(link.dataset.lineCastName || "キャスト").trim();
+    const message = link.dataset.lineMessage || `${name}さんを指名して予約したいです。\n\n希望日時：\n\n人数：\n\nご質問：`;
+    const configuredUrl = link.dataset.lineBaseUrl || link.getAttribute("href") || "";
+    if(!link.dataset.lineBaseUrl && configuredUrl && configuredUrl !== "#") link.dataset.lineBaseUrl = configuredUrl;
+    link.href = buildLineReservationUrl(configuredUrl,message);
+    loading.classList.add("is-visible");
+    loading.setAttribute("aria-hidden","false");
+    window.clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(hideLoading,1200);
+  });
+
+  window.addEventListener("pageshow",hideLoading);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden) hideLoading();});
+}
+
+function buildLineReservationUrl(configuredUrl,message){
+  const encodedMessage = encodeURIComponent(message);
+  try{
+    const url = new URL(configuredUrl,location.href);
+    const officialMessageMatch = url.href.match(/^https:\/\/line\.me\/R\/oaMessage\/([^/?#]+)\/?/i);
+    if(officialMessageMatch) return `https://line.me/R/oaMessage/${officialMessageMatch[1]}/?${encodedMessage}`;
+    const profileMatch = url.href.match(/^https:\/\/line\.me\/R\/ti\/p\/(%40|@)([^/?#]+)/i);
+    if(profileMatch) return `https://line.me/R/oaMessage/@${profileMatch[2]}/?${encodedMessage}`;
+  }catch(error){
+    console.warn("LINE予約URLを解析できませんでした。共有URLを使用します。",error);
+  }
+  return `https://line.me/R/share?text=${encodedMessage}`;
 }
 
 function setupPremiumLoading(){

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>キャスト管理</title>
 
-<link rel="stylesheet" href="../assets/css/admin.css?v=6.3.0">
+<link rel="stylesheet" href="../assets/css/admin.css?v=7.1.0">
 
 </head>
 
@@ -236,6 +236,11 @@
   placeholder="LINE URL またはID"
 >
 
+<label class="cast-reservation-toggle">
+  <input type="checkbox" id="cast-line-reservation-enabled" checked>
+  <span>このキャストのLINE指名予約を表示する</span>
+</label>
+
 <input
   type="text"
   id="cast-tiktok"
@@ -317,7 +322,7 @@
 </div>
 <script type="module" src="../assets/js/firebase.js"></script>
 <script type="module" src="../assets/admin.js?v=6.3.0"></script>
-<script src="../assets/cast-manager.js?v=6.3.0"></script>
+<script src="../assets/cast-manager.js?v=7.1.0"></script>
 
 </body>
 </html>

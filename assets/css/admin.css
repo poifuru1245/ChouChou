@@ -4,6 +4,27 @@
     box-sizing:border-box;
 }
 
+.cast-reservation-toggle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:4px 0 14px;
+  padding:12px 14px;
+  border:1px solid rgba(196,156,84,.4);
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,236,245,.72));
+  color:#71344f;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.cast-reservation-toggle input{
+  flex:0 0 auto;
+  width:18px;
+  height:18px;
+  accent-color:#d56f9e;
+}
+
 /* ChouChou Ver5.8 Premium Admin System */
 :root{
   --admin-gold:#c69a48;
