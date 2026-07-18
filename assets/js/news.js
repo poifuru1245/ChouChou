@@ -44,7 +44,10 @@ function loadPublicNews() {
 function renderNews(items) {
   lists.forEach((list) => {
     const limit = Number(list.dataset.limit || 0);
-    const visibleItems = limit > 0 ? items.slice(0, limit) : items;
+    const orderedItems = list.dataset.sort === "latest"
+      ? [...items].sort((a, b) => getNewsTimestamp(b) - getNewsTimestamp(a))
+      : items;
+    const visibleItems = limit > 0 ? orderedItems.slice(0, limit) : orderedItems;
 
     if (!visibleItems.length) {
       updateNewsListState(list, 0);

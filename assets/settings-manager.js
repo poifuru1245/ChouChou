@@ -1,10 +1,16 @@
-import { db } from "./app.js";
+import { db, storage } from "./app.js";
+import { optimizeImage } from "./admin.js";
 import {
   doc,
   getDoc,
   serverTimestamp,
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const SITE_SETTINGS_FIELDS = [
   "heroImageUrl",
@@ -16,10 +22,17 @@ const SITE_SETTINGS_FIELDS = [
   "phoneNumber",
   "contactFormUrl",
   "instagramUrl",
+  "instagramSectionEnabled",
   "xUrl",
   "googleMapUrl",
   "businessHours",
-  "closedDay"
+  "closedDay",
+  "eventBannerEnabled",
+  "eventBannerTitle",
+  "eventBannerLink",
+  "eventBannerImageUrl",
+  "eventBannerStartDate",
+  "eventBannerEndDate"
 ];
 
 const settingsForm = document.getElementById("siteSettingsForm");
@@ -46,8 +59,16 @@ async function loadSiteSettings() {
 
       if (!input) return;
 
-      input.value = settings[field] || "";
+      if (input.type === "checkbox") {
+        input.checked = field === "instagramSectionEnabled"
+          ? settings[field] !== false
+          : settings[field] === true;
+      } else {
+        input.value = settings[field] || "";
+      }
     });
+
+    updateEventImagePreview(settings.eventBannerImageUrl || "");
 
     setStatus("設定を読み込みました。", "success");
   } catch (error) {
@@ -65,12 +86,32 @@ async function saveSiteSettings() {
 
     if (!input) return;
 
-    settings[field] = input.value.trim();
+    settings[field] = input.type === "checkbox" ? input.checked : input.value.trim();
   });
+
+  const eventImageFile = document.getElementById("eventBannerImageFile")?.files?.[0];
+  if (settings.eventBannerStartDate && settings.eventBannerEndDate && settings.eventBannerStartDate > settings.eventBannerEndDate) {
+    setStatus("イベントの掲載終了日は開始日以降に設定してください。", "error");
+    return;
+  }
+  if (settings.eventBannerEnabled && (!settings.eventBannerTitle || (!settings.eventBannerImageUrl && !eventImageFile))) {
+    setStatus("イベント公開時はタイトルと画像を設定してください。", "error");
+    return;
+  }
 
   try {
     if (saveButton) saveButton.disabled = true;
     setStatus("保存中...", "");
+
+    if (eventImageFile) {
+      const optimized = await optimizeImage(eventImageFile, { maxWidth: 1800, maxHeight: 900, quality: 0.86 });
+      const storageRef = ref(storage, `event-banners/${Date.now()}_${optimized.name}`);
+      await uploadBytes(storageRef, optimized, { contentType: optimized.type });
+      settings.eventBannerImageUrl = await getDownloadURL(storageRef);
+      const imageUrlInput = settingsForm.elements.eventBannerImageUrl;
+      if (imageUrlInput) imageUrlInput.value = settings.eventBannerImageUrl;
+      updateEventImagePreview(settings.eventBannerImageUrl);
+    }
 
     await setDoc(
       doc(db, "settings", "site"),
@@ -88,6 +129,13 @@ async function saveSiteSettings() {
   } finally {
     if (saveButton) saveButton.disabled = false;
   }
+}
+
+function updateEventImagePreview(url) {
+  const preview = document.getElementById("eventBannerImagePreview");
+  if (!preview) return;
+  preview.hidden = !url;
+  if (url) preview.src = url;
 }
 
 function setStatus(message, type) {

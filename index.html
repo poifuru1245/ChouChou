@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/design-system-v11.css?v=11.3.0">
     <link rel="stylesheet" href="assets/css/homepage-refine.css?v=6.2.5">
+    <link rel="stylesheet" href="assets/css/engagement-v72.css?v=7.2.0">
 </head>
 
 <body class="premium-design-system">
@@ -82,6 +83,15 @@
 
     <main class="princess-home luxury-home" aria-label="Chou Chou information">
 
+      <section id="homeEventBanner" class="v72-event-banner card-premium" aria-label="開催中のイベント" hidden>
+        <a id="homeEventBannerLink" href="#">
+          <img id="homeEventBannerImage" src="" alt="" loading="eager">
+          <span class="v72-event-banner-glass"><small>Special Event</small><strong id="homeEventBannerTitle"></strong></span>
+        </a>
+      </section>
+
+      <p id="todayUpcomingFlash" class="v72-attendance-flash glass-panel" aria-live="polite">本日の出勤予定を確認中です...</p>
+
       <div class="princess-card-grid princess-card-grid-top home-top-card-row">
 
 	    <!-- Today's Cast -->
@@ -130,7 +140,7 @@
 
             <header class="princess-pickup-header">
               <p class="princess-pickup-eyebrow">Princess Pick Up</p>
-              <h2 id="princess-pickup-title">本日のおすすめキャスト</h2>
+              <h2 id="princess-pickup-title">今月のおすすめキャスト</h2>
               <span class="princess-pickup-divider" aria-hidden="true"></span>
             </header>
 
@@ -152,7 +162,7 @@
 
         </div>
 
-        <div class="news-list public-news-list" data-limit="3">
+        <div class="news-list public-news-list" data-limit="3" data-sort="latest">
             <p class="public-news-empty" data-i18n="state.loading">読み込み中...</p>
         </div>
 
@@ -170,6 +180,18 @@
 	</section>
 
       </div>
+
+      <section id="new-cast" class="v72-new-cast premium-section-card card-premium" aria-labelledby="newCastTitle" hidden>
+        <div class="section-title"><span>New Cast</span><h2 id="newCastTitle">NEW CAST</h2><span class="section-divider" aria-hidden="true"></span></div>
+        <div id="newCastList" class="v72-cast-grid" aria-live="polite"></div>
+        <div class="princess-card-action"><a href="cast.html" class="button-premium">新人キャストを見る</a></div>
+      </section>
+
+      <section id="weekly-ranking" class="weekly-ranking v72-ranking-section premium-section-card card-premium" aria-labelledby="weeklyRankingTitle">
+        <div class="section-title"><span>Popularity Ranking</span><h2 id="weeklyRankingTitle">人気キャスト TOP3</h2><span class="section-divider" aria-hidden="true"></span></div>
+        <div id="weeklyRankingList" class="v6-ranking-grid" aria-live="polite"><p class="no-cast">ランキングを集計中です...</p></div>
+        <div class="princess-card-action"><a href="cast.html" class="button-premium">キャストを見る</a></div>
+      </section>
 
       <div class="princess-card-grid princess-card-grid-middle">
 
@@ -209,12 +231,6 @@
         <a href="cast.html" class="reserve-btn" data-i18n="button.cast">キャスト一覧を見る</a>
       </div>
 
-    </section>
-
-    <section id="weekly-ranking" class="weekly-ranking princess-card princess-card-wide premium-section-card card-premium" aria-labelledby="weeklyRankingTitle">
-      <div class="section-title"><span>Weekly Ranking</span><h2 id="weeklyRankingTitle">週間人気キャスト TOP5</h2><span class="section-divider" aria-hidden="true"></span></div>
-      <div id="weeklyRankingList" class="v6-ranking-grid" aria-live="polite"><p class="no-cast">ランキングを集計中です...</p></div>
-      <div class="princess-card-action"><a href="cast.html" class="button-premium">キャストを見る</a></div>
     </section>
 
 	<!-- Gallery -->
@@ -334,6 +350,11 @@
       </section>
 
     </main>
+    <nav class="v72-fixed-cta" aria-label="予約メニュー">
+      <a href="#" class="button-premium v72-fixed-line" data-site-link="lineReservationUrl">LINE予約</a>
+      <a href="reservation.html" class="button-premium v72-fixed-web" data-site-link="webReservationUrl">WEB予約</a>
+      <a href="tel:011-000-0000" class="button-premium v72-fixed-phone" data-site-phone="phoneNumber">電話予約</a>
+    </nav>
 <div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="ギャラリー画像" aria-hidden="true">
   <button type="button" class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="閉じる">
     ×
@@ -347,12 +368,13 @@
   </div>
 </div>
 
-<script type="module" src="assets/app.js?v=7.1.0"></script>
+<script type="module" src="assets/app.js?v=7.2.0"></script>
 <script type="module" src="assets/main.js?v=6.1.0"></script>
 <script type="module" src="assets/cast.js?v=7.1.0"></script>
-<script type="module" src="assets/js/news.js?v=6.3.0"></script>
+<script type="module" src="assets/js/news.js?v=7.2.0"></script>
 <script type="module" src="assets/gallery.js?v=6.3.0"></script>
-<script type="module" src="assets/ranking.js?v=6.0.0"></script>
+<script type="module" src="assets/ranking.js?v=7.2.0"></script>
+<script type="module" src="assets/home-engagement.js?v=7.2.0"></script>
 <script src="assets/design-system-v11.js?v=11.3.0"></script>
 
 </body>
