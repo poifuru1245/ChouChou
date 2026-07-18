@@ -128,3 +128,19 @@
   body:not(.cast-detail-page) .v9-cast-button { display:flex !important; align-items:center !important; justify-content:center !important; max-width:100% !important; white-space:normal !important; text-align:center !important; }
   body:not(.cast-detail-page) .ver6-contact-image-section { width:100% !important; max-width:100% !important; min-width:0 !important; margin:0 !important; overflow:hidden !important; }
 }
+
+/* ChouChou Ver7.0 Favorite Header */
+@media(max-width:768px){
+  body:not(.cast-detail-page) .header-inner.has-v7-favorite{
+    grid-template-columns:minmax(0,1fr) auto auto !important;
+  }
+  body:not(.cast-detail-page) .header .v7-header-favorite{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    justify-self:end !important;
+  }
+  body:not(.cast-detail-page) .header .language-switch{
+    grid-column:3 !important;
+    grid-row:1 !important;
+  }
+}

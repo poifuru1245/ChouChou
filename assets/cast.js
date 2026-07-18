@@ -399,7 +399,7 @@ list.appendChild(div);
 });
 
 if(!visibleCasts.length){
-  list.innerHTML = `<p class="no-cast v6-favorite-empty">${list.dataset.favoritesOnly === "true" ? "お気に入り登録したキャストはまだいません" : "キャスト情報を準備中です"}</p>`;
+  list.innerHTML = `<p class="no-cast ${list.dataset.favoritesOnly === "true" ? "v7-favorite-empty" : ""}">${list.dataset.favoritesOnly === "true" ? "まだお気に入り登録されていません" : "キャスト情報を準備中です"}</p>`;
 }
 
 }
@@ -1032,7 +1032,7 @@ function createCastEngagementActions(cast, compact = false){
   const id = String(cast?.id || cast?.name || "").trim();
   if(!id) return "";
   return `<div class="v6-cast-actions${compact ? " is-compact" : ""}">
-    <button type="button" class="v6-favorite-button" data-favorite-cast="${escapeAttribute(id)}" aria-label="${escapeAttribute(cast?.name || "キャスト")}をお気に入りに追加" aria-pressed="false">♡</button>
+    <button type="button" class="v6-favorite-button" data-favorite-cast="${escapeAttribute(id)}" data-favorite-cast-name="${escapeAttribute(cast?.name || "キャスト")}" aria-label="${escapeAttribute(cast?.name || "キャスト")}をお気に入りに登録" aria-pressed="false">♡</button>
     <a class="button-premium v6-line-cast-button" href="#" data-site-link="lineReservationUrl" data-cast-name="${escapeAttribute(cast?.name || "")}" target="_blank" rel="noopener"><span class="v6-line-content"><svg class="v6-line-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.25c-5.11 0-9.25 3.45-9.25 7.7 0 2.64 1.63 5.09 4.28 6.49l-.72 3.31 3.63-2.23c.68.1 1.37.15 2.06.15 5.11 0 9.25-3.46 9.25-7.72S17.11 3.25 12 3.25Z"/><circle cx="8.25" cy="11" r="1"/><circle cx="12" cy="11" r="1"/><circle cx="15.75" cy="11" r="1"/></svg><span class="v6-line-label">LINE予約</span></span></a>
   </div>`;
 }

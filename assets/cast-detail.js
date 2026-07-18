@@ -430,24 +430,12 @@ function setupFavorite(cast) {
 
   if (!button) return;
 
-  const storageKey = "chouchou-favorite-casts";
   const castKey = String(cast?.id || cast?.name || "cast");
-  let favorites = readFavorites(storageKey);
-
-  const render = () => {
-    const isFavorite = favorites.includes(castKey);
-    button.setAttribute("aria-pressed", String(isFavorite));
-    button.textContent = isFavorite ? "♥ お気に入り登録済み" : "♡ お気に入りに登録";
-  };
-
-  render();
-  button.addEventListener("click", () => {
-    favorites = favorites.includes(castKey)
-      ? favorites.filter((key) => key !== castKey)
-      : [...favorites, castKey];
-    writeFavorites(storageKey, favorites);
-    render();
-  });
+  button.dataset.favoriteCast = castKey;
+  button.dataset.favoriteCastName = String(cast?.name || "キャスト");
+  button.dataset.favoriteLabelInactive = "♡ お気に入りに登録";
+  button.dataset.favoriteLabelActive = "♥ お気に入り登録済み";
+  window.dispatchEvent(new CustomEvent("chouchou:favorites-render"));
 }
 
 function getCastImages(cast) {
@@ -616,23 +604,6 @@ function formatHeight(value) {
 
 function isBadgeEnabled(value) {
   return value === true || value === "true" || value === 1 || value === "1" || value === "on" || value === "yes";
-}
-
-function readFavorites(storageKey) {
-  try {
-    const value = JSON.parse(window.localStorage.getItem(storageKey) || "[]");
-    return Array.isArray(value) ? value.map(String) : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeFavorites(storageKey, favorites) {
-  try {
-    window.localStorage.setItem(storageKey, JSON.stringify(favorites));
-  } catch (error) {
-    console.warn("お気に入りを保存できませんでした", error);
-  }
 }
 
 function setText(id, value) {
