@@ -73,7 +73,7 @@ function setupImagePreviews() {
 
 function setupDashboard() {
   const grid = document.getElementById("dashboardStats");
-  if (!grid) return;
+  if (!grid || document.body.classList.contains("owner-dashboard-page")) return;
 
   const state = { casts: [], schedules: [], news: [], gallery: [], events: [], reservations: [] };
   const render = () => {
