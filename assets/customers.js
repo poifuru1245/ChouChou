@@ -1,7 +1,7 @@
 import "./admin.js";
-import { subscribeCollection } from "./js/services/firestoreService.js";
-import { subscribeSales } from "./js/services/salesService.js";
+import { subscribeSales } from "./services/salesService.js";
 import { subscribeReservations } from "./services/reservationService.js";
+import { subscribeCasts } from "./services/castService.js";
 import {
   createCustomer,
   reservationsForCustomer,
@@ -22,7 +22,7 @@ initialize();
 function initialize() {
   bindEvents();
   subscribeCustomers(handleCustomers, handleLoadError);
-  subscribeCollection("casts", handleCasts, handleLoadError);
+  subscribeCasts(handleCasts, handleLoadError);
   subscribeReservations((rows) => { state.reservations = rows; renderOpenDetail(); }, handleRelatedLoadError);
   subscribeSales((rows) => { state.sales = rows; renderOpenDetail(); }, handleRelatedLoadError);
 }
@@ -64,7 +64,7 @@ function render() {
 
 function renderSummary() {
   setText("customerTotalCount", state.customers.length);
-  setText("customerVipCount", state.customers.filter((item) => item.rank === "VIP").length);
+  setText("customerVipCount", state.customers.filter((item) => item.isVip || item.rank === "VIP").length);
   setText("customerRepeatCount", state.customers.filter((item) => effectiveVisitCount(item) >= 2).length);
   setText("customerVisitCount", state.customers.reduce((total, item) => total + effectiveVisitCount(item), 0));
 }
@@ -103,7 +103,9 @@ function openEditor(customer = null) {
   form.elements.visitCount.value = "0";
   renderCastInputs(customer);
   if (customer) {
-    ["name", "kana", "nickname", "phone", "lineId", "birthday", "occupation", "rank", "firstVisit", "lastVisit", "visitCount", "assignedCastId", "memo"].forEach((field) => { form.elements[field].value = customer[field] ?? ""; });
+    ["name", "kana", "nickname", "phone", "lineId", "birthday", "occupation", "rank", "firstVisit", "lastVisit", "visitCount", "assignedCastId", "favoriteDrink", "bottleInfo", "memo"].forEach((field) => { form.elements[field].value = customer[field] ?? ""; });
+    form.elements.isVip.value = String(customer.isVip === true);
+    form.elements.isNg.value = String(customer.isNg === true);
     setFavoriteChecks(customer.favoriteCastIds);
   }
   document.getElementById("customerEditorTitle").textContent = customer ? "顧客情報を編集" : "顧客を登録";
@@ -140,9 +142,15 @@ async function saveCustomer(event) {
 
 function collectForm() {
   const values = Object.fromEntries(new FormData(form).entries());
+  const current = findCustomer(state.editingId);
   return {
     ...values,
     visitCount:Number(values.visitCount),
+    isVip:values.isVip === "true",
+    isNg:values.isNg === "true",
+    rank:values.isVip === "true" && values.rank === "Regular" ? "VIP" : values.rank,
+    totalSpend:current?.totalSpend || 0,
+    averageSpend:current?.averageSpend || 0,
     favoriteCastIds:[...form.querySelectorAll('input[name="favoriteCastIds"]:checked')].map((input) => input.value)
   };
 }
@@ -244,7 +252,7 @@ function renderCastFilter() {
 }
 
 function setFavoriteChecks(ids = []) { const selected = new Set(ids); form.querySelectorAll('input[name="favoriteCastIds"]').forEach((input) => { input.checked = selected.has(input.value); }); }
-function effectiveVisitCount(customer) { const linked = reservationsForCustomer(state.reservations, customer).filter((item) => ["来店", "会計済", "完了"].includes(item.status)).length; return Math.max(Number(customer.visitCount || 0), linked); }
+function effectiveVisitCount(customer) { const linked = reservationsForCustomer(state.reservations, customer).filter((item) => ["着席", "延長", "会計", "完了"].includes(item.status)).length; return Math.max(Number(customer.visitCount || 0), linked); }
 function findCustomer(id) { return state.customers.find((item) => item.id === id); }
 function castName(id) { return state.casts.find((item) => item.id === id)?.name || ""; }
 function formatMoney(value) { return `${Math.max(0, Number(value) || 0).toLocaleString("ja-JP")}円`; }

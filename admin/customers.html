@@ -57,6 +57,10 @@
         <label class="admin-field"><span>最終来店</span><input name="lastVisit" type="date"></label>
         <label class="admin-field"><span>来店回数</span><input name="visitCount" type="number" min="0" step="1" value="0"></label>
         <label class="admin-field"><span>担当キャスト</span><select name="assignedCastId"><option value="">未設定</option></select></label>
+        <label class="admin-field"><span>VIP</span><select name="isVip"><option value="false">通常</option><option value="true">VIP</option></select></label>
+        <label class="admin-field"><span>NG</span><select name="isNg"><option value="false">通常</option><option value="true">NG</option></select></label>
+        <label class="admin-field"><span>好きなお酒</span><input name="favoriteDrink" type="text" maxlength="500"></label>
+        <label class="admin-field"><span>ボトル情報</span><textarea name="bottleInfo" maxlength="1000" placeholder="キープボトル、銘柄、残量など"></textarea></label>
         <fieldset class="customer-favorites-field is-wide"><legend>お気に入りキャスト</legend><div id="customerFavoriteCasts" class="customer-cast-options"><span>キャスト情報を読み込み中...</span></div></fieldset>
         <label class="admin-field is-wide"><span>メモ</span><textarea name="memo" maxlength="3000" placeholder="接客時の注意事項、好み、会話内容など"></textarea></label>
         <div class="admin-inline-actions is-wide"><button id="saveCustomer" class="admin-primary-button" type="submit">顧客を保存</button><button type="button" data-close-customer-editor>キャンセル</button></div>
@@ -74,6 +78,6 @@
     </div>
   </div>
 
-  <script type="module" src="../assets/customers.js?v=2.0.0"></script>
+  <script type="module" src="../assets/customers.js?v=3.0.0"></script>
 </body>
 </html>

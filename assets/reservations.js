@@ -1,5 +1,4 @@
 import "./admin.js";
-import { subscribeCollection } from "./js/services/firestoreService.js";
 import {
   ACTIVE_RESERVATION_STATUSES,
   RESERVATION_STATUSES,
@@ -15,6 +14,7 @@ import {
 } from "./services/reservationService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
 import { createCustomer, findMatchingCustomer, subscribeCustomers } from "./services/customerService.js";
+import { subscribeCasts } from "./services/castService.js";
 
 const form = document.getElementById("reservationForm");
 const list = document.getElementById("reservationList");
@@ -33,7 +33,7 @@ initialize();
 function initialize() {
   bindEvents();
   resetForm();
-  subscribeCollection("casts", handleCasts, handleLoadError);
+  subscribeCasts(handleCasts, handleLoadError);
   subscribeCustomers((rows) => { state.customers = rows.sort((a, b) => a.name.localeCompare(b.name, "ja")); renderCustomerOptions(); applyQueryCustomer(); }, handleLoadError);
   subscribeReservations(handleReservations, handleLoadError);
   window.setInterval(() => { renderSummary(); renderNotifications(); }, 60000);
@@ -150,7 +150,7 @@ function renderSummary() {
   setText("reservationTodayCount", todayRows.length);
   setText("reservationTodayPeople", sum(todayRows, "peopleCount"));
   setText("reservationWaitingCount", state.reservations.filter((item) => item.status === "受付").length);
-  setText("reservationVisitedCount", todayRows.filter((item) => ["来店", "会計済"].includes(item.status)).length);
+  setText("reservationVisitedCount", todayRows.filter((item) => ["着席", "延長", "会計"].includes(item.status)).length);
   setText("reservationNotificationCount", getNotifications().length);
 }
 
@@ -243,7 +243,7 @@ function openEditor(reservation = null) {
   state.editingId = reservation?.id || "";
   resetForm();
   if (reservation) {
-    ["customerId", "customerName", "phone", "lineId", "source", "visitDate", "visitTime", "peopleCount", "course", "nominationCastId", "status", "memo"].forEach((field) => { form.elements[field].value = reservation[field] ?? ""; });
+    ["customerId", "customerName", "phone", "lineId", "source", "visitDate", "visitTime", "peopleCount", "course", "nominationCastId", "assignedCastId", "tableType", "status", "memo"].forEach((field) => { form.elements[field].value = reservation[field] ?? ""; });
     document.getElementById("reservationEditorTitle").textContent = "予約を編集";
     document.getElementById("saveReservation").textContent = "変更を保存";
   }
@@ -260,13 +260,19 @@ async function saveReservation(event) {
   const error = validateReservation(payload);
   if (error) return setFormMessage(error, "error");
   const button = document.getElementById("saveReservation"); button.disabled = true; setFormMessage("保存中...");
+  const wasEditing = Boolean(state.editingId);
   try {
     await resolveReservationCustomer(payload);
     const savedId = state.editingId || await createReservation(payload);
     if (state.editingId) await updateReservation(state.editingId, payload);
-    if (payload.status === "完了") await updateReservationStatus(savedId, "完了");
+    await updateReservationStatus(savedId, payload.status, {
+      assignedCastId:payload.assignedCastId,
+      assignedCastName:payload.assignedCastName,
+      tableType:payload.tableType,
+      eventNote:state.editingId ? "予約内容を更新" : "予約を登録"
+    });
     closeEditor();
-    setMessage(state.editingId ? "予約を更新しました。" : "予約と顧客情報を登録しました。", "success");
+    setMessage(wasEditing ? "予約を更新しました。" : "予約と顧客情報を登録しました。", "success");
   }
   catch (saveError) {
     if (saveError?.message === "customer-creation-canceled") return setFormMessage("顧客登録がキャンセルされたため、予約は保存していません。", "error");
@@ -302,7 +308,9 @@ async function resolveReservationCustomer(payload) {
 function collectForm() {
   const values = Object.fromEntries(new FormData(form).entries());
   const cast = state.casts.find((item) => item.id === values.nominationCastId);
-  return { ...values, peopleCount:Number(values.peopleCount), nominationCastName:cast?.name || "" };
+  const assigned = state.casts.find((item) => item.id === values.assignedCastId);
+  const current = findReservation(state.editingId);
+  return { ...values, peopleCount:Number(values.peopleCount), nominationCastName:cast?.name || "", assignedCastName:assigned?.name || "", tableId:current?.tableId || "", tableName:current?.tableName || "", visitId:current?.visitId || "", castAssignments:current?.castAssignments || [] };
 }
 
 function validateReservation(item) {
@@ -322,6 +330,7 @@ function renderDetail() {
   if (!item) return closeDetail();
   const history = getCustomerHistory(state.reservations, item);
   document.getElementById("reservationDetailTitle").textContent = `${item.customerName || "名称未設定"} 様`;
+  document.getElementById("reservationJourneyLink").href = `reservation-detail.html?id=${encodeURIComponent(item.id)}`;
   document.getElementById("reservationDetailContent").innerHTML = `${item.customerId ? `<a class="reservation-crm-link" href="customer-detail.html?id=${encodeURIComponent(item.customerId)}">顧客360°プロフィールを開く →</a>` : ""}<div class="reservation-detail-summary"><div><span>来店日時</span><strong>${escapeHtml(formatDate(item.visitDate))} ${escapeHtml(item.visitTime || "未定")}</strong></div><div><span>ステータス</span><strong>${escapeHtml(item.status)}</strong></div><div><span>指名キャスト</span><strong>${escapeHtml(item.nominationCastName || "指名なし")}</strong></div><div><span>過去利用回数</span><strong>${history.filter((row) => row.status === "完了").length}回</strong></div></div><dl class="reservation-detail-list"><div><dt>電話番号</dt><dd>${escapeHtml(item.phone || "未登録")}</dd></div><div><dt>LINE ID</dt><dd>${escapeHtml(item.lineId || "未登録")}</dd></div><div><dt>人数</dt><dd>${item.peopleCount}名</dd></div><div><dt>コース</dt><dd>${escapeHtml(item.course || "未設定")}</dd></div><div><dt>受付経路</dt><dd>${escapeHtml(item.source)}</dd></div><div><dt>メモ</dt><dd>${escapeHtml(item.memo || "なし")}</dd></div></dl><section class="reservation-guest-history"><h3>来店履歴</h3>${history.length ? `<ul>${history.slice(0, 10).map((row) => `<li><time>${escapeHtml(formatDate(row.visitDate))}</time><span>${escapeHtml(row.nominationCastName || "指名なし")}</span><em>${escapeHtml(row.status)}</em></li>`).join("")}</ul>` : "<p>過去の利用履歴はありません。</p>"}</section>`;
 }
 
@@ -384,12 +393,12 @@ function exportCsv() {
   const url = URL.createObjectURL(new Blob([csv], { type:"text/csv;charset=utf-8" })); const anchor = document.createElement("a"); anchor.href = url; anchor.download = `chouchou-reservations-${getTokyoDateKey()}.csv`; anchor.click(); URL.revokeObjectURL(url);
 }
 
-function renderCastOptions() { const selected = form.elements.nominationCastId.value; form.elements.nominationCastId.innerHTML = `<option value="">指名なし</option>${state.casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join("")}`; form.elements.nominationCastId.value = selected; }
+function renderCastOptions() { const nomination = form.elements.nominationCastId.value; const assigned = form.elements.assignedCastId.value; const options = state.casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join(""); form.elements.nominationCastId.innerHTML = `<option value="">指名なし</option>${options}`; form.elements.assignedCastId.innerHTML = `<option value="">未設定</option>${options}`; form.elements.nominationCastId.value = nomination; form.elements.assignedCastId.value = assigned; }
 function findReservation(id) { return state.reservations.find((item) => item.id === id); }
 function signature(item) { return JSON.stringify([item.customerName, item.phone, item.lineId, item.visitDate, item.visitTime, item.peopleCount, item.course, item.nominationCastId, item.nominationCastName, item.status, item.source, item.memo]); }
 function reservationKey(item) { return `${item.visitDate}T${item.visitTime || "00:00"}`; }
 function isCanceled(item) { return ["キャンセル", "無断キャンセル"].includes(item.status); }
-function statusClass(value) { return ({ "受付":"received", "確認済":"confirmed", "来店":"visited", "会計済":"paid", "完了":"completed", "キャンセル":"canceled", "無断キャンセル":"noshow" })[value] || "received"; }
+function statusClass(value) { return ({ "予約":"confirmed", "受付":"received", "着席":"visited", "延長":"visited", "会計":"paid", "完了":"completed", "キャンセル":"canceled", "無断キャンセル":"noshow" })[value] || "received"; }
 function sourceClass(value) { return String(value || "web").toLowerCase().replace(/[^a-z]/g, "") || "other"; }
 function notificationIcon(type) { return ({ new:"＋", change:"↻", cancel:"×", soon:"!" })[type] || "•"; }
 function relativeTime(time) { const minutes = Math.round((Date.now() - time) / 60000); if (minutes < 1) return "今"; if (minutes < 60) return `${minutes}分前`; const hours = Math.round(minutes / 60); return hours < 24 ? `${hours}時間前` : `${Math.round(hours / 24)}日前`; }

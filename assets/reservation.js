@@ -1,4 +1,4 @@
-import { getCollection } from "./js/services/firestoreService.js";
+import { listCasts } from "./services/castService.js";
 import { createReservation } from "./services/reservationService.js";
 import { announce } from "./js/utils/dom.js";
 
@@ -7,7 +7,7 @@ const reservationParams = new URLSearchParams(window.location.search);
 
 async function loadCasts(){
 
-  const casts = await getCollection("casts");
+  const casts = await listCasts();
 
   casts.forEach((cast)=>{
 

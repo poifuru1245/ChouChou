@@ -1,40 +1,40 @@
-import {
-  addDocument,
-  serverTimestamp,
-  subscribeCollection,
-  updateDocument
-} from "../js/services/firestoreService.js";
+import { serverTimestamp } from "../js/services/firestoreService.js";
+import { createDataService } from "./dataService.js";
 import { db } from "../js/firebase/firebaseClient.js";
 import {
   doc,
   runTransaction
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { runServiceOperation } from "./serviceRuntime.js";
 
 export const CUSTOMER_COLLECTION = "customers";
 export const CUSTOMER_RANKS = Object.freeze(["VIP", "Gold", "Silver", "Regular"]);
 
+export const customerDataService = createDataService({
+  collectionName:CUSTOMER_COLLECTION,
+  normalize:normalizeCustomer,
+  prepare:prepareCustomer,
+  validate:validateCustomer,
+  searchableFields:["name", "kana", "nickname", "phone", "lineId", "rank", "assignedCastId", "favoriteDrink", "bottleInfo"],
+  defaultSort:{ field:"updatedAt", direction:"desc" }
+});
+
 export function subscribeCustomers(onData, onError) {
-  return subscribeCollection(CUSTOMER_COLLECTION, (rows) => onData(rows.map(normalizeCustomer)), onError);
+  return customerDataService.listen(onData, onError);
 }
 
 export async function createCustomer(input) {
-  const data = prepareCustomer(input);
-  const id = await addDocument(CUSTOMER_COLLECTION, {
-    ...data,
-    createdAt:serverTimestamp(),
-    updatedAt:serverTimestamp()
-  });
-  await updateDocument(CUSTOMER_COLLECTION, id, { customerId:id });
-  return id;
+  return customerDataService.create(input, { idField:"customerId" });
 }
 
 export function updateCustomer(id, input) {
-  return updateDocument(CUSTOMER_COLLECTION, id, {
-    ...prepareCustomer(input),
-    customerId:id,
-    updatedAt:serverTimestamp()
-  });
+  return customerDataService.update(id, input, { idField:"customerId" });
 }
+
+export function listCustomers(options = {}) { return customerDataService.list(options); }
+export function pageCustomers(options = {}) { return customerDataService.page(options); }
+export function getCustomer(id, options = {}) { return customerDataService.get(id, options); }
+export function subscribeCustomer(id, onData, onError) { return customerDataService.listenOne(id, onData, onError); }
 
 export function findMatchingCustomer(customers = [], input = {}) {
   const target = customerIdentity(input);
@@ -53,7 +53,7 @@ export function findMatchingCustomer(customers = [], input = {}) {
 // 予約完了と顧客来店集計を同じtransactionで確定し、再操作による二重加算を防ぐ。
 export async function completeCustomerVisit(reservationId) {
   const reservationRef = doc(db, "reservations", reservationId);
-  return runTransaction(db, async (transaction) => {
+  return runServiceOperation("completeVisit", () => runTransaction(db, async (transaction) => {
     const reservationSnapshot = await transaction.get(reservationRef);
     if (!reservationSnapshot.exists()) throw new Error("reservation-not-found");
     const reservation = reservationSnapshot.data();
@@ -85,7 +85,7 @@ export async function completeCustomerVisit(reservationId) {
       updatedAt:serverTimestamp()
     });
     return { customerId, counted:true };
-  });
+  }), { resource:`reservations/${reservationId}` });
 }
 
 export function normalizeCustomer(row = {}) {
@@ -106,7 +106,13 @@ export function normalizeCustomer(row = {}) {
     lastVisit:cleanDate(row.lastVisit),
     visitCount:toNonNegativeInteger(row.visitCount),
     favoriteCastIds:uniqueIds(row.favoriteCastIds),
-    assignedCastId:cleanText(row.assignedCastId || row.castId, 100)
+    assignedCastId:cleanText(row.assignedCastId || row.castId, 100),
+    isVip:row.isVip === true || String(row.rank || "") === "VIP",
+    isNg:row.isNg === true,
+    favoriteDrink:cleanText(row.favoriteDrink, 500),
+    bottleInfo:cleanText(row.bottleInfo, 1000),
+    totalSpend:toNonNegativeNumber(row.totalSpend),
+    averageSpend:toNonNegativeNumber(row.averageSpend)
   };
 }
 
@@ -126,8 +132,24 @@ export function prepareCustomer(input = {}) {
     lastVisit:customer.lastVisit,
     visitCount:customer.visitCount,
     favoriteCastIds:customer.favoriteCastIds,
-    assignedCastId:customer.assignedCastId
+    assignedCastId:customer.assignedCastId,
+    isVip:customer.isVip,
+    isNg:customer.isNg,
+    favoriteDrink:customer.favoriteDrink,
+    bottleInfo:customer.bottleInfo,
+    totalSpend:customer.totalSpend,
+    averageSpend:customer.averageSpend
   };
+}
+
+export function validateCustomer(input = {}) {
+  const customer = normalizeCustomer(input);
+  const errors = [];
+  if (!customer.name) errors.push("氏名を入力してください。");
+  if (!customer.phone && !customer.lineId) errors.push("電話番号またはLINE IDのどちらかを入力してください。");
+  if (input.rank && !CUSTOMER_RANKS.includes(String(input.rank))) errors.push("顧客ランクが正しくありません。");
+  if (customer.firstVisit && customer.lastVisit && customer.firstVisit > customer.lastVisit) errors.push("最終来店日は初回来店日以降に設定してください。");
+  return errors;
 }
 
 // customerIdを優先し、Ver8.4以前の予約は電話番号・LINE IDで後方互換照合する。
@@ -167,6 +189,7 @@ function uniqueIds(value) { return [...new Set((Array.isArray(value) ? value : [
 function cleanText(value, max) { return String(value || "").trim().slice(0, max); }
 function cleanDate(value) { const text = String(value || "").slice(0, 10); return /^\d{4}-\d{2}-\d{2}$/.test(text) ? text : ""; }
 function toNonNegativeInteger(value) { const number = Number(value); return Number.isFinite(number) && number >= 0 ? Math.trunc(number) : 0; }
+function toNonNegativeNumber(value) { const number = Number(value); return Number.isFinite(number) && number >= 0 ? number : 0; }
 function digits(value) { return String(value || "").replace(/\D/g, ""); }
 function normalizeName(value) { return String(value || "").trim().replace(/[\s　]+/g, "").toLowerCase(); }
 function tokyoDateKey() { return new Intl.DateTimeFormat("sv-SE", { timeZone:"Asia/Tokyo", year:"numeric", month:"2-digit", day:"2-digit" }).format(new Date()); }
