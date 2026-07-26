@@ -1,16 +1,5 @@
-import { db, storage } from "./js/firebase/firebaseClient.js";
 import { optimizeImage } from "./admin.js";
-import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { getSiteSettings, saveSiteSettings as persistSiteSettings, uploadEventBanner } from "./services/siteService.js";
 
 const SITE_SETTINGS_FIELDS = [
   "heroImageUrl",
@@ -51,8 +40,7 @@ async function loadSiteSettings() {
   setStatus("読み込み中...", "");
 
   try {
-    const snapshot = await getDoc(doc(db, "settings", "site"));
-    const settings = snapshot.exists() ? snapshot.data() : {};
+    const settings = await getSiteSettings({ force:true }) || {};
 
     SITE_SETTINGS_FIELDS.forEach((field) => {
       const input = settingsForm.elements[field];
@@ -105,22 +93,13 @@ async function saveSiteSettings() {
 
     if (eventImageFile) {
       const optimized = await optimizeImage(eventImageFile, { maxWidth: 1800, maxHeight: 900, quality: 0.86 });
-      const storageRef = ref(storage, `event-banners/${Date.now()}_${optimized.name}`);
-      await uploadBytes(storageRef, optimized, { contentType: optimized.type });
-      settings.eventBannerImageUrl = await getDownloadURL(storageRef);
+      settings.eventBannerImageUrl = (await uploadEventBanner(optimized)).url;
       const imageUrlInput = settingsForm.elements.eventBannerImageUrl;
       if (imageUrlInput) imageUrlInput.value = settings.eventBannerImageUrl;
       updateEventImagePreview(settings.eventBannerImageUrl);
     }
 
-    await setDoc(
-      doc(db, "settings", "site"),
-      {
-        ...settings,
-        updatedAt: serverTimestamp()
-      },
-      { merge: true }
-    );
+    await persistSiteSettings(settings);
 
     setStatus("サイト設定を保存しました。", "success");
   } catch (error) {

@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>給与管理 | Chou Chou</title>
-  <link rel="stylesheet" href="../assets/css/admin.css?v=8.1.0">
+  <link rel="stylesheet" href="../assets/css/finance.css?v=4.0.0">
 </head>
 <body class="admin-premium">
   <div class="admin-layout">
     <aside class="sidebar"><h2>CHOU CHOU</h2><a href="dashboard.html">ダッシュボード</a><a href="cast.html">キャスト管理</a><a href="schedule.html">出勤管理</a><a href="reservations.html">予約管理</a><a href="sales.html">売上管理</a><a class="active" href="payroll.html">給与管理</a><a href="news.html">お知らせ</a><a href="event.html">イベント</a><a href="gallery.html">ギャラリー</a><a href="system.html">料金・メニュー</a><a href="recruit.html">求人管理</a><a href="settings.html">サイト設定</a><a href="users.html">ユーザー管理</a><a href="login.html">ログアウト</a></aside>
     <main class="main payroll-admin-page">
-      <header class="admin-page-head"><div><h1>給与管理</h1><p>売上・出勤データと給与設定から、月次給与を自動計算します。</p></div><label class="admin-field payroll-month-field"><span>営業月</span><input id="payrollMonth" type="month"></label></header>
+      <header class="admin-page-head"><div><h1>給与管理</h1><p>売上・出勤・バック・個別調整から月次給与を自動計算します。</p></div><div class="admin-inline-actions"><label class="admin-field payroll-month-field"><span>営業月</span><input id="payrollMonth" type="month"></label><a class="admin-primary-button" href="closing.html">月締め</a></div></header>
 
       <section class="payroll-summary-grid" aria-label="給与集計">
         <article class="admin-stat-card admin-premium-card"><span>MONTH SALES</span><strong id="payrollSalesTotal">¥0</strong><small>月間売上</small></article>
@@ -30,7 +30,8 @@
           <label class="admin-field"><span>ドリンクバック（%）</span><input name="drinkBack" type="number" min="0" max="100" step="0.1" required></label>
           <label class="admin-field"><span>ボトルバック（%）</span><input name="bottleBack" type="number" min="0" max="100" step="0.1" required></label>
           <label class="admin-field"><span>シャンパンバック（%）</span><input name="champagneBack" type="number" min="0" max="100" step="0.1" required></label>
-          <label class="admin-field"><span>その他バック（%）</span><input name="otherBack" type="number" min="0" max="100" step="0.1" required></label>
+          <label class="admin-field"><span>売上歩合（%）</span><input name="salesCommissionRate" type="number" min="0" max="100" step="0.1" required></label>
+          <label class="admin-field"><span>皆勤手当（円）</span><input name="attendanceBonus" type="number" min="0" max="999999" step="1" required></label>
           <label class="admin-field"><span>交通費（円／勤務日）</span><input name="transportation" type="number" min="0" max="999999" step="1" required></label>
 
           <div class="payroll-deduction-editor is-wide">
@@ -56,6 +57,6 @@
       <div id="payrollDetailContent"></div>
     </div>
   </div>
-  <script type="module" src="../assets/payroll.js?v=8.1.0"></script>
+  <script type="module" src="../assets/payroll.js?v=4.0.0"></script>
 </body>
 </html>

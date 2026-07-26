@@ -1,322 +1,107 @@
-import "./admin.js";
-import {
-  createSalesRecord,
-  deleteSalesRecord,
-  findDuplicateSalesRecord,
-  SALES_NUMBER_FIELDS,
-  subscribeSales,
-  updateSalesRecord
-} from "./js/services/salesService.js";
-import { subscribeCollection } from "./js/services/firestoreService.js";
+import { adminSession } from "./admin.js";
+import { subscribeCasts } from "./services/castService.js";
+import { subscribeCustomers } from "./services/customerService.js";
+import { calculateSaleTotals, PAYMENT_FIELDS, SALE_CHARGE_FIELDS } from "./services/financeCalculator.js";
+import { updateReservationStatus } from "./services/reservationService.js";
+import { createSalesRecord, deleteSalesRecord, findDuplicateSalesRecord, SALES_COUNT_FIELDS, subscribeSales, updateSalesRecord, validateSalesRecord } from "./services/salesService.js";
+import { subscribeVisits } from "./services/visitService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
-import { setBusy, showPageError } from "./js/ui/pageState.js";
-import { reservationsForCustomer, subscribeCustomers } from "./services/customerService.js";
-import { linkReservationToCustomer, subscribeReservations, updateReservationStatus } from "./services/reservationService.js";
 
-const COUNT_FIELDS = ["customerCount", "honmeiCount", "jounaiCount", "douhanCount"];
 const form = document.getElementById("salesForm");
 const list = document.getElementById("salesList");
-const message = document.getElementById("salesMessage");
-const castSelect = form?.elements.castId;
-const historySelect = document.getElementById("salesHistoryCast");
-const deleteModal = document.getElementById("salesDeleteModal");
-const state = { casts:[], customers:[], reservations:[], sales:[], editingId:"", pendingDeleteId:"", period:"today", search:"", sort:"date-desc" };
+const actor = adminSession.profile;
+const state = { casts:[], customers:[], visits:[], sales:[], editingId:"", pendingDeleteId:"", period:"today", search:"", sort:"date-desc" };
+const amountFields = [...SALE_CHARGE_FIELDS, "discount", ...PAYMENT_FIELDS, "serviceRate", "taxRate"];
 
-if (form && list) initialize();
-
+initialize();
 function initialize() {
-  resetForm();
-  bindEvents();
-  setBusy(list, true, "売上情報を読み込み中");
-  subscribeCollection("casts", handleCasts, handleLoadError);
-  subscribeCustomers((rows) => { state.customers = rows.sort((a, b) => a.name.localeCompare(b.name, "ja")); renderCustomerOptions(); renderReservationOptions(); }, handleLoadError);
-  subscribeReservations((rows) => { state.reservations = rows; renderReservationOptions(); }, handleLoadError);
-  subscribeSales((rows) => {
-    state.sales = rows.sort(compareByUpdatedAt);
-    setBusy(list, false);
-    render();
-  }, handleLoadError);
+  bindEvents(); resetForm();
+  subscribeCasts((rows) => { state.casts = rows; renderCastOptions(); render(); }, handleError);
+  subscribeCustomers((rows) => { state.customers = rows; render(); }, handleError);
+  subscribeVisits((rows) => { state.visits = rows; renderVisitOptions(); }, handleError);
+  subscribeSales((rows) => { state.sales = rows; render(); }, handleError);
 }
 
 function bindEvents() {
   form.addEventListener("submit", saveSale);
-  form.elements.customerId.addEventListener("change", renderReservationOptions);
-  form.elements.date.addEventListener("change", renderReservationOptions);
-  form.elements.reservationId.addEventListener("change", applyReservationToSale);
-  document.getElementById("resetSales")?.addEventListener("click", () => { resetForm(); setMessage(""); });
-  document.getElementById("cancelSalesEdit")?.addEventListener("click", resetForm);
-  document.querySelectorAll("[data-period]").forEach((button) => button.addEventListener("click", () => setPeriod(button.dataset.period)));
-  ["salesExactDate", "salesDateFrom", "salesDateTo", "salesCastFilter"].forEach((id) => document.getElementById(id)?.addEventListener("change", render));
-  document.getElementById("salesSearch")?.addEventListener("input", (event) => { state.search = event.target.value.trim().toLowerCase(); render(); });
-  document.getElementById("salesSort")?.addEventListener("change", (event) => { state.sort = event.target.value; render(); });
-  historySelect?.addEventListener("change", renderCastHistory);
+  form.elements.visitId.addEventListener("change", applyVisit);
+  amountFields.forEach((field) => form.elements[field]?.addEventListener("input", renderCalculation));
+  document.getElementById("fillCashBalance").addEventListener("click", fillCashBalance);
+  document.getElementById("resetSales").addEventListener("click", resetForm);
+  document.getElementById("cancelSalesEdit").addEventListener("click", resetForm);
+  document.querySelectorAll("[data-period]").forEach((button) => button.addEventListener("click", () => { state.period = button.dataset.period; document.querySelectorAll("[data-period]").forEach((item) => item.classList.toggle("is-active", item === button)); render(); }));
+  ["salesExactDate", "salesDateFrom", "salesDateTo", "salesCastFilter", "salesSort"].forEach((id) => document.getElementById(id)?.addEventListener("change", (event) => { if (id === "salesSort") state.sort = event.target.value; render(); }));
+  document.getElementById("salesSearch").addEventListener("input", (event) => { state.search = event.target.value.trim().toLowerCase(); render(); });
+  document.getElementById("salesHistoryCast").addEventListener("change", renderCastHistory);
   list.addEventListener("click", handleListAction);
-  document.getElementById("cancelSalesDelete")?.addEventListener("click", closeDeleteModal);
-  document.getElementById("confirmSalesDelete")?.addEventListener("click", confirmDelete);
-  deleteModal?.addEventListener("click", (event) => { if (event.target === deleteModal) closeDeleteModal(); });
-  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !deleteModal?.hidden) closeDeleteModal(); });
+  document.getElementById("cancelSalesDelete").addEventListener("click", closeDelete);
+  document.getElementById("confirmSalesDelete").addEventListener("click", confirmDelete);
 }
 
-function handleCasts(rows) {
-  state.casts = rows.filter((cast) => cast.isPublished !== false).sort(compareCastOrder);
-  renderCastOptions();
-  render();
+function renderVisitOptions() {
+  const selected = form.elements.visitId.value;
+  form.elements.visitId.innerHTML = '<option value="">来店履歴を選択</option>' + state.visits.filter((visit) => !["予約", "キャンセル", "無断キャンセル"].includes(visit.status)).map((visit) => `<option value="${escapeAttribute(visit.id)}">${escapeHtml(`${visit.visitDate} ${visit.visitTime || ""} ${visit.customerName}様 / ${visit.assignedCastName || visit.nominationCastName || "担当未設定"} / ${visit.status}`)}</option>`).join("");
+  form.elements.visitId.value = selected;
+}
+function applyVisit() {
+  const visit = state.visits.find((row) => row.id === form.elements.visitId.value); if (!visit) return;
+  form.elements.date.value = visit.visitDate; form.elements.customerId.value = visit.customerId; form.elements.reservationId.value = visit.reservationId;
+  form.elements.customerCount.value = visit.peopleCount || 1;
+  const castId = visit.assignedCastId || visit.nominationCastId || visit.castAssignments?.[0]?.castId || "";
+  if (castId) form.elements.castId.value = castId;
 }
 
-function renderCustomerOptions() {
-  const select = form.elements.customerId;
-  const selected = select.value;
-  select.innerHTML = `<option value="">顧客を選択</option>${state.customers.map((customer) => `<option value="${escapeAttribute(customer.id)}">${escapeHtml(customer.name || "名称未設定")}${customer.phone ? `（${escapeHtml(customer.phone)}）` : ""}</option>`).join("")}`;
-  select.value = selected;
-}
-
-function renderReservationOptions() {
-  const select = form.elements.reservationId;
-  const selected = select.value;
-  const customerId = form.elements.customerId.value;
-  const date = form.elements.date.value;
-  const customer = state.customers.find((item) => item.id === customerId);
-  const related = customer ? reservationsForCustomer(state.reservations, customer) : state.reservations;
-  const rows = related.filter((item) => (!date || item.visitDate === date) && !["キャンセル", "無断キャンセル"].includes(item.status));
-  select.innerHTML = `<option value="">予約を選択（任意）</option>${rows.sort((a, b) => `${b.visitDate}T${b.visitTime}`.localeCompare(`${a.visitDate}T${a.visitTime}`)).map((item) => `<option value="${escapeAttribute(item.id)}">${escapeHtml(`${formatDate(item.visitDate)} ${item.visitTime} ${item.customerName}様 / ${item.nominationCastName || "指名なし"} / ${item.status}`)}</option>`).join("")}`;
-  select.value = rows.some((item) => item.id === selected) ? selected : "";
-}
-
-function applyReservationToSale() {
-  const reservation = state.reservations.find((item) => item.id === form.elements.reservationId.value);
-  if (!reservation) return;
-  form.elements.date.value = reservation.visitDate;
-  if (reservation.customerId) form.elements.customerId.value = reservation.customerId;
-  if (reservation.nominationCastId) form.elements.castId.value = reservation.nominationCastId;
-}
-
-async function saveSale(event) {
-  event.preventDefault();
-  const payload = collectFormData();
-  const validation = validate(payload);
-  if (!validation.valid) return setMessage(validation.message, "error");
-  if (findDuplicateSalesRecord(state.sales, payload, state.editingId)) return setMessage("同じ営業日・キャスト・顧客の売上は既に登録されています。既存データを編集してください。", "error");
-
-  const button = document.getElementById("saveSales");
-  const wasEditing = Boolean(state.editingId);
-  let salesSaved = false;
-  button.disabled = true;
-  setMessage("保存中...");
-  try {
-    if (state.editingId) await updateSalesRecord(state.editingId, payload);
-    else await createSalesRecord(payload);
-    salesSaved = true;
-    if (payload.reservationId) {
-      const reservation = state.reservations.find((item) => item.id === payload.reservationId);
-      const customer = state.customers.find((item) => item.id === payload.customerId);
-      if (customer && reservation?.customerId !== customer.id) await linkReservationToCustomer(payload.reservationId, customer);
-      await updateReservationStatus(payload.reservationId, "完了");
-    }
-    resetForm();
-    setMessage(wasEditing ? "売上を更新しました。" : "売上を保存しました。", "success");
-  } catch (error) {
-    console.error("売上保存失敗", error);
-    setMessage(salesSaved ? "売上は保存されましたが、予約完了・来店集計を更新できませんでした。関連予約を確認して再度保存してください。" : "保存に失敗しました。入力内容、通信状況、Firestoreの権限をご確認ください。", "error");
-  } finally {
-    button.disabled = false;
-  }
-}
-
-function collectFormData() {
-  const data = new FormData(form);
-  const castId = String(data.get("castId") || "");
-  const cast = state.casts.find((item) => item.id === castId);
-  const customerId = String(data.get("customerId") || "");
-  const customer = state.customers.find((item) => item.id === customerId);
-  const payload = {
-    date:String(data.get("date") || ""),
-    castId,
-    castName:String(cast?.name || ""),
-    customerId,
-    customerName:String(customer?.name || ""),
-    customerPhone:String(customer?.phone || ""),
-    customerLineId:String(customer?.lineId || ""),
-    reservationId:String(data.get("reservationId") || ""),
-    attendance:true,
-    memo:String(data.get("memo") || "").trim()
-  };
-  SALES_NUMBER_FIELDS.forEach((field) => { payload[field] = parseFormNumber(data.get(field)); });
+function collectPayload() {
+  const values = Object.fromEntries(new FormData(form).entries());
+  const cast = state.casts.find((row) => row.id === values.castId);
+  const visit = state.visits.find((row) => row.id === values.visitId);
+  const customer = state.customers.find((row) => row.id === values.customerId);
+  const payload = { ...values, castName:cast?.name || "", customerName:customer?.name || visit?.customerName || "", customerPhone:customer?.phone || "", customerLineId:customer?.lineId || "", attendance:true };
+  [...SALES_COUNT_FIELDS, ...amountFields].forEach((field) => { payload[field] = number(form.elements[field]?.value); });
   return payload;
 }
 
-function validate(payload) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(payload.date)) return invalid("営業日を選択してください。");
-  if (!payload.customerId || !state.customers.some((customer) => customer.id === payload.customerId)) return invalid("顧客を選択してください。");
-  if (!payload.castId || !state.casts.some((cast) => cast.id === payload.castId)) return invalid("キャストを選択してください。");
-  for (const field of SALES_NUMBER_FIELDS) {
-    if (!String(form.elements[field]?.value ?? "").trim()) return invalid(`${fieldLabel(field)}を入力してください。`);
-    const max = COUNT_FIELDS.includes(field) ? 9999 : 999999999;
-    if (!Number.isInteger(payload[field]) || payload[field] < 0 || payload[field] > max) return invalid(`${fieldLabel(field)}は0以上の整数で入力してください。`);
-  }
-  if (payload.memo.length > 500) return invalid("メモは500文字以内で入力してください。");
-  return { valid:true, message:"" };
+function renderCalculation() {
+  const totals = calculateSaleTotals(Object.fromEntries(amountFields.map((field) => [field, number(form.elements[field]?.value)])));
+  setText("saleSubtotal", yen(totals.subtotal)); setText("saleServiceCharge", yen(totals.serviceCharge)); setText("saleTax", yen(totals.taxAmount)); setText("saleGrandTotal", yen(totals.total));
+  const difference = document.getElementById("salePaymentDifference"); difference.textContent = `差額 ${yen(totals.paymentDifference)}`; difference.dataset.type = totals.paymentDifference === 0 ? "success" : "error";
+  return totals;
 }
+function fillCashBalance() { const totals = renderCalculation(); const other = totals.cardPayment + totals.qrPayment + totals.accountsReceivable; form.elements.cashPayment.value = Math.max(0, totals.total - other); renderCalculation(); }
 
-function handleListAction(event) {
-  const button = event.target.closest("button[data-action]");
-  if (!button) return;
-  const sale = state.sales.find((item) => item.id === button.dataset.id);
-  if (!sale) return;
-  if (button.dataset.action === "edit") editSale(sale);
-  if (button.dataset.action === "delete") openDeleteModal(sale);
-}
-
-function editSale(sale) {
-  state.editingId = sale.id;
-  form.elements.date.value = sale.date;
-  form.elements.customerId.value = sale.customerId;
-  renderReservationOptions();
-  form.elements.reservationId.value = sale.reservationId;
-  form.elements.castId.value = sale.castId;
-  SALES_NUMBER_FIELDS.forEach((field) => { form.elements[field].value = sale[field]; });
-  form.elements.memo.value = sale.memo;
-  document.getElementById("salesFormTitle").textContent = "営業実績を編集";
-  document.getElementById("saveSales").textContent = "変更を保存";
-  document.getElementById("cancelSalesEdit").hidden = false;
-  setMessage(`${formatDate(sale.date)} ${sale.castName || getCastName(sale.castId)}を編集中です。`);
-  form.scrollIntoView({ behavior:"smooth", block:"start" });
-  form.elements.sales.focus();
-}
-
-function resetForm() {
-  state.editingId = "";
-  form.reset();
-  form.elements.date.value = getTokyoDateKey();
-  renderReservationOptions();
-  SALES_NUMBER_FIELDS.filter((field) => field !== "sales").forEach((field) => { form.elements[field].value = "0"; });
-  document.getElementById("salesFormTitle").textContent = "営業実績を入力";
-  document.getElementById("saveSales").textContent = "売上を保存";
-  document.getElementById("cancelSalesEdit").hidden = true;
-}
-
-function openDeleteModal(sale) {
-  state.pendingDeleteId = sale.id;
-  document.getElementById("salesDeleteDescription").textContent = `${formatDate(sale.date)} ${sale.castName || getCastName(sale.castId)}の売上データを削除します。この操作は取り消せません。`;
-  deleteModal.hidden = false;
-  document.body.classList.add("is-modal-open");
-  document.getElementById("cancelSalesDelete").focus();
-}
-
-function closeDeleteModal() {
-  state.pendingDeleteId = "";
-  deleteModal.hidden = true;
-  document.body.classList.remove("is-modal-open");
-}
-
-async function confirmDelete() {
-  const id = state.pendingDeleteId;
-  if (!id) return closeDeleteModal();
-  const button = document.getElementById("confirmSalesDelete");
-  button.disabled = true;
+async function saveSale(event) {
+  event.preventDefault(); const payload = collectPayload(); const errors = validateSalesRecord(payload);
+  if (errors.length) return setMessage(errors[0], "error");
+  if (findDuplicateSalesRecord(state.sales, payload, state.editingId)) return setMessage("同じ来店・キャストの売上が既にあります。", "error");
+  const button = document.getElementById("saveSales"); button.disabled = true; const wasEditing = Boolean(state.editingId);
   try {
-    await deleteSalesRecord(id);
-    closeDeleteModal();
-    if (state.editingId === id) resetForm();
-    setMessage("売上を削除しました。", "success");
-  } catch (error) {
-    console.error("売上削除失敗", error);
-    setMessage("削除に失敗しました。通信状況とFirestoreの権限をご確認ください。", "error");
-  } finally {
-    button.disabled = false;
-  }
+    const saleId = state.editingId ? await updateSalesRecord(state.editingId, payload, { actor }) : await createSalesRecord(payload, { actor });
+    if (payload.reservationId) await updateReservationStatus(payload.reservationId, "完了", { saleId, eventNote:"売上会計を確定" });
+    resetForm(); setMessage(wasEditing ? "売上を修正し監査履歴へ記録しました。" : "売上を保存しました。", "success");
+  } catch (error) { console.error(error); setMessage(error.message?.includes("period-closed") ? "締め済み期間の売上は変更できません。" : "売上を保存できませんでした。", "error"); }
+  finally { button.disabled = false; }
 }
 
-function setPeriod(period) {
-  state.period = ["today", "month", "custom"].includes(period) ? period : "today";
-  document.getElementById("salesExactDate").value = "";
-  document.querySelectorAll("[data-period]").forEach((button) => button.classList.toggle("is-active", button.dataset.period === state.period));
-  const custom = state.period === "custom";
-  document.getElementById("salesDateFrom").disabled = !custom;
-  document.getElementById("salesDateTo").disabled = !custom;
-  render();
-}
+function render() { renderSummary(); const rows = filteredSales(); setText("salesResultCount", `${rows.length}件`); list.innerHTML = rows.length ? salesTable(rows) : '<p class="sales-empty">該当する売上はありません。</p>'; renderCastHistory(); }
+function renderSummary() { const today = todayKey(); const month = today.slice(0, 7); const monthRows = state.sales.filter((row) => row.month === month || row.date.startsWith(month)); setText("salesTodayTotal", yen(sum(state.sales.filter((row) => row.date === today), "total"))); setText("salesMonthTotal", yen(sum(monthRows, "total"))); setText("salesHonmeiTotal", sum(monthRows, "honmeiCount")); setText("salesJounaiTotal", sum(monthRows, "jounaiCount")); setText("salesDouhanTotal", sum(monthRows, "douhanCount")); setText("salesCustomerTotal", sum(monthRows, "customerCount")); }
+function filteredSales() { const today = todayKey(); const exact = document.getElementById("salesExactDate").value; const from = document.getElementById("salesDateFrom").value; const to = document.getElementById("salesDateTo").value; const castId = document.getElementById("salesCastFilter").value; return state.sales.filter((row) => { const period = exact ? row.date === exact : state.period === "today" ? row.date === today : state.period === "month" ? row.date.startsWith(today.slice(0, 7)) : (!from || row.date >= from) && (!to || row.date <= to); return period && (!castId || row.castId === castId) && (!state.search || `${row.customerName} ${row.castName} ${row.memo}`.toLowerCase().includes(state.search)); }).sort(compareSales); }
+function compareSales(a, b) { if (state.sort === "date-asc") return a.date.localeCompare(b.date); if (state.sort === "sales-desc") return b.total - a.total; if (state.sort === "sales-asc") return a.total - b.total; if (state.sort === "cast-asc") return a.castName.localeCompare(b.castName, "ja"); return b.date.localeCompare(a.date); }
+function salesTable(rows) { return `<div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>営業日</th><th>顧客</th><th>キャスト</th><th>合計</th><th>決済</th><th>指名</th><th>操作</th></tr></thead><tbody>${rows.map((row) => `<tr><td>${escapeHtml(row.date)}</td><td>${escapeHtml(row.customerName || customerName(row.customerId))}</td><td>${escapeHtml(row.castName || castName(row.castId))}</td><td>${yen(row.total)}</td><td>${escapeHtml(row.paymentStatus)}</td><td>本${row.honmeiCount} / 場${row.jounaiCount} / 同${row.douhanCount}</td><td><div class="admin-item-actions"><a href="sale-detail.html?id=${encodeURIComponent(row.id)}">詳細</a><button data-action="edit" data-id="${escapeAttribute(row.id)}">編集</button><button data-action="delete" data-id="${escapeAttribute(row.id)}">削除</button></div></td></tr>`).join("")}</tbody></table></div>`; }
 
-function render() {
-  renderSummary();
-  const visible = getFilteredSales();
-  document.getElementById("salesResultCount").textContent = `${visible.length}件`;
-  list.innerHTML = visible.length ? createSalesTable(visible) : '<p class="sales-empty">該当する売上データはありません。</p>';
-  renderCastHistory();
-}
-
-function renderSummary() {
-  const today = getTokyoDateKey();
-  const monthRows = state.sales.filter((item) => item.date.startsWith(today.slice(0, 7)));
-  setText("salesTodayTotal", yen(sum(state.sales.filter((item) => item.date === today), "sales")));
-  setText("salesMonthTotal", yen(sum(monthRows, "sales")));
-  setText("salesHonmeiTotal", sum(monthRows, "honmeiCount"));
-  setText("salesJounaiTotal", sum(monthRows, "jounaiCount"));
-  setText("salesDouhanTotal", sum(monthRows, "douhanCount"));
-  setText("salesCustomerTotal", sum(monthRows, "customerCount"));
-}
-
-function createSalesTable(rows) {
-  const body = rows.map((item) => `<tr><td><time datetime="${escapeAttribute(item.date)}">${escapeHtml(formatDate(item.date))}</time></td><td>${item.customerId ? `<a href="customer-detail.html?id=${encodeURIComponent(item.customerId)}">${escapeHtml(item.customerName || getCustomerName(item.customerId))}</a>` : "<small>旧データ（未紐付け）</small>"}</td><td>${escapeHtml(item.castName || getCastName(item.castId))}</td><td class="is-money">${yen(item.sales)}</td><td>${item.customerCount}名</td><td>${item.honmeiCount}</td><td>${item.jounaiCount}</td><td>${item.douhanCount}</td><td><div class="admin-item-actions"><button type="button" data-action="edit" data-id="${escapeAttribute(item.id)}">編集</button><button type="button" data-action="delete" data-id="${escapeAttribute(item.id)}">削除</button></div></td></tr>`).join("");
-  return `<div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>営業日</th><th>顧客</th><th>キャスト</th><th>売上</th><th>来客</th><th>本指名</th><th>場内</th><th>同伴</th><th>操作</th></tr></thead><tbody>${body}</tbody></table></div>`;
-}
-
-function renderCastHistory() {
-  const output = document.getElementById("salesCastHistory");
-  const castId = historySelect.value;
-  if (!castId) { output.innerHTML = "<p>キャストを選択すると、売上・指名・同伴履歴を表示します。</p>"; return; }
-  const rows = state.sales.filter((item) => item.castId === castId).sort((a, b) => b.date.localeCompare(a.date));
-  const castName = getCastName(castId);
-  if (!rows.length) { output.innerHTML = `<p>${escapeHtml(castName)}の売上履歴はまだありません。</p>`; return; }
-  output.innerHTML = `<div class="sales-cast-totals"><div><span>累計売上</span><strong>${yen(sum(rows, "sales"))}</strong></div><div><span>本指名</span><strong>${sum(rows, "honmeiCount")}</strong></div><div><span>場内</span><strong>${sum(rows, "jounaiCount")}</strong></div><div><span>同伴</span><strong>${sum(rows, "douhanCount")}</strong></div></div><div class="sales-history-table-wrap"><table class="sales-history-table"><thead><tr><th>営業日</th><th>売上</th><th>本指名</th><th>場内</th><th>同伴</th></tr></thead><tbody>${rows.map((item) => `<tr><td>${escapeHtml(formatDate(item.date))}</td><td>${yen(item.sales)}</td><td>${item.honmeiCount}</td><td>${item.jounaiCount}</td><td>${item.douhanCount}</td></tr>`).join("")}</tbody></table></div>`;
-}
-
-function getFilteredSales() {
-  const today = getTokyoDateKey();
-  const exactDate = document.getElementById("salesExactDate")?.value || "";
-  const from = document.getElementById("salesDateFrom")?.value || "";
-  const to = document.getElementById("salesDateTo")?.value || "";
-  const castId = document.getElementById("salesCastFilter")?.value || "";
-  const rows = state.sales.filter((item) => {
-    const periodMatch = exactDate ? item.date === exactDate : state.period === "today" ? item.date === today : state.period === "month" ? item.date.startsWith(today.slice(0, 7)) : (!from || item.date >= from) && (!to || item.date <= to);
-    const castMatch = !castId || item.castId === castId;
-    const searchMatch = !state.search || `${item.customerName || getCustomerName(item.customerId)} ${item.castName || getCastName(item.castId)} ${item.memo}`.toLowerCase().includes(state.search);
-    return periodMatch && castMatch && searchMatch;
-  });
-  return rows.sort(compareVisibleSales);
-}
-
-function compareVisibleSales(a, b) {
-  if (state.sort === "date-asc") return a.date.localeCompare(b.date) || compareByUpdatedAt(a, b);
-  if (state.sort === "sales-desc") return b.sales - a.sales || b.date.localeCompare(a.date);
-  if (state.sort === "sales-asc") return a.sales - b.sales || b.date.localeCompare(a.date);
-  if (state.sort === "cast-asc") return (a.castName || getCastName(a.castId)).localeCompare(b.castName || getCastName(b.castId), "ja") || b.date.localeCompare(a.date);
-  return b.date.localeCompare(a.date) || compareByUpdatedAt(a, b);
-}
-
-function renderCastOptions() {
-  const selected = { input:castSelect.value, history:historySelect.value, filter:document.getElementById("salesCastFilter").value };
-  const options = state.casts.map((cast) => `<option value="${escapeAttribute(cast.id)}">${escapeHtml(cast.name || "名称未設定")}</option>`).join("");
-  castSelect.innerHTML = `<option value="">キャストを選択</option>${options}`;
-  historySelect.innerHTML = `<option value="">キャストを選択</option>${options}`;
-  document.getElementById("salesCastFilter").innerHTML = `<option value="">すべてのキャスト</option>${options}`;
-  castSelect.value = selected.input;
-  historySelect.value = selected.history;
-  document.getElementById("salesCastFilter").value = selected.filter;
-}
-
-function compareByUpdatedAt(a, b) { return getTime(b.updatedAt || b.createdAt) - getTime(a.updatedAt || a.createdAt); }
-function compareCastOrder(a, b) { return Number(a.displayOrder ?? 9999) - Number(b.displayOrder ?? 9999) || String(a.name || "").localeCompare(String(b.name || ""), "ja"); }
-function getTime(value) { if (typeof value?.toMillis === "function") return value.toMillis(); return Date.parse(value) || 0; }
-function getCastName(id) { return state.casts.find((cast) => cast.id === id)?.name || "名称未設定"; }
-function getCustomerName(id) { return state.customers.find((customer) => customer.id === id)?.name || "名称未設定"; }
-function sum(rows, field) { return rows.reduce((total, item) => total + safeInteger(item[field]), 0); }
-function parseFormNumber(value) { const raw = String(value ?? "").trim(); return raw === "" ? Number.NaN : Number(raw); }
-function safeInteger(value) { const number = Number(value); return Number.isFinite(number) ? Math.trunc(number) : 0; }
-function yen(value) { return new Intl.NumberFormat("ja-JP", { style:"currency", currency:"JPY", maximumFractionDigits:0 }).format(safeInteger(value)); }
-function formatDate(value) { const [year, month, day] = String(value || "").split("-"); return year && month && day ? `${year}/${month}/${day}` : value; }
-function getTokyoDateKey() { return new Intl.DateTimeFormat("sv-SE", { timeZone:"Asia/Tokyo", year:"numeric", month:"2-digit", day:"2-digit" }).format(new Date()); }
-function fieldLabel(field) { return ({ sales:"売上", customerCount:"来客人数", honmeiCount:"本指名", jounaiCount:"場内", douhanCount:"同伴", extensionSales:"延長売上", drinkSales:"ドリンク売上", bottleSales:"ボトル売上", champagneSales:"シャンパン売上", otherSales:"その他売上" })[field] || field; }
-function invalid(text) { return { valid:false, message:text }; }
-function setText(id, value) { const element = document.getElementById(id); if (element) element.textContent = String(value); }
-function setMessage(text, type = "") { message.textContent = text; message.dataset.type = type; }
-function handleLoadError(error) { console.error("売上管理データ読み込み失敗", error); setBusy(list, false); showPageError(list, "売上情報を読み込めませんでした。Firestoreの権限と通信状況をご確認ください。"); }
+function handleListAction(event) { const button = event.target.closest("button[data-action]"); if (!button) return; const row = state.sales.find((item) => item.id === button.dataset.id); if (!row) return; if (button.dataset.action === "edit") editSale(row); else openDelete(row); }
+function editSale(row) { state.editingId = row.id; ["visitId", "reservationId", "customerId", "date", "castId", "memo", ...SALES_COUNT_FIELDS, ...amountFields].forEach((field) => { if (form.elements[field]) form.elements[field].value = row[field] ?? ""; }); document.getElementById("salesFormTitle").textContent = "売上を編集"; document.getElementById("saveSales").textContent = "変更を保存"; document.getElementById("cancelSalesEdit").hidden = false; renderCalculation(); form.scrollIntoView({ behavior:"smooth" }); }
+function resetForm() { state.editingId = ""; form.reset(); form.elements.date.value = todayKey(); [...SALES_COUNT_FIELDS, ...SALE_CHARGE_FIELDS, "discount", ...PAYMENT_FIELDS].forEach((field) => { if (form.elements[field]) form.elements[field].value = field === "customerCount" ? "1" : "0"; }); form.elements.serviceRate.value = "20"; form.elements.taxRate.value = "10"; document.getElementById("salesFormTitle").textContent = "営業実績を入力"; document.getElementById("saveSales").textContent = "売上を保存"; document.getElementById("cancelSalesEdit").hidden = true; renderCalculation(); }
+function openDelete(row) { state.pendingDeleteId = row.id; document.getElementById("salesDeleteDescription").textContent = `${row.date} ${row.customerName}様 ${yen(row.total)}を削除します。`; document.getElementById("salesDeleteModal").hidden = false; }
+function closeDelete() { state.pendingDeleteId = ""; document.getElementById("salesDeleteModal").hidden = true; }
+async function confirmDelete() { try { await deleteSalesRecord(state.pendingDeleteId, { actor }); closeDelete(); setMessage("売上を削除し監査履歴へ記録しました。", "success"); } catch (error) { setMessage(error.message?.includes("period-closed") ? "締め済み期間の売上は削除できません。" : "削除できませんでした。", "error"); } }
+function renderCastOptions() { const options = state.casts.map((row) => `<option value="${escapeAttribute(row.id)}">${escapeHtml(row.name || "名称未設定")}</option>`).join(""); [form.elements.castId, document.getElementById("salesCastFilter"), document.getElementById("salesHistoryCast")].forEach((select) => { const value = select.value; const label = select === form.elements.castId ? "キャストを選択" : "すべてのキャスト"; select.innerHTML = `<option value="">${label}</option>${options}`; select.value = value; }); }
+function renderCastHistory() { const output = document.getElementById("salesCastHistory"); const castId = document.getElementById("salesHistoryCast").value; if (!castId) return output.innerHTML = "<p>キャストを選択してください。</p>"; const rows = state.sales.filter((row) => row.castId === castId); output.innerHTML = `<div class="sales-cast-totals"><div><span>累計売上</span><strong>${yen(sum(rows, "total"))}</strong></div><div><span>本指名</span><strong>${sum(rows, "honmeiCount")}</strong></div><div><span>場内</span><strong>${sum(rows, "jounaiCount")}</strong></div><div><span>同伴</span><strong>${sum(rows, "douhanCount")}</strong></div></div>`; }
+function sum(rows, field) { return rows.reduce((total, row) => total + (Number(row[field]) || 0), 0); }
+function castName(id) { return state.casts.find((row) => row.id === id)?.name || ""; }
+function customerName(id) { return state.customers.find((row) => row.id === id)?.name || ""; }
+function number(value) { const parsed = Number(value); return Number.isFinite(parsed) ? parsed : 0; }
+function yen(value) { return new Intl.NumberFormat("ja-JP", { style:"currency", currency:"JPY", maximumFractionDigits:0 }).format(Number(value) || 0); }
+function todayKey() { return new Intl.DateTimeFormat("sv-SE", { timeZone:"Asia/Tokyo", year:"numeric", month:"2-digit", day:"2-digit" }).format(new Date()); }
+function setText(id, value) { document.getElementById(id).textContent = String(value); }
+function setMessage(text, type = "") { const element = document.getElementById("salesMessage"); element.textContent = text; element.dataset.type = type; }
+function handleError(error) { console.error(error); setMessage("データを読み込めませんでした。", "error"); }
