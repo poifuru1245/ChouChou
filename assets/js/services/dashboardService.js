@@ -1,7 +1,7 @@
 import { subscribeCollection } from "./firestoreService.js";
 import { normalizeSalesRecord, subscribeSales } from "./salesService.js";
 
-const COLLECTIONS = ["casts", "schedules", "reservations", "news"];
+const COLLECTIONS = ["casts", "schedules", "reservations", "news", "visits", "tables", "payrolls"];
 const RANKING_FIELDS = {
   sales:"sales",
   honmei:"honmeiCount",
@@ -11,7 +11,7 @@ const RANKING_FIELDS = {
 };
 
 export function subscribeOwnerDashboard(onData, onError = console.error) {
-  const state = { casts:[], schedules:[], reservations:[], news:[], sales:[], loaded:{} };
+  const state = { casts:[], schedules:[], reservations:[], news:[], visits:[], tables:[], payrolls:[], sales:[], loaded:{} };
   const publish = () => onData({ ...state, loaded:{ ...state.loaded } });
   const handleError = (name) => (error) => {
     state.loaded[name] = true;
@@ -35,13 +35,22 @@ export function subscribeOwnerDashboard(onData, onError = console.error) {
 export function getDashboardOverview(state, today = getTokyoDateKey()) {
   const month = today.slice(0, 7);
   const todayReservations = getReservationsByPeriod(state.reservations, "today", today);
+  const monthSales = state.sales.filter((item) => item.date.startsWith(month));
+  const customerCount = sum(monthSales, "customerCount");
   return {
     todaySales:sum(state.sales.filter((item) => item.date === today), "sales"),
     monthSales:sum(state.sales.filter((item) => item.date.startsWith(month)), "sales"),
     attendanceCount:getTodayAttendance(state.schedules, state.casts, today).filter((item) => item.status !== "absent").length,
     castCount:state.casts.filter((item) => item.isPublished !== false && item.isActive !== false).length,
     todayReservations:todayReservations.filter((item) => !isCanceledReservation(item)).length,
-    newReservations:state.reservations.filter((item) => !isCanceledReservation(item) && ["", "予約中", "新規"].includes(String(item.status || ""))).length
+    newReservations:state.reservations.filter((item) => !isCanceledReservation(item) && ["", "予約", "受付", "予約中", "新規"].includes(String(item.status || ""))).length,
+    todayVisits:(state.visits || []).filter((item) => String(item.visitDate || item.date || "").slice(0, 10) === today && !["予約", "キャンセル", "無断キャンセル"].includes(String(item.status || ""))).length,
+    todayCancellations:todayReservations.filter((item) => isCanceledReservation(item)).length,
+    vacantTables:(state.tables || []).filter((item) => String(item.status || "空席") === "空席").length,
+    averageSpend:customerCount ? Math.round(sum(monthSales, "sales") / customerCount) : 0,
+    honmeiRate:customerCount ? Math.round(sum(monthSales, "honmeiCount") / customerCount * 1000) / 10 : 0,
+    jounaiRate:customerCount ? Math.round(sum(monthSales, "jounaiCount") / customerCount * 1000) / 10 : 0,
+    douhanRate:customerCount ? Math.round(sum(monthSales, "douhanCount") / customerCount * 1000) / 10 : 0
   };
 }
 
@@ -82,6 +91,10 @@ export function buildCastRanking(sales, metric, today = getTokyoDateKey()) {
     totals.set(key, current);
   });
   return [...totals.values()].sort((a, b) => b.value - a.value || a.name.localeCompare(b.name, "ja")).slice(0, 5);
+}
+
+export function buildPayrollRanking(payrolls = [], today = getTokyoDateKey()) {
+  return payrolls.filter((row) => String(row.month || "") === today.slice(0, 7)).map((row) => ({ castId:row.castId, name:row.castName || "名称未設定", value:Number(row.netPay) || 0 })).sort((a, b) => b.value - a.value || a.name.localeCompare(b.name, "ja")).slice(0, 5);
 }
 
 export function getTodayAttendance(schedules, casts, today = getTokyoDateKey(), now = new Date()) {

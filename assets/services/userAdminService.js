@@ -1,5 +1,6 @@
 import { app } from "../js/firebase/firebaseClient.js";
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
+import { applyListOptions, createDataService } from "./dataService.js";
 
 const functions = getFunctions(app, "asia-northeast1");
 const callListUsers = httpsCallable(functions, "adminListUsers");
@@ -7,10 +8,22 @@ const callCreateUser = httpsCallable(functions, "adminCreateUser");
 const callUpdateUser = httpsCallable(functions, "adminUpdateUser");
 const callDeactivateUser = httpsCallable(functions, "adminDeactivateUser");
 
-export async function listManagedUsers() {
+// Authの管理操作はFunctions、Firestore usersのリアルタイム参照は共通DataServiceに分離する。
+const userProfiles = createDataService({
+  collectionName:"users",
+  normalize:normalizeManagedUser,
+  searchableFields:["displayName", "email", "role", "status"],
+  defaultSort:{ field:"createdAt", direction:"desc" }
+});
+export const userProfileDataService = Object.freeze({ list:userProfiles.list, page:userProfiles.page, get:userProfiles.get, listen:userProfiles.listen, listenOne:userProfiles.listenOne, query:userProfiles.query });
+
+export async function listManagedUsers(options = {}) {
   const response = await callListUsers();
-  return Array.isArray(response.data?.users) ? response.data.users.map(normalizeManagedUser) : [];
+  const rows = Array.isArray(response.data?.users) ? response.data.users.map(normalizeManagedUser) : [];
+  return applyListOptions(rows, options, ["displayName", "email", "role", "status"], { field:"createdAt", direction:"desc" });
 }
+
+export function subscribeUserProfiles(onData, onError, options = {}) { return userProfiles.listen(onData, onError, options); }
 
 export async function createManagedUser(input) {
   const response = await callCreateUser(input);
