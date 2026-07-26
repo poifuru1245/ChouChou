@@ -1,0 +1,113 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userPath() {
+      return /databases/(default)/documents/users/$(request.auth.uid);
+    }
+
+    function hasActiveRole(role) {
+      return isSignedIn()
+        && firestore.exists(userPath())
+        && firestore.get(userPath()).data.role == role
+        && firestore.get(userPath()).data.status in ['active', 'enabled', '利用中'];
+    }
+
+    function isOwner() {
+      return hasActiveRole('owner');
+    }
+
+    function isManager() {
+      return hasActiveRole('manager');
+    }
+
+    function isStaff() {
+      return hasActiveRole('staff');
+    }
+
+    function isCast() {
+      return hasActiveRole('cast');
+    }
+
+    function ownCastId() {
+      return firestore.get(userPath()).data.get('castId', '');
+    }
+
+    function isValidImage() {
+      return request.resource != null
+        && request.resource.size <= 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|png|webp|gif)');
+    }
+
+    // 公開サイトで利用する画像。管理者のアップロードと削除だけを許可する。
+    match /casts/{fileName} {
+      allow read: if true;
+      allow create, update: if (isOwner() || isManager()) && isValidImage();
+      allow delete: if isOwner() || isManager();
+    }
+
+    match /gallery/{fileName} {
+      allow read: if true;
+      allow create, update: if isOwner() && isValidImage();
+      allow delete: if isOwner();
+    }
+
+    match /news/{fileName} {
+      allow read: if true;
+      allow create, update: if (isOwner() || isStaff()) && isValidImage();
+      allow delete: if isOwner() || isStaff();
+    }
+
+    // SYSTEM料金・店舗案内等で将来利用する共通画像。設定変更と同じくowner専用。
+    match /system/{fileName} {
+      allow read: if true;
+      allow create, update: if isOwner() && isValidImage();
+      allow delete: if isOwner();
+    }
+
+    match /events/{fileName} {
+      allow read: if true;
+      allow create, update: if isOwner() && isValidImage();
+      allow delete: if isOwner();
+    }
+
+    match /event-banners/{fileName} {
+      allow read: if true;
+      allow create, update: if isOwner() && isValidImage();
+      allow delete: if isOwner();
+    }
+
+    match /recruit/{fileName} {
+      allow read: if true;
+      allow create, update: if isOwner() && isValidImage();
+      allow delete: if isOwner();
+    }
+
+    // キャスト本人は自分のUID配下へ、自分のcastIdをmetadataに付けた画像だけ保存できる。
+    match /cast-profiles/{userId}/{fileName} {
+      allow read: if true;
+      allow create, update: if isValidImage()
+        && (
+          isOwner()
+          || isManager()
+          || (
+            isCast()
+            && request.auth.uid == userId
+            && request.resource.metadata.castId == ownCastId()
+          )
+        );
+      allow delete: if isOwner()
+        || isManager()
+        || (isCast() && request.auth.uid == userId);
+    }
+
+    // 未定義パスは拒否。ownerだけが保守目的で操作可能。
+    match /{allPaths=**} {
+      allow read, write: if isOwner();
+    }
+  }
+}

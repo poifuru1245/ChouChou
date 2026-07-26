@@ -1,5 +1,5 @@
-import { getAuthErrorMessage, requestPasswordReset, signInUser, signOutUser, waitForAuthUser } from "./js/services/authService.js";
-import { defaultRouteForRole, getUserAccessProfile, isActiveUser } from "./js/services/roleService.js";
+import { getAuthErrorMessage, requestPasswordReset, signInUser, signOutUser, waitForAuthUser } from "./services/authService.js";
+import { defaultRouteForRole, getUserAccessProfile, isActiveUser } from "./services/roleService.js";
 
 const form = document.getElementById("adminLoginForm");
 const button = document.getElementById("adminLoginButton");

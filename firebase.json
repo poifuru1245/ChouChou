@@ -3,13 +3,36 @@
     "source": "functions",
     "runtime": "nodejs22"
   },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "firestore": {
+      "port": 8080
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": false
+    }
+  },
   "hosting": {
     "site": "chouchou-susukino",
     "public": ".",
     "ignore": [
       "firebase.json",
       "firebase-debug.log",
+      "firestore-debug.log",
+      "storage-debug.log",
+      "firestore.rules",
+      "storage.rules",
       "functions/**",
+      "tests/**",
+      "**/*.md",
       "**/.*",
       "**/node_modules/**",
       "届出書/**",

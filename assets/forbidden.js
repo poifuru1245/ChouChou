@@ -1,5 +1,5 @@
-import { signOutUser, waitForAuthUser } from "./js/services/authService.js";
-import { defaultRouteForRole, getUserAccessProfile, isActiveUser, roleLabel } from "./js/services/roleService.js";
+import { signOutUser, waitForAuthUser } from "./services/authService.js";
+import { defaultRouteForRole, getUserAccessProfile, isActiveUser, roleLabel } from "./services/roleService.js";
 
 const home = document.getElementById("forbiddenHome");
 const userLabel = document.getElementById("forbiddenUser");

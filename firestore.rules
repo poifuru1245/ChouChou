@@ -1,0 +1,473 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // RBACはAuthenticationのcustom claimではなく、既存のusers/{uid}を正とする。
+    // statusが有効なユーザーだけにロール権限を与える。
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userPath() {
+      return /databases/$(database)/documents/users/$(request.auth.uid);
+    }
+
+    function hasActiveRole(role) {
+      return isSignedIn()
+        && exists(userPath())
+        && get(userPath()).data.role == role
+        && get(userPath()).data.status in ['active', 'enabled', '利用中'];
+    }
+
+    function isOwner() {
+      return hasActiveRole('owner');
+    }
+
+    function isManager() {
+      return hasActiveRole('manager');
+    }
+
+    function isStaff() {
+      return hasActiveRole('staff');
+    }
+
+    function isCast() {
+      return hasActiveRole('cast');
+    }
+
+    function isOwnerOrManager() {
+      return isOwner() || isManager();
+    }
+
+    function canHandleReservations() {
+      return isOwner() || isManager() || isStaff();
+    }
+
+    function ownCastId() {
+      return get(userPath()).data.get('castId', '');
+    }
+
+    function isOwnCast(castId) {
+      return isCast()
+        && (
+          ownCastId() == castId
+          || (
+            exists(/databases/$(database)/documents/casts/$(castId))
+            && get(/databases/$(database)/documents/casts/$(castId)).data.get('authUid', '') == request.auth.uid
+          )
+        );
+    }
+
+    function isShortString(data, field, maxLength) {
+      return !(field in data)
+        || (data[field] is string && data[field].size() <= maxLength);
+    }
+
+    function hasOnlyChanged(fields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields);
+    }
+
+    // 現行公開ページは全件取得後にisPublishedを絞り込むため、公開系コレクションはreadを維持する。
+    // 機密データは別コレクションに分離し、書き込みだけをロールで厳格に制御する。
+    match /casts/{castId} {
+      allow read: if true;
+      allow create, delete: if isOwnerOrManager();
+      allow update: if isOwnerOrManager()
+        || isValidOwnCastProfileUpdate(castId)
+        || isValidPublicCastViewIncrement();
+    }
+
+    function isValidOwnCastProfileUpdate(castId) {
+      return isOwnCast(castId)
+        && hasOnlyChanged([
+          'message', 'hobby', 'favoriteDrink', 'instagram', 'x', 'line',
+          'image', 'images', 'profileUpdatedBy', 'profileUpdatedAt'
+        ])
+        && request.resource.data.get('profileUpdatedBy', '') == request.auth.uid;
+    }
+
+    function isValidPublicCastViewIncrement() {
+      return hasOnlyChanged(['viewCount', 'lastViewedAt'])
+        && request.resource.data.viewCount == resource.data.get('viewCount', 0) + 1
+        && request.resource.data.lastViewedAt == request.time;
+    }
+
+    match /schedules/{scheduleId} {
+      allow read: if true;
+      allow create, update, delete: if isOwnerOrManager();
+    }
+
+    match /news/{newsId} {
+      allow read: if true;
+      allow create, update, delete: if isOwner() || isStaff();
+    }
+
+    match /gallery/{galleryId} {
+      allow read: if true;
+      allow create, update, delete: if isOwner();
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow create, update, delete: if isOwner();
+    }
+
+    match /content/{contentId} {
+      allow read: if true;
+      allow create, update, delete: if isOwner();
+    }
+
+    match /systemItems/{itemId} {
+      allow read: if true;
+      allow create, update, delete: if isOwner();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create, update, delete: if isOwner();
+    }
+
+    // 公開WEB予約は受付状態の新規作成だけを許可する。
+    // createDataServiceが作成直後にdocument IDをreservationIdへ補完する1回の更新も許可する。
+    match /reservations/{reservationId} {
+      allow read: if canHandleReservations();
+      allow create: if canHandleReservations() || isValidPublicReservationCreate();
+      allow update: if canHandleReservations() || isValidPublicReservationIdPatch(reservationId);
+      allow delete: if canHandleReservations();
+    }
+
+    function isValidPublicReservationCreate() {
+      let data = request.resource.data;
+      return data.keys().hasOnly([
+          'reservationId', 'customerId', 'customerName', 'phone', 'lineId',
+          'visitDate', 'visitTime', 'peopleCount', 'course',
+          'nominationCastId', 'nominationCastName', 'status', 'memo', 'source',
+          'assignedCastId', 'assignedCastName', 'tableType', 'tableId', 'tableName',
+          'visitId', 'castAssignments',
+          'name', 'date', 'time', 'people', 'cast1', 'request',
+          'createdAt', 'updatedAt'
+        ])
+        && data.get('reservationId', '') == ''
+        && data.get('customerId', '') == ''
+        && data.status == '受付'
+        && data.source == 'WEB'
+        && data.customerName is string
+        && data.customerName.size() > 0
+        && data.customerName.size() <= 100
+        && data.phone is string
+        && data.phone.size() > 0
+        && data.phone.size() <= 40
+        && data.visitDate is string
+        && data.visitDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.visitTime is string
+        && data.visitTime.matches('^[0-9]{2}:[0-9]{2}$')
+        && data.peopleCount is int
+        && data.peopleCount >= 1
+        && data.peopleCount <= 99
+        && isShortString(data, 'lineId', 100)
+        && isShortString(data, 'course', 100)
+        && isShortString(data, 'nominationCastId', 100)
+        && isShortString(data, 'nominationCastName', 100)
+        && isShortString(data, 'memo', 1000)
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    function isValidPublicReservationIdPatch(reservationId) {
+      return hasOnlyChanged(['reservationId'])
+        && resource.data.get('reservationId', '') == ''
+        && request.resource.data.reservationId == reservationId;
+    }
+
+    // staffは予約受付に必要な顧客照合・新規登録・来店集計だけ利用する。
+    // 顧客の物理削除はowner/managerに限定する。
+    match /customers/{customerId} {
+      allow read: if canHandleReservations();
+      allow create: if isOwnerOrManager() || (isStaff() && isValidStaffCustomerCreate());
+      allow update: if isOwnerOrManager() || (isStaff() && isValidStaffCustomerUpdate(customerId));
+      allow delete: if isOwnerOrManager();
+    }
+
+    function isValidStaffCustomerCreate() {
+      let data = request.resource.data;
+      return data.keys().hasOnly([
+          'customerId', 'name', 'kana', 'nickname', 'phone', 'lineId', 'birthday',
+          'occupation', 'memo', 'rank', 'firstVisit', 'lastVisit', 'visitCount',
+          'favoriteCastIds', 'assignedCastId', 'isVip', 'isNg', 'favoriteDrink',
+          'bottleInfo', 'totalSpend', 'averageSpend', 'createdAt', 'updatedAt'
+        ])
+        && data.get('customerId', '') == ''
+        && data.name is string
+        && data.name.size() > 0
+        && data.name.size() <= 100
+        && (data.get('phone', '').size() > 0 || data.get('lineId', '').size() > 0)
+        && isShortString(data, 'phone', 40)
+        && isShortString(data, 'lineId', 100)
+        && data.get('rank', 'Regular') == 'Regular'
+        && data.get('isVip', false) == false
+        && data.get('isNg', false) == false
+        && data.get('totalSpend', 0) == 0
+        && data.get('averageSpend', 0) == 0
+        && data.get('visitCount', 0) == 0
+        && data.get('favoriteCastIds', []).size() == 0
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    // M3店舗運用データ。予約を扱えるロールだけが来店・席を操作できる。
+    // 予約、来店履歴、席状態の複数ドキュメント更新はService層のtransactionで行う。
+    match /visits/{visitId} {
+      allow read, create, update, delete: if canHandleReservations();
+    }
+
+    match /tables/{tableId} {
+      allow read, create, update, delete: if canHandleReservations();
+    }
+
+    function isValidStaffCustomerUpdate(customerId) {
+      return (
+          hasOnlyChanged(['customerId'])
+          && resource.data.get('customerId', '') == ''
+          && request.resource.data.customerId == customerId
+        )
+        || (
+          hasOnlyChanged(['visitCount', 'firstVisit', 'lastVisit', 'assignedCastId', 'updatedAt'])
+          && request.resource.data.visitCount == resource.data.get('visitCount', 0) + 1
+          && request.resource.data.updatedAt == request.time
+        );
+    }
+
+    match /sales/{saleId} {
+      allow read: if isOwnerOrManager()
+        || (isCast() && isOwnCast(resource.data.get('castId', '')));
+      allow create: if isOwnerOrManager() && isValidOpenSale(request.resource.data, true);
+      allow update: if isOwnerOrManager() && isValidOpenSale(resource.data, false) && isValidOpenSale(request.resource.data, true);
+      // monthを持たない旧売上は一度Serviceで保存してM4形式へ移行後に削除する。
+      allow delete: if isOwnerOrManager() && isValidOpenSale(resource.data, true);
+    }
+
+    function isValidOpenSale(data, requireMonth) {
+      return data.get('date', '') is string
+        && data.get('date', '').matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && (!exists(/databases/$(database)/documents/dailyClosings/$(data.date))
+          || get(/databases/$(database)/documents/dailyClosings/$(data.date)).data.get('status', 'open') != 'closed')
+        && (
+          (!requireMonth && data.get('month', '') == '')
+          || (
+            data.get('month', '') is string
+            && data.get('month', '').matches('^[0-9]{4}-[0-9]{2}$')
+            && (!exists(/databases/$(database)/documents/monthlyClosings/$(data.month))
+              || get(/databases/$(database)/documents/monthlyClosings/$(data.month)).data.get('status', 'open') != 'closed')
+          )
+        );
+    }
+
+    // 給与設定はownerのみ編集可能。キャストは自分の給与予定計算に必要な読取だけを許可する。
+    match /payrollSettings/{settingId} {
+      allow read: if isOwner() || isCast();
+      allow create, update, delete: if isOwner();
+    }
+
+    match /commissionRules/{ruleId} {
+      allow read, create, update, delete: if isOwner();
+    }
+
+    match /payrolls/{payrollId} {
+      allow read: if isOwner()
+        || (isCast() && isOwnCast(resource.data.get('castId', '')));
+      allow create, update: if isOwner() && isOpenPayrollMonth(request.resource.data.get('month', ''));
+      allow delete: if isOwner() && isOpenPayrollMonth(resource.data.get('month', ''));
+    }
+
+    function isOpenPayrollMonth(month) {
+      return month is string
+        && month.matches('^[0-9]{4}-[0-9]{2}$')
+        && (!exists(/databases/$(database)/documents/monthlyClosings/$(month))
+          || get(/databases/$(database)/documents/monthlyClosings/$(month)).data.get('status', 'open') != 'closed');
+    }
+
+    match /dailyClosings/{closingId} {
+      allow read: if isOwnerOrManager();
+      allow create: if isOwnerOrManager() && request.resource.data.get('status', '') == 'closed';
+      allow update: if isOwner()
+        || (isManager() && resource.data.get('status', '') == 'open' && request.resource.data.get('status', '') == 'closed');
+      allow delete: if isOwner();
+    }
+
+    match /monthlyClosings/{closingId} {
+      allow read: if isOwnerOrManager();
+      allow create: if isOwnerOrManager() && request.resource.data.get('status', '') == 'closed';
+      allow update: if isOwner()
+        || (isManager() && resource.data.get('status', '') == 'open' && request.resource.data.get('status', '') == 'closed');
+      allow delete: if isOwner();
+    }
+
+    match /businessAuditLogs/{logId} {
+      allow read: if isOwner();
+      allow create: if isOwnerOrManager()
+        && request.resource.data.get('actorUid', '') == request.auth.uid
+        && request.resource.data.get('actorRole', '') in ['owner', 'manager']
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    match /payrollHistory/{historyId} {
+      allow read: if isOwner()
+        || (isCast() && isOwnCast(resource.data.get('castId', '')));
+      allow create, update, delete: if isOwner();
+    }
+
+    match /castRankings/{rankingId} {
+      allow read: if isOwner()
+        || (isCast() && isOwnCast(resource.data.get('castId', '')));
+      allow create, update, delete: if isOwner();
+    }
+
+    match /shiftRequests/{requestId} {
+      allow read: if isOwnerOrManager()
+        || (isCast()
+          && isOwnCast(resource.data.get('castId', '')));
+      allow create: if isOwnerOrManager() || isValidOwnShiftRequest();
+      allow update, delete: if isOwnerOrManager();
+    }
+
+    function isValidOwnShiftRequest() {
+      let data = request.resource.data;
+      return isCast()
+        && data.keys().hasOnly([
+          'uid', 'castId', 'date', 'start', 'end', 'memo', 'status',
+          'createdAt', 'updatedAt'
+        ])
+        && data.uid == request.auth.uid
+        && isOwnCast(data.castId)
+        && data.status == 'pending'
+        && data.date is string
+        && data.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && isShortString(data, 'start', 10)
+        && isShortString(data, 'end', 10)
+        && isShortString(data, 'memo', 300)
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    match /castAnnouncements/{announcementId} {
+      allow read: if isOwner() || isReadableCastAnnouncement();
+      allow create, update, delete: if isOwner();
+    }
+
+    function isReadableCastAnnouncement() {
+      return isCast()
+        && (
+          resource.data.get('audience', '') == 'all'
+          || resource.data.get('castIds', []).hasAny([ownCastId()])
+        );
+    }
+
+    match /castPortalUsers/{userId} {
+      allow read, write: if isOwner();
+
+      match /announcementReads/{announcementId} {
+        allow read: if isOwner() || (isCast() && request.auth.uid == userId);
+        allow create, update: if isCast()
+          && request.auth.uid == userId
+          && request.resource.data.keys().hasOnly(['announcementId', 'readAt'])
+          && request.resource.data.announcementId == announcementId
+          && request.resource.data.readAt == request.time;
+        allow delete: if isCast() && request.auth.uid == userId;
+      }
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner() || (isSignedIn() && request.auth.uid == userId);
+      // usersの管理はAdmin SDKを使用するCallable Functionsだけが行う。
+      allow create, update, delete: if false;
+    }
+
+    match /contacts/{contactId} {
+      allow create: if isValidPublicContact();
+      allow read, update, delete: if isOwner();
+    }
+
+    function isValidPublicContact() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['name', 'email', 'phone', 'type', 'message', 'status', 'createdAt'])
+        && data.name is string
+        && data.name.size() > 0
+        && data.name.size() <= 100
+        && isShortString(data, 'email', 254)
+        && isShortString(data, 'phone', 40)
+        && isShortString(data, 'type', 50)
+        && data.message is string
+        && data.message.size() > 0
+        && data.message.size() <= 3000
+        && data.status == '新規'
+        && data.createdAt == request.time;
+    }
+
+    match /recruitApplications/{applicationId} {
+      allow create: if isValidPublicRecruitApplication();
+      allow read, update, delete: if isOwner();
+    }
+
+    function isValidPublicRecruitApplication() {
+      let data = request.resource.data;
+      return data.keys().hasOnly([
+          'name', 'age', 'phone', 'lineId', 'workDays', 'experience',
+          'message', 'status', 'createdAt'
+        ])
+        && data.name is string
+        && data.name.size() > 0
+        && data.name.size() <= 100
+        && data.phone is string
+        && data.phone.size() > 0
+        && data.phone.size() <= 40
+        && isShortString(data, 'age', 10)
+        && isShortString(data, 'lineId', 100)
+        && isShortString(data, 'workDays', 200)
+        && isShortString(data, 'experience', 100)
+        && isShortString(data, 'message', 3000)
+        && data.status == '新規'
+        && data.createdAt == request.time;
+    }
+
+    // 公開ランキング用の閲覧カウンター。変更可能なフィールドを固定する。
+    match /castViews/{viewId} {
+      allow read: if true;
+      allow create: if isValidCastViewCreate();
+      allow update: if isValidCastViewUpdate();
+      allow delete: if isOwner();
+    }
+
+    function isValidCastViewCreate() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['castId', 'castName', 'weekKey', 'count', 'updatedAt'])
+        && data.castId is string
+        && data.castId.size() > 0
+        && data.castId.size() <= 100
+        && isShortString(data, 'castName', 100)
+        && data.weekKey is string
+        && data.weekKey.size() <= 20
+        && data.count == 1
+        && data.updatedAt == request.time;
+    }
+
+    function isValidCastViewUpdate() {
+      return hasOnlyChanged(['castName', 'count', 'updatedAt'])
+        && request.resource.data.castId == resource.data.castId
+        && request.resource.data.weekKey == resource.data.weekKey
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.updatedAt == request.time;
+    }
+
+    match /auditLogs/{logId} {
+      allow read: if isOwner();
+      // 監査ログの書き込みはAdmin SDKだけが行い、クライアントからの改ざんを防ぐ。
+      allow create, update, delete: if false;
+    }
+
+    // 未定義コレクションは全ロールで拒否する。新規コレクション追加時は明示的に定義する。
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
