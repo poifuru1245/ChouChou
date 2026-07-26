@@ -1,11 +1,4 @@
-import { db } from "./js/firebase/firebaseClient.js";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getSiteSettings, submitRecruitApplication as createRecruitApplication } from "./services/recruitService.js";
 
 const form = document.getElementById("recruitApplicationForm");
 const status = document.getElementById("recruitFormStatus");
@@ -32,15 +25,14 @@ async function submitRecruitApplication() {
     workDays: getValue(formData, "workDays"),
     experience: getValue(formData, "experience"),
     message: getValue(formData, "message"),
-    status: "新規",
-    createdAt: serverTimestamp()
+    status: "新規"
   };
 
   try {
     if (submitButton) submitButton.disabled = true;
     setStatus("送信中...", "");
 
-    await addDoc(collection(db, "recruitApplications"), payload);
+    await createRecruitApplication(payload);
 
     form.reset();
     setStatus("送信しました。担当者よりご連絡いたします。", "success");
@@ -81,8 +73,7 @@ async function showNotifyActions(payload) {
 
 async function getSiteSettings() {
   try {
-    const snapshot = await getDoc(doc(db, "settings", "site"));
-    return snapshot.exists() ? snapshot.data() : {};
+    return await getSiteSettings({ force:true }) || {};
   } catch (error) {
     console.error("応募通知設定読み込み失敗", error);
     return {};

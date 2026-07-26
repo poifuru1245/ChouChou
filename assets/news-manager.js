@@ -4,35 +4,9 @@
 // =====================================
 
 (async () => {
-  const { db, storage } = await import("./js/firebase/firebaseClient.js");
   const { optimizeImage, getTokyoDateKey } = await import("./admin.js");
-  const firestore = await import(
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
-  );
-  const storageApi = await import(
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"
-  );
+  const { createNews, deleteNews:removeNews, deleteNewsImage, listNews, reorderNews, subscribeNews, updateNews, uploadNewsImage } = await import("./services/newsService.js");
 
-  const {
-    collection,
-    getDocs,
-    onSnapshot,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-    writeBatch,
-    serverTimestamp
-  } = firestore;
-
-  const {
-    ref,
-    uploadBytes,
-    getDownloadURL,
-    deleteObject
-  } = storageApi;
-
-  const COLLECTION_NAME = "news";
   const MAX_IMAGE_SIZE = 8 * 1024 * 1024;
   const DEFAULT_CATEGORY = "お知らせ";
 
@@ -73,9 +47,9 @@
 
   bindEvents();
   if (elements.publishDate) elements.publishDate.value = `${getTokyoDateKey()}T00:00`;
-  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
+  subscribeNews((rows) => {
     if (state.isOrderDirty || state.isOrderSaving) return;
-    state.items = snapshot.docs.map((item) => normalizeNews({ id: item.id, ...item.data() }));
+    state.items = rows.map(normalizeNews);
     sortNewsItems(state.items);
     renderNews();
     state.savedOrder = getCurrentCardOrder();
@@ -115,15 +89,7 @@
   }
 
   async function fetchNewsItems() {
-    const snapshot = await getDocs(collection(db, COLLECTION_NAME));
-    const items = [];
-
-    snapshot.forEach((docSnap) => {
-      items.push(normalizeNews({
-        id: docSnap.id,
-        ...docSnap.data()
-      }));
-    });
+    const items = (await listNews({ force:true })).map(normalizeNews);
 
     sortNewsItems(items);
     return items;
@@ -223,16 +189,14 @@
         isPinned: formData.isPinned,
         publishDate: formData.publishDate,
         publishEndDate: formData.publishEndDate,
-        isNew: false,
-        updatedAt: serverTimestamp()
+        isNew: false
       };
 
       if (state.editingId) {
-        await updateDoc(doc(db, COLLECTION_NAME, state.editingId), payload);
+        await updateNews(state.editingId, payload);
       } else {
         payload.displayOrder = await getNextDisplayOrder();
-        payload.createdAt = serverTimestamp();
-        await addDoc(collection(db, COLLECTION_NAME), payload);
+        await createNews(payload);
       }
 
       resetForm();
@@ -303,16 +267,13 @@
       };
     }
 
-    const storagePath = createStoragePath(file);
-    const storageRef = ref(storage, storagePath);
-
     const optimizedFile = await optimizeImage(file, { maxWidth: 1600, maxHeight: 1200, quality: 0.84 });
-    await uploadBytes(storageRef, optimizedFile, { contentType: optimizedFile.type });
-    const imageUrl = await getDownloadURL(storageRef);
+    const uploaded = await uploadNewsImage(optimizedFile);
+    const { path:storagePath, url:imageUrl } = uploaded;
 
     if (state.currentStoragePath) {
       try {
-        await deleteObject(ref(storage, state.currentStoragePath));
+        await deleteNewsImage(state.currentStoragePath);
       } catch (error) {
         console.warn("古いニュース画像削除をスキップしました", error);
       }
@@ -376,10 +337,7 @@
     if (!item) return;
 
     try {
-      await updateDoc(doc(db, COLLECTION_NAME, id), {
-        [fieldName]: !item[fieldName],
-        updatedAt: serverTimestamp()
-      });
+      await updateNews(id, { [fieldName]: !item[fieldName] });
       showMessage("更新しました", "success");
       await loadNews();
     } catch (error) {
@@ -397,13 +355,13 @@
     try {
       if (item?.storagePath) {
         try {
-          await deleteObject(ref(storage, item.storagePath));
+          await deleteNewsImage(item.storagePath);
         } catch (error) {
           console.warn("ニュース画像削除をスキップしました", error);
         }
       }
 
-      await deleteDoc(doc(db, COLLECTION_NAME, id));
+      await removeNews(id);
       await renumberNews();
       resetForm();
       showMessage("削除しました", "success");
@@ -432,27 +390,9 @@
 
   async function updateDisplayOrders(orderedIds, items = null) {
     const sourceItems = items || await fetchNewsItems();
-    const itemById = new Map(sourceItems.map((item) => [item.id, item]));
-    const batch = writeBatch(db);
-    let hasChanges = false;
-
-    orderedIds.forEach((id, index) => {
-      const nextOrder = index + 1;
-      const currentOrder = getNumericDisplayOrder(itemById.get(id));
-
-      if (currentOrder === nextOrder) return;
-
-      hasChanges = true;
-      batch.update(doc(db, COLLECTION_NAME, id), {
-        displayOrder: nextOrder,
-        updatedAt: serverTimestamp()
-      });
-    });
-
-    if (hasChanges) {
-      await batch.commit();
-    }
-
+    const currentIds = sourceItems.sort((a, b) => getNumericDisplayOrder(a) - getNumericDisplayOrder(b)).map((item) => item.id);
+    const hasChanges = orderedIds.some((id, index) => currentIds[index] !== id);
+    if (hasChanges) await reorderNews(orderedIds);
     return hasChanges;
   }
 
@@ -750,11 +690,6 @@
     if (nextOrder.length !== currentOrder.length) return true;
 
     return nextOrder.some((id, index) => id !== currentOrder[index]);
-  }
-
-  function createStoragePath(file) {
-    const safeName = file.name.replace(/[^\w.-]/g, "_");
-    return `news/${Date.now()}_${Math.random().toString(36).slice(2, 8)}_${safeName}`;
   }
 
   function createPreview(value, maxLength) {

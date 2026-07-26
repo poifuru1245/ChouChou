@@ -1,11 +1,12 @@
-import { subscribeCollection } from "./js/services/firestoreService.js";
+import { subscribeCastViews } from "./services/castViewService.js";
+import { subscribeCasts } from "./services/castService.js";
 
 const list = document.getElementById("weeklyRankingList");
 const state = { casts: [], views: [] };
 
 if(list){
-  subscribeCollection("casts",(rows)=>{state.casts=rows;render();},showError);
-  subscribeCollection("castViews",(rows)=>{state.views=rows;render();},(error)=>{console.warn("週間閲覧数を取得できませんでした",error);render();});
+  subscribeCasts((rows)=>{state.casts=rows;render();},showError);
+  subscribeCastViews((rows)=>{state.views=rows;render();},(error)=>{console.warn("週間閲覧数を取得できませんでした",error);render();});
 }
 
 function render(){

@@ -1,13 +1,6 @@
-import {
-  collection,
-  getDocs,
-  doc,
-  writeBatch,
-  serverTimestamp,
-  onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import "./admin.js";
-import { db } from "./js/firebase/firebaseClient.js";
+import { listCasts, subscribeCasts } from "./services/castService.js";
+import { listSchedules, saveScheduleOperations, subscribeSchedules } from "./services/scheduleService.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 const DATE_RANGE_DAYS = 14;
@@ -31,26 +24,20 @@ async function loadSchedule() {
 
   wrap.innerHTML = "<div class=\"schedule-loading\">読み込み中...</div>";
 
-  const [castSnapshot, scheduleSnapshot] = await Promise.all([
-    getDocs(collection(db, "casts")),
-    getDocs(collection(db, "schedules"))
+  const [castRows, scheduleRows] = await Promise.all([
+    listCasts({ force:true }),
+    listSchedules({ force:true })
   ]);
 
   casts = [];
   schedules = [];
   dates = getDateOptions();
 
-  castSnapshot.forEach((item) => {
-    casts.push({
-      id: item.id,
-      ...item.data()
-    });
-  });
+  castRows.forEach((item) => casts.push(item));
 
-  scheduleSnapshot.forEach((item) => {
-    const data = item.data();
+  scheduleRows.forEach((data) => {
     schedules.push({
-      id: item.id,
+      id: data.id,
       ...data,
       dateKey: getScheduleDateKey(data),
       castId: getScheduleCastId(data),
@@ -548,7 +535,7 @@ async function saveDirtySchedules() {
 
     for (let index = 0; index < keys.length; index += BATCH_LIMIT) {
       const batchKeys = keys.slice(index, index + BATCH_LIMIT);
-      const batch = writeBatch(db);
+      const operations = [];
 
       batchKeys.forEach((key) => {
         const state = scheduleState.get(key);
@@ -570,20 +557,17 @@ async function saveDirtySchedules() {
           end,
           time,
           status,
-          isOff,
-          updatedAt: serverTimestamp()
+          isOff
         };
 
-        batch.set(doc(db, "schedules", state.id), payload, { merge: true });
+        operations.push({ type:"set", collection:"schedules", id:state.id, data:payload, options:{ merge:true } });
 
         if (state.date === today) {
-          batch.update(doc(db, "casts", state.castId), {
-            schedule: time
-          });
+          operations.push({ type:"update", collection:"casts", id:state.castId, data:{ schedule:time } });
         }
       });
 
-      await batch.commit();
+      await saveScheduleOperations(operations);
     }
 
     keys.forEach((key) => {
@@ -1146,5 +1130,5 @@ const queueRealtimeRefresh = () => {
     if (!dirtyCells.size) loadSchedule();
   }, 120);
 };
-onSnapshot(collection(db, "casts"), queueRealtimeRefresh, console.error);
-onSnapshot(collection(db, "schedules"), queueRealtimeRefresh, console.error);
+subscribeCasts(queueRealtimeRefresh, console.error);
+subscribeSchedules(queueRealtimeRefresh, console.error);

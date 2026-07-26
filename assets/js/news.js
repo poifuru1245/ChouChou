@@ -1,4 +1,4 @@
-import { subscribeCollection } from "./services/firestoreService.js";
+import { subscribeNews } from "../services/newsService.js";
 
 const COLLECTION_NAME = "news";
 const DEFAULT_CATEGORY = "お知らせ";
@@ -11,7 +11,7 @@ if (lists.length) {
 }
 
 function loadPublicNews() {
-  subscribeCollection(COLLECTION_NAME, (rows) => {
+  subscribeNews((rows) => {
     const items = [];
 
     rows.forEach((row) => {
@@ -89,7 +89,7 @@ function createNewsCard(item, fallbackLink = "") {
   const linkMarkup = linkUrl
     ? `
       <a class="public-news-link" href="${escapeAttribute(linkUrl)}"${isExternalLink ? ' target="_blank" rel="noopener"' : ""}>
-        続きを読む
+        続きを読む<span class="sr-only">：${escapeHtml(item.title)}</span>
       </a>
     `
     : "";

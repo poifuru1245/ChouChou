@@ -1,13 +1,14 @@
-import { adminSession, subscribeCollection } from "./admin.js";
-import { requestPasswordReset } from "./js/services/authService.js";
+import { adminSession } from "./admin.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
 import {
   createManagedUser,
   deactivateManagedUser,
   getUserAdminErrorMessage,
   listManagedUsers,
+  requestPasswordReset,
   updateManagedUser
-} from "./services/userAdminService.js";
+} from "./services/userService.js";
+import { subscribeCasts } from "./services/castService.js";
 
 const form = document.getElementById("userForm");
 const list = document.getElementById("userList");
@@ -18,7 +19,7 @@ initialize();
 
 function initialize() {
   bindEvents();
-  subscribeCollection("casts", (rows) => { state.casts = rows.sort(compareCasts); renderCastOptions(); }, handleLoadError);
+  subscribeCasts((rows) => { state.casts = rows.sort(compareCasts); renderCastOptions(); }, handleLoadError);
   loadUsers();
 }
 

@@ -4,7 +4,7 @@ import {
   signInCast,
   signOutCast,
   subscribeAuth
-} from "./js/services/authService.js";
+} from "./services/authService.js";
 import {
   findCastForAuthenticatedUser,
   markAnnouncementRead,
@@ -12,9 +12,9 @@ import {
   subscribeCastPortalData,
   updateOwnCastProfile,
   uploadOwnProfilePhoto
-} from "./js/services/castPortalService.js";
-import { calculateMonthlyPayroll } from "./js/services/payrollService.js";
-import { getUserAccessProfile, hasPermission, isActiveUser } from "./js/services/roleService.js";
+} from "./services/castPortalService.js";
+import { calculateMonthlyPayroll } from "./services/payrollService.js";
+import { getUserAccessProfile, hasPermission, isActiveUser } from "./services/roleService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
 
 const PLACEHOLDER_IMAGE = "assets/images/cast-portal-placeholder.svg";

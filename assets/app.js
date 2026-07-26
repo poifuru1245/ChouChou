@@ -1,12 +1,14 @@
-import "./engagement.js?v=7.2.0";
-import { app, db, storage } from "./js/firebase/firebaseClient.js";
-import { getCollection, getDocument, removeDocument, subscribeCollection, subscribeDocument, updateDocument } from "./js/services/firestoreService.js";
+import "./engagement.js?v=1.0.0";
+import { listCasts } from "./services/castService.js";
+import { listGallery } from "./services/galleryService.js";
+import { deleteReservation, listReservations, patchReservation } from "./services/reservationService.js";
+import { getSiteSettings, subscribeRecruitContent } from "./services/siteService.js";
+import { subscribeSystemItems } from "./services/systemService.js";
 import { escapeAttribute, escapeHtml, setText } from "./js/utils/dom.js";
 import { setBusy, showPageError } from "./js/ui/pageState.js";
 import { bootstrapPage } from "./js/pages/bootstrapPage.js";
 import { loadingMarkup } from "./js/components/uiComponents.js";
 
-export { app, db, storage };
 bootstrapPage({ pageName:"public" });
 
 let currentFilter = "today";
@@ -25,7 +27,7 @@ async function loadReservations() {
   ranking = {};
 
   try {
-    const reservations = await getCollection("reservations", { force: true });
+    const reservations = await listReservations({ force: true });
     reservationList.innerHTML = "";
 
     let pending = 0;
@@ -136,7 +138,7 @@ async function loadRanking() {
   rankingList.innerHTML = "";
 
   try {
-    const casts = await getCollection("casts");
+    const casts = await listCasts();
 
     casts
       .sort((a, b) => Number(b.nominate || 0) - Number(a.nominate || 0))
@@ -167,7 +169,7 @@ async function loadTodayCast() {
   if (!wrap) return;
 
   try {
-    const casts = await getCollection("casts");
+    const casts = await listCasts();
 
     wrap.innerHTML = "";
 
@@ -215,7 +217,7 @@ document.addEventListener("click", async (event) => {
     if (!id || !confirm("削除しますか？")) return;
 
     try {
-      await removeDocument("reservations", id);
+      await deleteReservation(id);
       await loadReservations();
     } catch (error) {
       console.error("予約削除失敗", error);
@@ -246,7 +248,7 @@ document.addEventListener("click", async (event) => {
   if (!statusClass) return;
 
   try {
-    await updateDocument("reservations", id, {
+    await patchReservation(id, {
       status: statusMap[statusClass]
     });
     await loadReservations();
@@ -679,7 +681,7 @@ async function setupSiteSettings() {
   if (!configurableElements.length) return;
 
   try {
-    const settings = await getDocument("settings", "site") || {};
+    const settings = await getSiteSettings() || {};
     applySiteSettings(settings);
     if("MutationObserver" in window){
       new MutationObserver((mutations)=>{
@@ -858,7 +860,7 @@ async function setupInstagramBrandGallery() {
   grid.dataset.instagramState = "loading";
 
   try {
-    const galleryItems = await getCollection("gallery");
+    const galleryItems = await listGallery();
     const limit = Number(grid.dataset.limit || 6);
     const posts = [];
 
@@ -982,7 +984,7 @@ function setupManagedSystem() {
   const interiorGroups = document.querySelector(".system-groups");
   if (!homeList && !interiorGroups) return;
 
-  subscribeCollection("systemItems", (rows) => {
+  subscribeSystemItems((rows) => {
     const items = rows
       .filter((item) => item.isPublished !== false)
       .sort((a,b) => Number(a.displayOrder ?? 9999) - Number(b.displayOrder ?? 9999));
@@ -1009,7 +1011,7 @@ function setupManagedRecruit() {
   const interior = document.querySelector(".recruit-brand-layout");
   if (!home && !interior) return;
 
-  subscribeDocument("content", "recruit", (data) => {
+  subscribeRecruitContent((data) => {
     if (!data) return;
     const section = home || interior?.closest("section");
     if (section) section.hidden = data.isPublished === false;

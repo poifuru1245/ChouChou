@@ -1,9 +1,4 @@
-import { db } from "./js/firebase/firebaseClient.js";
-import {
-  addDoc,
-  collection,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { submitContact as createContact } from "./services/contactService.js";
 
 const form = document.getElementById("contactForm");
 const status = document.getElementById("contactFormStatus");
@@ -24,15 +19,14 @@ async function submitContact() {
     phone: getValue(formData, "phone"),
     type: getValue(formData, "type"),
     message: getValue(formData, "message"),
-    status: "新規",
-    createdAt: serverTimestamp()
+    status: "新規"
   };
 
   try {
     if (submitButton) submitButton.disabled = true;
     setStatus("送信中...", "");
 
-    await addDoc(collection(db, "contacts"), payload);
+    await createContact(payload);
 
     form.reset();
     setStatus("送信しました。内容を確認のうえご連絡いたします。", "success");

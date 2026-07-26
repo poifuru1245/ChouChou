@@ -4,34 +4,9 @@
 // =====================================
 
 (async () => {
-  const { db, storage } = await import("./js/firebase/firebaseClient.js");
   const { optimizeImage } = await import("./admin.js");
-  const firestore = await import(
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
-  );
-  const storageApi = await import(
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"
-  );
+  const { createCast, deleteCast, deleteCastImage, deleteCasts, listCasts, patchCast, reorderCasts, setCastPopularityRank, setCastsPublished, subscribeCasts, uploadCastImage } = await import("./services/castService.js");
 
-  const {
-    collection,
-    getDocs,
-    onSnapshot,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-    writeBatch
-  } = firestore;
-
-  const {
-    ref,
-    uploadBytes,
-    getDownloadURL,
-    deleteObject
-  } = storageApi;
-
-  const COLLECTION_NAME = "casts";
   const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
   const IMAGE_INPUT_IDS = [
     "castImage1",
@@ -111,9 +86,9 @@
   setupOrderControls();
   setupTagOptions();
   bindEvents();
-  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
+  subscribeCasts((rows) => {
     if (state.isOrderDirty || state.isOrderSaving) return;
-    const casts = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    const casts = rows;
     sortCastsByDisplayOrder(casts);
     state.allCasts = casts;
     renderDashboard();
@@ -218,15 +193,7 @@
     removeDragHandlesOutsideCastGrid();
 
     try {
-      const snapshot = await getDocs(collection(db, COLLECTION_NAME));
-      const casts = [];
-
-      snapshot.forEach((docSnap) => {
-        casts.push({
-          id: docSnap.id,
-          ...docSnap.data()
-        });
-      });
+      const casts = await listCasts({ force:true });
 
       sortCastsByDisplayOrder(casts);
       state.allCasts = casts;
@@ -512,11 +479,11 @@
 
   async function saveCast(payload) {
     if (state.editingId) {
-      await updateDoc(doc(db, COLLECTION_NAME, state.editingId), payload);
+      await patchCast(state.editingId, payload);
       return;
     }
 
-    await addDoc(collection(db, COLLECTION_NAME), payload);
+    await createCast(payload);
   }
 
   async function toggleCastField(id, fieldName) {
@@ -525,7 +492,7 @@
     const current = fieldName === "isPublished" ? isCastPublished(cast) : isBadgeEnabled(cast[fieldName]);
 
     try {
-      await updateDoc(doc(db, COLLECTION_NAME, id), { [fieldName]: !current });
+      await patchCast(id, { [fieldName]: !current });
       cast[fieldName] = !current;
       renderDashboard();
     } catch (error) {
@@ -539,12 +506,7 @@
     if (!selected || ![1, 2, 3].includes(rank)) return;
     const nextRank = Number(selected.popularityRank) === rank ? null : rank;
     try {
-      const batch = writeBatch(db);
-      state.allCasts.forEach((cast) => {
-        if (cast.id === id) batch.update(doc(db, COLLECTION_NAME, cast.id), { popularityRank: nextRank });
-        else if (nextRank && Number(cast.popularityRank) === nextRank) batch.update(doc(db, COLLECTION_NAME, cast.id), { popularityRank: null });
-      });
-      await batch.commit();
+      await setCastPopularityRank(id, nextRank, state.allCasts);
     } catch (error) {
       console.error("人気順位更新失敗", error);
       showError("人気順位の更新に失敗しました。");
@@ -557,7 +519,7 @@
     setFormBusy(true);
 
     try {
-      await deleteDoc(doc(db, COLLECTION_NAME, id));
+      await deleteCast(id);
       await renumberCasts();
       await loadCasts();
     } catch (error) {
@@ -579,17 +541,7 @@
   }
 
   async function fetchCasts() {
-    const snapshot = await getDocs(collection(db, COLLECTION_NAME));
-    const casts = [];
-
-    snapshot.forEach((docSnap) => {
-      casts.push({
-        id: docSnap.id,
-        ...docSnap.data()
-      });
-    });
-
-    return casts;
+    return listCasts({ force:true });
   }
 
   async function renumberCasts(ids = null) {
@@ -602,26 +554,9 @@
 
   async function updateDisplayOrders(orderedIds, casts = null) {
     const sourceCasts = casts || await fetchCasts();
-    const castById = new Map(sourceCasts.map((cast) => [cast.id, cast]));
-    const batch = writeBatch(db);
-    let hasChanges = false;
-
-    orderedIds.forEach((id, index) => {
-      const nextOrder = index + 1;
-      const currentOrder = getNumericDisplayOrder(castById.get(id));
-
-      if (currentOrder === nextOrder) return;
-
-      hasChanges = true;
-      batch.update(doc(db, COLLECTION_NAME, id), {
-        displayOrder: nextOrder
-      });
-    });
-
-    if (hasChanges) {
-      await batch.commit();
-    }
-
+    const currentIds = sourceCasts.sort((a, b) => getNumericDisplayOrder(a) - getNumericDisplayOrder(b)).map((cast) => cast.id);
+    const hasChanges = orderedIds.some((id, index) => currentIds[index] !== id);
+    if (hasChanges) await reorderCasts(orderedIds);
     return hasChanges;
   }
 
@@ -948,11 +883,7 @@
     setBulkBusy(true);
 
     try {
-      const batch = writeBatch(db);
-      ids.forEach((id) => {
-        batch.update(doc(db, COLLECTION_NAME, id), { isPublished });
-      });
-      await batch.commit();
+      await setCastsPublished(ids, isPublished);
 
       state.allCasts = state.allCasts.map((cast) => {
         return ids.includes(cast.id) ? { ...cast, isPublished } : cast;
@@ -975,11 +906,7 @@
     setBulkBusy(true);
 
     try {
-      const batch = writeBatch(db);
-      ids.forEach((id) => {
-        batch.delete(doc(db, COLLECTION_NAME, id));
-      });
-      await batch.commit();
+      await deleteCasts(ids);
 
       state.selectedCastIds.clear();
       await renumberCasts();
@@ -1371,19 +1298,10 @@
       if (!file) return currentImages[index] || "";
 
       const optimizedFile = await optimizeImage(file, { maxWidth: 1600, maxHeight: 2000, quality: 0.86 });
-      const storageRef = ref(storage, createStoragePath(optimizedFile, index));
-      await uploadBytes(storageRef, optimizedFile, { contentType: optimizedFile.type });
-      return getDownloadURL(storageRef);
+      return (await uploadCastImage(optimizedFile, index)).url;
     });
 
     return (await Promise.all(uploads)).filter(Boolean).slice(0, 5);
-  }
-
-  function createStoragePath(file, index) {
-    const safeName = file.name.replace(/[^\w.-]/g, "_");
-    const suffix = `${Date.now()}_${index}_${safeName}`;
-
-    return `casts/${suffix}`;
   }
 
   function getSelectedFiles() {
@@ -1470,7 +1388,7 @@
       resetImageInputs();
 
       if (state.editingId) {
-        await updateDoc(doc(db, COLLECTION_NAME, state.editingId), {
+        await patchCast(state.editingId, {
           image: state.currentImage,
           images: state.currentImages,
           galleryImages: state.currentImages
@@ -1490,7 +1408,7 @@
 
   async function deleteImageFromStorage(imageUrl) {
     try {
-      await deleteObject(ref(storage, imageUrl));
+      await deleteCastImage(imageUrl);
     } catch (error) {
       if (error?.code === "storage/object-not-found") return;
       throw error;
@@ -1692,7 +1610,7 @@
   function createNewBadgeImage() {
     return `
       <span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
-        <img class="premium-cast-badge-img premium-cast-badge-img-new" src="../assets/img/badges/badge-new.png" alt="NEW 新人" loading="lazy">
+        <img class="premium-cast-badge-img premium-cast-badge-img-new" src="../assets/img/badges/badge-new.webp" width="128" height="85" alt="NEW 新人" loading="lazy">
       </span>
     `;
   }
@@ -1700,7 +1618,7 @@
   function createRecommendedBadgeImage() {
     return `
       <span class="premium-cast-badge premium-cast-badge-recommended" aria-label="おすすめ">
-        <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="../assets/img/badges/badge-osusume.png" alt="おすすめ" loading="lazy">
+        <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="../assets/img/badges/badge-osusume.webp" width="128" height="85" alt="おすすめ" loading="lazy">
       </span>
     `;
   }

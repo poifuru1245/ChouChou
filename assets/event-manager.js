@@ -1,7 +1,5 @@
-import { db, storage } from "./js/firebase/firebaseClient.js";
 import { optimizeImage } from "./admin.js";
-import { addDoc, collection, deleteDoc, doc, onSnapshot, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getDownloadURL, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { createEvent, deleteEvent, subscribeEvents, updateEvent, uploadEventImage } from "./services/eventService.js";
 
 const form = document.getElementById("eventAdminForm");
 const list = document.getElementById("eventList");
@@ -12,8 +10,8 @@ let editingId = "";
 let currentImageUrl = "";
 let currentStoragePath = "";
 
-onSnapshot(collection(db, "events"), (snapshot) => {
-  items = snapshot.docs.map((item) => ({ id: item.id, ...item.data() })).sort((a, b) => getTime(b.createdAt) - getTime(a.createdAt));
+subscribeEvents((rows) => {
+  items = rows.sort((a, b) => getTime(b.createdAt) - getTime(a.createdAt));
   render();
 }, (error) => { console.error(error); setMessage("イベントの読み込みに失敗しました。", "error"); });
 
@@ -33,14 +31,14 @@ form?.addEventListener("submit", async (event) => {
     if (file) {
       const optimized = await optimizeImage(file, { maxWidth: 1800, maxHeight: 1200, quality: 0.86 });
       storagePath = `events/${Date.now()}_${optimized.name}`;
-      const imageRef = ref(storage, storagePath);
-      await uploadBytes(imageRef, optimized, { contentType: optimized.type });
-      imageUrl = await getDownloadURL(imageRef);
+      const uploaded = await uploadEventImage(optimized);
+      storagePath = uploaded.path;
+      imageUrl = uploaded.url;
     }
     if (!imageUrl) throw new Error("イベント画像を選択してください。");
-    const payload = { title: String(data.get("title") || "").trim(), description: String(data.get("description") || "").trim(), linkUrl: String(data.get("linkUrl") || "").trim(), publishStart, publishEnd, imageUrl, storagePath, isPublished: data.get("isPublished") === "on", updatedAt: serverTimestamp() };
-    if (editingId) await updateDoc(doc(db, "events", editingId), payload);
-    else await addDoc(collection(db, "events"), { ...payload, createdAt: serverTimestamp() });
+    const payload = { title: String(data.get("title") || "").trim(), description: String(data.get("description") || "").trim(), linkUrl: String(data.get("linkUrl") || "").trim(), publishStart, publishEnd, imageUrl, storagePath, isPublished: data.get("isPublished") === "on" };
+    if (editingId) await updateEvent(editingId, payload);
+    else await createEvent(payload);
     reset();
     setMessage("イベントを保存しました。", "success");
   } catch (error) { console.error(error); setMessage(error.message || "保存に失敗しました。", "error"); }
@@ -54,8 +52,8 @@ list?.addEventListener("click", async (event) => {
   const item = items.find((entry) => entry.id === button.dataset.id);
   if (!item) return;
   if (button.dataset.action === "edit") fill(item);
-  if (button.dataset.action === "toggle") await updateDoc(doc(db, "events", item.id), { isPublished: item.isPublished === false, updatedAt: serverTimestamp() });
-  if (button.dataset.action === "delete" && confirm(`${item.title || "イベント"}を削除しますか？`)) await deleteDoc(doc(db, "events", item.id));
+  if (button.dataset.action === "toggle") await updateEvent(item.id, { isPublished: item.isPublished === false });
+  if (button.dataset.action === "delete" && confirm(`${item.title || "イベント"}を削除しますか？`)) await deleteEvent(item.id);
 });
 
 function render() {

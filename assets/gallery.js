@@ -1,4 +1,4 @@
-import { subscribeCollection } from "./js/services/firestoreService.js";
+import { subscribeGallery } from "./services/galleryService.js";
 
 const COLLECTION_NAME = "gallery";
 
@@ -25,7 +25,7 @@ if (elements.grids.length) {
 }
 
 function loadGallery() {
-  subscribeCollection(COLLECTION_NAME, (items) => {
+  subscribeGallery((items) => {
 
     sortGalleryItems(items);
     renderGallery(items.filter((item) => item.isPublished !== false));

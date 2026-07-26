@@ -4,35 +4,9 @@
 // =====================================
 
 (async () => {
-  const { db, storage } = await import("./js/firebase/firebaseClient.js");
   const { optimizeImage } = await import("./admin.js");
-  const firestore = await import(
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
-  );
-  const storageApi = await import(
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"
-  );
+  const { createGalleryItem, deleteGalleryImage, deleteGalleryItem:removeGalleryItem, listGallery, reorderGallery, subscribeGallery, updateGalleryItem, uploadGalleryImage } = await import("./services/galleryService.js");
 
-  const {
-    collection,
-    getDocs,
-    onSnapshot,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-    writeBatch,
-    serverTimestamp
-  } = firestore;
-
-  const {
-    ref,
-    uploadBytes,
-    getDownloadURL,
-    deleteObject
-  } = storageApi;
-
-  const COLLECTION_NAME = "gallery";
   const MAX_IMAGE_SIZE = 8 * 1024 * 1024;
 
   const state = {
@@ -60,9 +34,9 @@
   if (!elements.grid) return;
 
   bindEvents();
-  onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
+  subscribeGallery((rows) => {
     if (state.isOrderDirty || state.isOrderSaving) return;
-    state.items = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    state.items = rows;
     sortGalleryItems(state.items);
     renderGallery();
     state.savedOrder = getCurrentCardOrder();
@@ -116,15 +90,7 @@
   }
 
   async function fetchGalleryItems() {
-    const snapshot = await getDocs(collection(db, COLLECTION_NAME));
-    const items = [];
-
-    snapshot.forEach((docSnap) => {
-      items.push({
-        id: docSnap.id,
-        ...docSnap.data()
-      });
-    });
+    const items = await listGallery({ force:true });
 
     sortGalleryItems(items);
     return items;
@@ -209,20 +175,16 @@
 
       for (const file of files) {
         const optimizedFile = await optimizeImage(file, { maxWidth: 1800, maxHeight: 1800, quality: 0.86 });
-        const storagePath = createStoragePath(optimizedFile);
-        const storageRef = ref(storage, storagePath);
+        const uploaded = await uploadGalleryImage(optimizedFile);
+        const { path:storagePath, url:imageUrl } = uploaded;
 
-        await uploadBytes(storageRef, optimizedFile, { contentType: optimizedFile.type });
-        const imageUrl = await getDownloadURL(storageRef);
-
-        await addDoc(collection(db, COLLECTION_NAME), {
+        await createGalleryItem({
           title,
           category,
           imageUrl,
           storagePath,
           displayOrder: nextOrder,
-          isPublished: true,
-          createdAt: serverTimestamp()
+          isPublished: true
         });
 
         nextOrder += 1;
@@ -260,7 +222,7 @@
     }
     if (button.dataset.action === "toggle-published") {
       const item = state.items.find((entry) => entry.id === id);
-      await updateDoc(doc(db, COLLECTION_NAME, id), { isPublished: item?.isPublished === false, updatedAt: serverTimestamp() });
+      await updateGalleryItem(id, { isPublished: item?.isPublished === false });
     }
   }
 
@@ -286,11 +248,7 @@
     }
 
     try {
-      await updateDoc(doc(db, COLLECTION_NAME, id), {
-        title: nextTitle,
-        category: nextCategory,
-        updatedAt: serverTimestamp()
-      });
+      await updateGalleryItem(id, { title:nextTitle, category:nextCategory });
 
       item.title = nextTitle;
       item.category = nextCategory;
@@ -311,13 +269,13 @@
     try {
       if (item?.storagePath) {
         try {
-          await deleteObject(ref(storage, item.storagePath));
+          await deleteGalleryImage(item.storagePath);
         } catch (storageError) {
           console.warn("Storage画像削除をスキップしました", storageError);
         }
       }
 
-      await deleteDoc(doc(db, COLLECTION_NAME, id));
+      await removeGalleryItem(id);
       await renumberGallery();
       setMessage("削除しました", "success");
       await loadGallery();
@@ -346,26 +304,9 @@
 
   async function updateDisplayOrders(orderedIds, items = null) {
     const sourceItems = items || await fetchGalleryItems();
-    const itemById = new Map(sourceItems.map((item) => [item.id, item]));
-    const batch = writeBatch(db);
-    let hasChanges = false;
-
-    orderedIds.forEach((id, index) => {
-      const nextOrder = index + 1;
-      const currentOrder = getNumericDisplayOrder(itemById.get(id));
-
-      if (currentOrder === nextOrder) return;
-
-      hasChanges = true;
-      batch.update(doc(db, COLLECTION_NAME, id), {
-        displayOrder: nextOrder
-      });
-    });
-
-    if (hasChanges) {
-      await batch.commit();
-    }
-
+    const currentIds = sourceItems.sort((a, b) => getNumericDisplayOrder(a) - getNumericDisplayOrder(b)).map((item) => item.id);
+    const hasChanges = orderedIds.some((id, index) => currentIds[index] !== id);
+    if (hasChanges) await reorderGallery(orderedIds);
     return hasChanges;
   }
 
@@ -571,11 +512,6 @@
     }
 
     return { valid: true, message: "" };
-  }
-
-  function createStoragePath(file) {
-    const safeName = file.name.replace(/[^\w.-]/g, "_");
-    return `gallery/${Date.now()}_${Math.random().toString(36).slice(2, 8)}_${safeName}`;
   }
 
   function sortGalleryItems(items) {

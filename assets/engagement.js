@@ -128,8 +128,7 @@ function setupFavoriteHeader(){
   const link = document.createElement("a");
   link.href = "favorite.html";
   link.className = "v7-header-favorite";
-  link.setAttribute("aria-label","お気に入りキャスト一覧");
-  link.innerHTML = `<span aria-hidden="true">♥</span><b data-favorite-count>0</b>`;
+  link.innerHTML = `<span aria-hidden="true">♥</span><span class="sr-only">お気に入りキャスト一覧：</span><b data-favorite-count>0</b>`;
   const anchor = headerInner.querySelector(".language-switch,.header-cta");
   headerInner.insertBefore(link,anchor || null);
   headerInner.classList.add("has-v7-favorite");
@@ -324,7 +323,7 @@ function setupRevealMotion(){
 
 function setupPerformanceCache(){
   if("serviceWorker" in navigator && location.protocol.startsWith("http")){
-    window.addEventListener("load",()=>navigator.serviceWorker.register("/service-worker.js?v=7.2.0",{scope:"/"}).catch((error)=>console.warn("キャッシュ初期化をスキップしました",error)),{once:true});
+    window.addEventListener("load",()=>navigator.serviceWorker.register("/service-worker.js?v=1.0.0",{scope:"/"}).catch((error)=>console.warn("キャッシュ初期化をスキップしました",error)),{once:true});
   }
 }
 

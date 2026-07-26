@@ -1,16 +1,17 @@
-import { getCollection, subscribeCollection } from "./js/services/firestoreService.js";
+import { listCasts, subscribeCasts } from "./services/castService.js";
+import { listSchedules, subscribeSchedules } from "./services/scheduleService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
 import { setBusy, showPageError } from "./js/ui/pageState.js";
 import { bootstrapPage } from "./js/pages/bootstrapPage.js";
 import { imageMarkup as createImageMarkup, skeletonMarkup } from "./js/components/uiComponents.js";
-import { getCastImages, getCastTags as getTags, getMainCastImage as getMainImage, isEnabledFlag as isBadgeEnabled, sortCastsByDisplayOrder } from "./js/services/castService.js";
+import { getCastImages, getCastTags as getTags, getMainCastImage as getMainImage, isEnabledFlag as isBadgeEnabled, sortCastsByDisplayOrder } from "./services/castService.js";
 
 bootstrapPage({ pageName:"cast" });
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 
 async function loadCasts() {
 
-const schedules = await getCollection("schedules", { force: true });
+const schedules = await listSchedules({ force: true });
 
 const today =
 getTokyoDateKey();
@@ -41,7 +42,7 @@ schedules.forEach((schedule)=>{
 
 });
 
-  const casts = (await getCollection("casts", { force: true }))
+  const casts = (await listCasts({ force: true }))
     .filter((cast) => cast.isPublished !== false);
 
   sortCastsByDisplayOrder(casts);
@@ -219,8 +220,8 @@ div.innerHTML = `
    <a
 class="reserve-btn public-profile-link"
 href="${detailUrl}"
-aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
-<span data-i18n="button.detail">詳細</span>
+title="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
+<span class="sr-only">${escapeHtml(cast.name || "キャスト")}のプロフィール：</span><span data-i18n="button.detail">詳細</span>
 </a>
 
   </div>
@@ -267,12 +268,12 @@ function showCastLoadError(error) {
   showPageError(target, "キャスト情報を読み込めませんでした。通信状況をご確認ください。");
 }
 
-subscribeCollection("casts", queueRealtimeCastRefresh, showCastLoadError);
-subscribeCollection("schedules", queueRealtimeCastRefresh, showCastLoadError);
+subscribeCasts(queueRealtimeCastRefresh, showCastLoadError);
+subscribeSchedules(queueRealtimeCastRefresh, showCastLoadError);
 
 async function loadAllCasts(todayCasts = [], suppliedCasts = null){
 
-const casts = suppliedCasts ? [...suppliedCasts] : await getCollection("casts");
+const casts = suppliedCasts ? [...suppliedCasts] : await listCasts();
 
 sortCastsByDisplayOrder(casts);
 
@@ -336,8 +337,8 @@ ${createCastListHobbyMarkup(cast)}
 <a
 class="reserve-btn public-profile-link"
 href="${detailUrl}"
-aria-label="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
-<span>PROFILE</span>
+title="${escapeAttribute(cast.name || "キャスト")}のプロフィール">
+<span class="sr-only">${escapeHtml(cast.name || "キャスト")}のプロフィール：</span><span>PROFILE</span>
 </a>
 
 ${createCastEngagementActions(cast)}
@@ -904,7 +905,7 @@ function createCastEngagementActions(cast, compact = false){
   const name = String(cast?.name || "キャスト").trim();
   const lineEnabled = cast?.lineReservationEnabled !== false;
   const webUrl = createCastWebReservationUrl(cast);
-  const lineMarkup = lineEnabled ? `<a class="button-premium v6-line-cast-button v71-cast-reservation-button" href="#" data-site-link="lineReservationUrl" data-line-cast-name="${escapeAttribute(name)}" target="_blank" rel="noopener" aria-label="${escapeAttribute(name)}ちゃんを指名してLINE予約"><span class="v6-line-content"><svg class="v6-line-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.25c-5.11 0-9.25 3.45-9.25 7.7 0 2.64 1.63 5.09 4.28 6.49l-.72 3.31 3.63-2.23c.68.1 1.37.15 2.06.15 5.11 0 9.25-3.46 9.25-7.72S17.11 3.25 12 3.25Z"/><circle cx="8.25" cy="11" r="1"/><circle cx="12" cy="11" r="1"/><circle cx="15.75" cy="11" r="1"/></svg><span class="v6-line-label">${escapeHtml(name)}ちゃんを指名 LINE予約</span></span></a>` : "";
+  const lineMarkup = lineEnabled ? `<a class="button-premium v6-line-cast-button v71-cast-reservation-button" href="#" data-site-link="lineReservationUrl" data-line-cast-name="${escapeAttribute(name)}" target="_blank" rel="noopener"><span class="v6-line-content"><svg class="v6-line-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.25c-5.11 0-9.25 3.45-9.25 7.7 0 2.64 1.63 5.09 4.28 6.49l-.72 3.31 3.63-2.23c.68.1 1.37.15 2.06.15 5.11 0 9.25-3.46 9.25-7.72S17.11 3.25 12 3.25Z"/><circle cx="8.25" cy="11" r="1"/><circle cx="12" cy="11" r="1"/><circle cx="15.75" cy="11" r="1"/></svg><span class="v6-line-label">${escapeHtml(name)}ちゃんを指名 LINE予約</span></span></a>` : "";
   const webMarkup = compact ? "" : `<a class="button-premium v71-web-cast-button v71-cast-reservation-button" href="${escapeAttribute(webUrl)}" aria-label="${escapeAttribute(name)}さんを指名してWEB予約">WEB予約</a>`;
   return `<div class="v6-cast-actions${compact ? " is-compact" : ""}${lineEnabled ? "" : " is-line-disabled"}">
     <button type="button" class="v6-favorite-button" data-favorite-cast="${escapeAttribute(id)}" data-favorite-cast-name="${escapeAttribute(cast?.name || "キャスト")}" aria-label="${escapeAttribute(cast?.name || "キャスト")}をお気に入りに登録" aria-pressed="false">♡</button>
@@ -1062,7 +1063,7 @@ function createNewBadgeImage(){
 return `
 <span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
  <img class="premium-cast-badge-img premium-cast-badge-img-new"
-src="assets/img/badges/badge-new.png"
+src="assets/img/badges/badge-new.webp"
 alt="NEW 新人"
 loading="lazy">
 </span>
@@ -1075,7 +1076,7 @@ function createRecommendedBadgeImage(label = "おすすめ"){
 return `
 <span class="premium-cast-badge premium-cast-badge-recommended" aria-label="${label}">
   <img class="premium-cast-badge-img premium-cast-badge-img-recommended"
-src="assets/img/badges/badge-osusume.png"
+src="assets/img/badges/badge-osusume.webp"
 alt="${label}"
 loading="lazy">
 </span>

@@ -1,7 +1,9 @@
-import { getCollection, getDocument, increment, serverTimestamp, setDocument, updateDocument } from "./js/services/firestoreService.js";
+import { recordCastView } from "./services/castViewService.js";
+import { getCast, listCasts } from "./services/castService.js";
+import { listSchedules } from "./services/scheduleService.js";
 import { loadingMarkup, tagMarkup } from "./js/components/uiComponents.js";
 import { setModalOpen, trapModalFocus } from "./js/components/modal.js";
-import { compareCastsByDisplayOrder as compareCastDisplayOrder, getCastImages, getCastTags as getTags, isEnabledFlag as isBadgeEnabled } from "./js/services/castService.js";
+import { compareCastsByDisplayOrder as compareCastDisplayOrder, getCastImages, getCastTags as getTags, isEnabledFlag as isBadgeEnabled } from "./services/castService.js";
 import { escapeAttribute, escapeHtml, setText } from "./js/utils/dom.js";
 import { setBusy, showPageError } from "./js/ui/pageState.js";
 import { bootstrapPage } from "./js/pages/bootstrapPage.js";
@@ -47,10 +49,7 @@ async function recordCastView(cast){
   if(sessionStorage.getItem(sessionKey)) return;
   try{
     const weekKey=getWeekKey();
-    await Promise.all([
-      updateDocument("casts",castId,{viewCount:increment(1),lastViewedAt:serverTimestamp()}),
-      setDocument("castViews",`${castId}_${weekKey}`,{castId,castName:cast?.name||"",weekKey,count:increment(1),updatedAt:serverTimestamp()},{merge:true})
-    ]);
+    await recordCastView({ ...cast, id:castId }, weekKey);
     sessionStorage.setItem(sessionKey,"1");
     if(output) output.textContent=(current+1).toLocaleString("ja-JP");
   }catch(error){console.warn("閲覧数の保存をスキップしました",error);}
@@ -70,7 +69,7 @@ async function resolveCast() {
 
   if (id) {
     try {
-      const cast = await getDocument("casts", id);
+      const cast = await getCast(id);
       if (cast) return cast;
     } catch (error) {
       console.error("キャスト詳細読み込み失敗", error);
@@ -371,7 +370,7 @@ function renderBadges(cast) {
 function createNewBadgeImage() {
   return `
     <span class="premium-cast-badge premium-cast-badge-new" aria-label="NEW 新人">
-      <img class="premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/badge-new.png" alt="NEW 新人" loading="lazy">
+      <img class="premium-cast-badge-img premium-cast-badge-img-new" src="assets/img/badges/badge-new.webp" width="128" height="85" alt="NEW 新人" loading="lazy">
     </span>
   `;
 }
@@ -381,7 +380,7 @@ function createRecommendedBadgeImage(label) {
 
   return `
     <span class="premium-cast-badge premium-cast-badge-recommended" aria-label="${safeLabel}">
-      <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/badge-osusume.png" alt="${safeLabel}" loading="lazy">
+      <img class="premium-cast-badge-img premium-cast-badge-img-recommended" src="assets/img/badges/badge-osusume.webp" width="128" height="85" alt="${safeLabel}" loading="lazy">
     </span>
   `;
 }
@@ -428,7 +427,7 @@ async function loadWeeklySchedule(cast) {
   try {
     setBusy(output, true, "今週の出勤予定を読み込み中");
     output.innerHTML = loadingMarkup("今週の出勤予定を読み込み中...");
-    const scheduleRows = await getCollection("schedules");
+    const scheduleRows = await listSchedules();
     const schedules = [];
 
     scheduleRows.forEach((schedule) => {
@@ -527,7 +526,7 @@ async function loadRelatedCasts(currentCast) {
   if (!section || !list) return;
 
   try {
-    const castRows = await getCollection("casts");
+    const castRows = await listCasts();
     const currentTags = new Set(getTags(currentCast));
     const casts = castRows
       .filter((cast) => cast.isPublished !== false)

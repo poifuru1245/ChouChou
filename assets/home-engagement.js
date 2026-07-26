@@ -1,4 +1,7 @@
-import { subscribeCollection, subscribeDocument } from "./js/services/firestoreService.js";
+import { subscribeCasts } from "./services/castService.js";
+import { subscribeEvents } from "./services/eventService.js";
+import { subscribeSchedules } from "./services/scheduleService.js";
+import { subscribeSiteSettings } from "./services/siteService.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 const state = { schedules: [] };
@@ -14,7 +17,7 @@ function setupHomeSettings() {
   const instagramSection = document.getElementById("instagram");
   if (!eventSection && !instagramSection) return;
 
-  subscribeDocument("settings", "site", (data) => {
+  subscribeSiteSettings((data) => {
     const settings = data || {};
     lastSiteSettings = settings;
     if (instagramSection) instagramSection.hidden = settings.instagramSectionEnabled === false;
@@ -28,7 +31,7 @@ function setupHomeSettings() {
 function setupManagedEvents() {
   const section = document.getElementById("homeEventBanner");
   if (!section) return;
-  subscribeCollection("events", (events) => {
+  subscribeEvents((events) => {
     const now = Date.now();
     const event = events
       .filter((item) => item.isPublished !== false && isWithinDateTime(item.publishStart || item.startDate, item.publishEnd || item.endDate, now))
@@ -81,7 +84,7 @@ function setupNewCasts() {
   const list = document.getElementById("newCastList");
   if (!section || !list) return;
 
-  subscribeCollection("casts", (rows) => {
+  subscribeCasts((rows) => {
     const casts = rows
       .filter((cast) => cast.isPublished !== false && (isEnabled(cast.isNewcomer) || isEnabled(cast.isNew)))
       .sort(compareDisplayOrder)
@@ -103,7 +106,7 @@ function createHomeCastCard(cast) {
     ? `<img src="${escapeAttribute(image)}" alt="${escapeAttribute(name)}" loading="lazy" decoding="async">`
     : '<span class="v72-cast-no-image">NO IMAGE</span>';
   const lineMarkup = cast.lineReservationEnabled === false ? "" : `
-    <a href="#" class="button-premium v72-cast-line" data-site-link="lineReservationUrl" data-line-cast-name="${escapeAttribute(name)}" target="_blank" rel="noopener" aria-label="${escapeAttribute(name)}ちゃんを指名してLINE予約">
+    <a href="#" class="button-premium v72-cast-line" data-site-link="lineReservationUrl" data-line-cast-name="${escapeAttribute(name)}" target="_blank" rel="noopener">
       ${lineIcon()}<span>${escapeHtml(name)}ちゃんを指名 LINE予約</span>
     </a>`;
 
@@ -134,7 +137,7 @@ function setupAttendanceFlash() {
     output.dataset.count = String(upcomingKeys.size);
   };
 
-  subscribeCollection("schedules", (rows) => {
+  subscribeSchedules((rows) => {
     state.schedules = rows;
     render();
   }, (error) => {
