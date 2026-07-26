@@ -28,6 +28,13 @@
         <article class="owner-stat-card admin-premium-card"><span>CAST</span><strong id="dashboardCastCount" class="dashboard-skeleton">読み込み中</strong><small>在籍人数</small></article>
         <article class="owner-stat-card admin-premium-card"><span>RESERVATIONS</span><strong id="dashboardTodayReservations" class="dashboard-skeleton">読み込み中</strong><small>本日の予約件数</small></article>
         <article class="owner-stat-card admin-premium-card is-new-reservation"><span>NEW</span><strong id="dashboardNewReservations" class="dashboard-skeleton">読み込み中</strong><small>新規予約</small></article>
+        <article class="owner-stat-card admin-premium-card"><span>TODAY VISITS</span><strong id="dashboardTodayVisits" class="dashboard-skeleton">読み込み中</strong><small>本日の来店数</small></article>
+        <article class="owner-stat-card admin-premium-card"><span>CANCEL</span><strong id="dashboardTodayCancellations" class="dashboard-skeleton">読み込み中</strong><small>本日のキャンセル</small></article>
+        <article class="owner-stat-card admin-premium-card"><span>AVAILABLE</span><strong id="dashboardVacantTables" class="dashboard-skeleton">読み込み中</strong><small>空席数</small></article>
+        <article class="owner-stat-card admin-premium-card"><span>AVERAGE</span><strong id="dashboardAverageSpend" class="dashboard-skeleton">読み込み中</strong><small>今月客単価</small></article>
+        <article class="owner-stat-card admin-premium-card"><span>HONMEI RATE</span><strong id="dashboardHonmeiRate" class="dashboard-skeleton">読み込み中</strong><small>本指名率</small></article>
+        <article class="owner-stat-card admin-premium-card"><span>JOUNAI RATE</span><strong id="dashboardJounaiRate" class="dashboard-skeleton">読み込み中</strong><small>場内率</small></article>
+        <article class="owner-stat-card admin-premium-card"><span>DOUHAN RATE</span><strong id="dashboardDouhanRate" class="dashboard-skeleton">読み込み中</strong><small>同伴率</small></article>
       </section>
 
       <section class="owner-dashboard-card owner-sales-chart admin-premium-card">
@@ -42,7 +49,7 @@
       <div class="owner-dashboard-grid">
         <section class="owner-dashboard-card owner-ranking-panel admin-premium-card">
           <div class="owner-panel-heading"><div><span>CAST RANKING</span><h2>月間ランキング</h2></div></div>
-          <div class="owner-ranking-tabs" role="tablist" aria-label="ランキング項目"><button class="is-active" type="button" data-ranking="sales">売上</button><button type="button" data-ranking="honmei">本指名</button><button type="button" data-ranking="jounai">場内</button><button type="button" data-ranking="douhan">同伴</button><button type="button" data-ranking="drink">ドリンク</button></div>
+          <div class="owner-ranking-tabs" role="tablist" aria-label="ランキング項目"><button class="is-active" type="button" data-ranking="sales">売上</button><button type="button" data-ranking="honmei">本指名</button><button type="button" data-ranking="jounai">場内</button><button type="button" data-ranking="douhan">同伴</button><button type="button" data-ranking="drink">ドリンク</button><button type="button" data-ranking="payroll">給与</button></div>
           <ol id="dashboardRankingList" class="owner-ranking-list"><li class="dashboard-list-skeleton"></li><li class="dashboard-list-skeleton"></li><li class="dashboard-list-skeleton"></li></ol>
         </section>
 
@@ -65,7 +72,7 @@
 
         <section class="owner-dashboard-card owner-quick-panel admin-premium-card">
           <div class="owner-panel-heading"><div><span>QUICK MENU</span><h2>クイックメニュー</h2></div></div>
-          <nav class="owner-quick-menu"><a href="cast.html"><span>＋</span>キャスト追加</a><a href="schedule.html"><span>＋</span>出勤登録</a><a href="reservations.html"><span>＋</span>予約登録</a><a href="sales.html"><span>＋</span>売上入力</a><a href="news.html"><span>＋</span>お知らせ追加</a><a href="gallery.html"><span>＋</span>ギャラリー追加</a></nav>
+          <nav class="owner-quick-menu"><a href="analytics-dashboard.html"><span>◇</span>経営分析</a><a href="notifications.html"><span>✧</span>通知センター</a><a href="cast.html"><span>＋</span>キャスト追加</a><a href="schedule.html"><span>＋</span>出勤登録</a><a href="reservations.html"><span>＋</span>予約登録</a><a href="table-manager.html"><span>◇</span>席管理</a><a href="visit-history.html"><span>◇</span>来店履歴</a><a href="sales.html"><span>＋</span>売上入力</a><a href="news.html"><span>＋</span>お知らせ追加</a><a href="gallery.html"><span>＋</span>ギャラリー追加</a></nav>
         </section>
 
         <section class="owner-dashboard-card owner-updates-panel admin-premium-card">
@@ -77,6 +84,6 @@
     </main>
   </div>
   <script type="module" src="../assets/admin.js?v=8.2.0"></script>
-  <script type="module" src="../assets/dashboard.js?v=8.2.0"></script>
+  <script type="module" src="../assets/dashboard.js?v=3.0.0"></script>
 </body>
 </html>

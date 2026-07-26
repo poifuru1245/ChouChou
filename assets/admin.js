@@ -1,8 +1,14 @@
-import { subscribeCollection, subscribeDocument } from "./js/services/firestoreService.js";
+import { subscribeEvents } from "./services/eventService.js";
+import { subscribeGallery } from "./services/galleryService.js";
+import { subscribeNews } from "./services/newsService.js";
+import { subscribeSchedules } from "./services/scheduleService.js";
+import { subscribeRecruitContent } from "./services/siteService.js";
 import { escapeHtml } from "./js/utils/dom.js";
 import { bootstrapPage } from "./js/pages/bootstrapPage.js";
-import { signOutUser, waitForAuthUser } from "./js/services/authService.js";
-import { canAccessAdminRoute, getUserAccessProfile, hasPermission, isActiveUser, permissionForAdminHref, roleLabel } from "./js/services/roleService.js";
+import { signOutUser, waitForAuthUser } from "./services/authService.js";
+import { canAccessAdminRoute, getUserAccessProfile, hasPermission, isActiveUser, permissionForAdminHref, roleLabel } from "./services/roleService.js";
+import { subscribeCasts } from "./services/castService.js";
+import { subscribeReservations } from "./services/reservationService.js";
 
 const TOKYO_TIME_ZONE = "Asia/Tokyo";
 
@@ -10,7 +16,7 @@ document.documentElement.classList.add("rbac-pending");
 export const adminSession = await requireAdminAccess();
 document.documentElement.classList.remove("rbac-pending");
 
-export { subscribeCollection, subscribeDocument };
+export { subscribeRecruitContent };
 
 export function getTokyoDateKey(date = new Date()) {
   return new Intl.DateTimeFormat("sv-SE", {
@@ -83,7 +89,12 @@ async function requireAdminAccess() {
 function setupRoleAwareNavigation(profile) {
   const sidebar = document.querySelector(".sidebar");
   if (!sidebar) return;
+  ensureAdminMenuLink(sidebar, "analytics-dashboard.html", "経営分析", "dashboard.html");
+  ensureAdminMenuLink(sidebar, "notifications.html", "通知センター", "analytics-dashboard.html");
   ensureAdminMenuLink(sidebar, "customers.html", "顧客管理", "reservations.html");
+  ensureAdminMenuLink(sidebar, "table-manager.html", "席管理", "customers.html");
+  ensureAdminMenuLink(sidebar, "visit-history.html", "来店履歴", "table-manager.html");
+  ensureAdminMenuLink(sidebar, "closing.html", "締め処理", "sales.html");
   sidebar.querySelectorAll('a[href$=".html"]').forEach((link) => {
     const href = link.getAttribute("href") || "";
     if (href === "login.html") return;
@@ -103,7 +114,12 @@ function ensureAdminMenuLink(sidebar, href, label, afterHref) {
   const link = document.createElement("a");
   link.href = href;
   link.textContent = label;
-  if (location.pathname.endsWith(`/${href}`) || (href === "customers.html" && location.pathname.endsWith("/customer-detail.html"))) link.classList.add("active");
+  if (location.pathname.endsWith(`/${href}`)
+    || (href === "customers.html" && location.pathname.endsWith("/customer-detail.html"))
+    || (href === "reservations.html" && location.pathname.endsWith("/reservation-detail.html"))
+    || (href === "sales.html" && location.pathname.endsWith("/sale-detail.html"))
+    || (href === "payroll.html" && location.pathname.endsWith("/payroll-detail.html"))
+    || (href === "analytics-dashboard.html" && /\/analytics(?:-(?:dashboard|sales|cast|customer|customers))?\.html$/.test(location.pathname))) link.classList.add("active");
   const anchor = sidebar.querySelector(`a[href="${afterHref}"]`);
   anchor?.after(link);
 }
@@ -164,12 +180,12 @@ function setupDashboard() {
     }
   };
 
-  subscribeCollection("casts", (items) => { state.casts = items; render(); });
-  subscribeCollection("schedules", (items) => { state.schedules = items; render(); });
-  subscribeCollection("news", (items) => { state.news = items; render(); });
-  subscribeCollection("gallery", (items) => { state.gallery = items; render(); });
-  subscribeCollection("events", (items) => { state.events = items; render(); }, () => { state.events = []; render(); });
-  subscribeCollection("reservations", (items) => { state.reservations = items; render(); }, () => { state.reservations = []; render(); });
+  subscribeCasts((items) => { state.casts = items; render(); });
+  subscribeSchedules((items) => { state.schedules = items; render(); });
+  subscribeNews((items) => { state.news = items; render(); });
+  subscribeGallery((items) => { state.gallery = items; render(); });
+  subscribeEvents((items) => { state.events = items; render(); }, () => { state.events = []; render(); });
+  subscribeReservations((items) => { state.reservations = items; render(); }, () => { state.reservations = []; render(); });
 }
 
 function toDate(value) {

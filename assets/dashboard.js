@@ -1,6 +1,7 @@
 import "./admin.js";
 import {
   buildCastRanking,
+  buildPayrollRanking,
   buildRecentUpdates,
   buildSalesSeries,
   getDashboardOverview,
@@ -10,10 +11,10 @@ import {
   getTokyoDateKey,
   getVisibleNews,
   subscribeOwnerDashboard
-} from "./js/services/dashboardService.js";
+} from "./services/dashboardService.js";
 import { escapeAttribute, escapeHtml } from "./js/utils/dom.js";
 
-const REQUIRED_SOURCES = ["casts", "schedules", "reservations", "news", "sales"];
+const REQUIRED_SOURCES = ["casts", "schedules", "reservations", "news", "sales", "visits", "tables", "payrolls"];
 const state = { data:null, chartPeriod:"today", chartType:"line", ranking:"sales", reservationPeriod:"today" };
 const message = document.getElementById("dashboardMessage");
 
@@ -70,6 +71,13 @@ function renderOverview() {
   setText("dashboardCastCount", `${overview.castCount}名`);
   setText("dashboardTodayReservations", `${overview.todayReservations}件`);
   setText("dashboardNewReservations", `${overview.newReservations}件`);
+  setText("dashboardTodayVisits", `${overview.todayVisits}件`);
+  setText("dashboardTodayCancellations", `${overview.todayCancellations}件`);
+  setText("dashboardVacantTables", `${overview.vacantTables}席`);
+  setText("dashboardAverageSpend", yen(overview.averageSpend));
+  setText("dashboardHonmeiRate", `${overview.honmeiRate}%`);
+  setText("dashboardJounaiRate", `${overview.jounaiRate}%`);
+  setText("dashboardDouhanRate", `${overview.douhanRate}%`);
   document.querySelectorAll(".owner-stat-card .dashboard-skeleton").forEach((element) => element.classList.remove("dashboard-skeleton"));
 }
 
@@ -104,10 +112,10 @@ function createBarChart(series) {
 
 function renderRanking() {
   if (!state.data) return;
-  const rankings = buildCastRanking(state.data.sales, state.ranking);
+  const rankings = state.ranking === "payroll" ? buildPayrollRanking(state.data.payrolls) : buildCastRanking(state.data.sales, state.ranking);
   const list = document.getElementById("dashboardRankingList");
   if (!rankings.length) { list.innerHTML = '<li class="owner-empty-state">今月の売上データはありません。</li>'; return; }
-  list.innerHTML = rankings.map((item, index) => `<li><span class="owner-rank-number is-rank-${index + 1}">${index + 1}</span><div><strong>${escapeHtml(item.name)}</strong><small>${rankingLabel(state.ranking)}</small></div><em>${["sales", "drink"].includes(state.ranking) ? yen(item.value) : `${item.value}件`}</em></li>`).join("");
+  list.innerHTML = rankings.map((item, index) => `<li><span class="owner-rank-number is-rank-${index + 1}">${index + 1}</span><div><strong>${escapeHtml(item.name)}</strong><small>${rankingLabel(state.ranking)}</small></div><em>${["sales", "drink", "payroll"].includes(state.ranking) ? yen(item.value) : `${item.value}件`}</em></li>`).join("");
 }
 
 function renderAttendance() {
@@ -142,7 +150,7 @@ function renderRecentUpdates() {
 function renderTodayLabel() { const today = getTokyoDateKey(); const [year, month, day] = today.split("-"); document.getElementById("dashboardTodayLabel").textContent = `${year}.${month}.${day} OWNER DASHBOARD`; }
 function setActiveButton(selector, active) { document.querySelectorAll(selector).forEach((button) => button.classList.toggle("is-active", button === active)); }
 function emptyChart() { return '<div class="owner-chart-empty"><span>◇</span><p>選択期間の売上データはありません。</p></div>'; }
-function rankingLabel(type) { return ({ sales:"売上", honmei:"本指名", jounai:"場内", douhan:"同伴", drink:"ドリンク売上" })[type] || "売上"; }
+function rankingLabel(type) { return ({ sales:"売上", honmei:"本指名", jounai:"場内", douhan:"同伴", drink:"ドリンク売上", payroll:"給与" })[type] || "売上"; }
 function getReservationCasts(item) { return [item.cast1, item.cast2, item.cast3].filter((value) => value && value !== "なし").join("・") || "指名なし"; }
 function updateIcon(type) { return ({ cast:"♕", sales:"◇", reservation:"▢", news:"✧" })[type] || "◇"; }
 function yen(value) { return new Intl.NumberFormat("ja-JP", { style:"currency", currency:"JPY", maximumFractionDigits:0 }).format(Number(value) || 0); }
